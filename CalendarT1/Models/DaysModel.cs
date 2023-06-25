@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace CalendarT1.Models
+{
+	public class DaysModel
+	{
+		public string DayName { get; set; }
+		public DateTime Date { get; set; }
+	}
+}
