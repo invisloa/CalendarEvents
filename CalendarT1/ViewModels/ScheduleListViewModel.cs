@@ -14,6 +14,14 @@ namespace CalendarT1.ViewModels
 	{
 		public ObservableCollection<EventModel> EventsList { get; set; } = new ObservableCollection<EventModel>();
 		private List<EventModel> _allEventsList = new List<EventModel>();
+		public ObservableCollection<EventPriority> eventPriorities { get; set; } = new ObservableCollection<EventPriority>()
+		{
+			new EventPriority(EnumPriorityLevels.Lowest),
+			new EventPriority(EnumPriorityLevels.Low),
+			new EventPriority(EnumPriorityLevels.Medium),
+			new EventPriority(EnumPriorityLevels.High),
+			new EventPriority(EnumPriorityLevels.Highest),
+		};
 
 		// region for Properties
 		#region Properties
@@ -57,7 +65,7 @@ namespace CalendarT1.ViewModels
 					EndDateTime = DateTime.Now.AddDays(i).AddHours(1),
 					Title = $"Test {i + 1}",
 					Description = $"Test {i + 1} Description",
-					PriorityLevel = EnumColors.Red+i
+					PriorityLevel = new EventPriority(EnumPriorityLevels.Lowest+i)
 				}) ;
 			}
 			_allEventsList.AddRange(scheduleList);

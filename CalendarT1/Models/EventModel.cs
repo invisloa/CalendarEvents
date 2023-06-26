@@ -14,7 +14,7 @@ namespace CalendarT1.Models
 		public DateTime EndDateTime { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
-		public EnumColors PriorityLevel { get; set; }
+		public EventPriority PriorityLevel { get; set; }
 		public bool IsCompleted { get; set; }
 
 

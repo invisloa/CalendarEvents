@@ -57,7 +57,7 @@
                                 </VerticalStackLayout>
 
                             <Frame 
-                                BackgroundColor="{Binding BackgroundColor}"
+                                BackgroundColor="{Binding PriorityLevel.PriorityColor}"
                                 Grid.Row="0"
                                 Grid.Column="1">
                                 <VerticalStackLayout Spacing="10">
@@ -67,7 +67,7 @@
                             </Frame>
 
                             <Frame 
-                                BackgroundColor="{Binding BackgroundColor}"
+                                BackgroundColor="{Binding PriorityLevel.PriorityColor}"
                                 Grid.Row="2"
                                 Grid.Column="1">
                                 <VerticalStackLayout Spacing="10">
