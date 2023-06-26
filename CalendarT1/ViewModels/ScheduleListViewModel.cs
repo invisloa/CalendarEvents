@@ -14,7 +14,7 @@ namespace CalendarT1.ViewModels
 	{
 		public ObservableCollection<EventModel> EventsList { get; set; } = new ObservableCollection<EventModel>();
 		private List<EventModel> _allEventsList = new List<EventModel>();
-		public ObservableCollection<EventPriority> eventPriorities { get; set; } = new ObservableCollection<EventPriority>()
+		public ObservableCollection<EventPriority> EventPriorities { get; set; } = new ObservableCollection<EventPriority>()
 		{
 			new EventPriority(EnumPriorityLevels.Lowest),
 			new EventPriority(EnumPriorityLevels.Low),
@@ -75,11 +75,13 @@ namespace CalendarT1.ViewModels
 
 		private void BindDataToScheduleList()
 		{
-			var filteredScheduleList = 
-					_allEventsList
-					.Where(x => x.StartDateTime.Date == _currentSelectedDate.Date ||
-					 x.EndDateTime.Date == _currentSelectedDate.Date /*&& x.*/)
-					.ToList();
+			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
+
+			var filteredScheduleList = _allEventsList
+				.Where(x => (x.StartDateTime.Date == _currentSelectedDate.Date ||
+							 x.EndDateTime.Date == _currentSelectedDate.Date) &&
+							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
+				.ToList();
 
 			EventsList.Clear();
 			foreach (var item in filteredScheduleList)
