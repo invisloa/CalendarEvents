@@ -25,17 +25,17 @@ namespace CalendarT1.Models
 			switch (eventPriorityLevel)
 			{
 				case EnumPriorityLevels.Lowest:
-					return Color.FromRgb(0, 255, 0); // Green
+					return Colors.Green;
 				case EnumPriorityLevels.Low:
-					return Color.FromRgb(255, 255, 0); // Yellow
+					return Colors.Yellow;
 				case EnumPriorityLevels.Medium:
-					return Color.FromRgb(0, 0, 255); // Blue
+					return Colors.Blue;
 				case EnumPriorityLevels.High:
-					return Color.FromRgb(238, 130, 238); // Violet
+					return Colors.Violet;
 				case EnumPriorityLevels.Highest:
-					return Color.FromRgb(255, 0, 255); // Magenta
+					return Colors.Magenta;
 				default:
-					return Colors.White; // Default color (white)
+					return Colors.White;
 			}
 		}
 	}
