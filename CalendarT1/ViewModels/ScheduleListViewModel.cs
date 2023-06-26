@@ -1,34 +1,53 @@
 ﻿using CalendarT1.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CalendarT1.ViewModels
 {
-	public partial class ScheduleListViewModel : ObservableObject
+	public class ScheduleListViewModel : BaseViewModel
 	{
 		public ObservableCollection<ScheduleModel> ScheduleList { get; set; } = new ObservableCollection<ScheduleModel>();
 		private List<ScheduleModel> _allScheduleList = new List<ScheduleModel>();
 
-		[ObservableProperty]
+		// region for Properties
+		#region Properties
 		private DateTime _currentDate = DateTime.Now;
+		public DateTime CurrentDate
+		{
+			get => _currentDate;
+		}
 
+		private DateTime _currentSelectedDate = DateTime.Now;
+		public DateTime CurrentSelectedDate
+		{
+			get => _currentSelectedDate;
+			set
+			{
+				if (_currentSelectedDate != value)
+				{
+					_currentSelectedDate = value;
+					OnPropertyChanged();
+					DatePickerDateSelectedCommand.Execute(_currentSelectedDate);
+				}
+			}
+		}
+		#endregion
+
+		public ICommand DatePickerDateSelectedCommand { get; set; }
 
 		public ScheduleListViewModel()
 		{
+			DatePickerDateSelectedCommand = new Command<DateTime>(DatePickerDateSelected);
 			AddAllScheduleList();
-
 		}
-
 		private void AddAllScheduleList()
 		{
 			var scheduleList = new List<ScheduleModel>();
-			// add to scheduleList some dummy data for testing
-			//make background color randomized
 			for (int i = 0; i < 5; i++)
 			{
 				scheduleList.Add(new ScheduleModel
@@ -47,13 +66,19 @@ namespace CalendarT1.ViewModels
 
 		private void BindDataToScheduleList()
 		{
-			var filteredScheduleList = _allScheduleList.Where(x => x.StartDateTime.Date == CurrentDate.Date).ToList();
+			var filteredScheduleList = _allScheduleList.Where(x => x.StartDateTime.Date == _currentSelectedDate.Date).ToList();
 
 			ScheduleList.Clear();
 			foreach (var item in filteredScheduleList)
 			{
 				ScheduleList.Add(item);
 			}
+		}
+
+		private void DatePickerDateSelected(DateTime newDate)
+		{
+			_currentSelectedDate = newDate;
+			BindDataToScheduleList();
 		}
 	}
 

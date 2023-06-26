@@ -6,7 +6,9 @@ public partial class ScheduleListView : ContentPage
 {
 	public ScheduleListView()
 	{
-		InitializeComponent();
 		BindingContext = new ScheduleListViewModel();
+
+		InitializeComponent();
 	}
+
 }
