@@ -33,9 +33,9 @@
             <Label Text="Events" FontSize="30" HorizontalTextAlignment="End"/>
             <BoxView HeightRequest="1" Color="LightCyan"/>
 
-            <CollectionView ItemsSource="{Binding ScheduleList}">
+            <CollectionView ItemsSource="{Binding EventsList}">
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:ScheduleModel">
+                    <DataTemplate x:DataType="models:EventModel">
                         <Grid Margin="0,5,0,5">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>

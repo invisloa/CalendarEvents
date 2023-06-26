@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Models;
+using CalendarT1.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,8 +12,8 @@ namespace CalendarT1.ViewModels
 {
 	public class ScheduleListViewModel : BaseViewModel
 	{
-		public ObservableCollection<ScheduleModel> ScheduleList { get; set; } = new ObservableCollection<ScheduleModel>();
-		private List<ScheduleModel> _allScheduleList = new List<ScheduleModel>();
+		public ObservableCollection<EventModel> EventsList { get; set; } = new ObservableCollection<EventModel>();
+		private List<EventModel> _allEventsList = new List<EventModel>();
 
 		// region for Properties
 		#region Properties
@@ -47,31 +48,35 @@ namespace CalendarT1.ViewModels
 		}
 		private void AddAllScheduleList()
 		{
-			var scheduleList = new List<ScheduleModel>();
+			var scheduleList = new List<EventModel>();
 			for (int i = 0; i < 5; i++)
 			{
-				scheduleList.Add(new ScheduleModel
+				scheduleList.Add(new EventModel
 				{
 					StartDateTime = DateTime.Now.AddDays(i),
 					EndDateTime = DateTime.Now.AddDays(i).AddHours(1),
 					Title = $"Test {i + 1}",
 					Description = $"Test {i + 1} Description",
-					BackgroundColor = Color.FromRgba(255, 0, 0, 0.5)
-				});
+					PriorityLevel = EnumColors.Red+i
+				}) ;
 			}
-			_allScheduleList.AddRange(scheduleList);
+			_allEventsList.AddRange(scheduleList);
 
 			BindDataToScheduleList();
 		}
 
 		private void BindDataToScheduleList()
 		{
-			var filteredScheduleList = _allScheduleList.Where(x => x.StartDateTime.Date == _currentSelectedDate.Date).ToList();
+			var filteredScheduleList = 
+					_allEventsList
+					.Where(x => x.StartDateTime.Date == _currentSelectedDate.Date ||
+					 x.EndDateTime.Date == _currentSelectedDate.Date /*&& x.*/)
+					.ToList();
 
-			ScheduleList.Clear();
+			EventsList.Clear();
 			foreach (var item in filteredScheduleList)
 			{
-				ScheduleList.Add(item);
+				EventsList.Add(item);
 			}
 		}
 

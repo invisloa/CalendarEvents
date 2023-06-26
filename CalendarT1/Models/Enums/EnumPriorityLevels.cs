@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models.Enums
 {
-	//make enum class with 5 main colors
-
-
-	public enum EnumColors
+	//write enum with priority levels
+	public enum EnumPriorityLevels
 	{
-		Red,
-		Blue,
-		Green,
-		Yellow,
-		Orange
+		Lowest,
+		Low,
+		Medium,
+		High,
+		Highest
 	}
-
-
 }
