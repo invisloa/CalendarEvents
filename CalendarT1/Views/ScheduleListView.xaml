@@ -37,14 +37,14 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:EventPriority">
                         <StackLayout Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding IsSelected}" />
+                            <CheckBox IsChecked="{Binding IsSelected}" CheckedChanged="CheckBox_CheckedChanged" />
                             <Label Text="{Binding PriorityLevel}" VerticalOptions="CenterAndExpand" />
                         </StackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <CollectionView ItemsSource="{Binding EventsList}">
+            <CollectionView ItemsSource="{Binding EventsToShowList}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:EventModel">
                         <Grid Margin="0,5,0,5">

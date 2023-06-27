@@ -11,4 +11,10 @@ public partial class ScheduleListView : ContentPage
 		InitializeComponent();
 	}
 
+	private void CheckBox_CheckedChanged(object sender, CheckedChangedEventArgs e)
+	{
+		ScheduleListViewModel viewModel = (ScheduleListViewModel)BindingContext;
+		viewModel.BindDataToScheduleList();
+
+	}
 }

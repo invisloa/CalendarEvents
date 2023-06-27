@@ -1,5 +1,7 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Models.Enums;
+using CalendarT1.Services;
+using CalendarT1.Services.DataOperations.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,16 +14,32 @@ namespace CalendarT1.ViewModels
 {
 	public class ScheduleListViewModel : BaseViewModel
 	{
-		public ObservableCollection<EventModel> EventsList { get; set; } = new ObservableCollection<EventModel>();
-		private List<EventModel> _allEventsList = new List<EventModel>();
-		public ObservableCollection<EventPriority> EventPriorities { get; set; } = new ObservableCollection<EventPriority>()
+		public ObservableCollection<EventPriority> _eventPriorities;
+
+		public ObservableCollection<EventPriority> EventPriorities
 		{
-			new EventPriority(EnumPriorityLevels.Lowest),
-			new EventPriority(EnumPriorityLevels.Low),
-			new EventPriority(EnumPriorityLevels.Medium),
-			new EventPriority(EnumPriorityLevels.High),
-			new EventPriority(EnumPriorityLevels.Highest),
-		};
+			get => _eventPriorities;
+			set
+			{
+				_eventPriorities = value;
+				OnPropertyChanged();
+			}
+		}
+		public ObservableCollection<EventModel> EventsToShowList { get; set; } = new ObservableCollection<EventModel>();
+		private List<EventModel> _allEventsList;
+		public List<EventModel> AllEventsList
+		{
+			get => _allEventsList;
+			set
+			{
+				_allEventsList = value;
+				BindDataToScheduleList();
+				OnPropertyChanged();
+			}
+		}
+
+
+
 
 		// region for Properties
 		#region Properties
@@ -45,35 +63,21 @@ namespace CalendarT1.ViewModels
 				}
 			}
 		}
-		#endregion
-
 		public ICommand DatePickerDateSelectedCommand { get; set; }
+
+		#region Services
+		IEventRepository _eventRepository = Factory.CreateEventRepository();
+		#endregion
+		#endregion
 
 		public ScheduleListViewModel()
 		{
 			DatePickerDateSelectedCommand = new Command<DateTime>(DatePickerDateSelected);
-			AddAllScheduleList();
-		}
-		private void AddAllScheduleList()
-		{
-			var scheduleList = new List<EventModel>();
-			for (int i = 0; i < 5; i++)
-			{
-				scheduleList.Add(new EventModel
-				{
-					StartDateTime = DateTime.Now.AddDays(i),
-					EndDateTime = DateTime.Now.AddDays(i).AddHours(1),
-					Title = $"Test {i + 1}",
-					Description = $"Test {i + 1} Description",
-					PriorityLevel = new EventPriority(EnumPriorityLevels.Lowest+i)
-				}) ;
-			}
-			_allEventsList.AddRange(scheduleList);
-
-			BindDataToScheduleList();
+			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevels());
+			AllEventsList = _eventRepository.LoadEventsList();
 		}
 
-		private void BindDataToScheduleList()
+		public void BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
 
@@ -83,10 +87,10 @@ namespace CalendarT1.ViewModels
 							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
 				.ToList();
 
-			EventsList.Clear();
+			EventsToShowList.Clear();
 			foreach (var item in filteredScheduleList)
 			{
-				EventsList.Add(item);
+				EventsToShowList.Add(item);
 			}
 		}
 
