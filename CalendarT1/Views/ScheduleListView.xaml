@@ -21,21 +21,29 @@
                 </Grid.ColumnDefinitions>
                 <!--<Image Grid.Column="0" Source=""-->
 
-                <HorizontalStackLayout Grid.Column="1" HorizontalOptions="EndAndExpand">
-                    <VerticalStackLayout Margin="0,50,0,0">
+                <Grid Grid.ColumnSpan="2" HorizontalOptions="FillAndExpand">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <VerticalStackLayout  Grid.Column="0">
                             <Label Text="Current date:"/>
-                            <Label Text="{Binding CurrentDate, StringFormat='{0:dd}'}"/>
-                            <Label Text="{Binding CurrentDate, StringFormat='{0:MMM yyyy}'}"/>
-                    </VerticalStackLayout>
-                    <Label Text="Selected date:" VerticalOptions="Center"/>
-                    <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
-                </HorizontalStackLayout>
-            </Grid>
-            <Label Text="Events" FontSize="30" HorizontalTextAlignment="End"/>
-            <BoxView HeightRequest="1" Color="LightCyan"/>
+                            <Label Text="{Binding CurrentDate, StringFormat='{0:dd MM yyyy}'}" FontSize="Large" FontAttributes="Bold"/>
 
-            <StackLayout Orientation="Horizontal">
-                <CollectionView ItemsSource="{Binding EventPriorities}" HorizontalOptions="FillAndExpand">
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="End">
+                        <Label Text="Selected date:"/>
+                            <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
+                    </VerticalStackLayout>
+
+                </Grid>
+            </Grid>
+            <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" Margin="0,50,0,0"/>
+            <BoxView HeightRequest="10" Color="LightCyan"/>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <CollectionView ItemsSource="{Binding EventPriorities}" >
                     <CollectionView.ItemsLayout>
                         <LinearItemsLayout Orientation="Horizontal" />
                     </CollectionView.ItemsLayout>
