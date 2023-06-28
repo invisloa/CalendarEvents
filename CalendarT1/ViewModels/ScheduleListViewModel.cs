@@ -62,7 +62,20 @@ namespace CalendarT1.ViewModels
 		}
 		public ICommand DatePickerDateSelectedCommand { get; set; }
 		public ICommand SelectEventPriorityCommand { get; set; }
+		public ICommand AddEventCommand { get; set; }
 
+
+	private void AddEvent()		// we will save duirectly to the database because it will be moved to a separate page
+		{
+			_eventRepository.AddToEventsList(new EventModel()
+			{
+				Title = "New Event",
+				Description = "New Event Description",
+				StartDateTime = DateTime.Now,
+				EndDateTime = DateTime.Now.AddHours(2),
+				PriorityLevel = EventPriorities[3]
+			});
+		}
 		#region Services
 		IEventRepository _eventRepository;
 		#endregion
@@ -72,6 +85,7 @@ namespace CalendarT1.ViewModels
 		{
 			DatePickerDateSelectedCommand = new Command<DateTime>(DatePickerDateSelected);
 			SelectEventPriorityCommand = new Command<EventPriority>(SelectEventPriority);
+			AddEventCommand = new Command(AddEvent);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevels());
 			_eventRepository = Factory.CreateEventRepository();
 			AllEventsList = _eventRepository.LoadEventsList();

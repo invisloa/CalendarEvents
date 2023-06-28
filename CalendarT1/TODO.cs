@@ -1,6 +1,6 @@
 ﻿
 // make current week view, current month view, current day view
-// button to add new event
+// button to add new event -  create a new page for adding events
 
 
 
