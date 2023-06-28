@@ -38,9 +38,6 @@ namespace CalendarT1.ViewModels
 			}
 		}
 
-
-
-
 		// region for Properties
 		#region Properties
 		private DateTime _currentDate = DateTime.Now;
@@ -64,23 +61,31 @@ namespace CalendarT1.ViewModels
 			}
 		}
 		public ICommand DatePickerDateSelectedCommand { get; set; }
+		public ICommand SelectEventPriorityCommand { get; set; }
 
 		#region Services
-		IEventRepository _eventRepository = Factory.CreateEventRepository();
+		IEventRepository _eventRepository;
 		#endregion
 		#endregion
 
 		public ScheduleListViewModel()
 		{
 			DatePickerDateSelectedCommand = new Command<DateTime>(DatePickerDateSelected);
+			SelectEventPriorityCommand = new Command<EventPriority>(SelectEventPriority);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevels());
+			_eventRepository = Factory.CreateEventRepository();
 			AllEventsList = _eventRepository.LoadEventsList();
 		}
 
+		private void SelectEventPriority(EventPriority eventPriority)
+		{
+			eventPriority.IsSelected = !eventPriority.IsSelected;
+			BindDataToScheduleList();
+
+		}
 		public void BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
-
 			var filteredScheduleList = _allEventsList
 				.Where(x => (x.StartDateTime.Date == _currentSelectedDate.Date ||
 							 x.EndDateTime.Date == _currentSelectedDate.Date) &&
