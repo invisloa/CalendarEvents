@@ -2,7 +2,7 @@
 // make current week view, current month view, current day view
 // button to add new event -  create a new page for adding events
 
-
+// Window For event details?? click on event command?
 
 
 

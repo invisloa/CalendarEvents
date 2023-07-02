@@ -49,9 +49,9 @@ namespace CalendarT1.Models
 			switch (eventPriorityLevel)
 			{
 				case EnumPriorityLevels.Lowest:
-					return Colors.Green;
+					return Colors.LightSeaGreen;
 				case EnumPriorityLevels.Low:
-					return Colors.Yellow;
+					return Colors.Green;
 				case EnumPriorityLevels.Medium:
 					return Colors.Blue;
 				case EnumPriorityLevels.High:
