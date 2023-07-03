@@ -2,6 +2,7 @@
 using CalendarT1.Models.Enums;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -74,7 +75,7 @@ namespace CalendarT1.ViewModels
 		{
 			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
 			SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
-			AddEventCommand = new RelayCommand(AddEventOnlyForTesting);
+			AddEventCommand = new RelayCommand(GoToAddEventPage);
 			SelectEventCommand = new RelayCommand<EventModel>(ExecuteSelectEventCommand);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
@@ -107,14 +108,11 @@ namespace CalendarT1.ViewModels
 			_currentSelectedDate = newDate;
 			BindDataToScheduleList();
 		}
-		private void AddEventOnlyForTesting()       // we will save directly to the database because it will be moved to a separate page
+		private void GoToAddEventPage() 
 		{
-			// generate code to open a new page "AddEventPage"
-
-
-
+			App.Current.MainPage.Navigation.PushAsync(new AddEventPage());
 		}
-		// TODO: make a new window for event details 
+
 		private void ExecuteSelectEventCommand(EventModel selectedEvent)
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");

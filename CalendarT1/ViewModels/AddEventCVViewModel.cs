@@ -31,6 +31,8 @@ namespace CalendarT1.ViewModels
 			{
 				_startExactTime = value;
 				OnPropertyChanged();
+				AdjustEndExactTime();
+
 			}
 		}
 		//create property for the end time
@@ -41,7 +43,6 @@ namespace CalendarT1.ViewModels
 			{
 				_endExactTime = value;
 				OnPropertyChanged();
-				AdjustEndExactTime();
 			}
 		}
 
@@ -154,9 +155,9 @@ namespace CalendarT1.ViewModels
 		
 		private void AdjustEndExactTime()
 		{
-			if (StartExactTime > EndExactTime && StartDateTime.Date <= EndDateTime.Date)
+			if (StartExactTime > EndExactTime && StartDateTime.Date >= EndDateTime.Date)
 			{
-				EndExactTime = StartExactTime.Add(new TimeSpan(1,0,0));
+				EndExactTime = StartExactTime + TimeSpan.FromHours(1);
 			}
 		}
 	}
