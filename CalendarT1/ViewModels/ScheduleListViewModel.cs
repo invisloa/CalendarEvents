@@ -77,7 +77,7 @@ namespace CalendarT1.ViewModels
 			AddEventCommand = new Command(AddEventOnlyForTesting);
 			SelectEventCommand = new Command<EventModel>(ExecuteSelectEventCommand);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
-			_eventRepository = Factory.CreateEventRepository();
+			_eventRepository = Factory.EventRepository;
 			AllEventsList = _eventRepository.LoadEventsList();
 		}
 		#region Methods
@@ -109,7 +109,7 @@ namespace CalendarT1.ViewModels
 		}
 		private void AddEventOnlyForTesting()       // we will save directly to the database because it will be moved to a separate page
 		{
-			_eventRepository.AddToEventsList(new EventModel()
+			_eventRepository.AddEvent(new EventModel()
 			{
 				Title = "New Event",
 				Description = "New Event Description",

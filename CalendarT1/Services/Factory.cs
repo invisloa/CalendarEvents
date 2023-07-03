@@ -17,7 +17,6 @@ namespace CalendarT1.Services
 		{
 			return new EventPriority(level);
 		}
-
 		public static IEnumerable<EventPriority> CreateAllPrioritiesLevelsEnumerable()
 		{
 			return Enum.GetValues(typeof(EnumPriorityLevels))
@@ -28,8 +27,20 @@ namespace CalendarT1.Services
 
 		// Event Repository
 		#region EventRepository
+		private static IEventRepository CreateEventRepository() => new LocalMachineEventRepository();
 
-		public static IEventRepository CreateEventRepository() => new LocalMachineEventRepository();
+		private static IEventRepository _eventRepository;
+		public static IEventRepository EventRepository
+		{
+			get
+			{
+				if (_eventRepository == null)
+				{
+					_eventRepository = CreateEventRepository();
+				}
+				return _eventRepository;
+			}
+		}
 
 		#endregion
 	}

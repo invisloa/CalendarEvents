@@ -34,7 +34,10 @@ namespace CalendarT1.Models
 				}
 			}
 		}
-
+		public override string ToString()
+		{
+			return PriorityLevel.ToString(); // Return the string representation of the PriorityLevel enum
+		}
 		public EventPriority(EnumPriorityLevels eventPriorityLevel)
 		{
 			PriorityLevel = eventPriorityLevel;

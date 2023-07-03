@@ -1,4 +1,6 @@
 ﻿using CalendarT1.Models;
+using CalendarT1.Services;
+using CalendarT1.Services.DataOperations.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,12 +15,13 @@ namespace CalendarT1.ViewModels
 	{
 		private string _title;
 		private string _description;
-		private EventPriority _eventPriority;
 		private ObservableCollection<EventPriority> _eventPriorities;
+		private EventPriority _eventPriority;
 		private DateTime _startDateTime = DateTime.Now;
 		private DateTime _endDateTime = DateTime.Now.AddHours(1);
 		private TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
 		private TimeSpan _endExactTime = DateTime.Now.AddHours(1).TimeOfDay;
+		private IEventRepository _eventRepository;
 
 		//create a property for the start time
 		public TimeSpan StartExactTime
@@ -49,6 +52,7 @@ namespace CalendarT1.ViewModels
 			{
 				_title = value;
 				OnPropertyChanged();
+				AddEventCommand.RaiseCanExecuteChanged();
 			}
 		}
 		public string Description
@@ -67,6 +71,7 @@ namespace CalendarT1.ViewModels
 			{
 				_eventPriority = value;
 				OnPropertyChanged();
+				AddEventCommand.RaiseCanExecuteChanged();
 			}
 		}
 
@@ -84,7 +89,7 @@ namespace CalendarT1.ViewModels
 			}
 		}
 
-		private ICommand _addEventCommand;
+		private RelayCommand _addEventCommand;
 		public ObservableCollection<EventPriority> EventPriorities
 		{
 			get => _eventPriorities;
@@ -95,28 +100,50 @@ namespace CalendarT1.ViewModels
 			}
 		}
 
-		public ICommand AddEventCommand
+		public RelayCommand AddEventCommand
 		{
 			get
 			{
-				return _addEventCommand ?? (_addEventCommand = new Command(
+				return _addEventCommand ?? (_addEventCommand = new RelayCommand(
 					execute: () =>
 					{
-						// You will need to add the logic to add the event.
-					},
+						EventModel eventToAdd = new EventModel()
+						{
+							Title = Title,
+							Description = Description,
+							PriorityLevel = EventPriority,
+							StartDateTime = StartDateTime.Date + StartExactTime,
+							EndDateTime = EndDateTime.Date + EndExactTime,
+							IsCompleted = false
+						};
+						_eventRepository.AddEvent(eventToAdd);
+						// clear the fields
+						Title = "";
+						Description = "";
+						EventPriority = EventPriorities[0];
+						StartDateTime = DateTime.Now;
+						EndDateTime = DateTime.Now.AddHours(1);
+						StartExactTime = DateTime.Now.TimeOfDay;
+						EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
+
+						
+
+                    },
 					canExecute: () =>
 					{
 						// You can add a condition to check if all required data is filled before adding the event.
-						return !string.IsNullOrEmpty(Title) && EventPriority != null;
+						return !string.IsNullOrEmpty(Title);
 					}));
 			}
 		}
 
 
+
 		public AddEventCVViewModel()
 		{
-			// Initialize the EventPriorities collection
-			// _eventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevels()); (example)
+			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
+			_eventRepository = Factory.EventRepository;
+			EventPriority = EventPriorities[0];
 		}
 
 		private void AdjustEndDateTime()

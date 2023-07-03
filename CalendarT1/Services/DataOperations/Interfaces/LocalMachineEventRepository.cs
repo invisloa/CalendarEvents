@@ -12,7 +12,7 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 	{
 		public List<EventModel> AllEventsList { get; set; } = new List<EventModel>();
 
-		public void AddToEventsList(EventModel eventToAdd)
+		public void AddEvent(EventModel eventToAdd)
 		{
 			AllEventsList.Add(eventToAdd);
 		}

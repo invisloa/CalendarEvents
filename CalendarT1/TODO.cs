@@ -9,6 +9,7 @@
 
 // if event datetime end is lower than start change it to start + 1 hour
 
+// change priority level picker to button like choosing  <Picker Title="Priority Level" x: Name = "PriorityPicker" ItemsSource = "{Binding EventPriorities}" SelectedItem = "{Binding EventPriority, Mode=TwoWay}" >
 
 
 
