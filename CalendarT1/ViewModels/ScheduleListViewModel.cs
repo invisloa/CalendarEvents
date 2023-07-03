@@ -61,10 +61,10 @@ namespace CalendarT1.ViewModels
 		}
 		#endregion
 		#region Commands
-		public ICommand DatePickerDateSelectedCommand { get; set; }
-		public ICommand SelectEventPriorityCommand { get; set; }
-		public ICommand AddEventCommand { get; set; }
-		public ICommand SelectEventCommand { get; set; }
+		public RelayCommand DatePickerDateSelectedCommand { get; set; }
+		public RelayCommand SelectEventPriorityCommand { get; set; }
+		public RelayCommand AddEventCommand { get; set; }
+		public RelayCommand SelectEventCommand { get; set; }
 		#endregion
 		//Services
 		#region Services
@@ -72,10 +72,10 @@ namespace CalendarT1.ViewModels
 		#endregion
 		public ScheduleListViewModel()
 		{
-			DatePickerDateSelectedCommand = new Command<DateTime>(DatePickerDateSelected);
-			SelectEventPriorityCommand = new Command<EventPriority>(SelectEventPriority);
-			AddEventCommand = new Command(AddEventOnlyForTesting);
-			SelectEventCommand = new Command<EventModel>(ExecuteSelectEventCommand);
+			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
+			SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
+			AddEventCommand = new RelayCommand(AddEventOnlyForTesting);
+			SelectEventCommand = new RelayCommand<EventModel>(ExecuteSelectEventCommand);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
 			AllEventsList = _eventRepository.LoadEventsList();

@@ -7,15 +7,12 @@
 
 
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <Tab Title="Domestic">
+        <Tab Title="Daily events list">
             <ShellContent
                 Title="Home"
                 ContentTemplate="{DataTemplate local:ScheduleListView}"
                 Route="MainPage" />
-            <ShellContent
-                Title="Home2"
-                ContentTemplate="{DataTemplate local:AddEventPage}"
-                Route="AddEventPage" />
+
             <!--<ShellContent Title="Add Event"
                           ContentTemplate="{DataTemplate views:AddEventPage}"
                           Route="AddEventPage"/>-->

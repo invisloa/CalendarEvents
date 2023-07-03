@@ -6,7 +6,7 @@
              xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
              x:DataType="viewModels:ScheduleListViewModel"
              x:Class="CalendarT1.Views.ScheduleListView"
-             Title="ScheduleListView">
+             Title="Daily events list">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -87,20 +87,13 @@
                             <Label Text="-" HorizontalTextAlignment="Center"/>
                             <Label Text="{Binding EndDateTime, StringFormat='{0: hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
                         </StackLayout>
-
                         <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}"
                                 Grid.Column="1"
                                 Grid.RowSpan="2" >
-                            <!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
-                            <!--TO CHANGE JUST THE EXAMPLE CODE!!!!!!!!!!!!-->
-
                             <Frame.GestureRecognizers>
                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                                      CommandParameter="{Binding .}"/>
                             </Frame.GestureRecognizers>
-                            <!--XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX-->
-
-
                             <StackLayout Spacing="10">
                                 <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold"/>
                                 <Label Text="{Binding Description}" FontSize="15"/>

@@ -126,8 +126,6 @@ namespace CalendarT1.ViewModels
 						StartExactTime = DateTime.Now.TimeOfDay;
 						EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
 
-						
-
                     },
 					canExecute: () =>
 					{
