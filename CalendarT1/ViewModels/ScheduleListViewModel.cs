@@ -61,10 +61,10 @@ namespace CalendarT1.ViewModels
 		}
 		#endregion
 		#region Commands
-		public RelayCommand DatePickerDateSelectedCommand { get; set; }
-		public RelayCommand SelectEventPriorityCommand { get; set; }
+		public RelayCommand<DateTime> DatePickerDateSelectedCommand { get; set; }
+		public RelayCommand<EventPriority> SelectEventPriorityCommand { get; set; }
 		public RelayCommand AddEventCommand { get; set; }
-		public RelayCommand SelectEventCommand { get; set; }
+		public RelayCommand<EventModel> SelectEventCommand { get; set; }
 		#endregion
 		//Services
 		#region Services
@@ -109,14 +109,10 @@ namespace CalendarT1.ViewModels
 		}
 		private void AddEventOnlyForTesting()       // we will save directly to the database because it will be moved to a separate page
 		{
-			_eventRepository.AddEvent(new EventModel()
-			{
-				Title = "New Event",
-				Description = "New Event Description",
-				StartDateTime = DateTime.Now,
-				EndDateTime = DateTime.Now.AddHours(2),
-				PriorityLevel = EventPriorities[3]
-			});
+			// generate code to open a new page "AddEventPage"
+
+
+
 		}
 		// TODO: make a new window for event details 
 		private void ExecuteSelectEventCommand(EventModel selectedEvent)
