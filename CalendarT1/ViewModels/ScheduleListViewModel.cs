@@ -5,6 +5,7 @@ using CalendarT1.Services.DataOperations.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,29 @@ namespace CalendarT1.ViewModels
 {
 	public class ScheduleListViewModel : BaseViewModel
 	{
-		public ObservableCollection<EventPriority> _eventPriorities;
 
+		// region for Properties
+		#region Properties
+		private DateTime _currentDate = DateTime.Now;
+		public DateTime CurrentDate
+		{
+			get => _currentDate;
+		}
+		private DateTime _currentSelectedDate = DateTime.Now;
+		public DateTime CurrentSelectedDate
+		{
+			get => _currentSelectedDate;
+			set
+			{
+				if (_currentSelectedDate != value)
+				{
+					_currentSelectedDate = value;
+					OnPropertyChanged();
+					DatePickerDateSelectedCommand.Execute(_currentSelectedDate);
+				}
+			}
+		}
+		public ObservableCollection<EventPriority> _eventPriorities;
 		public ObservableCollection<EventPriority> EventPriorities
 		{
 			get => _eventPriorities;
@@ -37,60 +59,28 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
-		// region for Properties
-		#region Properties
-		private DateTime _currentDate = DateTime.Now;
-		public DateTime CurrentDate
-		{
-			get => _currentDate;
-		}
-
-		private DateTime _currentSelectedDate = DateTime.Now;
-		public DateTime CurrentSelectedDate
-		{
-			get => _currentSelectedDate;
-			set
-			{
-				if (_currentSelectedDate != value)
-				{
-					_currentSelectedDate = value;
-					OnPropertyChanged();
-					DatePickerDateSelectedCommand.Execute(_currentSelectedDate);
-				}
-			}
-		}
+		#endregion
+		#region Commands
 		public ICommand DatePickerDateSelectedCommand { get; set; }
 		public ICommand SelectEventPriorityCommand { get; set; }
 		public ICommand AddEventCommand { get; set; }
-
-
-	private void AddEvent()		// we will save duirectly to the database because it will be moved to a separate page
-		{
-			_eventRepository.AddToEventsList(new EventModel()
-			{
-				Title = "New Event",
-				Description = "New Event Description",
-				StartDateTime = DateTime.Now,
-				EndDateTime = DateTime.Now.AddHours(2),
-				PriorityLevel = EventPriorities[3]
-			});
-		}
+		public ICommand SelectEventCommand { get; set; }
+		#endregion
+		//Services
 		#region Services
 		IEventRepository _eventRepository;
 		#endregion
-		#endregion
-
 		public ScheduleListViewModel()
 		{
 			DatePickerDateSelectedCommand = new Command<DateTime>(DatePickerDateSelected);
 			SelectEventPriorityCommand = new Command<EventPriority>(SelectEventPriority);
-			AddEventCommand = new Command(AddEvent);
-			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevels());
+			AddEventCommand = new Command(AddEventOnlyForTesting);
+			SelectEventCommand = new Command<EventModel>(ExecuteSelectEventCommand);
+			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.CreateEventRepository();
 			AllEventsList = _eventRepository.LoadEventsList();
 		}
-
+		#region Methods
 		private void SelectEventPriority(EventPriority eventPriority)
 		{
 			eventPriority.IsSelected = !eventPriority.IsSelected;
@@ -112,12 +102,28 @@ namespace CalendarT1.ViewModels
 				EventsToShowList.Add(item);
 			}
 		}
-
 		private void DatePickerDateSelected(DateTime newDate)
 		{
 			_currentSelectedDate = newDate;
 			BindDataToScheduleList();
 		}
+		private void AddEventOnlyForTesting()       // we will save directly to the database because it will be moved to a separate page
+		{
+			_eventRepository.AddToEventsList(new EventModel()
+			{
+				Title = "New Event",
+				Description = "New Event Description",
+				StartDateTime = DateTime.Now,
+				EndDateTime = DateTime.Now.AddHours(2),
+				PriorityLevel = EventPriorities[3]
+			});
+		}
+		// TODO: make a new window for event details 
+		private void ExecuteSelectEventCommand(EventModel selectedEvent)
+		{
+			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
+		}
+		#endregion
 	}
 
 }

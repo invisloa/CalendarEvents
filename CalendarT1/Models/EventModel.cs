@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace CalendarT1.Models
 {
 	public class EventModel
-
 	{
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }
@@ -16,7 +15,5 @@ namespace CalendarT1.Models
 		public string Description { get; set; }
 		public EventPriority PriorityLevel { get; set; }
 		public bool IsCompleted { get; set; }
-
-
 	}
 }

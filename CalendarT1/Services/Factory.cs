@@ -18,7 +18,7 @@ namespace CalendarT1.Services
 			return new EventPriority(level);
 		}
 
-		public static IEnumerable<EventPriority> CreateAllPrioritiesLevels()
+		public static IEnumerable<EventPriority> CreateAllPrioritiesLevelsEnumerable()
 		{
 			return Enum.GetValues(typeof(EnumPriorityLevels))
 				.Cast<EnumPriorityLevels>()

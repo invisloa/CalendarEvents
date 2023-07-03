@@ -3,12 +3,39 @@
     x:Class="CalendarT1.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:CalendarT1.Views"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:local="clr-namespace:CalendarT1.Views">
 
-    <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:ScheduleListView}"
-        Route="MainPage" />
+
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Domestic">
+            <ShellContent
+                Title="Home"
+                ContentTemplate="{DataTemplate local:ScheduleListView}"
+                Route="MainPage" />
+            <ShellContent
+                Title="Home2"
+                ContentTemplate="{DataTemplate local:AddEventPage}"
+                Route="AddEventPage" />
+            <!--<ShellContent Title="Add Event"
+                          ContentTemplate="{DataTemplate views:AddEventPage}"
+                          Route="AddEventPage"/>-->
+        </Tab>
+        <!--
+        Shell has implicit conversion operators that enable the Shell visual hierarchy to be simplified.
+        This is possible because a subclassed Shell object can only ever contain a FlyoutItem object or a TabBar object,
+        which can only ever contain Tab objects, which can only ever contain ShellContent objects.
+
+        The implicit conversion automatically wraps the ShellContent objects below in Tab objects.
+        --><!--
+        <ShellContent Title="Monkeys"
+                      Icon="monkey.png"
+                      ContentTemplate="{DataTemplate views:MonkeysPage}" />
+        <ShellContent Title="Elephants"
+                      Icon="elephant.png"
+                      ContentTemplate="{DataTemplate views:ElephantsPage}" />
+        <ShellContent Title="Bears"
+                      Icon="bear.png"
+                      ContentTemplate="{DataTemplate views:BearsPage}" />-->
+    </FlyoutItem>
 
 </Shell>

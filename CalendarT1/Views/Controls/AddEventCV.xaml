@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:models="clr-namespace:CalendarT1.Models"
+             
+             x:Class="CalendarT1.Views.Controls.AddEventCV">
+    <VerticalStackLayout>
+        <Label 
+            Text="Add New Event"
+            VerticalOptions="StartAndExpand" 
+            HorizontalOptions="CenterAndExpand" />
+        <Entry Placeholder="Title"
+               x:Name="TitleEntry" />
+        <DatePicker x:Name="StartDatePicker"
+                    Date="{Binding StartDateTime}"
+                    />
+        
+        <TimePicker x:Name="StartTimePicker" Format="HH:mm"
+        Time="{Binding StartExactTime}"/>
+        <DatePicker x:Name="EndDatePicker"
+                    Date="{Binding EndDateTime}"
+                    />
+        <TimePicker x:Name="EndTimePicker"
+                    Time="{Binding EndExactTime}"/>
+        <Picker Title="Priority Level"
+                x:Name="PriorityPicker"
+                SelectedItem="{Binding EventPriority}"
+                ItemsSource="{Binding EventPriorities}">
+        </Picker>
+        <Editor Placeholder="Description"
+                x:Name="DescriptionEditor" />
+        <Button Text="Add Event"
+                Command="{Binding AddEventCommand}"
+                CommandParameter="{x:Reference Name=AddEventControl}" />
+    </VerticalStackLayout>
+</ContentView>
