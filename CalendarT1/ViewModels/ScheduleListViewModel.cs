@@ -117,6 +117,11 @@ namespace CalendarT1.ViewModels
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
 		}
+
+		internal void OnAppearing()
+		{
+			BindDataToScheduleList();
+		}
 		#endregion
 	}
 

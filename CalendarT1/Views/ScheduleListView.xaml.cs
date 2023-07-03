@@ -10,4 +10,9 @@ public partial class ScheduleListView : ContentPage
 
 		InitializeComponent();
 	}
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+		(BindingContext as ScheduleListViewModel).OnAppearing();
+	}
 }

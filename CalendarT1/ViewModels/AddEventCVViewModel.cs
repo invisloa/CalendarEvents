@@ -23,7 +23,6 @@ namespace CalendarT1.ViewModels
 		private TimeSpan _endExactTime = DateTime.Now.AddHours(1).TimeOfDay;
 		private IEventRepository _eventRepository;
 
-		//create a property for the start time
 		public TimeSpan StartExactTime
 		{
 			get => _startExactTime;
@@ -35,7 +34,6 @@ namespace CalendarT1.ViewModels
 
 			}
 		}
-		//create property for the end time
 		public TimeSpan EndExactTime
 		{
 			get => _endExactTime;
@@ -130,7 +128,6 @@ namespace CalendarT1.ViewModels
                     },
 					canExecute: () =>
 					{
-						// You can add a condition to check if all required data is filled before adding the event.
 						return !string.IsNullOrEmpty(Title);
 					}));
 			}
