@@ -16,7 +16,6 @@ namespace CalendarT1.Models
 		public string Description { get; set; }
 		public EventPriority PriorityLevel { get; set; }
 		public bool IsCompleted { get; set; }
-
 		public EventModel(string title, string description, EventPriority eventPriority, DateTime startTime, DateTime endTime, bool isCompleted=false )
 		{
 			Id = Guid.NewGuid();
@@ -26,9 +25,6 @@ namespace CalendarT1.Models
 			StartDateTime = startTime;
 			EndDateTime = endTime;
 			IsCompleted = isCompleted;
-
-
-
 		}
 	}
 }

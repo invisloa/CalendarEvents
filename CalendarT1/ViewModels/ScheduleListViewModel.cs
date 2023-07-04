@@ -116,6 +116,7 @@ namespace CalendarT1.ViewModels
 		private void ExecuteSelectEventCommand(EventModel selectedEvent)
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
+			App.Current.MainPage.Navigation.PushAsync(new AddEventPage(selectedEvent));
 		}
 
 		internal void OnAppearing()
