@@ -7,6 +7,6 @@ public partial class AddEventCV : ContentView
 	public AddEventCV()
 	{
 		InitializeComponent();
-		BindingContext = new AddEventCVViewModel();
+		BindingContext = new AddEventViewModel();
 	}
 }

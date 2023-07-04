@@ -5,10 +5,10 @@ namespace CalendarT1.Views;
 
 public partial class AddEventPage : ContentPage
 {
-	private AddEventCVViewModel _viewModel;
-	public AddEventPage(EventModel eventToEdit = null)
+	private AddEventViewModel _viewModel;
+	public AddEventPage()
 	{
-		_viewModel = new AddEventCVViewModel(eventToEdit);
+		_viewModel = new AddEventViewModel();
 		BindingContext = _viewModel;
 		InitializeComponent();
 	}

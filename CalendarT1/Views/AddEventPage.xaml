@@ -5,7 +5,32 @@
              x:Class="CalendarT1.Views.AddEventPage"
              Title="AddEventPage">
     <VerticalStackLayout>
-        <local:AddEventCV x:Name="AddEventControl" />
+        <Label 
+            Text="Add New Event"
+            VerticalOptions="StartAndExpand" 
+            HorizontalOptions="CenterAndExpand" />
+        <Entry Placeholder="Title"
+               x:Name="TitleEntry" 
+               Text="{Binding Title}"/>
+        <DatePicker x:Name="StartDatePicker"
+                    Date="{Binding StartDateTime}"
+                    />
+
+        <TimePicker x:Name="StartTimePicker" Format="HH:mm"
+        Time="{Binding StartExactTime}"/>
+        <DatePicker x:Name="EndDatePicker"
+                    Date="{Binding EndDateTime}"
+                    />
+        <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
+                    Time="{Binding EndExactTime}"/>
+        <Picker Title="Priority Level"
+                x:Name="PriorityPicker"
+                ItemsSource="{Binding EventPriorities}"
+                SelectedItem="{Binding EventPriority, Mode=TwoWay}">
+        </Picker>
+        <Editor Placeholder="Description"
+                x:Name="DescriptionEditor" />
+        <Button Text="Add Event"
+                Command="{Binding AddEventCommand}"/>
     </VerticalStackLayout>
-    
 </ContentPage>
