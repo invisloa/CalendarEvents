@@ -9,7 +9,7 @@ public partial class AddEventPage : ContentPage
 	public AddEventPage(EventModel eventToEdit = null)
 	{
 		_viewModel = new AddEventCVViewModel(eventToEdit);
-		AddEventControl.BindingContext = _viewModel;  // Assign ViewModel to AddEventCV's BindingContext
+		BindingContext = _viewModel;
 		InitializeComponent();
 	}
 }
