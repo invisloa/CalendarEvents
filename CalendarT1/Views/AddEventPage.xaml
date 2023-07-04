@@ -7,4 +7,5 @@
     <VerticalStackLayout>
         <local:AddEventCV x:Name="AddEventControl" />
     </VerticalStackLayout>
+    
 </ContentPage>

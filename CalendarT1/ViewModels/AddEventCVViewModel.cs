@@ -31,7 +31,6 @@ namespace CalendarT1.ViewModels
 				_startExactTime = value;
 				OnPropertyChanged();
 				AdjustEndExactTime();
-
 			}
 		}
 		public TimeSpan EndExactTime
@@ -132,16 +131,12 @@ namespace CalendarT1.ViewModels
 					}));
 			}
 		}
-
-
-
 		public AddEventCVViewModel()
 		{
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
 			EventPriority = EventPriorities[0];
 		}
-
 		private void AdjustEndDateTime()
 		{
 			if (StartDateTime > EndDateTime)
@@ -149,7 +144,6 @@ namespace CalendarT1.ViewModels
 				EndDateTime = StartDateTime.AddHours(1);
 			}
 		}
-		
 		private void AdjustEndExactTime()
 		{
 			if (StartExactTime > EndExactTime && StartDateTime.Date >= EndDateTime.Date)
