@@ -30,23 +30,28 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 				var scheduleList = new List<EventModel>();
 				for (int i = 0; i < 5; i++)
 				{
-					scheduleList.Add(new EventModel
-					{
-						StartDateTime = DateTime.Now.AddDays(i),
-						EndDateTime = DateTime.Now.AddDays(i).AddHours(1),
-						Title = $"Test {i + 1}",
-						Description = $"Test {i + 1} Description",
-						PriorityLevel = new EventPriority(EnumPriorityLevels.Lowest + i)
-					});
+					scheduleList.Add(new EventModel($"Test {i + 1}", $"Test {i + 1} Description",
+									 new EventPriority(EnumPriorityLevels.Lowest + i),
+								     DateTime.Now.AddDays(i), DateTime.Now.AddDays(i).AddHours(1)));
 				}
 				AllEventsList = scheduleList;
 			}
 				return AllEventsList;
 		}
 
+		public void RemoveEvent(EventModel eventToRemove)
+		{
+			AllEventsList.Remove(eventToRemove);
+		}
+
 		public void SaveEventsList(List<EventModel> eventListToSave)
 		{
 			AllEventsList = eventListToSave;
+		}
+		public void UpdateEvent(EventModel eventToUpdate)
+		{
+			// find event in list
+			var eventToUpdateInList = AllEventsList.FirstOrDefault(e => e.Id == eventToUpdate.Id);
 		}
 	}
 }

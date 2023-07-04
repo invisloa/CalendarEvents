@@ -23,6 +23,17 @@ namespace CalendarT1.ViewModels
 		private TimeSpan _endExactTime = DateTime.Now.AddHours(1).TimeOfDay;
 		private IEventRepository _eventRepository;
 		private EventModel _currentEvent;
+		private string _submitButtonText;
+		
+		public string SubmitButtonText
+		{
+			get => _submitButtonText;
+			set
+			{
+				_submitButtonText = value;
+				OnPropertyChanged();
+			}
+		}
 
 		public TimeSpan StartExactTime
 		{
@@ -104,27 +115,34 @@ namespace CalendarT1.ViewModels
 			get
 			{
 				return _addEventCommand ?? (_addEventCommand = new RelayCommand(
-					execute: () =>
-					{
-						EventModel eventToAdd = new EventModel()
+						execute: () =>
 						{
-							Title = Title,
-							Description = Description,
-							PriorityLevel = EventPriority,
-							StartDateTime = StartDateTime.Date + StartExactTime,
-							EndDateTime = EndDateTime.Date + EndExactTime,
-							IsCompleted = false
-						};
-						_eventRepository.AddEvent(eventToAdd);
-						// clear the fields
-						Title = "";
-						Description = "";
-						EventPriority = EventPriorities[0];
-						StartDateTime = DateTime.Now;
-						EndDateTime = DateTime.Now.AddHours(1);
-						StartExactTime = DateTime.Now.TimeOfDay;
-						EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
+							if (_currentEvent == null) 
+							{
+								_currentEvent = new EventModel(Title, Description, EventPriority,StartDateTime+StartExactTime,EndDateTime+EndExactTime);
+								_eventRepository.AddEvent(_currentEvent);
+								Title = "";
+								Description = "";
+								EventPriority = EventPriorities[0];
+								StartDateTime = DateTime.Now;
+								EndDateTime = DateTime.Now.AddHours(1);
+								StartExactTime = DateTime.Now.TimeOfDay;
+								EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
+							}
+							else
+							{
+								// Update fields
+								_currentEvent.Title = Title;
+								_currentEvent.Description = Description;
+								_currentEvent.PriorityLevel = EventPriority;
+								_currentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
+								_currentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
+								_currentEvent.IsCompleted = false;
 
+								_eventRepository.UpdateEvent(_currentEvent);
+								Shell.Current.GoToAsync("..");
+
+							}
                     },
 					canExecute: () =>
 					{
@@ -137,11 +155,12 @@ namespace CalendarT1.ViewModels
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
 
-			if (eventToEdit == null) // Create new
+			if (eventToEdit == null) // Create new Event
 			{
 				ClearFields();
+				SubmitButtonText = "Add Event";
 			}
-			else // Edit existing
+			else // Edit existing Event
 			{
 				_currentEvent = eventToEdit;
 				Title = _currentEvent.Title;
@@ -151,6 +170,7 @@ namespace CalendarT1.ViewModels
 				EndDateTime = _currentEvent.EndDateTime.Date;
 				StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
 				EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
+				SubmitButtonText = "Edit Event";
 			}
 		}
 
