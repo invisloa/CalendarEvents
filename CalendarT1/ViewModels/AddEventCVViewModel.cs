@@ -24,7 +24,6 @@ namespace CalendarT1.ViewModels
 		private IEventRepository _eventRepository;
 		private EventModel _currentEvent;
 		private string _submitButtonText;
-		
 		public string SubmitButtonText
 		{
 			get => _submitButtonText;
@@ -34,7 +33,6 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		public TimeSpan StartExactTime
 		{
 			get => _startExactTime;
@@ -54,7 +52,6 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		public string Title
 		{
 			get => _title;
@@ -84,7 +81,6 @@ namespace CalendarT1.ViewModels
 				AddEventCommand.RaiseCanExecuteChanged();
 			}
 		}
-
 		public DateTime StartDateTime { get => _startDateTime; set
 			{
 				_startDateTime = value;
@@ -98,7 +94,6 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		private RelayCommand _addEventCommand;
 		public ObservableCollection<EventPriority> EventPriorities
 		{
@@ -109,7 +104,6 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		public RelayCommand AddEventCommand
 		{
 			get
@@ -138,10 +132,8 @@ namespace CalendarT1.ViewModels
 								_currentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 								_currentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 								_currentEvent.IsCompleted = false;
-
 								_eventRepository.UpdateEvent(_currentEvent);
 								Shell.Current.GoToAsync("..");
-
 							}
                     },
 					canExecute: () =>
@@ -173,7 +165,6 @@ namespace CalendarT1.ViewModels
 				SubmitButtonText = "Edit Event";
 			}
 		}
-
 		#region Commands
 		private void ClearFields()
 		{
