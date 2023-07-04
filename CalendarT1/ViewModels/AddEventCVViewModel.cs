@@ -22,6 +22,7 @@ namespace CalendarT1.ViewModels
 		private TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
 		private TimeSpan _endExactTime = DateTime.Now.AddHours(1).TimeOfDay;
 		private IEventRepository _eventRepository;
+		private EventModel _currentEvent;
 
 		public TimeSpan StartExactTime
 		{
@@ -131,11 +132,38 @@ namespace CalendarT1.ViewModels
 					}));
 			}
 		}
-		public AddEventCVViewModel()
+		public AddEventCVViewModel(EventModel eventToEdit = null)
 		{
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
+
+			if (eventToEdit == null) // Create new
+			{
+				ClearFields();
+			}
+			else // Edit existing
+			{
+				_currentEvent = eventToEdit;
+				Title = _currentEvent.Title;
+				Description = _currentEvent.Description;
+				EventPriority = _currentEvent.PriorityLevel;
+				StartDateTime = _currentEvent.StartDateTime.Date;
+				EndDateTime = _currentEvent.EndDateTime.Date;
+				StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
+				EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
+			}
+		}
+
+		#region Commands
+		private void ClearFields()
+		{
+			Title = "";
+			Description = "";
 			EventPriority = EventPriorities[0];
+			StartDateTime = DateTime.Now;
+			EndDateTime = DateTime.Now.AddHours(1);
+			StartExactTime = DateTime.Now.TimeOfDay;
+			EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
 		}
 		private void AdjustEndDateTime()
 		{
@@ -151,5 +179,6 @@ namespace CalendarT1.ViewModels
 				EndExactTime = StartExactTime + TimeSpan.FromHours(1);
 			}
 		}
+		#endregion
 	}
 }
