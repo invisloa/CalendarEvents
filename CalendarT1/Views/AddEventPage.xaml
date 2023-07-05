@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:CalendarT1.Views.Controls"
              x:Class="CalendarT1.Views.AddEventPage"
              Title="AddEventPage">
     <VerticalStackLayout>
@@ -29,8 +28,9 @@
                 SelectedItem="{Binding EventPriority, Mode=TwoWay}">
         </Picker>
         <Editor Placeholder="Description"
-                x:Name="DescriptionEditor" />
-        <Button Text="Add Event"
+                x:Name="DescriptionEditor" 
+                Text="{Binding Description, Mode=TwoWay}"/>
+        <Button Text="{Binding SubmitButtonText}"
                 Command="{Binding AddEventCommand}"/>
     </VerticalStackLayout>
 </ContentPage>

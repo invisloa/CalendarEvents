@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.ViewModels.EventOperations;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels
 {
-	public abstract class EventOperationsBase : BaseViewModel
+    public abstract class EventOperationsBase : BaseViewModel
 	{
 		protected string _title;
 		protected string _description;
@@ -22,6 +23,7 @@ namespace CalendarT1.ViewModels
 		protected IEventRepository _eventRepository;
 		protected EventModel _currentEvent;
 		protected string _submitButtonText;
+		protected RelayCommand _submitEventCommand;
 
 		public string SubmitButtonText
 		{
@@ -61,6 +63,8 @@ namespace CalendarT1.ViewModels
 			{
 				_title = value;
 				OnPropertyChanged();
+				_submitEventCommand.RaiseCanExecuteChanged();
+
 			}
 		}
 

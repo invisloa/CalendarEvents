@@ -2,6 +2,7 @@
 using CalendarT1.Models.Enums;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.ViewModels.EventOperations;
 using CalendarT1.Views;
 using System;
 using System.Collections.Generic;
@@ -14,7 +15,7 @@ using System.Windows.Input;
 
 namespace CalendarT1.ViewModels
 {
-	public class ScheduleListViewModel : BaseViewModel
+    public class ScheduleListViewModel : BaseViewModel
 	{
 
 		// region for Properties
@@ -116,7 +117,7 @@ namespace CalendarT1.ViewModels
 		private void ExecuteSelectEventCommand(EventModel selectedEvent)
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
-			App.Current.MainPage.Navigation.PushAsync(new AddEventPage(selectedEvent));
+			App.Current.MainPage.Navigation.PushAsync(new AddEventPage());// TO CHANGE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		}
 
 		internal void OnAppearing()

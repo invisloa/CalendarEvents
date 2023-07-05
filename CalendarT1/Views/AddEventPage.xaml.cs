@@ -1,15 +1,13 @@
 using CalendarT1.Models;
-using CalendarT1.ViewModels;
+using CalendarT1.ViewModels.EventOperations;
 
 namespace CalendarT1.Views;
 
 public partial class AddEventPage : ContentPage
 {
-	private AddEventViewModel _viewModel;
 	public AddEventPage()
 	{
-		_viewModel = new AddEventViewModel();
-		BindingContext = _viewModel;
+		BindingContext = new AddEventViewModel();
 		InitializeComponent();
 	}
 }
