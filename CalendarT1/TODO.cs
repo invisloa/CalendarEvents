@@ -4,8 +4,6 @@
 
 
 #region Current
-// Window For event details?? click on event command?
-// CHANGE 		private void ExecuteSelectEventCommand(EventModel selectedEvent) TO show a new window with event details
 #endregion
 
 
@@ -16,10 +14,12 @@
 
 
 
+#region High Priority
+// make reminders for events
+#endregion
 
 
-
-#region for later
+#region Low Priority
 // make current week view, current month view, current day view
 // change priority level picker to button like choosing  <Picker Title="Priority Level" x: Name = "PriorityPicker" ItemsSource = "{Binding EventPriorities}" SelectedItem = "{Binding EventPriority, Mode=TwoWay}" >
 
@@ -28,6 +28,8 @@
 
 
 #region done
+// Window For event details?? click on event command?
+// CHANGE 		private void ExecuteSelectEventCommand(EventModel selectedEvent) TO show a new window with event details
 
 // account wide properties to show events
 // save and load interfaces

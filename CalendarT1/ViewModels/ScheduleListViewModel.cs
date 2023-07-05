@@ -101,6 +101,21 @@ namespace CalendarT1.ViewModels
 			eventPriority.IsSelected = !eventPriority.IsSelected;
 			BindDataToScheduleList();
 		}
+		//public void BindDataToScheduleList()
+		//{
+		//	var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
+		//	var filteredScheduleList = _allEventsList
+		//		.Where(x => (x.StartDateTime.Date == _currentSelectedDate.Date ||
+		//					 x.EndDateTime.Date == _currentSelectedDate.Date) &&
+		//					 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
+		//		.ToList();
+
+		//	EventsToShowList.Clear();
+		//	foreach (var item in filteredScheduleList)
+		//	{
+		//		EventsToShowList.Add(item);
+		//	}
+		//}
 		public void BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
@@ -110,12 +125,9 @@ namespace CalendarT1.ViewModels
 							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
 				.ToList();
 
-			EventsToShowList.Clear();
-			foreach (var item in filteredScheduleList)
-			{
-				EventsToShowList.Add(item);
-			}
+			EventsToShowList = new ObservableCollection<EventModel>(filteredScheduleList);
 		}
+
 		private void DatePickerDateSelected(DateTime newDate)
 		{
 			_currentSelectedDate = newDate;

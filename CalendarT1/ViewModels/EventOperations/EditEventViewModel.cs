@@ -52,9 +52,7 @@ namespace CalendarT1.ViewModels
 			EndDateTime = _currentEvent.EndDateTime.Date;
 			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
 			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
-			SubmitButtonText = "Edit Event";
+			SubmitButtonText = "Submit Changes";
 		}
 	}
-
-
 }
