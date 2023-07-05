@@ -6,7 +6,7 @@
              xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
              xmlns:local="clr-namespace:CalendarT1.ViewModels.EventsViewModels"
              x:DataType="local:DailyEventsViewModel"
-             x:Class="CalendarT1.Views.ScheduleListView"
+             x:Class="CalendarT1.Views.ViewDailyEvents"
              Title="Daily events list">
     <Grid>
         <Grid.RowDefinitions>

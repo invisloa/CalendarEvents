@@ -2,9 +2,9 @@ using CalendarT1.ViewModels.EventsViewModels;
 
 namespace CalendarT1.Views;
 
-public partial class ScheduleListView : ContentPage
+public partial class ViewDailyEvents : ContentPage
 {
-	public ScheduleListView()
+	public ViewDailyEvents()
 	{
 		BindingContext = new DailyEventsViewModel();
 

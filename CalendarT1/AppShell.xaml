@@ -10,7 +10,7 @@
         <Tab Title="Daily events list">
             <ShellContent
                 Title="Home"
-                ContentTemplate="{DataTemplate local:ScheduleListView}"
+                ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
                 Route="MainPage" />
 
             <!--<ShellContent Title="Add Event"
