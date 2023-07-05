@@ -4,10 +4,10 @@
              xmlns:viewModels="clr-namespace:CalendarT1.ViewModels"
              xmlns:models="clr-namespace:CalendarT1.Models"
              xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
-             x:DataType="viewModels:ScheduleListViewModel"
+             xmlns:local="clr-namespace:CalendarT1.ViewModels.EventsViewModels"
+             x:DataType="local:DailyEventsViewModel"
              x:Class="CalendarT1.Views.ScheduleListView"
              Title="Daily events list">
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -15,7 +15,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-
         <!-- Date layout -->
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>

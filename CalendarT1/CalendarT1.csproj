@@ -60,13 +60,22 @@
 	  <MauiXaml Update="Views\EditEventPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ScheduleListView.xaml">
+	  <MauiXaml Update="Views\ViewDailyEvents.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewWeeklyEvents.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Views\Controls\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Views\ViewDailyEvents.xaml.cs">
+	    <DependentUpon>ViewDailyEvents.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-using CalendarT1.ViewModels;
+using CalendarT1.ViewModels.EventsViewModels;
 
 namespace CalendarT1.Views;
 
@@ -6,13 +6,13 @@ public partial class ScheduleListView : ContentPage
 {
 	public ScheduleListView()
 	{
-		BindingContext = new ScheduleListViewModel();
+		BindingContext = new DailyEventsViewModel();
 
 		InitializeComponent();
 	}
 	protected override void OnAppearing()
 	{
 		base.OnAppearing();
-		(BindingContext as ScheduleListViewModel).OnAppearing();
+		(BindingContext as DailyEventsViewModel).OnAppearing();
 	}
 }
