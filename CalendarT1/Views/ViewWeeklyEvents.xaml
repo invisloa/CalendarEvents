@@ -8,167 +8,165 @@
              x:DataType="local:WeeklyEventsViewModel"
              x:Class="CalendarT1.Views.ViewWeeklyEvents"
              Title="Weekly events list">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-            <!-- add other days here -->
-        </Grid.ColumnDefinitions>
 
-        <!-- Monday Events -->
-        <StackLayout Grid.Column="0">
-            <Label Text="Monday" HorizontalOptions="Center" FontAttributes="Bold"/>
-            <CollectionView ItemsSource="{Binding MondayEvents}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventModel">
-                        <!-- Simplified Event View-->
-                        <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
-                                <!-- Removed Description Label to maintain a simplified view -->
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+    <ScrollView>
+        <StackLayout>
+            <!-- Monday Events -->
+            <Frame>
+                <StackLayout>
+                    <Label Text="Monday" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding MondayEvents}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:EventModel">
+                                <!-- Simplified Event View-->
+                                <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                        CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Spacing="10">
+                                        <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
+                                        <!-- Removed Description Label to maintain a simplified view -->
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+
+            <!-- Tuesday Events -->
+            <Frame>
+                <StackLayout>
+                    <Label Text="Tuesday" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding TuesdayEvents}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:EventModel">
+                                <!-- Simplified Event View-->
+                                <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                        CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Spacing="10">
+                                        <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
+                                        <!-- Removed Description Label to maintain a simplified view -->
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+            <!-- Wednesday Events -->
+            <Frame>
+                <StackLayout>
+                    <Label Text="Wednesday" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding WednesdayEvents}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:EventModel">
+                                <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Spacing="10">
+                                        <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+
+            <!-- Thursday Events -->
+            <Frame>
+                <StackLayout>
+                    <Label Text="Thursday" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding ThursdayEvents}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:EventModel">
+                                <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Spacing="10">
+                                        <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+
+            <!-- Friday Events -->
+            <Frame>
+                <StackLayout>
+                    <Label Text="Friday" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding FridayEvents}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:EventModel">
+                                <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Spacing="10">
+                                        <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+
+            <!-- Saturday Events -->
+            <Frame>
+                <StackLayout>
+                    <Label Text="Saturday" HorizontalOptions="Center" FontAttributes="Bold"/>
+                    <CollectionView ItemsSource="{Binding SaturdayEvents}">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="models:EventModel">
+                                <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                            CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
+                                    <StackLayout Spacing="10">
+                                        <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+
+            <!-- Sunday Events -->
+            <Frame>
+                <StackLayout>
+                    <Label Text="Sunday" HorizontalOptions="Center" FontAttributes="Bold"/>
+                        <CollectionView ItemsSource="{Binding SundayEvents}">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:EventModel">
+                                    <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                            CommandParameter="{Binding .}"/>
+                                        </Frame.GestureRecognizers>
+                                        <StackLayout Spacing="10">
+                                            <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
+                                        </StackLayout>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </Frame>
         </StackLayout>
-
-        <!-- Tuesday Events -->
-        <StackLayout Grid.Column="1">
-            <Label Text="Tuesday" HorizontalOptions="Center" FontAttributes="Bold"/>
-            <CollectionView ItemsSource="{Binding TuesdayEvents}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventModel">
-                        <!-- Simplified Event View-->
-                        <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
-                                <!-- Removed Description Label to maintain a simplified view -->
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
-
-        <!-- Wednesday Events -->
-        <StackLayout Grid.Column="2">
-            <Label Text="Wednesday" HorizontalOptions="Center" FontAttributes="Bold"/>
-            <CollectionView ItemsSource="{Binding WednesdayEvents}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventModel">
-                        <!-- Simplified Event View-->
-                        <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
-                                <!-- Removed Description Label to maintain a simplified view -->
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
-
-        <!-- Thursday Events -->
-        <StackLayout Grid.Column="3">
-            <Label Text="Thursday" HorizontalOptions="Center" FontAttributes="Bold"/>
-            <CollectionView ItemsSource="{Binding ThursdayEvents}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventModel">
-                        <!-- Simplified Event View-->
-                        <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
-                               <!-- Removed Description Label to maintain a simplified view -->
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
-
-        <!-- Friday Events -->
-        <StackLayout Grid.Column="4">
-            <Label Text="Friday" HorizontalOptions="Center" FontAttributes="Bold"/>
-            <CollectionView ItemsSource="{Binding FridayEvents}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventModel">
-                        <!-- Simplified Event View-->
-                        <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
-                                <!-- Removed Description Label to maintain a simplified view -->
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
-
-        <!-- Saturday Events -->
-        <StackLayout Grid.Column="5">
-            <Label Text="Saturday" HorizontalOptions="Center" FontAttributes="Bold"/>
-            <CollectionView ItemsSource="{Binding SaturdayEvents}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventModel">
-                        <!-- Simplified Event View-->
-                        <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
-                                <!-- Removed Description Label to maintain a simplified view -->
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
-
-        <!-- Sunday Events -->
-        <StackLayout Grid.Column="6">
-            <Label Text="Sunday" HorizontalOptions="Center" FontAttributes="Bold"/>
-            <CollectionView ItemsSource="{Binding SundayEvents}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventModel">
-                        <!-- Simplified Event View-->
-                        <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding Title}" FontSize="12" FontAttributes="Bold"/>
-                                <!-- Removed Description Label to maintain a simplified view -->
-                            </StackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
-
-    </Grid>
+    </ScrollView>
 </ContentPage>
