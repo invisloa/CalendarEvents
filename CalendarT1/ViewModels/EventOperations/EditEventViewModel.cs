@@ -13,7 +13,7 @@ namespace CalendarT1.ViewModels
 
 	public class EditEventViewModel : EventOperationsBase
 	{
-		private RelayCommand _submitEventCommand;
+		public string EditTitleText => $"Edit event of Title: {Title}";
 		public RelayCommand SubmitEventCommand
 		{
 			get
@@ -41,6 +41,7 @@ namespace CalendarT1.ViewModels
 		}
 		public EditEventViewModel(EventModel eventToEdit)
 		{
+			_submitEventCommand = SubmitEventCommand;
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
 			_currentEvent = eventToEdit;

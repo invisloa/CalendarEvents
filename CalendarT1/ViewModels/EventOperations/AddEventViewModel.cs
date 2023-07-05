@@ -14,8 +14,8 @@ namespace CalendarT1.ViewModels.EventOperations
     class AddEventViewModel : EventOperationsBase
     {
 
-        public RelayCommand AddEventCommand
-        {
+        public RelayCommand SubmitEventCommand
+		{
             get
             {
                 return _submitEventCommand ?? (_submitEventCommand = new RelayCommand(
@@ -40,7 +40,7 @@ namespace CalendarT1.ViewModels.EventOperations
         }
         public AddEventViewModel()
         {
-			_submitEventCommand = AddEventCommand;
+			_submitEventCommand = SubmitEventCommand;
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
             _eventRepository = Factory.EventRepository;
 			SubmitButtonText = "Add Event";

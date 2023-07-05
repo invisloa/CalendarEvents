@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarT1.ViewModels.EventOperations
+namespace CalendarT1.ViewModels
 {
     public abstract class BaseViewModel : INotifyPropertyChanged
     {

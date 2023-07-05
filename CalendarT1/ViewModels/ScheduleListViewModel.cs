@@ -47,9 +47,22 @@ namespace CalendarT1.ViewModels
 			{
 				_eventPriorities = value;
 				OnPropertyChanged();
+
 			}
 		}
-		public ObservableCollection<EventModel> EventsToShowList { get; set; } = new ObservableCollection<EventModel>();
+		//public ObservableCollection<EventModel> EventsToShowList { get; set; } = new ObservableCollection<EventModel>();
+
+		private ObservableCollection<EventModel> _eventsToShowList = new ObservableCollection<EventModel>();
+		public ObservableCollection<EventModel> EventsToShowList
+		{
+			get => _eventsToShowList;
+			set
+			{
+				_eventsToShowList = value;
+				OnPropertyChanged();
+			}
+		}
+
 		private List<EventModel> _allEventsList;
 		public List<EventModel> AllEventsList
 		{
@@ -87,7 +100,6 @@ namespace CalendarT1.ViewModels
 		{
 			eventPriority.IsSelected = !eventPriority.IsSelected;
 			BindDataToScheduleList();
-
 		}
 		public void BindDataToScheduleList()
 		{
@@ -117,7 +129,7 @@ namespace CalendarT1.ViewModels
 		private void ExecuteSelectEventCommand(EventModel selectedEvent)
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
-			App.Current.MainPage.Navigation.PushAsync(new AddEventPage());// TO CHANGE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			App.Current.MainPage.Navigation.PushAsync(new EditEventPage(selectedEvent));
 		}
 
 		internal void OnAppearing()
