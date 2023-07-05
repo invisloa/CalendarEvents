@@ -15,116 +15,21 @@ using System.Windows.Input;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-    public class DailyEventsViewModel : BaseViewModel
+    public class DailyEventsViewModel : AbstractEventViewModel
     {
 
-        // region for Properties
-        #region Properties
-        private DateTime _currentDate = DateTime.Now;
-        public DateTime CurrentDate
-        {
-            get => _currentDate;
-        }
-        private DateTime _currentSelectedDate = DateTime.Now;
-        public DateTime CurrentSelectedDate
-        {
-            get => _currentSelectedDate;
-            set
-            {
-                if (_currentSelectedDate != value)
-                {
-                    _currentSelectedDate = value;
-                    OnPropertyChanged();
-                    DatePickerDateSelectedCommand.Execute(_currentSelectedDate);
-                }
-            }
-        }
-        public ObservableCollection<EventPriority> _eventPriorities;
-        public ObservableCollection<EventPriority> EventPriorities
-        {
-            get => _eventPriorities;
-            set
-            {
-                _eventPriorities = value;
-                OnPropertyChanged();
+		public DailyEventsViewModel()
+		{
+			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
+			SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
+			AddEventCommand = new RelayCommand(GoToAddEventPage);
+			SelectEventCommand = new RelayCommand<EventModel>(ExecuteSelectEventCommand);
+			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
+			_eventRepository = Factory.EventRepository;
+			AllEventsList = _eventRepository.LoadEventsList();
+		}
 
-            }
-        }
-        //public ObservableCollection<EventModel> EventsToShowList { get; set; } = new ObservableCollection<EventModel>();
-
-        private ObservableCollection<EventModel> _eventsToShowList = new ObservableCollection<EventModel>();
-        public ObservableCollection<EventModel> EventsToShowList
-        {
-            get => _eventsToShowList;
-            set
-            {
-                _eventsToShowList = value;
-                OnPropertyChanged();
-            }
-        }
-
-        private List<EventModel> _allEventsList;
-        public List<EventModel> AllEventsList
-        {
-            get => _allEventsList;
-            set
-            {
-                _allEventsList = value;
-                BindDataToScheduleList();
-                OnPropertyChanged();
-            }
-        }
-        #endregion
-        #region Commands
-        public RelayCommand<DateTime> DatePickerDateSelectedCommand { get; set; }
-        public RelayCommand<EventPriority> SelectEventPriorityCommand { get; set; }
-        public RelayCommand AddEventCommand { get; set; }
-        public RelayCommand<EventModel> SelectEventCommand { get; set; }
-        #endregion
-        //Services
-        #region Services
-        IEventRepository _eventRepository;
-        #endregion
-        public DailyEventsViewModel()
-        {
-            DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
-            SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
-            AddEventCommand = new RelayCommand(GoToAddEventPage);
-            SelectEventCommand = new RelayCommand<EventModel>(ExecuteSelectEventCommand);
-            EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
-            _eventRepository = Factory.EventRepository;
-            AllEventsList = _eventRepository.LoadEventsList();
-        }
-        #region Methods
-        private void SelectEventPriority(EventPriority eventPriority)
-        {
-            eventPriority.IsSelected = !eventPriority.IsSelected;
-            BindDataToScheduleList();
-        }
-
-        private void DatePickerDateSelected(DateTime newDate)
-        {
-            _currentSelectedDate = newDate;
-            BindDataToScheduleList();
-        }
-        private void GoToAddEventPage()
-        {
-            Application.Current.MainPage.Navigation.PushAsync(new AddEventPage());
-        }
-
-        private void ExecuteSelectEventCommand(EventModel selectedEvent)
-        {
-            Debug.WriteLine($"Selected event: {selectedEvent.Title}");
-            Application.Current.MainPage.Navigation.PushAsync(new EditEventPage(selectedEvent));
-        }
-
-        public void OnAppearing()
-        {
-            BindDataToScheduleList();
-        }
-		#endregion
-
-		public void BindDataToScheduleList()
+		public override void BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
 			var filteredScheduleList = _allEventsList
