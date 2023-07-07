@@ -4,6 +4,41 @@
 
 
 #region Current
+/*
+
+
+
+
+
+using Microsoft.Maui.Controls.Compatibility.Platform.UWP;
+using Microsoft.Maui.Controls.Compatibility;
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.UI.Xaml.Controls;
+using YourNamespace;
+
+[assembly: ExportRenderer(typeof(Xamarin.Forms.DatePicker), typeof(CustomDatePickerRenderer))]
+namespace YourNamespace
+{
+	public class CustomDatePickerRenderer : DatePickerRenderer
+	{
+		public CustomDatePickerRenderer(Context context) : base(context)
+		{
+		}
+
+		protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.DatePicker> e)
+		{
+			base.OnElementChanged(e);
+
+			if (Control != null)
+			{
+				Control.FirstDayOfWeek = 1;
+			}
+		}
+	}
+}
+
+ 
+ */
 #endregion
 
 

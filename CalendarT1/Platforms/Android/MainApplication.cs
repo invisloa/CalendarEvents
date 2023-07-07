@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Runtime;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace CalendarT1;
 
@@ -10,6 +11,5 @@ public class MainApplication : MauiApplication
 		: base(handle, ownership)
 	{
 	}
-	public virtual int FirstDayOfWeek { [Android.Runtime.Register("getFirstDayOfWeek", "()I", "GetGetFirstDayOfWeekHandler")] get; [Android.Runtime.Register("setFirstDayOfWeek", "(I)V", "GetSetFirstDayOfWeek_IHandler")] set; }
 	protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
 }
