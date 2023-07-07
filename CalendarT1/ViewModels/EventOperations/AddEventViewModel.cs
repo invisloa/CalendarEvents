@@ -45,7 +45,6 @@ namespace CalendarT1.ViewModels.EventOperations
             _eventRepository = Factory.EventRepository;
 			SubmitButtonText = "Add Event";
 			ClearFields();
-
 		}
 	}
 }

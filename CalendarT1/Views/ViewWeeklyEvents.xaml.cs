@@ -9,4 +9,9 @@ public partial class ViewWeeklyEvents : ContentPage
 		InitializeComponent();
 		BindingContext = new WeeklyEventsViewModel();
 	}
+	protected override void OnAppearing()
+	{
+		base.OnAppearing();
+		(BindingContext as WeeklyEventsViewModel).OnAppearing();
+	}
 }

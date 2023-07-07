@@ -39,20 +39,21 @@ namespace CalendarT1.ViewModels.EventOperations
                     }));
             }
         }
-        public EditEventViewModel(EventModel eventToEdit)
-        {
-            _submitEventCommand = SubmitEventCommand;
-            EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
-            _eventRepository = Factory.EventRepository;
-            _currentEvent = eventToEdit;
-            Title = _currentEvent.Title;
-            Description = _currentEvent.Description;
-            EventPriority = _currentEvent.PriorityLevel;
-            StartDateTime = _currentEvent.StartDateTime.Date;
-            EndDateTime = _currentEvent.EndDateTime.Date;
-            StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
-            EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
-            SubmitButtonText = "Submit Changes";
-        }
-    }
+		public EditEventViewModel(EventModel eventToEdit)
+		{
+			_submitEventCommand = SubmitEventCommand;
+			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
+			_eventRepository = Factory.EventRepository;
+			_currentEvent = eventToEdit;
+			Title = _currentEvent.Title;
+			Description = _currentEvent.Description;
+			EventPriority = EventPriorities.First(ep => ep.PriorityLevel == _currentEvent.PriorityLevel.PriorityLevel);
+			StartDateTime = _currentEvent.StartDateTime.Date;
+			EndDateTime = _currentEvent.EndDateTime.Date;
+			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
+			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
+			SubmitButtonText = "Submit Changes";
+		}
+
+	}
 }

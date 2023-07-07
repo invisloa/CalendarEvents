@@ -9,13 +9,15 @@
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="Daily events list">
             <ShellContent
-                Title="Home"
+                Title="Weekly"
                 ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
                 Route="MainPage" />
 
-            <!--<ShellContent Title="Add Event"
-                          ContentTemplate="{DataTemplate views:AddEventPage}"
-                          Route="AddEventPage"/>-->
+            <ShellContent
+                Title="Daily"
+                ContentTemplate="{DataTemplate local:ViewDailyEvents}"
+                Route="DailyEvents" />
+
         </Tab>
         <!--
         Shell has implicit conversion operators that enable the Shell visual hierarchy to be simplified.
