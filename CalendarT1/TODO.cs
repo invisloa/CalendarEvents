@@ -16,6 +16,7 @@
 
 #region High Priority
 // make reminders for events
+// show events in the hourly order
 #endregion
 
 

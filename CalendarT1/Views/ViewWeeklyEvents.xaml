@@ -8,8 +8,66 @@
              x:DataType="local:WeeklyEventsViewModel"
              x:Class="CalendarT1.Views.ViewWeeklyEvents"
              Title="Weekly events list">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- Date layout -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-    <ScrollView>
+            <StackLayout Grid.Column="0">
+                <Label Text="Current date:"/>
+                <Label Text="{Binding CurrentDate, StringFormat='{0:dd MM yyyy}'}" FontSize="Large" FontAttributes="Bold"/>
+            </StackLayout>
+
+            <StackLayout Grid.Column="1" HorizontalOptions="End">
+                <Label Text="Selected date:"/>
+                <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
+            </StackLayout>
+        </Grid>
+
+    <!-- EventPriorities collection -->
+        <CollectionView ItemsSource="{Binding EventPriorities}" Grid.Row="1" HorizontalOptions="CenterAndExpand">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:EventPriority">
+                    <Button Text="{Binding PriorityLevel}"  WidthRequest="100" TextColor="White" 
+                            Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                            CommandParameter="{Binding}">
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" 
+                                        Binding="{Binding IsSelected}" 
+                                        Value="True">
+                                <Setter Property="BackgroundColor" Value="{Binding PriorityColor}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button" 
+                                        Binding="{Binding IsSelected}" 
+                                        Value="False">
+                                <Setter Property="BackgroundColor" Value="LightGray"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Events list layout -->
+        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
+            <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
+            <Button Text="+" Command="{Binding AddEventCommand}" Margin="0,0,10,0"/>
+        </StackLayout>
+
+        <ScrollView Grid.Row="3">
         <StackLayout>
             <!-- Monday Events -->
             <Frame>
@@ -169,4 +227,7 @@
                 </Frame>
         </StackLayout>
     </ScrollView>
+
+
+    </Grid>
 </ContentPage>

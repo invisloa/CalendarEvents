@@ -33,7 +33,7 @@ namespace CalendarT1.ViewModels.EventOperations
                             Shell.Current.GoToAsync("..");
 
                         },
-                    canExecute: () =>
+                    canExecute: () => 
                     {
                         return !string.IsNullOrEmpty(Title);
                     }));
