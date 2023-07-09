@@ -35,25 +35,25 @@
         </Grid>
 
     <!-- EventPriorities collection -->
-        <CollectionView ItemsSource="{Binding EventPriorities}" Grid.Row="1" HorizontalOptions="CenterAndExpand">
+        <CollectionView ItemsSource="{Binding EventPriorities}" Grid.Row="1" HorizontalOptions="Center">
             <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal" />
+                <LinearItemsLayout Orientation="Horizontal"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:EventPriority">
-                    <Button Text="{Binding PriorityLevel}"  WidthRequest="100" TextColor="White" 
+                <DataTemplate x:DataType="models:EventPriority" >
+                    <Button Text="{Binding PriorityLevel}"  TextColor="White" FontSize="12"
                             Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                             CommandParameter="{Binding}">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button" 
                                         Binding="{Binding IsSelected}" 
                                         Value="True">
-                                <Setter Property="BackgroundColor" Value="{Binding PriorityColor}" />
+                                <Setter Property="Background" Value="{Binding PriorityColor}" />
                             </DataTrigger>
                             <DataTrigger TargetType="Button" 
                                         Binding="{Binding IsSelected}" 
                                         Value="False">
-                                <Setter Property="BackgroundColor" Value="LightGray"/>
+                                <Setter Property="Background" Value="LightGray"/>
                             </DataTrigger>
                         </Button.Triggers>
                     </Button>
