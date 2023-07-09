@@ -27,6 +27,7 @@
                 <Label Text="{Binding CurrentDate, StringFormat='{0:dd MM yyyy}'}" FontSize="Large" FontAttributes="Bold"/>
             </StackLayout>
 
+
             <StackLayout Grid.Column="1" HorizontalOptions="End">
                 <Label Text="Selected date:"/>
                 <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
@@ -61,6 +62,11 @@
         </CollectionView>
 
         <!-- Events list layout -->
+        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
+            <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
+            <Button Text="+" Command="{Binding AddEventCommand}" Margin="0,0,10,0"/>
+        </StackLayout>
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
             <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
