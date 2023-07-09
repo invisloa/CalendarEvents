@@ -12,8 +12,8 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 
 
 		// define file path for your events
-		private static readonly string EventsFilePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-														Preferences.Default.Get("ProgramName", "ProgramNameWasNotFound"), "Events.json");
+		private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory,
+														Preferences.Default.Get("ProgramName", "ProgramNameWasNotFound"), "EventsCalendarT1.json");
 		public LocalMachineEventRepository()
 		{
 			LoadEventsList();
