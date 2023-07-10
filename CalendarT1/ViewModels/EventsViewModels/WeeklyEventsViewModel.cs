@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-    public class WeeklyEventsViewModel : AbstractEventViewModel
-    {
+	public class WeeklyEventsViewModel : AbstractEventViewModel
+	{
 		public ObservableCollection<EventModel> MondayEvents { get; set; }
 		public ObservableCollection<EventModel> TuesdayEvents { get; set; }
 		public ObservableCollection<EventModel> WednesdayEvents { get; set; }
@@ -18,6 +18,20 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public ObservableCollection<EventModel> FridayEvents { get; set; }
 		public ObservableCollection<EventModel> SaturdayEvents { get; set; }
 		public ObservableCollection<EventModel> SundayEvents { get; set; }
+		public ObservableCollection<HourlyEvents> WeeklyEvents { get; set; }
+
+
+
+		public WeeklyEventsViewModel()
+		{
+			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
+			SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
+			AddEventCommand = new RelayCommand(GoToAddEventPage);
+			SelectEventCommand = new RelayCommand<EventModel>(ExecuteSelectEventCommand);
+			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
+			_eventRepository = Factory.EventRepository;
+			AllEventsList = _eventRepository.LoadEventsList();
+		}
 
 
 		public override void BindDataToScheduleList()
@@ -32,33 +46,30 @@ namespace CalendarT1.ViewModels.EventsViewModels
 							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
 				.ToList();
 
-			// Divide events into days of the week
-			MondayEvents = new ObservableCollection<EventModel>(filteredScheduleList.Where(x => x.StartDateTime.DayOfWeek == DayOfWeek.Monday));
-			TuesdayEvents = new ObservableCollection<EventModel>(filteredScheduleList.Where(x => x.StartDateTime.DayOfWeek == DayOfWeek.Tuesday));
-			WednesdayEvents = new ObservableCollection<EventModel>(filteredScheduleList.Where(x => x.StartDateTime.DayOfWeek == DayOfWeek.Wednesday));
-			ThursdayEvents = new ObservableCollection<EventModel>(filteredScheduleList.Where(x => x.StartDateTime.DayOfWeek == DayOfWeek.Thursday));
-			FridayEvents = new ObservableCollection<EventModel>(filteredScheduleList.Where(x => x.StartDateTime.DayOfWeek == DayOfWeek.Friday));
-			SaturdayEvents = new ObservableCollection<EventModel>(filteredScheduleList.Where(x => x.StartDateTime.DayOfWeek == DayOfWeek.Saturday));
-			SundayEvents = new ObservableCollection<EventModel>(filteredScheduleList.Where(x => x.StartDateTime.DayOfWeek == DayOfWeek.Sunday));
+			// Initialize WeeklyEvents
+			WeeklyEvents = new ObservableCollection<HourlyEvents>();
+			foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
+			{
+				for (int hour = 0; hour < 24; hour++)
+				{
+					WeeklyEvents.Add(new HourlyEvents
+					{
+						Day = day,
+						Hour = hour,
+						Events = new ObservableCollection<EventModel>()
+					});
+				}
+			}
 
-			// Make sure to trigger OnPropertyChanged for the new properties
-			OnPropertyChanged(nameof(MondayEvents));
-			OnPropertyChanged(nameof(TuesdayEvents));
-			OnPropertyChanged(nameof(WednesdayEvents));
-			OnPropertyChanged(nameof(ThursdayEvents));
-			OnPropertyChanged(nameof(FridayEvents));
-			OnPropertyChanged(nameof(SaturdayEvents));
-			OnPropertyChanged(nameof(SundayEvents));
-		}
-		public WeeklyEventsViewModel()
-		{
-			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
-			SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
-			AddEventCommand = new RelayCommand(GoToAddEventPage);
-			SelectEventCommand = new RelayCommand<EventModel>(ExecuteSelectEventCommand);
-			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
-			_eventRepository = Factory.EventRepository;
-			AllEventsList = _eventRepository.LoadEventsList();
+			// Divide events into days of the week and hours of the day
+			foreach (var eventModel in filteredScheduleList)
+			{
+				var hourlyEvents = WeeklyEvents.First(x => x.Day == eventModel.StartDateTime.DayOfWeek && x.Hour == eventModel.StartDateTime.Hour);
+				hourlyEvents.Events.Add(eventModel);
+			}
+
+			// Make sure to trigger OnPropertyChanged for the new property
+			OnPropertyChanged(nameof(WeeklyEvents));
 		}
 	}
 }
