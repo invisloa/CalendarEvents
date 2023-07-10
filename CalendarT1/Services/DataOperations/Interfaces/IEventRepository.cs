@@ -13,7 +13,7 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 		public void SaveEventsList();
 		public void DeleteFromEventsList(EventModel eventToDelete);
 		public void AddEvent(EventModel eventToAdd);
-		public void RemoveEvent(EventModel eventToRemove);
+		public void ClearEventsList();
 		public void UpdateEvent(EventModel eventToUpdate);
 
 

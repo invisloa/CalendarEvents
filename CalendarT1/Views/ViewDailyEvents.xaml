@@ -65,6 +65,8 @@
             <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
             <Button Text="+" Command="{Binding AddEventCommand}" Margin="0,0,10,0"/>
+            <Button Text="-" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0"/>
+            <Button Text="---" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0"/>
         </StackLayout>
 
         <!-- EventsToShowList collection -->

@@ -67,6 +67,7 @@ namespace CalendarT1.Views.CustomControls
 						var eventColor = hourlyEvents.Events[0].PriorityLevel.PriorityColor;
 						frame.BackgroundColor = eventColor;
 
+						// Create a collection view to display events
 						var collectionView = new CollectionView
 						{
 							ItemsSource = hourlyEvents.Events,
@@ -84,8 +85,19 @@ namespace CalendarT1.Views.CustomControls
 							WidthRequest = 30    // Set a fixed width
 						};
 						frame.Content = collectionView;
-					}
 
+						// Add event count to the frame if there are multiple events
+						if (hourlyEvents.Events.Count > 1)
+						{
+							var highestPriorityColor = hourlyEvents.Events.OrderByDescending(e => e.PriorityLevel.PriorityLevel).First().PriorityLevel.PriorityColor;
+							frame.Content = new StackLayout
+							{
+								Children = { collectionView, new Label { Text = $"{hourlyEvents.Events.Count} events", FontSize = 10, FontAttributes = FontAttributes.Italic, TextColor = Color.FromRgba(255,255,255,255) } }
+							};
+							frame.BackgroundColor = highestPriorityColor;
+
+						}
+					}
 					Grid.SetRow(frame, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 					Grid.SetColumn(frame, day + 1);  // Adjust column index by 1 to make space for the hour indicator
 					Children.Add(frame);
@@ -101,5 +113,6 @@ namespace CalendarT1.Views.CustomControls
 				Children.Add(dayOfWeekLabel);
 			}
 		}
+
 	}
 }

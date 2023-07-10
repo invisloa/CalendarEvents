@@ -18,7 +18,7 @@
         <TimePicker x:Name="StartTimePicker" Format="HH:mm"
         Time="{Binding StartExactTime}"/>
         <DatePicker x:Name="EndDatePicker"
-                    Date="{Binding EndDateTime}"
+                    Date="{Binding EndDateTime, Mode=TwoWay}"
                     />
         <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
                     Time="{Binding EndExactTime}"/>

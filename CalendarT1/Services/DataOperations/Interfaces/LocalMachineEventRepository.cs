@@ -42,9 +42,9 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 			return AllEventsList;
 		}
 
-		public void RemoveEvent(EventModel eventToRemove)
+		public void ClearEventsList()
 		{
-			AllEventsList.Remove(eventToRemove);
+			AllEventsList.Clear();
 			SaveEventsList();
 		}
 
