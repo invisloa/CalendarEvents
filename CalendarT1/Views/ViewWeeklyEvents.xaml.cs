@@ -18,4 +18,5 @@ namespace CalendarT1.Views
 			(BindingContext as WeeklyEventsViewModel).OnAppearing();
 		}
 	}
+
 }
