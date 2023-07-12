@@ -1,6 +1,5 @@
 ﻿using Android.App;
 using Android.Runtime;
-using Microsoft.Maui.Controls.PlatformConfiguration;
 
 namespace CalendarT1;
 

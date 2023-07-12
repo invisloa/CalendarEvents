@@ -1,11 +1,4 @@
-﻿using CalendarT1.Models.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CalendarT1.Models
+﻿namespace CalendarT1.Models
 {
 	public class EventModel
 	{
@@ -16,7 +9,7 @@ namespace CalendarT1.Models
 		public string Description { get; set; }
 		public EventPriority PriorityLevel { get; set; }
 		public bool IsCompleted { get; set; }
-		public EventModel(string title, string description, EventPriority eventPriority, DateTime startTime, DateTime endTime, bool isCompleted=false )
+		public EventModel(string title, string description, EventPriority eventPriority, DateTime startTime, DateTime endTime, bool isCompleted = false)
 		{
 			Id = Guid.NewGuid();
 			Title = title;

@@ -1,4 +1,3 @@
-using CalendarT1.Models;
 using CalendarT1.ViewModels.EventOperations;
 
 namespace CalendarT1.Views;

@@ -12,5 +12,5 @@ public partial class PopupTestPage : ContentPage
 	private void Button_Clicked(object sender, EventArgs e)
 	{
 		this.ShowPopupAsync(new PopupCalendar());
-    }
+	}
 }

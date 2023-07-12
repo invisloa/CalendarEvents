@@ -1,14 +1,12 @@
-﻿using CalendarT1.Models;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CalendarT1.Views.CustomControls
+﻿namespace CalendarT1.Views.CustomControls
 {
-	public class WeeklyEventsControl : Grid
+	using CalendarT1.Models;
+	using System;
+	using System.Collections.ObjectModel;
+	using System.Linq;
+	using MauiGrid = Microsoft.Maui.Controls.Grid;
+
+	public class WeeklyEventsControl : MauiGrid
 	{
 		public static readonly BindableProperty WeeklyEventsProperty = BindableProperty.Create(
 			nameof(WeeklyEvents),
@@ -67,36 +65,37 @@ namespace CalendarT1.Views.CustomControls
 						var eventColor = hourlyEvents.Events[0].PriorityLevel.PriorityColor;
 						frame.BackgroundColor = eventColor;
 
-						// Create a collection view to display events
-						var collectionView = new CollectionView
-						{
-							ItemsSource = hourlyEvents.Events,
-							ItemTemplate = new DataTemplate(() =>
-							{
-								var stackLayout = new StackLayout { };
-								var label = new Label { FontSize = 10, FontAttributes = FontAttributes.Bold };
-								label.SetBinding(Label.TextProperty, "Title");
-								label.SetBinding(Label.BackgroundColorProperty, "PriorityLevel.PriorityColor");
+						// Create a StackLayout for the events
+						var stackLayout = new StackLayout();
 
-								stackLayout.Children.Add(label);
-								return stackLayout;
-							}),
-							HeightRequest = 30,  // Set a fixed height
-							WidthRequest = 30    // Set a fixed width
-						};
-						frame.Content = collectionView;
-
-						// Add event count to the frame if there are multiple events
-						if (hourlyEvents.Events.Count > 1)
+						int displayLimit = 10;  // Set a limit to how many items will be displayed
+						for (int i = 0; i < Math.Min(hourlyEvents.Events.Count, displayLimit); i++)
 						{
-							var highestPriorityColor = hourlyEvents.Events.OrderByDescending(e => e.PriorityLevel.PriorityLevel).First().PriorityLevel.PriorityColor;
-							frame.Content = new StackLayout
+							var someEvent = hourlyEvents.Events[i];
+							var label = new Label
 							{
-								Children = { collectionView, new Label { Text = $"{hourlyEvents.Events.Count} events", FontSize = 10, FontAttributes = FontAttributes.Italic, TextColor = Color.FromRgba(255,255,255,255) } }
+								FontSize = 10,
+								FontAttributes = FontAttributes.Bold,
+								Text = someEvent.Title,
+								BackgroundColor = someEvent.PriorityLevel.PriorityColor
 							};
-							frame.BackgroundColor = highestPriorityColor;
-
+							stackLayout.Children.Add(label);
 						}
+
+						// If there are more items than the limit, add a 'See more' label
+						if (hourlyEvents.Events.Count > displayLimit)
+						{
+							var moreLabel = new Label
+							{
+								FontSize = 10,
+								FontAttributes = FontAttributes.Italic,
+								Text = $"See {hourlyEvents.Events.Count - displayLimit} more...",
+								TextColor = Color.FromRgba(255, 255, 255, 255)
+							};
+							stackLayout.Children.Add(moreLabel);
+						}
+
+						frame.Content = stackLayout;
 					}
 					Grid.SetRow(frame, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 					Grid.SetColumn(frame, day + 1);  // Adjust column index by 1 to make space for the hour indicator
@@ -106,13 +105,11 @@ namespace CalendarT1.Views.CustomControls
 			// Add day of the week labels in the second row
 			for (int day = 0; day < 7; day++)
 			{
-				//		var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString("ddd")} {DateTime.Now.AddDays(day).ToString("dd-MM")}" };
 				var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {DateTime.Now.AddDays(day).ToString("dd-MM")}" };
 				Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
 				Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
 				Children.Add(dayOfWeekLabel);
 			}
 		}
-
 	}
 }

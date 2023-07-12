@@ -1,8 +1,44 @@
-﻿using Newtonsoft.Json;
+﻿using CalendarT1.Models;
+
+/* Unmerged change from project 'CalendarT1 (net7.0-android)'
+Before:
 using System.IO;
 using System;
 using Microsoft.Maui;
 using CalendarT1.Models;
+After:
+using Microsoft.Maui;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-windows10.0.22621.0)'
+Before:
+using System.IO;
+using System;
+using Microsoft.Maui;
+using CalendarT1.Models;
+After:
+using Microsoft.Maui;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-maccatalyst)'
+Before:
+using System.IO;
+using System;
+using Microsoft.Maui;
+using CalendarT1.Models;
+After:
+using Microsoft.Maui;
+using Newtonsoft.Json;
+using System;
+using System.IO;
+*/
+using Newtonsoft.Json;
 
 namespace CalendarT1.Services.DataOperations.Interfaces
 {
@@ -60,7 +96,7 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 			{
 				File.WriteAllText(EventsFilePath, jsonString);
 			}
-			catch (Exception ex )
+			catch (Exception ex)
 			{
 				string message = ex.Message;
 				int i = 0;
