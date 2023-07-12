@@ -14,9 +14,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public ObservableCollection<EventModel> SaturdayEvents { get; set; }
 		public ObservableCollection<EventModel> SundayEvents { get; set; }
 		public ObservableCollection<HourlyEvents> WeeklyEvents { get; set; }
-
-
-
 		public WeeklyEventsViewModel()
 		{
 			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);

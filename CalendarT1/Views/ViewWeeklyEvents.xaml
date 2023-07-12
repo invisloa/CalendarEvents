@@ -90,7 +90,9 @@
             </Grid>
         </ScrollView>
         <ScrollView Grid.Row="3" Orientation="Both">
-            <customControls:WeeklyEventsControl WeeklyEvents="{Binding WeeklyEvents}" />
+            <customControls:WeeklyEventsControl 
+                    WeeklyEvents="{Binding WeeklyEvents}" 
+                    EventSelectedCommand="{Binding SelectEventCommand}" />
         </ScrollView>
 
     </Grid>

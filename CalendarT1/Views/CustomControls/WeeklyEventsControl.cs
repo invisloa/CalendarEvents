@@ -4,6 +4,7 @@
 	using System;
 	using System.Collections.ObjectModel;
 	using System.Linq;
+	using System.Windows.Input;
 	using MauiGrid = Microsoft.Maui.Controls.Grid;
 
 	public class WeeklyEventsControl : MauiGrid
@@ -13,17 +14,27 @@
 			typeof(ObservableCollection<HourlyEvents>),
 			typeof(WeeklyEventsControl),
 			propertyChanged: OnWeeklyEventsChanged);
-
 		public ObservableCollection<HourlyEvents> WeeklyEvents
 		{
 			get { return (ObservableCollection<HourlyEvents>)GetValue(WeeklyEventsProperty); }
 			set { SetValue(WeeklyEventsProperty, value); }
 		}
-
 		private static void OnWeeklyEventsChanged(BindableObject bindable, object oldValue, object newValue)
 		{
 			var control = (WeeklyEventsControl)bindable;
 			control.GenerateGrid();
+		}
+
+		public static readonly BindableProperty EventSelectedCommandProperty =
+			BindableProperty.Create(
+			nameof(EventSelectedCommand),
+			typeof(ICommand),
+			typeof(WeeklyEventsControl));
+
+		public ICommand EventSelectedCommand
+		{
+			get => (ICommand)GetValue(EventSelectedCommandProperty);
+			set => SetValue(EventSelectedCommandProperty, value);
 		}
 
 		private void GenerateGrid()
@@ -79,6 +90,12 @@
 								Text = someEvent.Title,
 								BackgroundColor = someEvent.PriorityLevel.PriorityColor
 							};
+
+							var tapGestureRecognizer = new TapGestureRecognizer();
+							tapGestureRecognizer.Command = EventSelectedCommand;
+							tapGestureRecognizer.CommandParameter = someEvent;
+							label.GestureRecognizers.Add(tapGestureRecognizer);
+
 							stackLayout.Children.Add(label);
 						}
 
