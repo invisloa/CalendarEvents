@@ -70,62 +70,66 @@
 					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5 };
 
 					// Check if there is an event for this hour and day
-					var hourlyEvents = WeeklyEvents.FirstOrDefault(e => e.Hour == hour && e.Day == (DayOfWeek)day);
-					if (hourlyEvents != null && hourlyEvents.Events.Count > 0)
+					var hourlyEventsList = WeeklyEvents.Where(e => e.Hour == hour && e.Day == (DayOfWeek)day).ToList();
+
+					foreach (var hourlyEvent in hourlyEventsList)
 					{
-						var eventColor = hourlyEvents.Events[0].PriorityLevel.PriorityColor;
-						frame.BackgroundColor = eventColor;
-
-						// Create a StackLayout for the events
-						var stackLayout = new StackLayout();
-
-						int displayLimit = 10;  // Set a limit to how many items will be displayed
-						for (int i = 0; i < Math.Min(hourlyEvents.Events.Count, displayLimit); i++)
+						if (hourlyEvent != null && hourlyEvent.Events.Count > 0)
 						{
-							var someEvent = hourlyEvents.Events[i];
-							var label = new Label
+							var eventColor = hourlyEvent.Events[0].PriorityLevel.PriorityColor;
+							frame.BackgroundColor = eventColor;
+
+							// Create a StackLayout for the events
+							var stackLayout = new StackLayout();
+
+							int displayLimit = 2;  // Set a limit to how many items will be displayed
+							for (int i = 0; i < Math.Min(hourlyEvent.Events.Count, displayLimit); i++)
 							{
-								FontSize = 10,
-								FontAttributes = FontAttributes.Bold,
-								Text = someEvent.Title,
-								BackgroundColor = someEvent.PriorityLevel.PriorityColor
-							};
+								var someEvent = hourlyEvent.Events[i];
+								var label = new Label
+								{
+									FontSize = 10,
+									FontAttributes = FontAttributes.Bold,
+									Text = someEvent.Title,
+									BackgroundColor = someEvent.PriorityLevel.PriorityColor
+								};
 
-							var tapGestureRecognizer = new TapGestureRecognizer();
-							tapGestureRecognizer.Command = EventSelectedCommand;
-							tapGestureRecognizer.CommandParameter = someEvent;
-							label.GestureRecognizers.Add(tapGestureRecognizer);
+								var tapGestureRecognizer = new TapGestureRecognizer();
+								tapGestureRecognizer.Command = EventSelectedCommand;
+								tapGestureRecognizer.CommandParameter = someEvent;
+								label.GestureRecognizers.Add(tapGestureRecognizer);
 
-							stackLayout.Children.Add(label);
-						}
+								stackLayout.Children.Add(label);
+							}
 
-						// If there are more items than the limit, add a 'See more' label
-						if (hourlyEvents.Events.Count > displayLimit)
-						{
-							var moreLabel = new Label
+							// If there are more items than the limit, add a 'See more' label
+							if (hourlyEvent.Events.Count > displayLimit)
 							{
-								FontSize = 10,
-								FontAttributes = FontAttributes.Italic,
-								Text = $"See {hourlyEvents.Events.Count - displayLimit} more...",
-								TextColor = Color.FromRgba(255, 255, 255, 255)
-							};
-							stackLayout.Children.Add(moreLabel);
-						}
+								var moreLabel = new Label
+								{
+									FontSize = 10,
+									FontAttributes = FontAttributes.Italic,
+									Text = $"See {hourlyEvent.Events.Count - displayLimit} more...",
+									TextColor = Color.FromRgba(255, 255, 255, 255)
+								};
+								stackLayout.Children.Add(moreLabel);
+							}
 
-						frame.Content = stackLayout;
+							frame.Content = stackLayout;
+						}
+						Grid.SetRow(frame, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
+						Grid.SetColumn(frame, day + 1);  // Adjust column index by 1 to make space for the hour indicator
+						Children.Add(frame);
 					}
-					Grid.SetRow(frame, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
-					Grid.SetColumn(frame, day + 1);  // Adjust column index by 1 to make space for the hour indicator
-					Children.Add(frame);
 				}
-			}
-			// Add day of the week labels in the second row
-			for (int day = 0; day < 7; day++)
-			{
-				var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {DateTime.Now.AddDays(day).ToString("dd-MM")}" };
-				Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
-				Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
-				Children.Add(dayOfWeekLabel);
+				// Add day of the week labels in the second row
+				for (int day = 0; day < 7; day++)
+				{
+					var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {DateTime.Now.AddDays(day).ToString("dd-MM")}" };
+					Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
+					Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
+					Children.Add(dayOfWeekLabel);
+				}
 			}
 		}
 	}

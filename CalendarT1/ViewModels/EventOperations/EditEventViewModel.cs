@@ -41,7 +41,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		private void DeleteSelectedEvent()
 		{
 			_eventRepository.DeleteFromEventsList(_currentEvent);
-			_currentEvent = null;
 			Shell.Current.GoToAsync("..");
 		}
 		private bool CanEditEvent()
