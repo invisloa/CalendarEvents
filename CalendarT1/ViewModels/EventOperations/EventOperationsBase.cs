@@ -18,6 +18,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected EventModel _currentEvent;
 		protected string _submitButtonText;
 		protected RelayCommand _submitEventCommand;
+		public RelayCommand SubmitEventCommand => _submitEventCommand;
 
 		public string SubmitButtonText
 		{

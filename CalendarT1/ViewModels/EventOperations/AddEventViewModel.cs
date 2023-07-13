@@ -7,30 +7,6 @@ namespace CalendarT1.ViewModels.EventOperations
 	class AddEventViewModel : EventOperationsBase
 	{
 
-		public RelayCommand SubmitEventCommand => _submitEventCommand;
-		//{
-		//          get
-		//          {
-		//              return _submitEventCommand ?? (_submitEventCommand = new RelayCommand(
-		//                      execute: () =>
-		//                      {
-		//                          _currentEvent = new EventModel(Title, Description, EventPriority, StartDateTime, EndDateTime);
-		//                          _eventRepository.AddEvent(_currentEvent);
-		//                          Title = "";
-		//                          Description = "";
-		//                          EventPriority = EventPriorities[0];
-		//                          StartDateTime = DateTime.Now;
-		//                          EndDateTime = DateTime.Now.AddHours(1);
-		//                          StartExactTime = DateTime.Now.TimeOfDay;
-		//                          EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
-		//					ClearFields();
-		//				},
-		//                      canExecute: () =>
-		//                      {
-		//                          return !string.IsNullOrEmpty(Title);
-		//                      }));
-		//          }
-		//      }
 		public AddEventViewModel()
 		{
 			_submitEventCommand = new RelayCommand(addEvent, canAddEvent);

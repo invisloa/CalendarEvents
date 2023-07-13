@@ -6,7 +6,6 @@
 #region Current
 /*
 add page if multiple events in one hour
-selected event 
 delete event selected
 
 

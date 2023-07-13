@@ -32,5 +32,7 @@
                 Text="{Binding Description, Mode=TwoWay}"/>
         <Button Text="{Binding SubmitButtonText}"
                 Command="{Binding SubmitEventCommand}"/>
+        <Button Text="Temporary Delete Button"
+                Command="{Binding DeleteEventCommand}"/>
     </VerticalStackLayout>
 </ContentPage>
