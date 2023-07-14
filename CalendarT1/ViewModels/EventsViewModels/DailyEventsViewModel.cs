@@ -10,15 +10,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public RelayCommand DeleteAllEventsCommand { get; set; }
 		public DailyEventsViewModel()
 		{
-			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
-			SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
-			AddEventCommand = new RelayCommand(GoToAddEventPage);
-			DeleteOneEventCommand = new RelayCommand(DeleteOneEvent);
-			DeleteAllEventsCommand = new RelayCommand(DeleteAllEvents);
-			SelectEventCommand = new RelayCommand<EventModel>(ExecuteSelectEventCommand);
-			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
-			_eventRepository = Factory.EventRepository;
-			AllEventsList = _eventRepository.LoadEventsList();
+
 		}
 		public void DeleteOneEvent()
 		{

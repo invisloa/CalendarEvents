@@ -7,18 +7,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public class WeeklyEventsViewModel : AbstractEventViewModel
 	{
-		public ObservableCollection<HourlyEvents> _weeklyEvents { get; set; }
 
-		public ObservableCollection<HourlyEvents> WeeklyEvents
-		{
-			get => _weeklyEvents;
-			set
-			{
-				if (_weeklyEvents == value) { return; }
-				_weeklyEvents = value;
-				OnPropertyChanged();
-			}
-		}
 		public WeeklyEventsViewModel()
 		{
 			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
@@ -61,7 +50,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				var hourlyEvents = _tempWeeklyEvents.First(x => x.Day == eventModel.StartDateTime.DayOfWeek && x.Hour == eventModel.StartDateTime.Hour);
 				hourlyEvents.Events.Add(eventModel);
 			}
-			WeeklyEvents = _tempWeeklyEvents;
 		}
 	}
 }
