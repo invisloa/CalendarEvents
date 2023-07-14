@@ -122,10 +122,13 @@
 						Children.Add(frame);
 					}
 				}
+
 				// Add day of the week labels in the second row
+				int dayOfWeek = (int)DateTime.Now.DayOfWeek;
 				for (int day = 0; day < 7; day++)
 				{
-					var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {DateTime.Now.AddDays(day).ToString("dd-MM")}" };
+					//	var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
+					var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {DateTime.Now.AddDays(day-dayOfWeek).ToString("dd-MM")}" };
 					Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
 					Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
 					Children.Add(dayOfWeekLabel);
