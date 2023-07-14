@@ -36,13 +36,37 @@
 			get => (ICommand)GetValue(EventSelectedCommandProperty);
 			set => SetValue(EventSelectedCommandProperty, value);
 		}
+		public static readonly BindableProperty GenerateGridCommandProperty = BindableProperty.Create(
+												nameof(GenerateGridCommand),
+												typeof(ICommand),
+												typeof(WeeklyEventsControl),
+												defaultValue: null,
+												defaultBindingMode: BindingMode.OneWay,
+												propertyChanged: null);
 
+		public ICommand GenerateGridCommand
+		{
+			get => (ICommand)GetValue(GenerateGridCommandProperty);
+			set => SetValue(GenerateGridCommandProperty, value);
+		}
+
+		// add to constructor or initialization method
+		public WeeklyEventsControl()
+		{
+			GenerateGridCommand = new Command(ExecuteGenerateGridCommand);
+		}
+
+		private void ExecuteGenerateGridCommand()
+		{
+			GenerateGrid();
+		}
 		private void GenerateGrid()
 		{
 			// Clear the existing rows and columns
 			RowDefinitions.Clear();
 			ColumnDefinitions.Clear();
 			Children.Clear();
+
 
 			// Create rows for each hour + 2 extra rows for the day of the week and date label
 			for (int i = 0; i < 24 + 2; i++)

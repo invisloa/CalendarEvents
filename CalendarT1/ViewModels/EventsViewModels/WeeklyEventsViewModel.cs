@@ -1,19 +1,24 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public class WeeklyEventsViewModel : AbstractEventViewModel
 	{
-		public ObservableCollection<EventModel> MondayEvents { get; set; }
-		public ObservableCollection<EventModel> TuesdayEvents { get; set; }
-		public ObservableCollection<EventModel> WednesdayEvents { get; set; }
-		public ObservableCollection<EventModel> ThursdayEvents { get; set; }
-		public ObservableCollection<EventModel> FridayEvents { get; set; }
-		public ObservableCollection<EventModel> SaturdayEvents { get; set; }
-		public ObservableCollection<EventModel> SundayEvents { get; set; }
-		public ObservableCollection<HourlyEvents> WeeklyEvents { get; set; }
+		public ObservableCollection<HourlyEvents> _weeklyEvents { get; set; }
+
+		public ObservableCollection<HourlyEvents> WeeklyEvents
+		{
+			get => _weeklyEvents;
+			set
+			{
+				if (_weeklyEvents == value) { return; }
+				_weeklyEvents = value;
+				OnPropertyChanged();
+			}
+		}
 		public WeeklyEventsViewModel()
 		{
 			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
@@ -24,14 +29,11 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			_eventRepository = Factory.EventRepository;
 			AllEventsList = _eventRepository.LoadEventsList();
 		}
-
-
 		public override void BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
 			var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
 			var endOfWeek = startOfWeek.AddDays(7);
-			var x = AllEventsList;
 			var filteredScheduleList = AllEventsList
 				.Where(x => x.StartDateTime.Date >= startOfWeek.Date ||
 							 x.EndDateTime.Date < endOfWeek.Date &&
@@ -39,12 +41,12 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				.ToList();
 
 			// Initialize WeeklyEvents
-			WeeklyEvents = new ObservableCollection<HourlyEvents>();
+			ObservableCollection<HourlyEvents>  _tempWeeklyEvents = new ObservableCollection<HourlyEvents>();
 			foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
 			{
 				for (int hour = 0; hour < 24; hour++)
 				{
-					WeeklyEvents.Add(new HourlyEvents
+					_tempWeeklyEvents.Add(new HourlyEvents
 					{
 						Day = day,
 						Hour = hour,
@@ -56,12 +58,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			// Divide events into days of the week and hours of the day
 			foreach (var eventModel in filteredScheduleList)
 			{
-				var hourlyEvents = WeeklyEvents.First(x => x.Day == eventModel.StartDateTime.DayOfWeek && x.Hour == eventModel.StartDateTime.Hour);
+				var hourlyEvents = _tempWeeklyEvents.First(x => x.Day == eventModel.StartDateTime.DayOfWeek && x.Hour == eventModel.StartDateTime.Hour);
 				hourlyEvents.Events.Add(eventModel);
 			}
-
-			// Make sure to trigger OnPropertyChanged for the new property
-			OnPropertyChanged(nameof(WeeklyEvents));
+			WeeklyEvents = _tempWeeklyEvents;
 		}
 	}
 }

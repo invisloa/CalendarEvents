@@ -67,32 +67,13 @@
             <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
             <Button Text="+" Command="{Binding AddEventCommand}" Margin="0,0,10,0"/>
+            <Button Text="Generate Grid" Command="{Binding GenerateGridCommand, Source={x:Reference weeklyEventsControl}}" />
         </StackLayout>
-        <ScrollView Grid.Row="3">
-            <Grid x:Name="ScheduleGrid">
-                <!-- Define rows for each hour -->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <!-- Repeat this 24 times -->
-                </Grid.RowDefinitions>
-                <!-- Define columns for each day -->
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-            </Grid>
-        </ScrollView>
         <ScrollView Grid.Row="3" Orientation="Both">
             <customControls:WeeklyEventsControl 
-                    WeeklyEvents="{Binding WeeklyEvents}" 
-                    EventSelectedCommand="{Binding SelectEventCommand}" />
+                x:Name="weeklyEventsControl"
+                WeeklyEvents="{Binding WeeklyEvents}" 
+                EventSelectedCommand="{Binding SelectEventCommand}" />
         </ScrollView>
 
     </Grid>

@@ -39,8 +39,16 @@ namespace CalendarT1.Views
 
 		protected override void OnAppearing()
 		{
-			base.OnAppearing();
-			(BindingContext as WeeklyEventsViewModel).OnAppearing();
+			try
+			{
+
+				base.OnAppearing();
+				(BindingContext as WeeklyEventsViewModel).OnAppearing();
+			}
+			catch
+			{
+				throw;
+			}
 		}
 	}
 
