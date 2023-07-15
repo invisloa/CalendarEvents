@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services;
+using CalendarT1.Services.DataOperations.Interfaces;
 using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventsViewModels
@@ -8,31 +9,30 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	{
 		public RelayCommand DeleteOneEventCommand { get; set; }
 		public RelayCommand DeleteAllEventsCommand { get; set; }
-		public DailyEventsViewModel()
+		public DailyEventsViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository) : base(eventPriorities, eventRepository)
 		{
-
 		}
 		public void DeleteOneEvent()
 		{
-			if (_allEventsList.Count == 0)
+			if (AllEventsList.Count == 0)
 			{
 				return;
 			}
-			var firstEvent = _allEventsList[0];
-			_eventRepository.DeleteFromEventsList(firstEvent);
+			var firstEvent = AllEventsList[0];
+			EventRepository.DeleteFromEventsList(firstEvent);
 		}
 		public void DeleteAllEvents()
 		{
-			_eventRepository.ClearEventsList();
+			EventRepository.ClearEventsList();
 		}
 		public override void BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
-			var x = _allEventsList;
+			var x = AllEventsList;
 
-			var filteredScheduleList = _allEventsList
-				.Where(x => (x.StartDateTime.Date == _currentSelectedDate.Date ||
-							 x.EndDateTime.Date == _currentSelectedDate.Date) &&
+			var filteredScheduleList = AllEventsList
+				.Where(x => (x.StartDateTime.Date == CurrentSelectedDate.Date ||
+							 x.EndDateTime.Date == CurrentSelectedDate.Date) &&
 							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
 				.ToList();
 

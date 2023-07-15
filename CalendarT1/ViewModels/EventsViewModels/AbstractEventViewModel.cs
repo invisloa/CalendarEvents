@@ -9,8 +9,19 @@ namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public abstract class AbstractEventViewModel : BaseViewModel
 	{
-
+		public AbstractEventViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository)
+		{
+			_eventPriorities = eventPriorities;
+			_eventRepository = eventRepository;
+			AllEventsList = _eventRepository.LoadEventsList();
+			BindDataToScheduleList();
+		}
 		#region Properties
+		private IEventRepository _eventRepository;
+		public IEventRepository EventRepository
+		{
+			get => _eventRepository;
+		}
 		private DateTime _currentDate = DateTime.Now;
 		public DateTime CurrentDate
 		{
@@ -30,7 +41,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				}
 			}
 		}
-		private ObservableCollection<EventPriority> _eventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
+		private ObservableCollection<EventPriority> _eventPriorities;
 		public ObservableCollection<EventPriority> EventPriorities
 		{
 			get => _eventPriorities;
@@ -47,7 +58,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private List<EventModel> _allEventsList = Factory.EventRepository.LoadEventsList();
+		private List<EventModel> _allEventsList;
 		public List<EventModel> AllEventsList
 		{
 			get => _allEventsList;
