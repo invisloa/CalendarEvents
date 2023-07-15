@@ -13,7 +13,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
 			SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
 			AddEventCommand = new RelayCommand(GoToAddEventPage);
-			SelectEventCommand = new RelayCommand<EventModel>(ExecuteSelectEventCommand);
+			SelectEventCommand = new RelayCommand<EventModel>(SelectEvent);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
 			AllEventsList = _eventRepository.LoadEventsList();
