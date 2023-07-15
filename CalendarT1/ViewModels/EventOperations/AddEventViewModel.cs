@@ -9,16 +9,17 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		public AddEventViewModel()
 		{
-			_submitEventCommand = new RelayCommand(AddEvent, canAddEvent);
+
+			_submitEventCommand = new RelayCommand(AddEventAsync, canAddEvent);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
 			SubmitButtonText = "Add Event";
 			ClearFields();
 		}
-		private void AddEvent()
+		private async Task AddEventAsync()
 		{
 			_currentEvent = new EventModel(Title, Description, EventPriority, StartDateTime + StartExactTime, EndDateTime + EndExactTime);
-			_eventRepository.AddEvent(_currentEvent);
+			await _eventRepository.AddEventAsync(_currentEvent);
 			Title = "";
 			Description = "";
 			EventPriority = EventPriorities[0];
