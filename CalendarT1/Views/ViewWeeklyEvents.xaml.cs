@@ -42,19 +42,10 @@ namespace CalendarT1.Views
 
 			InitializeComponent();
 		}
-
-		protected override void OnAppearing()
+		protected override async void OnAppearing()
 		{
-			try
-			{
-
-				base.OnAppearing();
-				(BindingContext as WeeklyEventsViewModel).OnAppearing();
-			}
-			catch
-			{
-				throw;
-			}
+			base.OnAppearing();
+			await (BindingContext as DailyEventsViewModel).InitializeAsync();
 		}
 	}
 

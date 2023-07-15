@@ -2,6 +2,7 @@
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -10,16 +11,19 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	public abstract class AbstractEventViewModel : BaseViewModel
 	{
 		#region Properties
+
 		private IEventRepository _eventRepository;
 		public IEventRepository EventRepository
 		{
 			get => _eventRepository;
 		}
+
 		private DateTime _currentDate = DateTime.Now;
 		public DateTime CurrentDate
 		{
 			get => _currentDate;
 		}
+
 		private DateTime _currentSelectedDate = DateTime.Now;
 		public DateTime CurrentSelectedDate
 		{
@@ -30,16 +34,17 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				{
 					_currentSelectedDate = value;
 					OnPropertyChanged();
-					DatePickerDateSelectedCommand.Execute(_currentSelectedDate);
+					DatePickerDateSelectedCommand.Execute(_currentSelectedDate);		// TODO: check if this is the right way to do it
 				}
 			}
 		}
+
 		private ObservableCollection<EventPriority> _eventPriorities;
 		public ObservableCollection<EventPriority> EventPriorities
 		{
 			get => _eventPriorities;
-
 		}
+
 		private ObservableCollection<EventModel> _eventsToShowList = new ObservableCollection<EventModel>();
 		public ObservableCollection<EventModel> EventsToShowList
 		{
@@ -62,7 +67,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
+
 		#endregion
+
 		public AbstractEventViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository)
 		{
 			_eventPriorities = eventPriorities;
@@ -72,20 +79,27 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 
 		#region Commands
-		private RelayCommand<DateTime> _datePickerDateSelectedCommand;
-		public RelayCommand<DateTime> DatePickerDateSelectedCommand => 
-									_datePickerDateSelectedCommand ?? (_datePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected));
-		private RelayCommand<EventPriority> _selectEventPriorityCommand;
 
+		private RelayCommand<DateTime> _datePickerDateSelectedCommand;
+		public RelayCommand<DateTime> DatePickerDateSelectedCommand =>
+			_datePickerDateSelectedCommand ?? (_datePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected));
+
+		private RelayCommand<EventPriority> _selectEventPriorityCommand;
 		public RelayCommand<EventPriority> SelectEventPriorityCommand =>
-										_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority));
+			_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority));
+
 		private RelayCommand _goToAddEventPageCommand;
-		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
+		public RelayCommand GoToAddEventPageCommand =>
+			_goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
+
 		public RelayCommand<EventModel> _selectEventCommand;
-		public RelayCommand<EventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<EventModel>(SelectEvent));
+		public RelayCommand<EventModel> SelectEventCommand =>
+			_selectEventCommand ?? (_selectEventCommand = new RelayCommand<EventModel>(SelectEvent));
+
 		#endregion
 
 		#region Methods
+
 		private void SelectEventPriority(EventPriority eventPriority)
 		{
 			eventPriority.IsSelected = !eventPriority.IsSelected;
@@ -97,6 +111,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			_currentSelectedDate = newDate;
 			BindDataToScheduleList();
 		}
+
 		private void GoToAddEventPage()
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AddEventPage());
@@ -107,15 +122,17 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
 			Application.Current.MainPage.Navigation.PushAsync(new EditEventPage(selectedEvent));
 		}
-
-		public void OnAppearing()
+		public async Task InitializeAsync()
 		{
+			AllEventsList = await _eventRepository.LoadEventsListAsync();
 			BindDataToScheduleList();
 		}
 		#endregion
 
 		#region Abstract Methods
-		public abstract void BindDataToScheduleList();
+
+		public abstract Task BindDataToScheduleList();
+
 		#endregion
 	}
 }

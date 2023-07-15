@@ -18,10 +18,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected IEventRepository _eventRepository;
 		protected EventModel _currentEvent;
 		protected string _submitButtonText;
-		protected RelayCommand _submitEventCommand;
-		public RelayCommand SubmitEventCommand => _submitEventCommand;
+		protected AsyncRelayCommand _submitEventCommand;
+		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 
-		public AsyncRelayCommand MyCommand { get; }
 
 
 		public string SubmitButtonText
@@ -62,7 +61,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_title = value;
 				OnPropertyChanged();
-				_submitEventCommand.RaiseCanExecuteChanged();
+				_submitEventCommand.NotifyCanExecuteChanged();
 
 			}
 		}

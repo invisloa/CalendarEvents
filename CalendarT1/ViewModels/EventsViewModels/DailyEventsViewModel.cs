@@ -1,36 +1,42 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public class DailyEventsViewModel : AbstractEventViewModel
 	{
-		public RelayCommand DeleteOneEventCommand { get; set; }
-		public RelayCommand DeleteAllEventsCommand { get; set; }
+		public AsyncRelayCommand DeleteOneEventCommand { get; set; }
+		public AsyncRelayCommand DeleteAllEventsCommand { get; set; }
 		public DailyEventsViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository) : base(eventPriorities, eventRepository)
 		{
 		}
-		public void DeleteOneEvent()
+
+		public async Task DeleteOneEvent()
 		{
 			if (AllEventsList.Count == 0)
 			{
 				return;
 			}
 			var firstEvent = AllEventsList[0];
-			EventRepository.DeleteFromEventsList(firstEvent);
+			await EventRepository.DeleteFromEventsListAsync(firstEvent);
 		}
-		public void DeleteAllEvents()
+
+		public async Task DeleteAllEvents()
 		{
-			EventRepository.ClearEventsList();
+			await EventRepository.ClearEventsListAsync();
 		}
-		public override void BindDataToScheduleList()
+
+		public override async Task BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
-			var x = AllEventsList;
 
-			var filteredScheduleList = AllEventsList
+			var allEvents = await EventRepository.LoadEventsListAsync();
+
+			var filteredScheduleList = allEvents
 				.Where(x => (x.StartDateTime.Date == CurrentSelectedDate.Date ||
 							 x.EndDateTime.Date == CurrentSelectedDate.Date) &&
 							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
@@ -40,5 +46,4 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 
 	}
-
 }

@@ -15,9 +15,9 @@ public partial class ViewDailyEvents : ContentPage
 
 		InitializeComponent();
 	}
-	protected override void OnAppearing()
+	protected override async void OnAppearing()
 	{
 		base.OnAppearing();
-		(BindingContext as DailyEventsViewModel).OnAppearing();
+		await (BindingContext as DailyEventsViewModel).InitializeAsync();
 	}
 }

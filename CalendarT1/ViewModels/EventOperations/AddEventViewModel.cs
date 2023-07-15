@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
@@ -10,7 +11,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		public AddEventViewModel()
 		{
 
-			_submitEventCommand = new RelayCommand(AddEventAsync, canAddEvent);
+			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, canAddEvent);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
 			SubmitButtonText = "Add Event";
