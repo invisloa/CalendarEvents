@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
@@ -19,6 +20,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected string _submitButtonText;
 		protected RelayCommand _submitEventCommand;
 		public RelayCommand SubmitEventCommand => _submitEventCommand;
+
+		public AsyncRelayCommand MyCommand { get; }
+
 
 		public string SubmitButtonText
 		{

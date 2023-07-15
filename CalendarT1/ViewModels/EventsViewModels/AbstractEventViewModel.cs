@@ -67,7 +67,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_eventPriorities = eventPriorities;
 			_eventRepository = eventRepository;
-			AllEventsList = _eventRepository.LoadEventsList();
+			AllEventsList = await _eventRepository.LoadEventsListAsync();
 			BindDataToScheduleList();
 		}
 
