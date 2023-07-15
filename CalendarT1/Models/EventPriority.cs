@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Models.Enums;
+using CalendarT1.Services;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -7,6 +8,7 @@ namespace CalendarT1.Models
 	public class EventPriority : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
+		private readonly PriorityColorMapping _priorityColorMapping;
 
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
@@ -33,14 +35,14 @@ namespace CalendarT1.Models
 		{
 			return PriorityLevel.ToString(); // Return the string representation of the PriorityLevel enum
 		}
-		public EventPriority(EnumPriorityLevels eventPriorityLevel)
+
+		public EventPriority(EnumPriorityLevels eventPriorityLevel, PriorityColorMapping priorityColorMapping)
 		{
+			_priorityColorMapping = priorityColorMapping;
 			PriorityLevel = eventPriorityLevel;
-			PriorityColor = AssignColorToPriorityLevel(eventPriorityLevel);
+			PriorityColor = _priorityColorMapping.GetColor(eventPriorityLevel);
 			IsSelected = true;  // All priority levels selected by default
-
 		}
-
 		// write method that will assign color to priority level
 		public Color AssignColorToPriorityLevel(EnumPriorityLevels eventPriorityLevel)
 		{

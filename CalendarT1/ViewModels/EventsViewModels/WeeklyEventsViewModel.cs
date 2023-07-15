@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services;
+using CalendarT1.Services.DataOperations.Interfaces;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -8,20 +9,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	public class WeeklyEventsViewModel : AbstractEventViewModel
 	{
 
-		public WeeklyEventsViewModel()
+		public WeeklyEventsViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository) : base(eventPriorities, eventRepository)
 		{
-			DatePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected);
-			SelectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority);
-			AddEventCommand = new RelayCommand(GoToAddEventPage);
-			SelectEventCommand = new RelayCommand<EventModel>(SelectEvent);
-			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
-			_eventRepository = Factory.EventRepository;
-			AllEventsList = _eventRepository.LoadEventsList();
 		}
 		public override void BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
-			var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
+			var startOfWeek = CurrentSelectedDate.AddDays(-(int)CurrentSelectedDate.DayOfWeek);
 			var endOfWeek = startOfWeek.AddDays(7);
 			var filteredScheduleList = AllEventsList
 				.Where(x => x.StartDateTime.Date >= startOfWeek.Date ||

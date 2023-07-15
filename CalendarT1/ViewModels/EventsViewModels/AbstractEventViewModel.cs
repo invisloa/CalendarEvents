@@ -9,13 +9,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public abstract class AbstractEventViewModel : BaseViewModel
 	{
-		public AbstractEventViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository)
-		{
-			_eventPriorities = eventPriorities;
-			_eventRepository = eventRepository;
-			AllEventsList = _eventRepository.LoadEventsList();
-			BindDataToScheduleList();
-		}
 		#region Properties
 		private IEventRepository _eventRepository;
 		public IEventRepository EventRepository
@@ -70,32 +63,46 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 		#endregion
+		public AbstractEventViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository)
+		{
+			_eventPriorities = eventPriorities;
+			_eventRepository = eventRepository;
+			AllEventsList = _eventRepository.LoadEventsList();
+			BindDataToScheduleList();
+		}
 
 		#region Commands
-		public RelayCommand<DateTime> DatePickerDateSelectedCommand { get => new RelayCommand<DateTime>(DatePickerDateSelected); }
-		public RelayCommand<EventPriority> SelectEventPriorityCommand { get => new RelayCommand<EventPriority>(SelectEventPriority); }
-		public RelayCommand GoToAddEventPageCommand { get => new RelayCommand(GoToAddEventPage); }
-		public RelayCommand<EventModel> SelectEventCommand { get => new RelayCommand<EventModel>(SelectEvent); }
+		private RelayCommand<DateTime> _datePickerDateSelectedCommand;
+		public RelayCommand<DateTime> DatePickerDateSelectedCommand => 
+									_datePickerDateSelectedCommand ?? (_datePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected));
+		private RelayCommand<EventPriority> _selectEventPriorityCommand;
+
+		public RelayCommand<EventPriority> SelectEventPriorityCommand =>
+										_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority));
+		private RelayCommand _goToAddEventPageCommand;
+		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
+		public RelayCommand<EventModel> _selectEventCommand;
+		public RelayCommand<EventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<EventModel>(SelectEvent));
 		#endregion
 
 		#region Methods
-		protected void SelectEventPriority(EventPriority eventPriority)
+		private void SelectEventPriority(EventPriority eventPriority)
 		{
 			eventPriority.IsSelected = !eventPriority.IsSelected;
 			BindDataToScheduleList();
 		}
 
-		protected void DatePickerDateSelected(DateTime newDate)
+		private void DatePickerDateSelected(DateTime newDate)
 		{
 			_currentSelectedDate = newDate;
 			BindDataToScheduleList();
 		}
-		protected void GoToAddEventPage()
+		private void GoToAddEventPage()
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AddEventPage());
 		}
 
-		protected void SelectEvent(EventModel selectedEvent)
+		private void SelectEvent(EventModel selectedEvent)
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
 			Application.Current.MainPage.Navigation.PushAsync(new EditEventPage(selectedEvent));

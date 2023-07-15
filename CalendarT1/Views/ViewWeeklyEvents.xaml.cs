@@ -1,4 +1,7 @@
+using CalendarT1.Models;
+using CalendarT1.Services;
 using CalendarT1.ViewModels.EventsViewModels;
+using System.Collections.ObjectModel;
 /* Unmerged change from project 'CalendarT1 (net7.0-android)'
 Before:
 using System.Globalization;
@@ -33,8 +36,11 @@ namespace CalendarT1.Views
 	{
 		public ViewWeeklyEvents()
 		{
+			var priorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
+
+			BindingContext = new WeeklyEventsViewModel(priorities, Factory.EventRepository);
+
 			InitializeComponent();
-			BindingContext = new WeeklyEventsViewModel();
 		}
 
 		protected override void OnAppearing()
