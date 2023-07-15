@@ -62,19 +62,19 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <!-- Events list layout -->
+        <!-- Events list layout --><!--
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
             <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
             <Button Text="+" Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0"/>
             <Button Text="Generate Grid" Command="{Binding GenerateGridCommand, Source={x:Reference weeklyEventsControl}}" />
         </StackLayout>
-        <ScrollView Grid.Row="3" Orientation="Both">
+        --><!--<ScrollView Grid.Row="3" Orientation="Both">
             <customControls:WeeklyEventsControl 
                 x:Name="weeklyEventsControl"
                 WeeklyEvents="{Binding WeeklyEvents}" 
                 EventSelectedCommand="{Binding SelectEventCommand}" />
-        </ScrollView>
+        </ScrollView>-->
 
     </Grid>
 </ContentPage>

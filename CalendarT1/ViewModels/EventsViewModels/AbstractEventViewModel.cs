@@ -63,7 +63,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			set
 			{
 				_allEventsList = value;
-				BindDataToScheduleList();
 				OnPropertyChanged();
 			}
 		}
@@ -74,8 +73,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_eventPriorities = eventPriorities;
 			_eventRepository = eventRepository;
-			AllEventsList = await _eventRepository.LoadEventsListAsync();
-			BindDataToScheduleList();
 		}
 
 		#region Commands
@@ -122,16 +119,16 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
 			Application.Current.MainPage.Navigation.PushAsync(new EditEventPage(selectedEvent));
 		}
-		public async Task InitializeAsync()
-		{
-			AllEventsList = await _eventRepository.LoadEventsListAsync();
-			BindDataToScheduleList();
-		}
 		#endregion
 
 		#region Abstract Methods
 
 		public abstract Task BindDataToScheduleList();
+		public async Task LoadAndBindDataToScheduleListAsync()
+		{
+			AllEventsList = await _eventRepository.LoadEventsListAsync();
+			await BindDataToScheduleList();
+		}
 
 		#endregion
 	}

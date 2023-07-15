@@ -1,6 +1,7 @@
 ﻿
 
 // REFACTORING ASYNC
+// 		public EventPriority(EnumPriorityLevels eventPriorityLevel, PriorityColorMapping priorityColorMapping)
 
 
 #region Current

@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services;
+using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
@@ -8,13 +9,13 @@ namespace CalendarT1.ViewModels.EventOperations
 	public class EditEventViewModel : EventOperationsBase
 	{
 		public string EditTitleText => $"Edit event of Title: {Title}";
-		private RelayCommand _deleteEventCommand;
-		public RelayCommand DeleteEventCommand { get => _deleteEventCommand; set { _deleteEventCommand = value; } }
+		private AsyncRelayCommand _deleteEventCommand;
+		public AsyncRelayCommand DeleteEventCommand { get => _deleteEventCommand; set { _deleteEventCommand = value; } }
 
 		public EditEventViewModel(EventModel eventToEdit)
 		{
-			_submitEventCommand = new RelayCommand(EditEvent,CanEditEvent);
-			DeleteEventCommand = new RelayCommand(DeleteSelectedEvent);
+			_submitEventCommand = new AsyncRelayCommand(EditEvent,CanEditEvent);
+			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = Factory.EventRepository;
 			_currentEvent = eventToEdit;
@@ -27,7 +28,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
 			SubmitButtonText = "Submit Changes";
 		}
-		private void EditEvent()
+		private async Task EditEvent()
 		{
 			_currentEvent.Title = Title;
 			_currentEvent.Description = Description;
@@ -35,13 +36,13 @@ namespace CalendarT1.ViewModels.EventOperations
 			_currentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_currentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 			_currentEvent.IsCompleted = false;
-			_eventRepository.UpdateEvent(_currentEvent);
-			Shell.Current.GoToAsync("..");
+			await _eventRepository.UpdateEventAsync(_currentEvent);
+			await Shell.Current.GoToAsync("..");
 		}
-		private void DeleteSelectedEvent()
+		private async Task DeleteSelectedEvent()
 		{
-			_eventRepository.DeleteFromEventsList(_currentEvent);
-			Shell.Current.GoToAsync("..");
+			await _eventRepository.DeleteFromEventsListAsync(_currentEvent);
+			await Shell.Current.GoToAsync("..");
 		}
 		private bool CanEditEvent()
 		{

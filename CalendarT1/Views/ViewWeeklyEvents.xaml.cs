@@ -36,16 +36,15 @@ namespace CalendarT1.Views
 	{
 		public ViewWeeklyEvents()
 		{
-			var priorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
+			BindingContext = new WeeklyEventsViewModel(new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable()), Factory.EventRepository);
 
-			BindingContext = new WeeklyEventsViewModel(priorities, Factory.EventRepository);
 
 			InitializeComponent();
 		}
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
-			await (BindingContext as DailyEventsViewModel).InitializeAsync();
+			await (BindingContext as WeeklyEventsViewModel).LoadAndBindDataToScheduleListAsync();
 		}
 	}
 

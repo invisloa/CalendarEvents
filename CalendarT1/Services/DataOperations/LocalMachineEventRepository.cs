@@ -82,7 +82,7 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			using var sr = new StreamReader(EventsFilePath);
 			var jsonString = await sr.ReadToEndAsync();
-			_allEventsList = JsonConvert.DeserializeObject<List<EventModel>>(jsonString);
+			AllEventsList = JsonConvert.DeserializeObject<List<EventModel>>(jsonString);
 		}
 		else
 		{

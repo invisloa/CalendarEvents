@@ -9,9 +9,16 @@ namespace CalendarT1.Services
 		// event priorities
 		#region EventPriorities
 		private static PriorityColorMapping _priorityColorMapper = new PriorityColorMapping();
+		public static PriorityColorMapping PriorityColorMapper
+		{
+			get
+			{
+				return _priorityColorMapper;
+			}
+		}
 		public static EventPriority CreatePriority(EnumPriorityLevels level)
 		{
-			return new EventPriority(level, _priorityColorMapper);
+			return new EventPriority(level, PriorityColorMapper);
 		}
 
 		public static IEnumerable<EventPriority> CreateAllPrioritiesLevelsEnumerable()

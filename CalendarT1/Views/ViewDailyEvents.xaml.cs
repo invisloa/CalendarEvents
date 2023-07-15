@@ -9,15 +9,12 @@ public partial class ViewDailyEvents : ContentPage
 {
 	public ViewDailyEvents()
 	{
-		var priorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
-
-		BindingContext = new DailyEventsViewModel(priorities, Factory.EventRepository);
-
+		BindingContext = new DailyEventsViewModel(new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable()), Factory.EventRepository);
 		InitializeComponent();
 	}
 	protected override async void OnAppearing()
 	{
 		base.OnAppearing();
-		await (BindingContext as DailyEventsViewModel).InitializeAsync();
+		await (BindingContext as DailyEventsViewModel).LoadAndBindDataToScheduleListAsync();
 	}
 }

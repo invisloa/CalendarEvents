@@ -9,10 +9,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	public class WeeklyEventsViewModel : AbstractEventViewModel
 	{
 
-		public WeeklyEventsViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository) : base(eventPriorities, eventRepository)
-		{
-		}
-		public override void BindDataToScheduleList()
+		public WeeklyEventsViewModel
+						(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository) 
+						: base(eventPriorities, eventRepository) { }
+		public async override Task BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
 			var startOfWeek = CurrentSelectedDate.AddDays(-(int)CurrentSelectedDate.DayOfWeek);
@@ -28,7 +28,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
 			{
 				for (int hour = 0; hour < 24; hour++)
-				{
+				{  
 					_tempWeeklyEvents.Add(new HourlyEvents
 					{
 						Day = day,
