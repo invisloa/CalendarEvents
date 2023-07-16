@@ -78,7 +78,12 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 
 		#endregion
+		public event Action OnEventsToShowListUpdated;
 
+		protected virtual void OnOnEventsToShowListUpdated()
+		{
+			OnEventsToShowListUpdated?.Invoke();
+		}
 		public AbstractEventViewModel(IEventRepository eventRepository)
 		{
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());

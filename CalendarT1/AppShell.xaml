@@ -10,15 +10,13 @@
         <Tab Title="Daily events list">
 
             <ShellContent
-                Title="PopupTestPage"
-                ContentTemplate="{DataTemplate local:PopupTestPage}"
-                Route="PopupTestPage" />
-            <ShellContent
                 Title="Weekly"
                 ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
                 Route="MainPage" />
-
-
+            <ShellContent
+                Title="PopupTestPage"
+                ContentTemplate="{DataTemplate local:PopupTestPage}"
+                Route="PopupTestPage" />
             <ShellContent
                 Title="Daily"
                 ContentTemplate="{DataTemplate local:ViewDailyEvents}"

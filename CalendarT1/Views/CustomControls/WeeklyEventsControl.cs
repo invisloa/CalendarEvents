@@ -80,20 +80,17 @@
 		{
 			GenerateGrid();
 		}
-		private void GenerateGrid()
+		public void GenerateGrid()
 		{
 			// Clear the existing rows and columns
 			RowDefinitions.Clear();
 			ColumnDefinitions.Clear();
 			Children.Clear();
-
-
 			// Create rows for each hour + 2 extra rows for the day of the week and date label
 			for (int i = 0; i < 24 + 2; i++)
 			{
 				RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 			}
-
 			// Create columns for each day + 1 extra column for the hour indicator
 			for (int i = 0; i < 7 + 1; i++)
 			{
@@ -107,28 +104,10 @@
 				Grid.SetRow(hourLabel, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 				Grid.SetColumn(hourLabel, 0);  // Place the hour indicator in the first column
 				Children.Add(hourLabel);
-
-
-
-
-
-
-
-
-
-
-
 				for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
 				{
 					// Create a frame for each cell
-					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5 };
-
-
-
-
-
-
-
+					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5, MinimumWidthRequest = 100, MinimumHeightRequest = 50 };
 
 					var dayEvents = EventsToShowList
 						.Where(e => e.StartDateTime.Date == CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek).Date
@@ -138,8 +117,6 @@
 					{
 						var eventColor = dayEvents[0].PriorityLevel.PriorityColor;
 						frame.BackgroundColor = eventColor;
-
-
 						// Create a StackLayout for the events
 						var stackLayout = new StackLayout();
 
@@ -153,15 +130,12 @@
 								Text = dayEvents[i].Title,
 								BackgroundColor = dayEvents[i].PriorityLevel.PriorityColor
 							};
-
 							var tapGestureRecognizer = new TapGestureRecognizer();
 							tapGestureRecognizer.Command = EventSelectedCommand;
 							tapGestureRecognizer.CommandParameter = dayEvents[i];
 							label.GestureRecognizers.Add(tapGestureRecognizer);
-
 							stackLayout.Children.Add(label);
 						}
-
 						// If there are more items than the limit, add a 'See more' label
 						if (dayEvents.Count > displayLimit)
 						{
@@ -177,9 +151,6 @@
 
 						frame.Content = stackLayout;
 					}
-
-
-
 					//var eventLabel = new Label { Text = dayEvent.Title, BackgroundColor = dayEvent.PriorityLevel.PriorityColor };  // Customize as needed
 					Grid.SetRow(frame, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 					Grid.SetColumn(frame, dayOfWeek + 1);  // Adjust column index by 1 to make space for the hour indicator

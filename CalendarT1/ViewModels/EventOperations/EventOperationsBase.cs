@@ -16,11 +16,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected ObservableCollection<EventPriority> _eventPriorities;
 		protected EventPriority _eventPriority;
 
-		protected DateTime _startDateTime = DateTime.Now;
+		protected DateTime _startDateTime = DateTime.Today;
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
 
-		protected DateTime _endDateTime = DateTime.Now.AddMinutes(1);
-		protected TimeSpan _endExactTime = DateTime.Now.AddMinutes(1).TimeOfDay;
+		protected DateTime _endDateTime = DateTime.Today;
+		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
 
 		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
@@ -120,18 +120,18 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			if (StartDateTime > EndDateTime)
 			{
-				EndDateTime = StartDateTime.AddHours(1);
+				EndDateTime = StartDateTime;
 			}
 		}
 		protected void AdjustEndExactTime()
 		{
-			EndExactTime = StartExactTime + TimeSpan.FromMinutes(1);
+			EndExactTime = StartExactTime;
 		}
 		protected void ValidateAndAdjustEndDateTime()
 		{
-			if (StartDateTime >= EndDateTime)
+			if (StartDateTime > EndDateTime)
 			{
-				EndDateTime = StartDateTime.AddHours(1);
+				EndDateTime = StartDateTime;
 			}
 			OnPropertyChanged(nameof(EndDateTime));
 		}
@@ -142,7 +142,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			EventPriority = EventPriorities[0];
 			StartDateTime = DateTime.Now;
 			StartExactTime = DateTime.Now.TimeOfDay;
-			EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
+			EndExactTime = DateTime.Now.TimeOfDay;
 		}
 	}
 }

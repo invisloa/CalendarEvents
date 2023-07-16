@@ -10,8 +10,18 @@ namespace CalendarT1.Views
 	{
 		public ViewWeeklyEvents()
 		{
-			BindingContext = new WeeklyEventsViewModel(Factory.EventRepository);
 			InitializeComponent();
+			var viewModel = new WeeklyEventsViewModel(Factory.EventRepository);
+			BindingContext = viewModel;
+			viewModel.OnEventsToShowListUpdated += () =>
+			{
+				weeklyEventsControl.GenerateGrid();
+			};
+		}
+		protected override void OnDisappearing()
+		{
+			base.OnDisappearing();
+			(BindingContext as WeeklyEventsViewModel).OnEventsToShowListUpdated -= weeklyEventsControl.GenerateGrid;
 		}
 		protected override async void OnAppearing()
 		{

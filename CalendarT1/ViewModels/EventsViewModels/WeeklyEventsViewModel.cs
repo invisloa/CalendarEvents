@@ -24,6 +24,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				.ToList();
 			// Initialize WeeklyEvents
 			EventsToShowList = new ObservableCollection<EventModel>(filteredScheduleList);
+			OnOnEventsToShowListUpdated();
 		}
 	}
 }
