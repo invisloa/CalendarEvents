@@ -3,10 +3,9 @@
 
 #region Current
 /*
-add page if multiple events in one hour
-Date weekly refresh not working
+		add page if multiple events in one hour on weekly view or some popup to show all events in an hour
 
-//  highest priority color in weekly view
+			//  highest priority color in weekly view
 
  */
 #endregion

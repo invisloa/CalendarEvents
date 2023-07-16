@@ -140,7 +140,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			Title = "";
 			Description = "";
 			EventPriority = EventPriorities[0];
-			StartDateTime = DateTime.Now;
+			StartDateTime = DateTime.Today;
+			EndDateTime = DateTime.Today;
 			StartExactTime = DateTime.Now.TimeOfDay;
 			EndExactTime = DateTime.Now.TimeOfDay;
 		}

@@ -23,22 +23,5 @@
                 Route="DailyEvents" />
 
         </Tab>
-        <!--
-        Shell has implicit conversion operators that enable the Shell visual hierarchy to be simplified.
-        This is possible because a subclassed Shell object can only ever contain a FlyoutItem object or a TabBar object,
-        which can only ever contain Tab objects, which can only ever contain ShellContent objects.
-
-        The implicit conversion automatically wraps the ShellContent objects below in Tab objects.
-        --><!--
-        <ShellContent Title="Monkeys"
-                      Icon="monkey.png"
-                      ContentTemplate="{DataTemplate views:MonkeysPage}" />
-        <ShellContent Title="Elephants"
-                      Icon="elephant.png"
-                      ContentTemplate="{DataTemplate views:ElephantsPage}" />
-        <ShellContent Title="Bears"
-                      Icon="bear.png"
-                      ContentTemplate="{DataTemplate views:BearsPage}" />-->
     </FlyoutItem>
-
 </Shell>
