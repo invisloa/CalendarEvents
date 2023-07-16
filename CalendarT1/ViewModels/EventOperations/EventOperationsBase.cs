@@ -1,59 +1,31 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
+using System;
 using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
 	public abstract class EventOperationsBase : BaseViewModel
 	{
+		protected IEventRepository _eventRepository;
+		protected EventModel _currentEvent;
+
 		protected string _title;
 		protected string _description;
 		protected ObservableCollection<EventPriority> _eventPriorities;
 		protected EventPriority _eventPriority;
+
 		protected DateTime _startDateTime = DateTime.Now;
-		protected DateTime _endDateTime = DateTime.Now.AddHours(1);
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
-		protected TimeSpan _endExactTime = DateTime.Now.AddHours(1).TimeOfDay;
-		protected IEventRepository _eventRepository;
-		protected EventModel _currentEvent;
+
+		protected DateTime _endDateTime = DateTime.Now.AddMinutes(1);
+		protected TimeSpan _endExactTime = DateTime.Now.AddMinutes(1).TimeOfDay;
+
 		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
-		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 
-
-
-		public string SubmitButtonText
-		{
-			get => _submitButtonText;
-			set
-			{
-				_submitButtonText = value;
-				OnPropertyChanged();
-			}
-		}
-
-		public TimeSpan StartExactTime
-		{
-			get => _startExactTime;
-			set
-			{
-				_startExactTime = value;
-				OnPropertyChanged();
-				AdjustEndExactTime();
-			}
-		}
-
-		public TimeSpan EndExactTime
-		{
-			get => _endExactTime;
-			set
-			{
-				_endExactTime = value;
-				OnPropertyChanged();
-			}
-		}
-
+		// Basic Event Information
 		public string Title
 		{
 			get => _title;
@@ -62,10 +34,8 @@ namespace CalendarT1.ViewModels.EventOperations
 				_title = value;
 				OnPropertyChanged();
 				_submitEventCommand.NotifyCanExecuteChanged();
-
 			}
 		}
-
 		public string Description
 		{
 			get => _description;
@@ -75,7 +45,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-
 		public EventPriority EventPriority
 		{
 			get => _eventPriority;
@@ -85,7 +54,16 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-
+		public ObservableCollection<EventPriority> EventPriorities
+		{
+			get => _eventPriorities;
+			set
+			{
+				_eventPriorities = value;
+				OnPropertyChanged();
+			}
+		}
+		// Start Date/Time
 		public DateTime StartDateTime
 		{
 			get => _startDateTime;
@@ -96,27 +74,48 @@ namespace CalendarT1.ViewModels.EventOperations
 				AdjustEndDateTime();
 			}
 		}
-
+		public TimeSpan StartExactTime
+		{
+			get => _startExactTime;
+			set
+			{
+				_startExactTime = value;
+				OnPropertyChanged();
+				AdjustEndExactTime();
+			}
+		}
+		// End Date/Time
 		public DateTime EndDateTime
 		{
 			get => _endDateTime;
 			set
 			{
 				_endDateTime = value;
-				OnPropertyChanged();
+				ValidateAndAdjustEndDateTime();
 			}
 		}
-
-		public ObservableCollection<EventPriority> EventPriorities
+		public TimeSpan EndExactTime
 		{
-			get => _eventPriorities;
+			get => _endExactTime;
 			set
 			{
-				_eventPriorities = value;
+				_endExactTime = value;
 				OnPropertyChanged();
 			}
 		}
+		// Submit Event Command
+		public string SubmitButtonText
+		{
+			get => _submitButtonText;
+			set
+			{
+				_submitButtonText = value;
+				OnPropertyChanged();
+			}
+		}
+		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 
+		// Helper Methods
 		protected void AdjustEndDateTime()
 		{
 			if (StartDateTime > EndDateTime)
@@ -124,22 +123,24 @@ namespace CalendarT1.ViewModels.EventOperations
 				EndDateTime = StartDateTime.AddHours(1);
 			}
 		}
-
 		protected void AdjustEndExactTime()
 		{
-			if (StartExactTime > EndExactTime && StartDateTime.Date >= EndDateTime.Date)
-			{
-				EndExactTime = StartExactTime + TimeSpan.FromHours(1);
-			}
+			EndExactTime = StartExactTime + TimeSpan.FromMinutes(1);
 		}
-
+		protected void ValidateAndAdjustEndDateTime()
+		{
+			if (StartDateTime >= EndDateTime)
+			{
+				EndDateTime = StartDateTime.AddHours(1);
+			}
+			OnPropertyChanged(nameof(EndDateTime));
+		}
 		protected void ClearFields()
 		{
 			Title = "";
 			Description = "";
 			EventPriority = EventPriorities[0];
 			StartDateTime = DateTime.Now;
-			EndDateTime = DateTime.Now.AddHours(1);
 			StartExactTime = DateTime.Now.TimeOfDay;
 			EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
 		}

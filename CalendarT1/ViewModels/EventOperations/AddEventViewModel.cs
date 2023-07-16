@@ -19,15 +19,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		private async Task AddEventAsync()
 		{
-			_currentEvent = new EventModel(Title, Description, EventPriority, StartDateTime + StartExactTime, EndDateTime + EndExactTime);
+			_currentEvent = new EventModel(Title, Description, EventPriority, StartDateTime, EndDateTime);
 			await _eventRepository.AddEventAsync(_currentEvent);
-			Title = "";
-			Description = "";
-			EventPriority = EventPriorities[0];
-			StartDateTime = DateTime.Now;
-			EndDateTime = DateTime.Now.AddHours(1);
-			StartExactTime = DateTime.Now.TimeOfDay;
-			EndExactTime = DateTime.Now.AddHours(1).TimeOfDay;
+
 			ClearFields();
 		}
 		private bool canAddEvent()

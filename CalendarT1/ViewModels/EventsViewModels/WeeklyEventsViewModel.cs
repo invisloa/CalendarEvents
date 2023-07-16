@@ -22,12 +22,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 							 x.EndDateTime.Date < endOfWeek.Date &&
 							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
 				.ToList();
-
 			// Initialize WeeklyEvents
-
-			// TODO REST OF CODE
-
-
+			EventsToShowList = new ObservableCollection<EventModel>(filteredScheduleList);
 		}
 	}
 }

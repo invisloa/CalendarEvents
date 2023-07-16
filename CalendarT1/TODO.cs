@@ -1,15 +1,12 @@
 ﻿
 
-// REFACTORING ASYNC
-// 		public EventPriority(EnumPriorityLevels eventPriorityLevel, PriorityColorMapping priorityColorMapping)
-
 
 #region Current
 /*
 add page if multiple events in one hour
 Date weekly refresh not working
 
-
+//  highest priority color in weekly view
 
  */
 #endregion

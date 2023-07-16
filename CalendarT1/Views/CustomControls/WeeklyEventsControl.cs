@@ -49,17 +49,17 @@
 		public static readonly BindableProperty EventSelectedCommandProperty =
 			BindableProperty.Create(
 			nameof(EventSelectedCommand),
-			typeof(ICommand),
+			typeof(RelayCommand<EventModel>),
 			typeof(WeeklyEventsControl));
 
-		public RelayCommand EventSelectedCommand
+		public RelayCommand<EventModel> EventSelectedCommand
 		{
-			get => (RelayCommand)GetValue(EventSelectedCommandProperty);
+			get => (RelayCommand<EventModel>)GetValue(EventSelectedCommandProperty);
 			set => SetValue(EventSelectedCommandProperty, value);
 		}
 		public static readonly BindableProperty GenerateGridCommandProperty = BindableProperty.Create(
 			nameof(GenerateGridCommand),
-			typeof(ICommand),
+			typeof(RelayCommand),
 			typeof(WeeklyEventsControl),
 			defaultValue: null,
 			defaultBindingMode: BindingMode.OneWay,
@@ -107,10 +107,84 @@
 				Grid.SetRow(hourLabel, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 				Grid.SetColumn(hourLabel, 0);  // Place the hour indicator in the first column
 				Children.Add(hourLabel);
-				
-				var selectedDayOfWeek = (int)CurrentSelectedDate.DayOfWeek;
 
-				/// TO DO : Add events to the grid
+
+
+
+
+
+
+
+
+
+
+				for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
+				{
+					// Create a frame for each cell
+					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5 };
+
+
+
+
+
+
+
+
+					var dayEvents = EventsToShowList
+						.Where(e => e.StartDateTime.Date == CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek).Date
+									&& e.StartDateTime.Hour <= hour && e.EndDateTime.Hour >= hour)
+						.ToList(); // to Check
+					if (dayEvents != null && dayEvents.Count > 0)
+					{
+						var eventColor = dayEvents[0].PriorityLevel.PriorityColor;
+						frame.BackgroundColor = eventColor;
+
+
+						// Create a StackLayout for the events
+						var stackLayout = new StackLayout();
+
+						int displayLimit = 2;  // Set a limit to how many items will be displayed
+						for (int i = 0; i < Math.Min(dayEvents.Count, displayLimit); i++)
+						{
+							var label = new Label
+							{
+								FontSize = 10,
+								FontAttributes = FontAttributes.Bold,
+								Text = dayEvents[i].Title,
+								BackgroundColor = dayEvents[i].PriorityLevel.PriorityColor
+							};
+
+							var tapGestureRecognizer = new TapGestureRecognizer();
+							tapGestureRecognizer.Command = EventSelectedCommand;
+							tapGestureRecognizer.CommandParameter = dayEvents[i];
+							label.GestureRecognizers.Add(tapGestureRecognizer);
+
+							stackLayout.Children.Add(label);
+						}
+
+						// If there are more items than the limit, add a 'See more' label
+						if (dayEvents.Count > displayLimit)
+						{
+							var moreLabel = new Label
+							{
+								FontSize = 10,
+								FontAttributes = FontAttributes.Italic,
+								Text = $"See {dayEvents.Count - displayLimit} more...",
+								TextColor = Color.FromRgba(255, 255, 255, 255)
+							};
+							stackLayout.Children.Add(moreLabel);
+						}
+
+						frame.Content = stackLayout;
+					}
+
+
+
+					//var eventLabel = new Label { Text = dayEvent.Title, BackgroundColor = dayEvent.PriorityLevel.PriorityColor };  // Customize as needed
+					Grid.SetRow(frame, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
+					Grid.SetColumn(frame, dayOfWeek + 1);  // Adjust column index by 1 to make space for the hour indicator
+					Children.Add(frame);
+				}
 			}
 		}
 	}
