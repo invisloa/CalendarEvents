@@ -115,7 +115,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		private void DatePickerDateSelected(DateTime newDate)
 		{
-			_currentSelectedDate = newDate;
+			CurrentSelectedDate = newDate;
 			BindDataToScheduleList();
 		}
 

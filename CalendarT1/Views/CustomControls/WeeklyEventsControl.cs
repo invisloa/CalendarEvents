@@ -9,6 +9,30 @@
 
 	public class WeeklyEventsControl : MauiGrid
 	{
+		public static readonly BindableProperty CurrentSelectedDateProperty =
+			BindableProperty.Create(
+				nameof(CurrentSelectedDate),
+				typeof(DateTime),
+				typeof(WeeklyEventsControl),
+				defaultBindingMode: BindingMode.TwoWay);
+		public DateTime CurrentSelectedDate
+		{
+			get => (DateTime)GetValue(CurrentSelectedDateProperty);
+			set => SetValue(CurrentSelectedDateProperty, value);
+		}
+
+		public static readonly BindableProperty EventsToShowListProperty =
+			BindableProperty.Create(
+			nameof(EventsToShowList),
+			typeof(ObservableCollection<EventModel>),
+			typeof(WeeklyEventsControl),
+			defaultBindingMode: BindingMode.TwoWay);
+		public ObservableCollection<EventModel> EventsToShowList
+		{
+			get => (ObservableCollection<EventModel>)GetValue(EventsToShowListProperty);
+			set => SetValue(EventsToShowListProperty, value);
+		}
+
 
 		public static readonly BindableProperty AllEventsListProperty =
 			BindableProperty.Create(
@@ -34,13 +58,12 @@
 			set => SetValue(EventSelectedCommandProperty, value);
 		}
 		public static readonly BindableProperty GenerateGridCommandProperty = BindableProperty.Create(
-												nameof(GenerateGridCommand),
-												typeof(ICommand),
-												typeof(WeeklyEventsControl),
-												defaultValue: null,
-												defaultBindingMode: BindingMode.OneWay,
-												propertyChanged: null);
-
+			nameof(GenerateGridCommand),
+			typeof(ICommand),
+			typeof(WeeklyEventsControl),
+			defaultValue: null,
+			defaultBindingMode: BindingMode.OneWay,
+			propertyChanged: null);
 		public RelayCommand GenerateGridCommand
 		{
 			get => (RelayCommand)GetValue(GenerateGridCommandProperty);
@@ -85,7 +108,9 @@
 				Grid.SetColumn(hourLabel, 0);  // Place the hour indicator in the first column
 				Children.Add(hourLabel);
 				
-				var selectedDayOfWeek = (int)_selectedDate.DayOfWeek;
+				var selectedDayOfWeek = (int)CurrentSelectedDate.DayOfWeek;
+
+				/// TO DO : Add events to the grid
 			}
 		}
 	}
