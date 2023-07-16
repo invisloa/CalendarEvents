@@ -8,8 +8,14 @@ namespace CalendarT1.Models
 	public class EventPriority : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
-		private readonly PriorityColorMapping _priorityColorMapping;
-
+		private PriorityColorMapping _priorityColorMapper;
+		public PriorityColorMapping PriorityColorMapper
+		{
+			get
+			{
+				return _priorityColorMapper;
+			}
+		}
 		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -36,11 +42,11 @@ namespace CalendarT1.Models
 			return PriorityLevel.ToString(); // Return the string representation of the PriorityLevel enum
 		}
 
-		public EventPriority(EnumPriorityLevels eventPriorityLevel, PriorityColorMapping priorityColorMapping)
+		public EventPriority(EnumPriorityLevels eventPriorityLevel)
 		{
-			_priorityColorMapping = priorityColorMapping;
+			_priorityColorMapper = new PriorityColorMapping();
 			PriorityLevel = eventPriorityLevel;
-			PriorityColor = _priorityColorMapping.GetColor(eventPriorityLevel);
+			PriorityColor = _priorityColorMapper.GetColor(eventPriorityLevel);
 			IsSelected = true;  // All priority levels selected by default
 		}
 		// write method that will assign color to priority level

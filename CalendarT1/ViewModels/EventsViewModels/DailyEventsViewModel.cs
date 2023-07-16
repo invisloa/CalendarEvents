@@ -11,7 +11,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	{
 		public AsyncRelayCommand DeleteOneEventCommand { get; set; }
 		public AsyncRelayCommand DeleteAllEventsCommand { get; set; }
-		public DailyEventsViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository) : base(eventPriorities, eventRepository)
+		public DailyEventsViewModel( IEventRepository eventRepository) : base( eventRepository)
 		{
 		}
 

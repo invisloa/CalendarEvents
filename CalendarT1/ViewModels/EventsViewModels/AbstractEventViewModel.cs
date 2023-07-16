@@ -34,7 +34,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				{
 					_currentSelectedDate = value;
 					OnPropertyChanged();
-					DatePickerDateSelectedCommand.Execute(_currentSelectedDate);		// TODO: check if this is the right way to do it
+					//DatePickerDateSelectedCommand.Execute(_currentSelectedDate);		// TODO: check if this is the right way to do it
 				}
 			}
 		}
@@ -43,6 +43,15 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public ObservableCollection<EventPriority> EventPriorities
 		{
 			get => _eventPriorities;
+			set
+			{
+				if(_eventPriorities == value)
+				{
+					return;
+				}
+				_eventPriorities = value;
+				OnPropertyChanged();
+			}
 		}
 
 		private ObservableCollection<EventModel> _eventsToShowList = new ObservableCollection<EventModel>();
@@ -69,9 +78,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#endregion
 
-		public AbstractEventViewModel(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository)
+		public AbstractEventViewModel(IEventRepository eventRepository)
 		{
-			_eventPriorities = eventPriorities;
+			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = eventRepository;
 		}
 

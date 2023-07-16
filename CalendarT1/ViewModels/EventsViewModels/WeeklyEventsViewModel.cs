@@ -10,8 +10,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	{
 
 		public WeeklyEventsViewModel
-						(ObservableCollection<EventPriority> eventPriorities, IEventRepository eventRepository) 
-						: base(eventPriorities, eventRepository) { }
+						(IEventRepository eventRepository) 
+						: base(eventRepository) { }
 		public async override Task BindDataToScheduleList()
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();

@@ -9,7 +9,7 @@ public partial class ViewDailyEvents : ContentPage
 {
 	public ViewDailyEvents()
 	{
-		BindingContext = new DailyEventsViewModel(new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable()), Factory.EventRepository);
+		BindingContext = new DailyEventsViewModel( Factory.EventRepository);
 		InitializeComponent();
 	}
 	protected override async void OnAppearing()
