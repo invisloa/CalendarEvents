@@ -24,26 +24,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				.ToList();
 
 			// Initialize WeeklyEvents
-			ObservableCollection<HourlyEvents>  _tempWeeklyEvents = new ObservableCollection<HourlyEvents>();
-			foreach (DayOfWeek day in Enum.GetValues(typeof(DayOfWeek)))
-			{
-				for (int hour = 0; hour < 24; hour++)
-				{  
-					_tempWeeklyEvents.Add(new HourlyEvents
-					{
-						Day = day,
-						Hour = hour,
-						Events = new ObservableCollection<EventModel>()
-					});
-				}
-			}
 
-			// Divide events into days of the week and hours of the day
-			foreach (var eventModel in filteredScheduleList)
-			{
-				var hourlyEvents = _tempWeeklyEvents.First(x => x.Day == eventModel.StartDateTime.DayOfWeek && x.Hour == eventModel.StartDateTime.Hour);
-				hourlyEvents.Events.Add(eventModel);
-			}
+			// TODO REST OF CODE
+
+
 		}
 	}
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace CalendarT1.Models
+/*namespace CalendarT1.Models
 {
 	public class HourlyEvents
 	{
@@ -9,3 +9,4 @@ namespace CalendarT1.Models
 		public ObservableCollection<EventModel> Events { get; set; }
 	}
 }
+*/

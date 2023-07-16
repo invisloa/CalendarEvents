@@ -34,6 +34,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				{
 					_currentSelectedDate = value;
 					OnPropertyChanged();
+					BindDataToScheduleList();
 					//DatePickerDateSelectedCommand.Execute(_currentSelectedDate);		// TODO: check if this is the right way to do it
 				}
 			}

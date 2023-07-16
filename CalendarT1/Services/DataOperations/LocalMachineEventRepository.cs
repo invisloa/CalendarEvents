@@ -10,7 +10,7 @@ public class LocalMachineEventRepository : IEventRepository
 	{
 		get
 		{
-			if (_allEventsList == null)
+			if (_allEventsList == null)     
 				LoadEventsListAsync().Wait();
 			return _allEventsList;
 		}
@@ -43,6 +43,20 @@ public class LocalMachineEventRepository : IEventRepository
 		return SaveEventsListAsync();
 	}
 
+	public async Task<List<EventModel>> LoadEventsListAsync()
+	{
+		if (File.Exists(EventsFilePath))
+		{
+			var jsonString = await File.ReadAllTextAsync(EventsFilePath);
+			_allEventsList = JsonConvert.DeserializeObject<List<EventModel>>(jsonString);
+		}
+		else
+		{
+			_allEventsList = new List<EventModel>();
+		}
+		return _allEventsList;
+	}
+
 	public async Task SaveEventsListAsync()
 	{
 		var directoryPath = Path.GetDirectoryName(EventsFilePath);
@@ -51,14 +65,7 @@ public class LocalMachineEventRepository : IEventRepository
 			Directory.CreateDirectory(directoryPath);
 		}
 		var jsonString = JsonConvert.SerializeObject(AllEventsList);
-		try
-		{
-			await File.WriteAllTextAsync(EventsFilePath, jsonString);
-		}
-		catch
-		{
-			throw;
-		}
+		await File.WriteAllTextAsync(EventsFilePath, jsonString);
 	}
 
 	public Task UpdateEventAsync(EventModel eventToUpdate)
@@ -76,18 +83,4 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 	}
 
-	public async Task<List<EventModel>> LoadEventsListAsync()
-	{
-		if (File.Exists(EventsFilePath))
-		{
-			using var sr = new StreamReader(EventsFilePath);
-			var jsonString = await sr.ReadToEndAsync();
-			AllEventsList = JsonConvert.DeserializeObject<List<EventModel>>(jsonString);
-		}
-		else
-		{
-			_allEventsList = new List<EventModel>();
-		}
-		return _allEventsList;
-	}
 }
