@@ -21,7 +21,7 @@ namespace CalendarT1.Services.DataOperations
 			_context = context;
 		}
 
-		public async Task<List<EventModel>> LoadEventsListAsync()
+		public async Task<List<EventModel>> GetEventsListAsync()
 		{
 			return await _context.Events.ToListAsync();
 		}

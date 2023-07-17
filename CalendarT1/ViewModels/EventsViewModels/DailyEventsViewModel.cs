@@ -34,7 +34,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
 
-			var allEvents = await EventRepository.LoadEventsListAsync();
+			var allEvents = await EventRepository.GetEventsListAsync();
 
 			var filteredScheduleList = allEvents
 				.Where(x => (x.StartDateTime.Date == CurrentSelectedDate.Date ||

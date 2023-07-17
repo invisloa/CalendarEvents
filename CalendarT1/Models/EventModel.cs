@@ -5,12 +5,12 @@
 		public Guid Id { get; set; }
 		public DateTime StartDateTime { get; set; }
 		public DateTime EndDateTime { get; set; }
-		public DateTime ?PostponeTime { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public EventPriority PriorityLevel { get; set; }
 		public bool IsCompleted { get; set; }
 		public bool WasShown { get; set; }
+		public List<DateTime> PostponeHistory { get; set; }
 		public EventModel(string title, string description, EventPriority eventPriority, DateTime startTime, DateTime endTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
 		{
 			Id = Guid.NewGuid();
@@ -20,8 +20,9 @@
 			StartDateTime = startTime;
 			EndDateTime = endTime;
 			IsCompleted = isCompleted;
-			PostponeTime = postponeTime;
 			WasShown = wasShown;
+			PostponeHistory = new List<DateTime>(); // default new list 
+
 		}
 	}
 }

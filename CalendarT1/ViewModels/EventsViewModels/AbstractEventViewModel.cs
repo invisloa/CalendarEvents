@@ -141,7 +141,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public abstract Task BindDataToScheduleList();
 		public async Task LoadAndBindDataToScheduleListAsync()
 		{
-			AllEventsList = await _eventRepository.LoadEventsListAsync();
+			AllEventsList = await _eventRepository.GetEventsListAsync();
 			await BindDataToScheduleList();
 		}
 

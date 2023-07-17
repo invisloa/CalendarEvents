@@ -11,7 +11,7 @@ public class LocalMachineEventRepository : IEventRepository
 		get
 		{
 			if (_allEventsList == null)     
-				LoadEventsListAsync().Wait();
+				GetEventsListAsync().Wait();
 			return _allEventsList;
 		}
 		set
@@ -43,7 +43,7 @@ public class LocalMachineEventRepository : IEventRepository
 		return SaveEventsListAsync();
 	}
 
-	public async Task<List<EventModel>> LoadEventsListAsync()
+	public async Task<List<EventModel>> GetEventsListAsync()
 	{
 		if (File.Exists(EventsFilePath))
 		{
@@ -83,4 +83,9 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 	}
 
+	public Task<EventModel> GetEventByIdAsync(Guid eventId)
+	{
+		var selectedEvent = AllEventsList.FirstOrDefault(e => e.Id == eventId);
+		return Task.FromResult(selectedEvent);
+	}
 }

@@ -6,7 +6,7 @@
 		add page if multiple events in one hour on weekly view or some popup to show all events in an hour
 
 			//  highest priority color in weekly view
-
+		// change inproperties .wait() to async methods with await()
  */
 #endregion
  
