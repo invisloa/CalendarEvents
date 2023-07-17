@@ -29,7 +29,7 @@
             </StackLayout>
 
 
-            <StackLayout Grid.Column="1" HorizontalOptions="End">
+            <StackLayout Grid.Column="1" HorizontalOptions="End" >
                 <Label Text="Selected date:"/>
                 <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
             </StackLayout>
@@ -69,13 +69,16 @@
             <Button Text="+" Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0"/>
             <Button Text="Generate Grid" Command="{Binding GenerateGridCommand, Source={x:Reference weeklyEventsControl}}" />
         </StackLayout>
-        <ScrollView Grid.Row="3" Orientation="Both">
-            <customControls:WeeklyEventsControl 
+        <ScrollView Grid.Row="3" Orientation="Vertical">
+
+            <ScrollView Grid.Row="3" Orientation="Horizontal">
+                <customControls:WeeklyEventsControl 
                 x:Name="weeklyEventsControl"
                 AllEventsList="{Binding AllEventsList}" 
                 CurrentSelectedDate="{Binding CurrentSelectedDate}"
                 EventSelectedCommand="{Binding SelectEventCommand}" 
                 EventsToShowList="{Binding EventsToShowList, Mode=TwoWay}"/>
+            </ScrollView>
         </ScrollView>
 
     </Grid>
