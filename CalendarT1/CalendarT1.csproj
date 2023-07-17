@@ -87,6 +87,9 @@
 	  <MauiXaml Update="Views\ViewDailyEvents.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewMonthlyEvents.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewWeeklyEvents.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
