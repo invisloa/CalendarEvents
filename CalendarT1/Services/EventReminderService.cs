@@ -32,7 +32,7 @@ namespace CalendarT1.Services
 
 		public async Task MarkAsComplete(Guid eventId)
 		{
-			var eventModel = _eventRepository.AllEventsList 
+			var eventModel = await _eventRepository.GetEventByIdAsync(eventId);
 
 			if (eventModel == null)
 			{
@@ -45,7 +45,7 @@ namespace CalendarT1.Services
 
 		public async Task PostponeEvent(Guid eventId, int hours = 24)
 		{
-			var eventModel = await _eventRepository.ge(eventId);
+			var eventModel = await _eventRepository.GetEventByIdAsync(eventId);
 
 			if (eventModel == null)
 			{

@@ -54,5 +54,11 @@ namespace CalendarT1.Services.DataOperations
 			_context.Events.Update(eventToUpdate);
 			await _context.SaveChangesAsync();
 		}
+		public async Task<EventModel> GetEventByIdAsync(Guid eventId)
+		{
+			var selectedEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == eventId);
+			return selectedEvent;
+		}
+
 	}
 }
