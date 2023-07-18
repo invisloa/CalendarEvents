@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services;
+using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
@@ -12,12 +13,12 @@ namespace CalendarT1.ViewModels.EventOperations
 		private AsyncRelayCommand _deleteEventCommand;
 		public AsyncRelayCommand DeleteEventCommand { get => _deleteEventCommand; set { _deleteEventCommand = value; } }
 
-		public EditEventViewModel(EventModel eventToEdit)
+		public EditEventViewModel(IEventRepository eventRepository, EventModel eventToEdit)
 		{
 			_submitEventCommand = new AsyncRelayCommand(EditEvent,CanEditEvent);
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
-			_eventRepository = Factory.EventRepository;
+			_eventRepository = eventRepository;
 			_currentEvent = eventToEdit;
 			Title = _currentEvent.Title;
 			Description = _currentEvent.Description;
