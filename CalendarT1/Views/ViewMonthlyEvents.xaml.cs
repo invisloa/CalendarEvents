@@ -1,6 +1,6 @@
 using CalendarT1.ViewModels.EventsViewModels;
 using CalendarT1.Services;
-
+using CalendarT1.Helpers;
 
 namespace CalendarT1.Views;
 
@@ -9,7 +9,7 @@ public partial class ViewMonthlyEvents : ContentPage
 	public ViewMonthlyEvents()
 	{
 		InitializeComponent();
-		var viewModel = new MonthlyEventsViewModel(Factory.EventRepository);
+		var viewModel = ServiceHelper.GetService<MonthlyEventsViewModel>();
 		BindingContext = viewModel;
 		viewModel.OnEventsToShowListUpdated += () =>
 		{

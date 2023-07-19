@@ -14,8 +14,8 @@ namespace CalendarT1.Models
 		}
 
 
-		private IPriorityColorMapper _priorityColorMapper;
-		public IPriorityColorMapper PriorityColorMapper
+		private PriorityColorMapper _priorityColorMapper;
+		public PriorityColorMapper PriorityColorMapper
 		{
 			get
 			{
@@ -45,7 +45,7 @@ namespace CalendarT1.Models
 
 		public EventPriority(EnumPriorityLevels eventPriorityLevel)
 		{
-			_priorityColorMapper = Factory.CreatePriorityColorMapper();
+			_priorityColorMapper = new PriorityColorMapper();
 			PriorityLevel = eventPriorityLevel;
 			PriorityColor = _priorityColorMapper.GetColor(eventPriorityLevel);
 			IsSelected = true;  // All priority levels selected by default

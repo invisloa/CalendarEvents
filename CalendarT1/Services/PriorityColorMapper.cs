@@ -10,7 +10,7 @@ namespace CalendarT1.Services
 	/// <summary>
 	/// Class that maps priority levels to colors
 	/// </summary>
-	public class PriorityColorMapper : IPriorityColorMapper
+	public class PriorityColorMapper 
 	{
 		private readonly Dictionary<EnumPriorityLevels, Color> _mapping;
 

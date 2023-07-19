@@ -1,3 +1,4 @@
+using CalendarT1.Helpers;
 using CalendarT1.Models;
 using CalendarT1.Services;
 using CalendarT1.ViewModels.EventsViewModels;
@@ -11,7 +12,7 @@ namespace CalendarT1.Views
 		public ViewWeeklyEvents()
 		{
 			InitializeComponent();
-			var viewModel = new WeeklyEventsViewModel(Factory.EventRepository);
+			var viewModel = ServiceHelper.GetService<WeeklyEventsViewModel>();
 			BindingContext = viewModel;
 			viewModel.OnEventsToShowListUpdated += () =>
 			{

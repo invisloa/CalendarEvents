@@ -1,3 +1,4 @@
+using CalendarT1.Helpers;
 using CalendarT1.Models;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
@@ -10,7 +11,7 @@ public partial class ViewDailyEvents : ContentPage
 {
 	public ViewDailyEvents()
 	{
-		BindingContext = new DailyEventsViewModel(Factory.EventRepository);
+		BindingContext = ServiceHelper.GetService<DailyEventsViewModel>();
 		InitializeComponent();
 	}
 	protected override async void OnAppearing()
