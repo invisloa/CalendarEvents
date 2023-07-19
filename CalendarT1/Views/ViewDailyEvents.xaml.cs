@@ -8,9 +8,9 @@ namespace CalendarT1.Views;
 
 public partial class ViewDailyEvents : ContentPage
 {
-	public ViewDailyEvents(IEventRepository eventRepository)
+	public ViewDailyEvents()
 	{
-		BindingContext = new DailyEventsViewModel(eventRepository);
+		BindingContext = new DailyEventsViewModel(Factory.EventRepository);
 		InitializeComponent();
 	}
 	protected override async void OnAppearing()
