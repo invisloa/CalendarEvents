@@ -4,14 +4,13 @@
 #region Current
 /*
  * 			ShareEvents = new ShareEventsJson(_eventRepository);  // TODO TO CHANGE 
-			//  highest priority color in weekly view
+ * 			// change shareeventsModel to probably DeepLingking model
+ * 			
+ * 			
 
- *		share events with other users
+ *	
  * 
- * 
-		add page if multiple events in one hour on weekly view or some popup to show all events in an hour
 
-			//  highest priority color in weekly view
 		// change inproperties .wait() to async methods with await()
  */
 #endregion
@@ -25,6 +24,9 @@
 
 
 #region High Priority
+//  highest priority color in weekly view
+//		add page if multiple events in one hour on weekly view or some popup to show all events in an hour
+
 // GOOGLE CALENDAR API
 // make reminders for events
 // show events in the hourly order
