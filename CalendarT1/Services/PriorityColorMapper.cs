@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Services
 {
-	public class PriorityColorMapping
+	/// <summary>
+	/// Class that maps priority levels to colors
+	/// </summary>
+	public class PriorityColorMapper : IPriorityColorMapper
 	{
 		private readonly Dictionary<EnumPriorityLevels, Color> _mapping;
 
-		public PriorityColorMapping()
+		public PriorityColorMapper()
 		{
 			_mapping = new Dictionary<EnumPriorityLevels, Color>()
 		{

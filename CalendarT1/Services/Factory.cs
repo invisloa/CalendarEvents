@@ -13,6 +13,8 @@ namespace CalendarT1.Services
 				.Select(level => CreatePriority(level));
 		}
 
+		public static IPriorityColorMapper CreatePriorityColorMapper() => new PriorityColorMapper();
+
 		// event priorities
 		#region EventPriorities
 		public static EventPriority CreatePriority(EnumPriorityLevels level)

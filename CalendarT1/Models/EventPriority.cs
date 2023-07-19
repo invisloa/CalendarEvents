@@ -8,19 +8,20 @@ namespace CalendarT1.Models
 	public class EventPriority : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
-		private PriorityColorMapping _priorityColorMapper;
-		public PriorityColorMapping PriorityColorMapper
+		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+
+
+		private IPriorityColorMapper _priorityColorMapper;
+		public IPriorityColorMapper PriorityColorMapper
 		{
 			get
 			{
 				return _priorityColorMapper;
 			}
 		}
-		protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-		{
-			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-		}
-		// write properties for priority levels and colors
 		public EnumPriorityLevels PriorityLevel { get; set; }
 		public Color PriorityColor { get; set; }
 
@@ -44,29 +45,10 @@ namespace CalendarT1.Models
 
 		public EventPriority(EnumPriorityLevels eventPriorityLevel)
 		{
-			_priorityColorMapper = new PriorityColorMapping();
+			_priorityColorMapper = Factory.CreatePriorityColorMapper();
 			PriorityLevel = eventPriorityLevel;
 			PriorityColor = _priorityColorMapper.GetColor(eventPriorityLevel);
 			IsSelected = true;  // All priority levels selected by default
-		}
-		// write method that will assign color to priority level
-		public Color AssignColorToPriorityLevel(EnumPriorityLevels eventPriorityLevel)
-		{
-			switch (eventPriorityLevel)
-			{
-				case EnumPriorityLevels.Lowest:
-					return Colors.LightSeaGreen;
-				case EnumPriorityLevels.Low:
-					return Colors.Green;
-				case EnumPriorityLevels.Medium:
-					return Colors.Blue;
-				case EnumPriorityLevels.High:
-					return Colors.Violet;
-				case EnumPriorityLevels.Highest:
-					return Colors.Magenta;
-				default:
-					return Colors.White;
-			}
 		}
 	}
 }
