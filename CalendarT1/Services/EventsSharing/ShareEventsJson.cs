@@ -26,7 +26,6 @@ namespace CalendarT1.Services.EventsSharing
 			var jsonString = JsonConvert.SerializeObject(eventModel);
 			return jsonString;
 		}
-
 		public async Task ShareEventAsync(EventModel eventModel)
 		{
 			var jsonString = SerializeEventToJson(eventModel);
@@ -41,8 +40,18 @@ namespace CalendarT1.Services.EventsSharing
 		public async Task ImportEventAsync(string jsonString)
 		{
 			var eventModel = JsonConvert.DeserializeObject<EventModel>(jsonString);
-			await AddEventAsync(eventModel);
+			var eventExists = await _eventRepository.GetEventByIdAsync(eventModel.Id) != null;
+
+			if (!eventExists)
+			{
+				await AddEventAsync(eventModel);
+			}
+			else
+			{
+				// TODO: Add a message or handle the case when the event already exists
+			}
 		}
+
 
 	}
 }

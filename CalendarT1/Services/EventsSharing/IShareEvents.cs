@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Services.EventsSharing
 {
-	interface IShareEvents
+	public interface IShareEvents
 	{
 		public Task ShareEventAsync(EventModel eventModel);
 

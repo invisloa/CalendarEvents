@@ -3,6 +3,9 @@
 
 #region Current
 /*
+ * 			ShareEvents = new ShareEventsJson(_eventRepository);  // TODO TO CHANGE 
+			//  highest priority color in weekly view
+
  *		share events with other users
  * 
  * 
@@ -12,7 +15,7 @@
 		// change inproperties .wait() to async methods with await()
  */
 #endregion
- 
+
 
 
 

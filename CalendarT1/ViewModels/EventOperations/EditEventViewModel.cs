@@ -1,6 +1,7 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Services.EventsSharing;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 
@@ -12,6 +13,8 @@ namespace CalendarT1.ViewModels.EventOperations
 		public string EditTitleText => $"Edit event of Title: {Title}";
 		private AsyncRelayCommand _deleteEventCommand;
 		public AsyncRelayCommand DeleteEventCommand { get => _deleteEventCommand; set { _deleteEventCommand = value; } }
+		private IShareEvents _shareEvents;
+		public IShareEvents ShareEvents { get => _shareEvents; set { _shareEvents = value; } }
 
 		public EditEventViewModel(IEventRepository eventRepository, EventModel eventToEdit)
 		{
@@ -28,6 +31,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
 			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
 			SubmitButtonText = "Submit Changes";
+			ShareEvents = new ShareEventsJson(_eventRepository);  // TODO TO CHANGE 
+			ShareEventCommand = new RelayCommand(ShareEvent);
 		}
 		private async Task EditEvent()
 		{
@@ -44,6 +49,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			await _eventRepository.DeleteFromEventsListAsync(_currentEvent);
 			await Shell.Current.GoToAsync("..");
+		}
+		public RelayCommand ShareEventCommand { get; set; }
+		private void ShareEvent()
+		{
+			ShareEvents.ShareEventAsync(_currentEvent);
 		}
 		private bool CanEditEvent()
 		{

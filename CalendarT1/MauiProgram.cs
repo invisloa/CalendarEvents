@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Services.EventsSharing;
 using CalendarT1.ViewModels.EventsViewModels;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
@@ -24,6 +25,9 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MonthlyEventsViewModel>();
 
 		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>();
+		builder.Services.AddScoped<IShareEvents, ShareEventsJson>();
+
+		
 
 		Preferences.Default.Set("ProgramName", "CalendarT1");
 		
