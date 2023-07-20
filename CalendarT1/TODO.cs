@@ -3,10 +3,10 @@
 
 #region Current
 /*
- * 			ShareEvents = new ShareEventsJson(_eventRepository);  // TODO TO CHANGE 
  * 			// change shareeventsModel to probably DeepLingking model
  * 			
- * 			
+ * 			event reminder
+ * 			add alpha to the color if the event is completed
 
  *	
  * 

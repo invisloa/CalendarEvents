@@ -23,8 +23,18 @@ namespace CalendarT1.Models
 			}
 		}
 		public EnumPriorityLevels PriorityLevel { get; set; }
-		public Color PriorityColor { get; set; }
-
+		public Color PriorityColor
+		{
+			get
+			{
+				Color baseColor = _priorityColorMapper.GetColor(PriorityLevel);
+				return _isSelected ? baseColor : baseColor.MultiplyAlpha(0.5f);
+			}
+			set
+			{
+				OnPropertyChanged();
+			}
+		}
 		private bool _isSelected;
 		public bool IsSelected
 		{
@@ -35,6 +45,7 @@ namespace CalendarT1.Models
 				{
 					_isSelected = value;
 					OnPropertyChanged();
+					OnPropertyChanged(nameof(PriorityColor));
 				}
 			}
 		}

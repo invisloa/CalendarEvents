@@ -24,7 +24,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<DailyEventsViewModel>();
 		builder.Services.AddSingleton<MonthlyEventsViewModel>();
 
-		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>();
+		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>(); 
 		builder.Services.AddScoped<IShareEvents, ShareEventsJson>();
 
 		

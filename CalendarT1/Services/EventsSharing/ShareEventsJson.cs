@@ -26,16 +26,7 @@ namespace CalendarT1.Services.EventsSharing
 			var jsonString = JsonConvert.SerializeObject(eventModel);
 			return jsonString;
 		}
-		//public async Task ShareEventAsync(EventModel eventModel)
-		//{
-		//	var jsonString = SerializeEventToJson(eventModel);
 
-		//	await Share.RequestAsync(new ShareTextRequest
-		//	{
-		//		Text = jsonString,
-		//		Title = $"Share {eventModel.Title}"
-		//	});
-		//}
 		public async Task ShareEventAsync(EventModel eventModel)
 		{
 			// You might want to make sure your eventModel is saved before you share the link.
