@@ -9,7 +9,10 @@ namespace CalendarT1;
 
 public static class MauiProgram
 {
+
+	//statc mauiapp instance to use it for creating DI
 	public static MauiApp Current { get; private set; }
+
 
 	public static MauiApp CreateMauiApp()
 	{
@@ -38,6 +41,8 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+		//statc mauiapp instance to use it for creating DI
 		Current = builder.Build();
 
 		return Current;
