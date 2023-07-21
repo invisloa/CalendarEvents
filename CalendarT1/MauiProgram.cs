@@ -1,4 +1,5 @@
-﻿using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Models;
+using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Services.EventsSharing;
 using CalendarT1.ViewModels.EventsViewModels;
 using CommunityToolkit.Maui;
@@ -8,6 +9,8 @@ namespace CalendarT1;
 
 public static class MauiProgram
 {
+	public static MauiApp Current { get; private set; }
+
 	public static MauiApp CreateMauiApp()
 	{
 		var builder = MauiApp.CreateBuilder();
@@ -23,11 +26,11 @@ public static class MauiProgram
 		builder.Services.AddSingleton<WeeklyEventsViewModel>();
 		builder.Services.AddSingleton<DailyEventsViewModel>();
 		builder.Services.AddSingleton<MonthlyEventsViewModel>();
-
+		builder.Services.AddSingleton<EventModel>();
 		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>(); 
 		builder.Services.AddScoped<IShareEvents, ShareEventsJson>();
 
-		
+
 
 		Preferences.Default.Set("ProgramName", "CalendarT1");
 		
@@ -35,7 +38,8 @@ public static class MauiProgram
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+		Current = builder.Build();
 
-		return builder.Build();
+		return Current;
 	}
 }

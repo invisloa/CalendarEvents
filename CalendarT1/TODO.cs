@@ -2,10 +2,12 @@
 
 
 #region Current
-/*
+/*add event reminder page and all system for it
+ * 
+ * 
+ * 
  * 	// change shareeventsModel to probably DeepLingking model
  * 	event reminder
- * 	check alpha color if the event is completed
 	// change inproperties .wait() to async methods with await()
  */
 #endregion
@@ -19,7 +21,8 @@
 
 
 #region High Priority
-// save events button avaulable only if there were changes made - share events button only if there are no changes made
+// fix the scrolling isse horizontal and vertical
+// save events button available only if there were changes made - share events button only if there are no changes made
 // highest priority color in weekly view
 // add page if multiple events in one hour on weekly view or some popup to show all events in an hour
 // PAGE FOR searching events

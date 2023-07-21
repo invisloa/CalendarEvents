@@ -78,10 +78,10 @@
 	  <MauiXaml Update="Views\EditEventPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Popups\PopupCalendar.xaml">
+	  <MauiXaml Update="Views\Popups\EventReminderPopupView.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Popups\PopupEventPage.xaml">
+	  <MauiXaml Update="Views\Popups\PopupCalendar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\PopupTestPage.xaml">

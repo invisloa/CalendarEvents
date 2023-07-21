@@ -1,0 +1,22 @@
+<mct:Popup xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalendarT1.Views.EventReminderPopupView"
+             xmlns:mct="clr-namespace:CommunityToolkit.Maui.Views;assembly=CommunityToolkit.Maui"
+             CanBeDismissedByTappingOutsideOfPopup="False"
+                >
+    <VerticalStackLayout Padding="30" BackgroundColor="White">
+        <Label Text="{Binding Title}" FontAttributes="Bold" FontSize="24" />
+
+        <Label Text="{Binding Description}" />
+
+        <Label Text="This event is due now. What would you like to do?" />
+
+        <Button Text="Mark as complete" Command="{Binding MarkAsCompleteCommand}" />
+
+        <Button Text="Postpone 24 hours" Command="{Binding PostponeCommand}" />
+
+        <Button Text="Edit event" Command="{Binding EditEventCommand}" />
+
+        <Button Text="Close" Command="{Binding CloseCommand}" />
+    </VerticalStackLayout>
+</mct:Popup>
