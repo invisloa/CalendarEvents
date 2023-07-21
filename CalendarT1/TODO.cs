@@ -7,7 +7,7 @@
  * 			
  * 			event reminder
  * 			add alpha to the color if the event is completed
-
+			
  *	
  * 
 
@@ -24,9 +24,10 @@
 
 
 #region High Priority
-//  highest priority color in weekly view
-//		add page if multiple events in one hour on weekly view or some popup to show all events in an hour
-
+// save events button avaulable only if there were changes made - share events button only if there are no changes made
+// highest priority color in weekly view
+// add page if multiple events in one hour on weekly view or some popup to show all events in an hour
+// PAGE FOR searching events
 // GOOGLE CALENDAR API
 // make reminders for events
 // show events in the hourly order
