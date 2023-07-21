@@ -129,7 +129,7 @@
 
 				if (dayEvents != null && dayEvents.Count > 0)
 				{
-					var eventColor = dayEvents[0].PriorityLevel.PriorityColor;
+					var eventColor = dayEvents[0].EventVisibleColor;
 					frame.BackgroundColor = eventColor;
 					// Create a StackLayout for the events
 					var stackLayout = new StackLayout();
@@ -142,7 +142,7 @@
 							FontSize = 10,
 							FontAttributes = FontAttributes.Bold,
 							Text = dayEvents[i].Title,
-							BackgroundColor = dayEvents[i].PriorityLevel.PriorityColor
+							BackgroundColor = dayEvents[i].EventVisibleColor
 						};
 						var tapGestureRecognizer = new TapGestureRecognizer();
 						tapGestureRecognizer.Command = EventSelectedCommand;

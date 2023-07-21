@@ -36,5 +36,6 @@
                 Command="{Binding ShareEventCommand}"/>
         <Button Text="Temporary Delete Button"
                 Command="{Binding DeleteEventCommand}"/>
+        <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"/>
     </VerticalStackLayout>
 </ContentPage>

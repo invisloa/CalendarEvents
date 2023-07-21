@@ -40,7 +40,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:EventPriority">
-                    <Button Text="{Binding PriorityLevel}"  WidthRequest="100" TextColor="White" 
+                    <Button Text="{Binding PriorityLevelEnums}"  WidthRequest="100" TextColor="White" 
                             Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                             CommandParameter="{Binding}">
                         <Button.Triggers>
@@ -88,7 +88,7 @@
                             <Label Text="-" HorizontalTextAlignment="Center"/>
                             <Label Text="{Binding EndDateTime, StringFormat='{0: hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
                         </StackLayout>
-                        <Frame BackgroundColor="{Binding PriorityLevel.PriorityColor}"
+                        <Frame BackgroundColor="{Binding EventVisibleColor}"
                                 Grid.Column="1"
                                 Grid.RowSpan="2" >
                             <Frame.GestureRecognizers>

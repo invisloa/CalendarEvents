@@ -17,7 +17,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 						: base(eventRepository) { }
 		public async override Task BindDataToScheduleList()
 		{
-			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
+			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevelEnums).ToList();
 
 			// Start of the month
 			var startOfMonth = new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, 1);
@@ -28,7 +28,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			var filteredScheduleList = AllEventsList
 				.Where(x => x.StartDateTime.Date >= startOfMonth.Date &&
 							x.EndDateTime.Date <= endOfMonth.Date &&
-							selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
+							selectedPriorities.Contains(x.PriorityLevel.PriorityLevelEnums))
 				.ToList();
 
 			// Initialize MonthlyEvents

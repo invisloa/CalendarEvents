@@ -10,7 +10,7 @@ namespace CalendarT1.ViewModels.EventOperations
 	{
 		protected IEventRepository _eventRepository;
 		protected EventModel _currentEvent;
-
+		protected bool _isCompleted;
 		protected string _title;
 		protected string _description;
 		protected ObservableCollection<EventPriority> _eventPriorities;
@@ -26,6 +26,16 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected AsyncRelayCommand _submitEventCommand;
 
 		// Basic Event Information
+		public bool IsCompleted
+		{
+			get => _isCompleted;
+			set
+			{
+				_isCompleted = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public string Title
 		{
 			get => _title;
@@ -144,6 +154,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			EndDateTime = DateTime.Today;
 			StartExactTime = DateTime.Now.TimeOfDay;
 			EndExactTime = DateTime.Now.TimeOfDay;
+			IsCompleted = false;
 		}
 	}
 }

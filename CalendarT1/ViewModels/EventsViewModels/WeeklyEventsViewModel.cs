@@ -14,13 +14,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 						: base(eventRepository) { }
 		public async override Task BindDataToScheduleList()
 		{
-			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevel).ToList();
+			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevelEnums).ToList();
 			var startOfWeek = CurrentSelectedDate.AddDays(-(int)CurrentSelectedDate.DayOfWeek);
 			var endOfWeek = startOfWeek.AddDays(7);
 			var filteredScheduleList = AllEventsList
 				.Where(x => x.StartDateTime.Date >= startOfWeek.Date ||
 							 x.EndDateTime.Date < endOfWeek.Date &&
-							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevel))
+							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevelEnums))
 				.ToList();
 			// Initialize WeeklyEvents
 			EventsToShowList = new ObservableCollection<EventModel>(filteredScheduleList);

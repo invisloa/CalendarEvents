@@ -42,7 +42,7 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:EventPriority" >
-                    <Button Text="{Binding PriorityLevel}"  TextColor="White" FontSize="12"
+                    <Button Text="{Binding PriorityLevelEnums}"  TextColor="White" FontSize="12"
                             Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                             CommandParameter="{Binding}">
                         <Button.Triggers>

@@ -10,6 +10,21 @@
 		public EventPriority PriorityLevel { get; set; }
 		public bool IsCompleted { get; set; }
 		public bool WasShown { get; set; }
+		public Color EventVisibleColor
+		{
+			get
+			{
+				Color color = PriorityLevel.PriorityColorMapper.GetColor(PriorityLevel.PriorityLevelEnums);
+
+				// Apply the completed color adjustment if necessary
+				if (IsCompleted)
+				{
+					color = IsCompleteColorAdapt(color);
+				}
+
+				return color;
+			}
+		}
 		public List<DateTime> PostponeHistory { get; set; }
 		public EventModel(string title, string description, EventPriority eventPriority, DateTime startTime, DateTime endTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
 		{
@@ -24,5 +39,11 @@
 			PostponeHistory = new List<DateTime>(); // default new list 
 
 		}
+		private Color IsCompleteColorAdapt(Color color)
+		{
+			// Here you can make the color gray or decrease the alpha. Here's an example of decreasing the alpha:
+			return Color.FromRgba(color.Red, color.Green, color.Blue, color.Alpha / 20);
+		}
+
 	}
 }

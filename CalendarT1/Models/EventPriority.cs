@@ -22,13 +22,12 @@ namespace CalendarT1.Models
 				return _priorityColorMapper;
 			}
 		}
-		public EnumPriorityLevels PriorityLevel { get; set; }
+		public EnumPriorityLevels PriorityLevelEnums { get; set; }
 		public Color PriorityColor
 		{
 			get
 			{
-				Color baseColor = _priorityColorMapper.GetColor(PriorityLevel);
-				return _isSelected ? baseColor : baseColor.MultiplyAlpha(0.5f);
+				return _priorityColorMapper.GetColor(PriorityLevelEnums);
 			}
 			set
 			{
@@ -45,19 +44,20 @@ namespace CalendarT1.Models
 				{
 					_isSelected = value;
 					OnPropertyChanged();
-					OnPropertyChanged(nameof(PriorityColor));
 				}
 			}
 		}
 		public override string ToString()
 		{
-			return PriorityLevel.ToString(); // Return the string representation of the PriorityLevel enum
+			return PriorityLevelEnums.ToString(); // Return the string representation of the PriorityLevel enum
 		}
 
+
+		// Event Priority constructor
 		public EventPriority(EnumPriorityLevels eventPriorityLevel)
 		{
 			_priorityColorMapper = new PriorityColorMapper();
-			PriorityLevel = eventPriorityLevel;
+			PriorityLevelEnums = eventPriorityLevel;
 			PriorityColor = _priorityColorMapper.GetColor(eventPriorityLevel);
 			IsSelected = true;  // All priority levels selected by default
 		}

@@ -25,11 +25,12 @@ namespace CalendarT1.ViewModels.EventOperations
 			_currentEvent = eventToEdit;
 			Title = _currentEvent.Title;
 			Description = _currentEvent.Description;
-			EventPriority = EventPriorities.First(ep => ep.PriorityLevel == _currentEvent.PriorityLevel.PriorityLevel);
+			EventPriority = EventPriorities.First(ep => ep.PriorityLevelEnums == _currentEvent.PriorityLevel.PriorityLevelEnums);
 			StartDateTime = _currentEvent.StartDateTime.Date;
 			EndDateTime = _currentEvent.EndDateTime.Date;
 			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
 			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
+			IsCompleted = _currentEvent.IsCompleted;
 			SubmitButtonText = "Submit Changes";
 			ShareEvents = new ShareEventsJson(_eventRepository);  // TODO TO CHANGE 
 			ShareEventCommand = new RelayCommand(ShareEvent);
@@ -41,7 +42,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_currentEvent.PriorityLevel = EventPriority;
 			_currentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_currentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
-			_currentEvent.IsCompleted = false;
+			_currentEvent.IsCompleted = IsCompleted;
 			await _eventRepository.UpdateEventAsync(_currentEvent);
 			await Shell.Current.GoToAsync("..");
 		}

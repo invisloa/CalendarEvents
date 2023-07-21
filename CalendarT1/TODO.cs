@@ -3,15 +3,10 @@
 
 #region Current
 /*
- * 			// change shareeventsModel to probably DeepLingking model
- * 			
- * 			event reminder
- * 			add alpha to the color if the event is completed
-			
- *	
- * 
-
-		// change inproperties .wait() to async methods with await()
+ * 	// change shareeventsModel to probably DeepLingking model
+ * 	event reminder
+ * 	check alpha color if the event is completed
+	// change inproperties .wait() to async methods with await()
  */
 #endregion
 
