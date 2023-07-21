@@ -8,6 +8,7 @@ namespace CalendarT1.ViewModels.EventOperations
 {
 	public abstract class EventOperationsBase : BaseViewModel
 	{
+		#region Properties
 		protected IEventRepository _eventRepository;
 		protected EventModel _currentEvent;
 		protected bool _isCompleted;
@@ -24,7 +25,6 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
-
 		// Basic Event Information
 		public bool IsCompleted
 		{
@@ -81,9 +81,14 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_startDateTime = value;
 				OnPropertyChanged();
-				AdjustEndDateTime();
+				if (_startDateTime > _endDateTime)
+				{
+					_endDateTime = _startDateTime;
+					OnPropertyChanged(nameof(EndDateTime));
+				}
 			}
 		}
+
 		public TimeSpan StartExactTime
 		{
 			get => _startExactTime;
@@ -91,28 +96,52 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_startExactTime = value;
 				OnPropertyChanged();
-				AdjustEndExactTime();
+				if (_startDateTime.Date == _endDateTime.Date && _startExactTime > _endExactTime)
+				{
+					_endExactTime = _startExactTime;
+					OnPropertyChanged(nameof(EndExactTime));
+				}
 			}
 		}
-		// End Date/Time
+
 		public DateTime EndDateTime
 		{
 			get => _endDateTime;
 			set
 			{
-				_endDateTime = value;
-				ValidateAndAdjustEndDateTime();
+				if (_startDateTime > value)
+				{
+					_startDateTime = value;
+					_endDateTime = _startDateTime;
+					OnPropertyChanged(nameof(StartDateTime));
+				}
+				else
+				{
+					_endDateTime = value;
+				}
+				OnPropertyChanged();
 			}
 		}
+
 		public TimeSpan EndExactTime
 		{
 			get => _endExactTime;
 			set
 			{
-				_endExactTime = value;
+				if (_startDateTime.Date == _endDateTime.Date && value < _startExactTime)
+				{
+					_startExactTime = value;
+					_endExactTime = _startExactTime;
+					OnPropertyChanged(nameof(StartExactTime));
+
+				}
+				else
+				{
+					_endExactTime = value;
+				}
 				OnPropertyChanged();
 			}
-		}
+		}       
 		// Submit Event Command
 		public string SubmitButtonText
 		{
@@ -124,37 +153,24 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
+		#endregion
 
 		// Helper Methods
-		protected void AdjustEndDateTime()
-		{
-			if (StartDateTime > EndDateTime)
-			{
-				EndDateTime = StartDateTime;
-			}
-		}
-		protected void AdjustEndExactTime()
-		{
-			EndExactTime = StartExactTime;
-		}
-		protected void ValidateAndAdjustEndDateTime()
-		{
-			if (StartDateTime > EndDateTime)
-			{
-				EndDateTime = StartDateTime;
-			}
-			OnPropertyChanged(nameof(EndDateTime));
-		}
+		#region Date adjusting methods
 		protected void ClearFields()
 		{
 			Title = "";
 			Description = "";
-			EventPriority = EventPriorities[0];
+			if (EventPriorities != null && EventPriorities.Count > 0)
+			{
+				EventPriority = EventPriorities[0];
+			}
 			StartDateTime = DateTime.Today;
 			EndDateTime = DateTime.Today;
 			StartExactTime = DateTime.Now.TimeOfDay;
 			EndExactTime = DateTime.Now.TimeOfDay;
 			IsCompleted = false;
 		}
+		#endregion
 	}
 }
