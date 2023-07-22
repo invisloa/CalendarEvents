@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalendarT1.Views.EventPage"
+             Title="{Binding PageTitle}">
+    <VerticalStackLayout>
+        <Label 
+            Text="{Binding HeaderText}"
+            VerticalOptions="StartAndExpand" 
+            HorizontalOptions="CenterAndExpand" />
+        <Entry Placeholder="Title"
+               x:Name="TitleEntry" 
+               Text="{Binding Title}"/>
+        <DatePicker x:Name="StartDatePicker"
+                    Date="{Binding StartDateTime}"
+                    />
+        <TimePicker x:Name="StartTimePicker" Format="HH:mm"
+                    Time="{Binding StartExactTime}"/>
+        <DatePicker x:Name="EndDatePicker"
+                    Date="{Binding EndDateTime}"
+                    />
+        <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
+                    Time="{Binding EndExactTime}"/>
+        <Picker Title="Event type"
+                ItemsSource="{Binding EventTypesOC}"
+                SelectedItem="{Binding EventType, Mode=TwoWay}">
+        </Picker>
+        <Editor Placeholder="Description"
+                x:Name="DescriptionEditor" 
+                Text="{Binding Description, Mode=TwoWay}"/>
+        <Button Text="{Binding SubmitButtonText}"
+                Command="{Binding SubmitEventCommand}"/>
+        <Button Text="ShareEvent"
+                Command="{Binding ShareEventCommand}"
+                IsVisible="{Binding IsEdit}"/>
+        <Button Text="Temporary Delete Button"
+                Command="{Binding DeleteEventCommand}"
+                IsVisible="{Binding IsEdit}"/>
+        <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
+                  IsVisible="{Binding IsEdit}"/>
+    </VerticalStackLayout>
+</ContentPage>
