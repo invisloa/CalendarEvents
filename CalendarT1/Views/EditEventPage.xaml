@@ -22,10 +22,9 @@
                     />
         <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
                     Time="{Binding EndExactTime}"/>
-        <Picker Title="Priority Level"
-                x:Name="PriorityPicker"
-                ItemsSource="{Binding EventPriorities}"
-                SelectedItem="{Binding EventPriority, Mode=TwoWay}">
+        <Picker Title="Event type"
+                ItemsSource="{Binding EventTypesOC}"
+                SelectedItem="{Binding EventType, Mode=TwoWay}">
         </Picker>
         <Editor Placeholder="Description"
                 x:Name="DescriptionEditor" 

@@ -34,7 +34,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public override async Task BindDataToScheduleList()
 		{
-			await ApplyEventFilter(CurrentSelectedDate, CurrentSelectedDate);
+			await ApplyEventFilter(CurrentSelectedDate.Date, CurrentSelectedDate.AddDays(1));
 		}
 
 	}

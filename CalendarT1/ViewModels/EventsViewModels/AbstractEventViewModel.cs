@@ -174,12 +174,29 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			var selectedEventTypes = EventTypesOC.Where(x => x.IsSelectedToFilter).Select(x => x.EventTypeName).ToList();
 
 			var allEvents = await EventRepository.GetEventsListAsync();
-			var filteredEvents = allEvents
-				.Where(x => x.StartDateTime.Date >= startDate &&
-							x.EndDateTime.Date <= endDate &&
-							selectedEventTypes.Contains(x.EventType.EventTypeName))
-				.ToList();
 
+			List<EventModel> filteredEvents = new List<EventModel>();
+
+			// Step 1: Get events that fall within the specified date range
+			foreach (var eventModel in allEvents)
+			{
+				if (eventModel.StartDateTime.Date >= startDate && eventModel.EndDateTime.Date <= endDate)
+				{
+					// Step 2: Get events of selected event types
+					if (selectedEventTypes.Contains(eventModel.EventType.EventTypeName))
+					{
+						// Step 3: Add the filtered event to a list
+						filteredEvents.Add(eventModel);
+					}
+				}
+			}
+
+			/*			var filteredEvents = allEvents
+							.Where(x => x.StartDateTime.Date >= startDate &&
+										x.EndDateTime.Date <= endDate &&
+										selectedEventTypes.Contains(x.EventType.EventTypeName))
+							.ToList();
+			*/
 			EventsToShowList = new ObservableCollection<EventModel>(filteredEvents);
 		}
 	}
