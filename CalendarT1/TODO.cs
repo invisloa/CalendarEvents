@@ -2,7 +2,7 @@
 
 
 #region Current
-/*add event reminder page and all system for it + some refactoring of DI
+/*add event reminder page and reminding service for it + some refactoring of DI
  * 
  * 
  * 

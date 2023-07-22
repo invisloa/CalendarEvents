@@ -1,4 +1,4 @@
-﻿using CalendarT1.Models;
+﻿/*using CalendarT1.Models;
 using CalendarT1.Services.DataOperations.Interfaces;
 using System;
 using System.Linq;
@@ -9,7 +9,6 @@ namespace CalendarT1.Services
 	public class EventReminderService 
 	{
 		private readonly IEventRepository _eventRepository;
-		private readonly IPopupService _popupService;
 
 		public EventReminderService(IEventRepository eventRepository, IPopupService popupService)
 		{
@@ -70,3 +69,4 @@ namespace CalendarT1.Services
 		}
 	}
 }
+*/

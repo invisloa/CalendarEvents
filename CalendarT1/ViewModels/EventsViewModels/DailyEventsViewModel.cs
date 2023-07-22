@@ -13,6 +13,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public AsyncRelayCommand DeleteAllEventsCommand { get; set; }
 		public DailyEventsViewModel( IEventRepository eventRepository) : base( eventRepository)
 		{
+			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
+			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
 		}
 
 		public async Task DeleteOneEvent()

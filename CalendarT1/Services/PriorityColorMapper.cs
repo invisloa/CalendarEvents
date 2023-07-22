@@ -18,11 +18,9 @@ namespace CalendarT1.Services
 		{
 			_mapping = new Dictionary<EnumPriorityLevels, Color>()
 		{
-			{ EnumPriorityLevels.Lowest, Colors.LightSeaGreen },
-			{ EnumPriorityLevels.Low, Colors.Green },
-			{ EnumPriorityLevels.Medium, Colors.Blue },
-			{ EnumPriorityLevels.High, Colors.Violet },
-			{ EnumPriorityLevels.Highest, Colors.Magenta }
+			{ EnumPriorityLevels.Low, Colors.LightGreen },
+			{ EnumPriorityLevels.Medium, Colors.BlueViolet },
+			{ EnumPriorityLevels.High, Colors.Red },
 		};
 		}
 
