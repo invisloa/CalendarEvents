@@ -147,13 +147,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		private void GoToAddEventPage()
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new AddEventPage(_eventRepository));
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository));
 		}
 
 		private void SelectEvent(EventModel selectedEvent)
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
-			Application.Current.MainPage.Navigation.PushAsync(new EditEventPage(_eventRepository, selectedEvent));
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));
 		}
 		#endregion
 
