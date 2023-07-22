@@ -119,7 +119,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		private RelayCommand<EventTypeModel> _selectEventPriorityCommand;
 		public RelayCommand<EventTypeModel> SelectEventPriorityCommand =>
-			_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<EventTypeModel>(SelectEventPriority));
+			_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<EventTypeModel>(SelectEventType));
 
 		private RelayCommand _goToAddEventPageCommand;
 		public RelayCommand GoToAddEventPageCommand =>
@@ -133,7 +133,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Methods
 
-		private void SelectEventPriority(EventTypeModel eventPriority)
+		private void SelectEventType(EventTypeModel eventPriority)
 		{
 			eventPriority.IsSelectedToFilter = !eventPriority.IsSelectedToFilter;
 			BindDataToScheduleList();

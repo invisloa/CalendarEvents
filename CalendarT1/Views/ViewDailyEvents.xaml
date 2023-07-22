@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:CalendarT1.Models"
              xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
              xmlns:local="clr-namespace:CalendarT1.ViewModels.EventsViewModels"
+             xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              x:DataType="local:DailyEventsViewModel"
              x:Class="CalendarT1.Views.ViewDailyEvents"
              Title="Daily events list">
@@ -34,7 +35,9 @@
         </Grid>
 
         <!-- EventPriorities collection -->
-        <CollectionView ItemsSource="{Binding EventTypesOC}" Grid.Row="1" HorizontalOptions="CenterAndExpand">
+        <customControls:NewContent1 Grid.Row="1"/>
+
+        <!--<CollectionView ItemsSource="{Binding EventTypesOC}" Grid.Row="1" HorizontalOptions="CenterAndExpand">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
@@ -58,7 +61,7 @@
                     </Button>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </CollectionView>-->
 
         <!-- Events list layout -->
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">

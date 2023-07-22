@@ -36,31 +36,7 @@
         </Grid>
 
         <!-- EventPriorities collection -->
-        <CollectionView ItemsSource="{Binding EventTypesOC}" Grid.Row="1" HorizontalOptions="Center">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal"/>
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:EventTypeModel" >
-                    <Button Text="{Binding EventTypeName}"  TextColor="White" FontSize="12"
-                            Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                            CommandParameter="{Binding}">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button" 
-                                        Binding="{Binding IsSelected}" 
-                                        Value="True">
-                                <Setter Property="Background" Value="{Binding EventTypeColor}" />
-                            </DataTrigger>
-                            <DataTrigger TargetType="Button" 
-                                        Binding="{Binding IsSelected}" 
-                                        Value="False">
-                                <Setter Property="Background" Value="LightGray"/>
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+        <customControls:NewContent1 Grid.Row="1"/>
 
         <!--Events list layout-->
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
