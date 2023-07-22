@@ -34,23 +34,23 @@
         </Grid>
 
         <!-- EventPriorities collection -->
-        <CollectionView ItemsSource="{Binding EventPriorities}" Grid.Row="1" HorizontalOptions="CenterAndExpand">
+        <CollectionView ItemsSource="{Binding EventTypesOC}" Grid.Row="1" HorizontalOptions="CenterAndExpand">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal" />
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:EventPriority">
-                    <Button Text="{Binding PriorityLevelEnums}"  WidthRequest="100" TextColor="White" 
+                <DataTemplate x:DataType="models:EventTypeModel">
+                    <Button Text="{Binding EventTypeName}"  WidthRequest="100" TextColor="White" 
                             Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                             CommandParameter="{Binding}">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button" 
-                                        Binding="{Binding IsSelected}" 
+                                        Binding="{Binding IsSelectedToFilter}" 
                                         Value="True">
-                                <Setter Property="BackgroundColor" Value="{Binding PriorityColor}" />
+                                <Setter Property="BackgroundColor" Value="{Binding EventTypeColor}" />
                             </DataTrigger>
                             <DataTrigger TargetType="Button" 
-                                        Binding="{Binding IsSelected}" 
+                                        Binding="{Binding IsSelectedToFilter}" 
                                         Value="False">
                                 <Setter Property="BackgroundColor" Value="LightGray"/>
                             </DataTrigger>

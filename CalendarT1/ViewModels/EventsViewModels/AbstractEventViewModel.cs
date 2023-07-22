@@ -3,6 +3,7 @@ using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
 using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
@@ -40,17 +41,17 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private ObservableCollection<EventPriority> _eventPriorities;
-		public ObservableCollection<EventPriority> EventPriorities
+		private ObservableCollection<EventTypeModel> _eventTypesOC;
+		public ObservableCollection<EventTypeModel> EventTypesOC
 		{
-			get => _eventPriorities;
+			get => _eventTypesOC;
 			set
 			{
-				if(_eventPriorities == value)
+				if(_eventTypesOC == value)
 				{
 					return;
 				}
-				_eventPriorities = value;
+				_eventTypesOC = value;
 				OnPropertyChanged();
 			}
 		}
@@ -86,8 +87,28 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		public AbstractEventViewModel(IEventRepository eventRepository)
 		{
-			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
+
+			
+			EventTypesOC = new ObservableCollection<EventTypeModel>();
+			EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
+			EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
+			var eventTypes = EventTypesOC;
+			var json = JsonConvert.SerializeObject(eventTypes);
+			Preferences.Set("event_types", json);
+
+			 json = Preferences.Get("event_types", "");
+			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<EventTypeModel>>(json);
+/*			if (EventTypesOC == null)
+			{
+				EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
+				EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
+				var eventTypes = EventTypesOC;
+				json = JsonConvert.SerializeObject(eventTypes);
+				Preferences.Set("event_types", json);
+			}
+*/
 			_eventRepository = eventRepository;
+
 		}
 
 		#region Commands
@@ -96,9 +117,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public RelayCommand<DateTime> DatePickerDateSelectedCommand =>
 			_datePickerDateSelectedCommand ?? (_datePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected));
 
-		private RelayCommand<EventPriority> _selectEventPriorityCommand;
-		public RelayCommand<EventPriority> SelectEventPriorityCommand =>
-			_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<EventPriority>(SelectEventPriority));
+		private RelayCommand<EventTypeModel> _selectEventPriorityCommand;
+		public RelayCommand<EventTypeModel> SelectEventPriorityCommand =>
+			_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<EventTypeModel>(SelectEventPriority));
 
 		private RelayCommand _goToAddEventPageCommand;
 		public RelayCommand GoToAddEventPageCommand =>
@@ -112,9 +133,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Methods
 
-		private void SelectEventPriority(EventPriority eventPriority)
+		private void SelectEventPriority(EventTypeModel eventPriority)
 		{
-			eventPriority.IsSelected = !eventPriority.IsSelected;
+			eventPriority.IsSelectedToFilter = !eventPriority.IsSelectedToFilter;
 			BindDataToScheduleList();
 		}
 
@@ -146,5 +167,20 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 
 		#endregion
+
+
+		protected async Task ApplyEventFilter(DateTime startDate, DateTime endDate)
+		{
+			var selectedEventTypes = EventTypesOC.Where(x => x.IsSelectedToFilter).Select(x => x.EventTypeName).ToList();
+
+			var allEvents = await EventRepository.GetEventsListAsync();
+			var filteredEvents = allEvents
+				.Where(x => x.StartDateTime.Date >= startDate &&
+							x.EndDateTime.Date <= endDate &&
+							selectedEventTypes.Contains(x.EventType.EventTypeName))
+				.ToList();
+
+			EventsToShowList = new ObservableCollection<EventModel>(filteredEvents);
+		}
 	}
 }

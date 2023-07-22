@@ -6,22 +6,6 @@ namespace CalendarT1.Services
 {
 	public static class Factory
 	{
-		public static IEnumerable<EventPriority> CreateAllPrioritiesLevelsEnumerable()
-		{
-			return Enum.GetValues(typeof(EnumPriorityLevels))
-				.Cast<EnumPriorityLevels>()
-				.Select(level => CreatePriority(level));
-		}
-
-		// event priorities
-		#region EventPriorities
-		public static EventPriority CreatePriority(EnumPriorityLevels level)
-		{
-			return new EventPriority(level);
-		}
-
-		#endregion
-
 		// Event Repository
 		#region EventRepository
 		private static IEventRepository CreateEventRepository() => new LocalMachineEventRepository();

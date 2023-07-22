@@ -34,17 +34,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public override async Task BindDataToScheduleList()
 		{
-			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevelEnums).ToList();
-
-			var allEvents = await EventRepository.GetEventsListAsync();
-
-			var filteredScheduleList = allEvents
-				.Where(x => (x.StartDateTime.Date == CurrentSelectedDate.Date ||
-							 x.EndDateTime.Date == CurrentSelectedDate.Date) &&
-							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevelEnums))
-				.ToList();
-
-			EventsToShowList = new ObservableCollection<EventModel>(filteredScheduleList);
+			await ApplyEventFilter(CurrentSelectedDate, CurrentSelectedDate);
 		}
 
 	}

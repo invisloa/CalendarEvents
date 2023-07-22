@@ -7,31 +7,30 @@
 		public DateTime EndDateTime { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
-		public EventPriority PriorityLevel { get; set; }
+		public EventTypeModel EventType { get; set; }
 		public bool IsCompleted { get; set; }
 		public bool WasShown { get; set; }
 		public Color EventVisibleColor
 		{
 			get
 			{
-				Color color = PriorityLevel.PriorityColorMapper.GetColor(PriorityLevel.PriorityLevelEnums);
+				Color color = EventType.EventTypeColor;
 
 				// Apply the completed color adjustment if necessary
 				if (IsCompleted)
 				{
 					color = IsCompleteColorAdapt(color);
 				}
-
 				return color;
 			}
 		}
 		public List<DateTime> PostponeHistory { get; set; }
-		public EventModel(string title, string description, EventPriority eventPriority, DateTime startTime, DateTime endTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
+		public EventModel(string title, string description, EventTypeModel eventPriority, DateTime startTime, DateTime endTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
 		{
 			Id = Guid.NewGuid();
 			Title = title;
 			Description = description;
-			PriorityLevel = eventPriority;
+			EventType = eventPriority;
 			StartDateTime = startTime;
 			EndDateTime = endTime;
 			IsCompleted = isCompleted;

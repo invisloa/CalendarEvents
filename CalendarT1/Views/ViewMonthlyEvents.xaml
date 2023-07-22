@@ -36,20 +36,20 @@
         </Grid>
 
         <!-- EventPriorities collection -->
-        <CollectionView ItemsSource="{Binding EventPriorities}" Grid.Row="1" HorizontalOptions="Center">
+        <CollectionView ItemsSource="{Binding EventTypesOC}" Grid.Row="1" HorizontalOptions="Center">
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal"/>
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:EventPriority" >
-                    <Button Text="{Binding PriorityLevelEnums}"  TextColor="White" FontSize="12"
+                <DataTemplate x:DataType="models:EventTypeModel" >
+                    <Button Text="{Binding EventTypeName}"  TextColor="White" FontSize="12"
                             Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                             CommandParameter="{Binding}">
                         <Button.Triggers>
                             <DataTrigger TargetType="Button" 
                                         Binding="{Binding IsSelected}" 
                                         Value="True">
-                                <Setter Property="Background" Value="{Binding PriorityColor}" />
+                                <Setter Property="Background" Value="{Binding EventTypeColor}" />
                             </DataTrigger>
                             <DataTrigger TargetType="Button" 
                                         Binding="{Binding IsSelected}" 

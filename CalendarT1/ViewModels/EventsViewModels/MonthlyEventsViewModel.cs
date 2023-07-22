@@ -17,24 +17,16 @@ namespace CalendarT1.ViewModels.EventsViewModels
 						: base(eventRepository) { }
 		public async override Task BindDataToScheduleList()
 		{
-			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevelEnums).ToList();
-
 			// Start of the month
 			var startOfMonth = new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, 1);
 
 			// End of the month
 			var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
 
-			var filteredScheduleList = AllEventsList
-				.Where(x => x.StartDateTime.Date >= startOfMonth.Date &&
-							x.EndDateTime.Date <= endOfMonth.Date &&
-							selectedPriorities.Contains(x.PriorityLevel.PriorityLevelEnums))
-				.ToList();
+			await ApplyEventFilter(startOfMonth, endOfMonth);
 
-			// Initialize MonthlyEvents
-			EventsToShowList = new ObservableCollection<EventModel>(filteredScheduleList);
+			OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
 
-			OnOnEventsToShowListUpdated();
 		}
 	}
 }

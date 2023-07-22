@@ -1,6 +1,7 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 
@@ -8,14 +9,24 @@ namespace CalendarT1.ViewModels.EventOperations
 {
 	public abstract class EventOperationsBase : BaseViewModel
 	{
+		public EventOperationsBase()
+		{
+			var json = Preferences.Get("event_types", "");
+			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<EventTypeModel>>(json);
+			if (EventTypesOC == null)
+			{
+				EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
+				EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
+			}
+
+		}
 		#region Properties
 		protected IEventRepository _eventRepository;
 		protected EventModel _currentEvent;
 		protected bool _isCompleted;
 		protected string _title;
 		protected string _description;
-		protected ObservableCollection<EventPriority> _eventPriorities;
-		protected EventPriority _eventPriority;
+
 
 		protected DateTime _startDateTime = DateTime.Today;
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
@@ -52,24 +63,6 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_description = value;
-				OnPropertyChanged();
-			}
-		}
-		public EventPriority EventPriority
-		{
-			get => _eventPriority;
-			set
-			{
-				_eventPriority = value;
-				OnPropertyChanged();
-			}
-		}
-		public ObservableCollection<EventPriority> EventPriorities
-		{
-			get => _eventPriorities;
-			set
-			{
-				_eventPriorities = value;
 				OnPropertyChanged();
 			}
 		}
@@ -161,9 +154,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			Title = "";
 			Description = "";
-			if (EventPriorities != null && EventPriorities.Count > 0)
+			if (EventTypesOC != null && EventTypesOC.Count > 0)
 			{
-				EventPriority = EventPriorities[0];
+				EventType = EventTypesOC[0];
 			}
 			StartDateTime = DateTime.Today;
 			EndDateTime = DateTime.Today;
@@ -172,5 +165,27 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = false;
 		}
 		#endregion
+		protected ObservableCollection<EventTypeModel> _eventTypesOC;
+		public ObservableCollection<EventTypeModel> EventTypesOC
+		{
+			get => _eventTypesOC;
+			set
+			{
+				_eventTypesOC = value;
+				OnPropertyChanged();
+			}
+		}
+
+		protected EventTypeModel _eventType;
+		public EventTypeModel EventType
+		{
+			get => _eventType;
+			set
+			{
+				_eventType = value;
+				OnPropertyChanged();
+			}
+		}
+
 	}
 }

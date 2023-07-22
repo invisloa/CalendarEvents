@@ -16,16 +16,15 @@ namespace CalendarT1.ViewModels.EventOperations
 		private IShareEvents _shareEvents;
 		public IShareEvents ShareEvents { get => _shareEvents; set { _shareEvents = value; } }
 
-		public EditEventViewModel(IEventRepository eventRepository, EventModel eventToEdit)
+		public EditEventViewModel(IEventRepository eventRepository, EventModel eventToEdit) : base()
 		{
 			_submitEventCommand = new AsyncRelayCommand(EditEvent,CanEditEvent);
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
-			EventPriorities = new ObservableCollection<EventPriority>(Factory.CreateAllPrioritiesLevelsEnumerable());
 			_eventRepository = eventRepository;
 			_currentEvent = eventToEdit;
 			Title = _currentEvent.Title;
 			Description = _currentEvent.Description;
-			EventPriority = EventPriorities.First(ep => ep.PriorityLevelEnums == _currentEvent.PriorityLevel.PriorityLevelEnums);
+			EventType = EventTypesOC.First(ep => ep.EventTypeName == _currentEvent.EventType.EventTypeName);
 			StartDateTime = _currentEvent.StartDateTime.Date;
 			EndDateTime = _currentEvent.EndDateTime.Date;
 			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
@@ -39,7 +38,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_currentEvent.Title = Title;
 			_currentEvent.Description = Description;
-			_currentEvent.PriorityLevel = EventPriority;
+			_currentEvent.EventType = EventType;
 			_currentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_currentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 			_currentEvent.IsCompleted = IsCompleted;

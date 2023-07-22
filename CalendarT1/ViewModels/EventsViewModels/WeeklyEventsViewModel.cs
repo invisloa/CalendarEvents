@@ -12,19 +12,19 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public WeeklyEventsViewModel
 						(IEventRepository eventRepository) 
 						: base(eventRepository) { }
+
 		public async override Task BindDataToScheduleList()
 		{
-			var selectedPriorities = EventPriorities.Where(x => x.IsSelected).Select(x => x.PriorityLevelEnums).ToList();
+			// Start of the Week
 			var startOfWeek = CurrentSelectedDate.AddDays(-(int)CurrentSelectedDate.DayOfWeek);
+
+			// End of the Week
 			var endOfWeek = startOfWeek.AddDays(7);
-			var filteredScheduleList = AllEventsList
-				.Where(x => x.StartDateTime.Date >= startOfWeek.Date ||
-							 x.EndDateTime.Date < endOfWeek.Date &&
-							 selectedPriorities.Contains(x.PriorityLevel.PriorityLevelEnums))
-				.ToList();
-			// Initialize WeeklyEvents
-			EventsToShowList = new ObservableCollection<EventModel>(filteredScheduleList);
-			OnOnEventsToShowListUpdated();
+
+			await ApplyEventFilter(startOfWeek, endOfWeek);
+
+			OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
+
 		}
 	}
 }

@@ -24,8 +24,9 @@
                     Time="{Binding EndExactTime}"/>
         <Picker Title="Priority Level"
                 x:Name="PriorityPicker"
-                ItemsSource="{Binding EventPriorities}"
-                SelectedItem="{Binding EventPriority, Mode=TwoWay}">
+                ItemsSource="{Binding EventTypesOC}"
+                SelectedItem="{Binding EventType, Mode=TwoWay}">
+<!--Add some color indicator to show what color the exact event type is in add/editEvent Pages-->            
         </Picker>
         <Editor Placeholder="Description"
                 x:Name="DescriptionEditor" 

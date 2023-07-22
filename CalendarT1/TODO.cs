@@ -4,8 +4,12 @@
 #region Current
 /*add event reminder page and reminding service for it + some refactoring of DI
  * 
- * 
- * 
+// event share if the event has some not present type inform user and ask if he wants to add it or set the event to own type
+// delete type of event ask the user if he wants to delete all events of this type or switch them to another type
+
+ 
+ 
+ * Add some color indicator to show what color the exact event type is in add/editEvent Pages
  * 
  * 	// change shareeventsModel to probably DeepLingking model
  * 	event reminder
