@@ -2,9 +2,11 @@
 
 
 #region Current
+// add eventtypes page
+
 /*add event reminder page and reminding service for it + some refactoring of DI
  * 
-// event share if the event has some not present type inform user and ask if he wants to add it or set the event to own type
+// event share if the event has some other type then the users inform user and ask if he wants to add it or set the event to own type
 // delete type of event ask the user if he wants to delete all events of this type or switch them to another type
 
  
@@ -14,7 +16,7 @@
  * 	// change shareeventsModel to probably DeepLingking model
  * 	event reminder
 	// change inproperties .wait() to async methods with await()
- */
+ */ // quicklist shoppinglist/todo list
 #endregion
 
 
@@ -38,12 +40,9 @@
 
 
 #region Low Priority
-// make current week view, current month view, current day view
-// change priority level picker to button like choosing  <Picker Title="Priority Level" x: Name = "PriorityPicker" ItemsSource = "{Binding EventPriorities}" SelectedItem = "{Binding EventPriority, Mode=TwoWay}" >
 // make a buttons to go one day forward and one day back
 // make a button to go to current day (today)
-// add delete event button
-// add checked event button and button to show only checked events
+// add checked event button and button to show only unchecked events
 #endregion
 
 
