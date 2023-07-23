@@ -18,6 +18,8 @@ namespace CalendarT1.ViewModels
 			private bool _isTask= false;
 			private float _eventOpacity;
 			private float _taskOpacity;
+			private int _borderSize = 10;
+
 			public float EventOpacity
 			{
 				get => _eventOpacity;
@@ -229,29 +231,28 @@ namespace CalendarT1.ViewModels
 				}
 			}
 
-
 			#region Button Borders 
 			private void ResetBorders()
 			{
 				// Reset all colors and shades
-				OrangeLBorder = 10;
-				OrangeNBorder = 10;
-				OrangeDBorder = 10;
-				RedLBorder = 10;
-				RedNBorder = 10;
-				RedDBorder = 10;
-				BlueLBorder = 10;
-				BlueNBorder = 10;
-				BlueDBorder = 10;
-				GreenLBorder = 10;
-				GreenNBorder = 10;
-				GreenDBorder = 10;
-				YellowLBorder = 10;
-				YellowNBorder = 10;
-				YellowDBorder = 10;
-				PinkLBorder = 10;
-				PinkNBorder = 10;
-				PinkDBorder = 10;
+				OrangeLBorder = _borderSize;
+				OrangeNBorder = _borderSize;
+				OrangeDBorder = _borderSize;
+				RedLBorder = _borderSize;
+				RedNBorder = _borderSize;
+				RedDBorder = _borderSize;
+				BlueLBorder = _borderSize;
+				BlueNBorder = _borderSize;
+				BlueDBorder = _borderSize;
+				GreenLBorder = _borderSize;
+				GreenNBorder = _borderSize;
+				GreenDBorder = _borderSize;
+				YellowLBorder = _borderSize;
+				YellowNBorder = _borderSize;
+				YellowDBorder = _borderSize;
+				PinkLBorder = _borderSize;
+				PinkNBorder = _borderSize;
+				PinkDBorder = _borderSize;
 			}
 			private int _eventBorder;
 			public int EventBorder

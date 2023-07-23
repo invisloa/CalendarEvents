@@ -9,6 +9,19 @@
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <!-- Define the style for labels -->
+            <Style TargetType="Label">
+                <Setter Property="FontFamily" Value="MyNormalFont" />
+                <Setter Property="FontSize" Value="16" />
+                
+            </Style>
+
+            <!-- Define the style for buttons -->
+            <Style TargetType="Button">
+                <Setter Property="FontFamily" Value="MyNormalFont" />
+                <Setter Property="MinimumHeightRequest" Value="40" />
+                <Setter Property="FontSize" Value="16" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
