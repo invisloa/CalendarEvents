@@ -13,15 +13,42 @@ namespace CalendarT1.ViewModels
 	{
 		public class AddNewTypePageViewModel : BaseViewModel
 		{
-			private string _selectedColor;
+			private Color _selectedColor;
 			private string _typeName;
-			private bool _isTask;
-
+			private bool _isTask= false;
+			private float _eventOpacity;
+			private float _taskOpacity;
+			public float EventOpacity
+			{
+				get => _eventOpacity;
+				set
+				{
+					if (_eventOpacity == value)
+					{
+						return;
+					}
+					_eventOpacity = value;
+					OnPropertyChanged();
+				}
+			}	
+			public float TaskOpacity
+			{
+				get => _taskOpacity;
+				set
+				{
+					if (_taskOpacity == value)
+					{
+						return;
+					}
+					_taskOpacity = value;
+					OnPropertyChanged();
+				}
+			}
 			public RelayCommand<string> ColorSelectionCommand { get; private set; }
 			public RelayCommand<string> EventTypeSelectedCommand { get; private set; }
 			private void SetEventTypeSelected(string isTask)
 			{
-				if (isTask == "Task") 
+				if (isTask == "Task")
 				{
 					IsTask = true;
 				}
@@ -29,8 +56,26 @@ namespace CalendarT1.ViewModels
 				{
 					IsTask = false;
 				}
+				SetVisualsForEventTask();
 			}
-			public string SelectedColor
+			private void SetVisualsForEventTask()
+			{
+				if (IsTask)
+				{
+					EventOpacity = 0.3f;
+					TaskOpacity = 1;
+					EventBorder = 10;
+					TaskBorder = 0;
+				}
+				else
+				{
+					EventOpacity = 1;
+					TaskOpacity = 0.3f;
+					EventBorder = 0;
+					TaskBorder = 10;
+				}
+			}
+			public Color SelectedColor
 			{
 				get => _selectedColor;
 				set
@@ -77,6 +122,14 @@ namespace CalendarT1.ViewModels
 				ResetBorders();
 				ColorSelectionCommand = new RelayCommand<string>(OnColorSelection);
 				EventTypeSelectedCommand = new RelayCommand<string>(SetEventTypeSelected);
+				SelectedColor = StringToHexConverter("1F59A7");
+				BlueNBorder = 0;
+				SetVisualsForEventTask();
+
+			}
+			private Color StringToHexConverter(string hex)
+			{
+				return Color.FromHex($"#{hex}");
 			}
 			private void OnColorSelection(string buttonIdentifier)
 			{
@@ -84,60 +137,94 @@ namespace CalendarT1.ViewModels
 
 				switch (buttonIdentifier)
 				{
-					case "OrangeLight":
+					case "FFB74D":
 						OrangeLBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
 						break;
-					case "OrangeNormal":
+					case "FF9800":
 						OrangeNBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "OrangeDark":
+					case "E65100":
 						OrangeDBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					// Add more cases for other colors and shades
-					case "RedLight":
+					case "FF5252":
 						RedLBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "RedNormal":
+					case "F44336":
 						RedNBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "RedDark":
+					case "D32F2F":
 						RedDBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "BlueLight":
+					case "64B5F6":
 						BlueLBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "BlueNormal":
+					case "1F59A7":
 						BlueNBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "BlueDark":
+					case "0D468F":
 						BlueDBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "GreenLight":
+					case "69F0AE":
 						GreenLBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "GreenNormal":
+					case "00E676":
 						GreenNBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "GreenDark":
+					case "00C853":
 						GreenDBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "YellowLight":
+					case "FFEE58":
 						YellowLBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "YellowNormal":
+					case "FFEB3B":
 						YellowNBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "YellowDark":
+					case "FDD835":
 						YellowDBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "PinkLight":
+					case "FF80AB":
 						PinkLBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "PinkNormal":
+					case "FF4081":
 						PinkNBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
-					case "PinkDark":
+					case "F50057":
 						PinkDBorder = 0;
+						SelectedColor = StringToHexConverter(buttonIdentifier);
+
 						break;
 				}
 			}
@@ -166,6 +253,36 @@ namespace CalendarT1.ViewModels
 				PinkNBorder = 10;
 				PinkDBorder = 10;
 			}
+			private int _eventBorder;
+			public int EventBorder
+			{
+				get => _eventBorder;
+				set
+				{
+					if (_eventBorder == value)
+					{
+						return;
+					}
+					_eventBorder = value;
+					OnPropertyChanged();
+				}
+			}
+			private int _taskBorder;
+			public int TaskBorder
+			{
+				get => _taskBorder;
+				set
+				{
+					if (_taskBorder == value)
+					{
+						return;
+					}
+					_taskBorder = value;
+					OnPropertyChanged();
+				}
+			}
+
+
 			private int _orangeLBorder;
 			public int OrangeLBorder
 			{
@@ -441,7 +558,7 @@ namespace CalendarT1.ViewModels
 				}
 			}
 
-			#endregion		
-		}	
+			#endregion
+		}
 	}
 }
