@@ -18,6 +18,7 @@ namespace CalendarT1.ViewModels
 			private bool _isTask= false;
 			private float _eventOpacity;
 			private float _taskOpacity;
+			private float _spendingOpacity;
 			private int _borderSize = 10;
 
 			private string _eventText = "Event";
@@ -75,7 +76,7 @@ namespace CalendarT1.ViewModels
 					_eventOpacity = value;
 					OnPropertyChanged();
 				}
-			}	
+			}
 			public float TaskOpacity
 			{
 				get => _taskOpacity;
@@ -89,15 +90,26 @@ namespace CalendarT1.ViewModels
 					OnPropertyChanged();
 				}
 			}
-			public RelayCommand<string> ColorSelectionCommand { get; private set; }
-			public RelayCommand<string> EventTypeSelectedCommand { get; private set; }
+			public float SpendingOpacity
+			{
+				get => _spendingOpacity;
+				set
+				{
+					if (_spendingOpacity == value)
+					{
+						return;
+					}
+					_spendingOpacity = value;
+					OnPropertyChanged();
+				}
+			}
 			private void SetEventTypeSelected(string isTask)
 			{
 				if (isTask == "Task")
 				{
 					IsTask = true;
 				}
-				else
+				else if (isTask == "Event")
 				{
 					IsTask = false;
 				}
@@ -112,7 +124,7 @@ namespace CalendarT1.ViewModels
 					EventBorder = 10;
 					TaskBorder = 0;
 				}
-				else
+				else if (IsTask)
 				{
 					EventOpacity = 1;
 					TaskOpacity = 0.3f;
@@ -120,6 +132,9 @@ namespace CalendarT1.ViewModels
 					TaskBorder = 10;
 				}
 			}
+			public RelayCommand<string> ColorSelectionCommand { get; private set; }
+			public RelayCommand<string> EventTypeSelectedCommand { get; private set; }
+
 			public Color SelectedColor
 			{
 				get => _selectedColor;
@@ -322,6 +337,20 @@ namespace CalendarT1.ViewModels
 						return;
 					}
 					_taskBorder = value;
+					OnPropertyChanged();
+				}
+			}
+			private int _spendingBorder;
+			public int SpendingBorder
+			{
+				get => _spendingBorder;
+				set
+				{
+					if (_spendingBorder == value)
+					{
+						return;
+					}
+					_spendingBorder = value;
 					OnPropertyChanged();
 				}
 			}
