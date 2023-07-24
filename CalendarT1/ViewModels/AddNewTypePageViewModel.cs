@@ -20,6 +20,49 @@ namespace CalendarT1.ViewModels
 			private float _taskOpacity;
 			private int _borderSize = 10;
 
+			private string _eventText = "Event";
+			private string _taskText = "Task";
+			private string _spendingText = "Spending";
+
+			public string EventText
+			{
+				get => _eventText;
+				set
+				{
+					if (_eventText == value)
+					{
+						return;
+					}
+					_eventText = value;
+					OnPropertyChanged();
+				}
+			}
+			public string TaskText
+			{
+				get => _taskText;
+				set
+				{
+					if (_taskText == value)
+					{
+						return;
+					}
+					_taskText = value;
+					OnPropertyChanged();
+				}
+			}
+			public string SpendingText
+			{
+				get => _spendingText;
+				set
+				{
+					if (_spendingText == value)
+					{
+						return;
+					}
+					_spendingText = value;
+					OnPropertyChanged();
+				}
+			}
 			public float EventOpacity
 			{
 				get => _eventOpacity;

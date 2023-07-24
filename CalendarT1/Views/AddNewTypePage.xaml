@@ -7,8 +7,9 @@
         <StackLayout Padding="20">
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Button Text="Event" Opacity="{Binding EventOpacity}" BorderWidth="{Binding EventBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Event" HorizontalOptions="FillAndExpand"/>
-                <Button Text="Task" Opacity="{Binding TaskOpacity}" BorderWidth="{Binding TaskBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Task" HorizontalOptions="FillAndExpand"/>
+                <Button Text="{Binding EventText}" Opacity="{Binding EventOpacity}" BorderWidth="{Binding EventBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Event" HorizontalOptions="FillAndExpand"/>
+                <Button Text="{Binding TaskText}" Opacity="{Binding TaskOpacity}" BorderWidth="{Binding TaskBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Task" HorizontalOptions="FillAndExpand"/>
+                <Button Text="{Binding SpendingText}" Opacity="{Binding TaskOpacity}" BorderWidth="{Binding TaskBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Task" HorizontalOptions="FillAndExpand"/>
             </StackLayout>
 
             <!-- Textbox for new type name -->
