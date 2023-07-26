@@ -2,6 +2,9 @@
 
 
 #region Current
+// FACTORIES FOR EACH TYPE OF EVENT
+
+
 // add eventtypes page
 
 /*add event reminder page and reminding service for it + some refactoring of DI

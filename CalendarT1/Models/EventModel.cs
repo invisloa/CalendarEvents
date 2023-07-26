@@ -22,7 +22,7 @@ namespace CalendarT1.Models
 				}
 			}
 		}
-		public EventModel(string title, string description, DateTime startTime, DateTime endTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false) : base(title, description, startTime, endTime, isCompleted, postponeTime, wasShown)
+		public EventModel(string title, string description, DateTime startTime, DateTime endTime, IEventTypeModel EventType, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false) : base(title, description, startTime, endTime, EventType, isCompleted, postponeTime, wasShown)
 		{
 		}
 		

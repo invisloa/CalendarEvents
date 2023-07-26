@@ -1,4 +1,5 @@
-﻿using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Models;
+using CalendarT1.Services.DataOperations.Interfaces;
 
 namespace CalendarT1.Services
 {
@@ -22,5 +23,7 @@ namespace CalendarT1.Services
 		}
 
 		#endregion
+
+		public static IGeneralEventModel CreateNewEvent
 	}
 }

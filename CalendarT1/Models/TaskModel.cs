@@ -11,7 +11,7 @@ namespace CalendarT1.Models
 		// STATUS : DONE ...
 		// Assigned to ...
 
-		public TaskModel(string title, string description, DateTime startTime, DateTime endTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false) : base(title, description, startTime, endTime, isCompleted, postponeTime, wasShown)
+		public TaskModel(string title, string description, DateTime startTime, DateTime endTime, IEventTypeModel eventTypeModel, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false) : base(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown)
 		{ }
 	}
 }
