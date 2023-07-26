@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services.DataOperations.Interfaces;
+using Java.Util;
 using Newtonsoft.Json;
 
 public class LocalMachineEventRepository : IEventRepository
@@ -23,7 +24,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 
 	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory,
-													Preferences.Default.Get("ProgramName", "ProgramNameWasNotFound"), "EventsCalendarT1.json");
+													Preferences.Default.Get("ProgramName", "ProgramNameWasNotFound"), $"{Preferences.Get("JsonFileName", "JsonFileNameDefault")}.json");
 
 	public Task AddEventAsync(AbstractEventModel eventToAdd)
 	{
@@ -48,7 +49,8 @@ public class LocalMachineEventRepository : IEventRepository
 		if (File.Exists(EventsFilePath))
 		{
 			var jsonString = await File.ReadAllTextAsync(EventsFilePath);
-			_allEventsList = JsonConvert.DeserializeObject<List<AbstractEventModel>>(jsonString);
+			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+			_allEventsList = JsonConvert.DeserializeObject<List<AbstractEventModel>>(jsonString, settings);
 		}
 		else
 		{
@@ -64,7 +66,8 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			Directory.CreateDirectory(directoryPath);
 		}
-		var jsonString = JsonConvert.SerializeObject(AllEventsList);
+		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented};
+		var jsonString = JsonConvert.SerializeObject(AllEventsList, settings);
 		await File.WriteAllTextAsync(EventsFilePath, jsonString);
 	}
 

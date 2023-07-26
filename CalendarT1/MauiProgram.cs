@@ -36,6 +36,7 @@ public static class MauiProgram
 
 
 		Preferences.Default.Set("ProgramName", "CalendarT1");
+		Preferences.Default.Set("JsonFileName", "CalendarEvents");
 
 
 #if DEBUG

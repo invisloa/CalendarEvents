@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models
 {
-	internal class EventModel
+	public class EventModel : AbstractEventModel
 	{
+		
 	}
 }

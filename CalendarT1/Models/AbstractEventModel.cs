@@ -4,16 +4,17 @@ using Newtonsoft.Json;
 
 namespace CalendarT1.Models
 {
-	public abstract class EventModel
-		
+	public abstract class AbstractEventModel
 	{
 		public Guid Id { get; set; }
 		public DateTime StartDateTime { get; set; }
-		public DateTime EndDateTime { get; set; }			//??
+		public DateTime EndDateTime { get; set; }
+
 		public string Title { get; set; }
 		public string Description { get; set; }
-		public bool IsCompleted { get; set; }				//??
 		public bool WasShown { get; set; }
+		public bool IsCompleted { get; set; }
+
 		public List<DateTime> PostponeHistory { get; set; }
 		public TimeSpan ReminderTime { get; set; }
 		[JsonIgnore]
@@ -33,7 +34,7 @@ namespace CalendarT1.Models
 				return color;
 			}
 		}
-		public EventModel(string title, string description, EventTypeModel eventPriority, DateTime startTime, DateTime endTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
+		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
 		{
 			Id = Guid.NewGuid();
 			Title = title;
