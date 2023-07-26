@@ -12,17 +12,17 @@ namespace CalendarT1.Services.EventsSharing
 			_eventRepository = eventRepository;
 		}
 		private readonly IEventRepository _eventRepository;
-		public async Task AddEventAsync(EventModel eventModel)
+		public async Task AddEventAsync(AbstractEventModel eventModel)
 		{
 			await _eventRepository.AddEventAsync(eventModel);
 		}
-		public string SerializeEventToJson(EventModel eventModel)
+		public string SerializeEventToJson(AbstractEventModel eventModel)
 		{
 			var jsonString = JsonConvert.SerializeObject(eventModel);
 			return jsonString;
 		}
 
-		public async Task ShareEventAsync(EventModel eventModel)
+		public async Task ShareEventAsync(AbstractEventModel eventModel)
 		{
 			// You might want to make sure your eventModel is saved before you share the link.
 			var link = $"myapp://event?id={eventModel.Id}";
@@ -35,7 +35,7 @@ namespace CalendarT1.Services.EventsSharing
 		}
 		public async Task ImportEventAsync(string jsonString)
 		{
-			var eventModel = JsonConvert.DeserializeObject<EventModel>(jsonString);
+			var eventModel = JsonConvert.DeserializeObject<AbstractEventModel>(jsonString);
 			var eventExists = await _eventRepository.GetEventByIdAsync(eventModel.Id) != null;
 
 			if (!eventExists)

@@ -8,7 +8,7 @@ namespace CalendarT1.Views;
 public partial class EventReminderPopupView : Popup
 {
 
-	public EventReminderPopupView(IEventRepository eventRepository, EventModel eventToEdit)
+	public EventReminderPopupView(IEventRepository eventRepository, AbstractEventModel eventToEdit)
 	{
 
 		BindingContext = new EventReminderPopupViewModel(eventRepository, eventToEdit);

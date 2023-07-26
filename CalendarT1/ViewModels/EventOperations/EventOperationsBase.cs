@@ -21,7 +21,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		#region Properties
 		protected IEventRepository _eventRepository;
-		protected EventModel _currentEvent;
+		protected AbstractEventModel _currentEvent;
 		protected bool _isCompleted;
 		protected string _title;
 		protected string _description;

@@ -4,9 +4,9 @@ using Newtonsoft.Json;
 
 public class LocalMachineEventRepository : IEventRepository
 {
-	private List<EventModel> _allEventsList;
+	private List<AbstractEventModel> _allEventsList;
 
-	public List<EventModel> AllEventsList
+	public List<AbstractEventModel> AllEventsList
 	{
 		get
 		{
@@ -25,13 +25,13 @@ public class LocalMachineEventRepository : IEventRepository
 	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory,
 													Preferences.Default.Get("ProgramName", "ProgramNameWasNotFound"), "EventsCalendarT1.json");
 
-	public Task AddEventAsync(EventModel eventToAdd)
+	public Task AddEventAsync(AbstractEventModel eventToAdd)
 	{
 		AllEventsList.Add(eventToAdd);
 		return SaveEventsListAsync();
 	}
 
-	public Task DeleteFromEventsListAsync(EventModel eventToDelete)
+	public Task DeleteFromEventsListAsync(AbstractEventModel eventToDelete)
 	{
 		AllEventsList.Remove(eventToDelete);
 		return SaveEventsListAsync();
@@ -43,16 +43,16 @@ public class LocalMachineEventRepository : IEventRepository
 		return SaveEventsListAsync();
 	}
 
-	public async Task<List<EventModel>> GetEventsListAsync()
+	public async Task<List<AbstractEventModel>> GetEventsListAsync()
 	{
 		if (File.Exists(EventsFilePath))
 		{
 			var jsonString = await File.ReadAllTextAsync(EventsFilePath);
-			_allEventsList = JsonConvert.DeserializeObject<List<EventModel>>(jsonString);
+			_allEventsList = JsonConvert.DeserializeObject<List<AbstractEventModel>>(jsonString);
 		}
 		else
 		{
-			_allEventsList = new List<EventModel>();
+			_allEventsList = new List<AbstractEventModel>();
 		}
 		return _allEventsList;
 	}
@@ -68,7 +68,7 @@ public class LocalMachineEventRepository : IEventRepository
 		await File.WriteAllTextAsync(EventsFilePath, jsonString);
 	}
 
-	public Task UpdateEventAsync(EventModel eventToUpdate)
+	public Task UpdateEventAsync(AbstractEventModel eventToUpdate)
 	{
 		var eventToUpdateInList = AllEventsList.FirstOrDefault(e => e.Id == eventToUpdate.Id);
 		if (eventToUpdateInList != null)
@@ -83,7 +83,7 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 	}
 
-	public Task<EventModel> GetEventByIdAsync(Guid eventId)
+	public Task<AbstractEventModel> GetEventByIdAsync(Guid eventId)
 	{
 		var selectedEvent = AllEventsList.FirstOrDefault(e => e.Id == eventId);
 		return Task.FromResult(selectedEvent);

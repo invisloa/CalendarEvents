@@ -19,7 +19,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private AsyncRelayCommand _shareEventCommand;
 		public AsyncRelayCommand ShareEventCommand { get => _shareEventCommand; set { _shareEventCommand = value; } }
 
-		public EventViewModel(IEventRepository eventRepository, EventModel eventToEdit = null) : base()
+		public EventViewModel(IEventRepository eventRepository, AbstractEventModel eventToEdit = null) : base()
 		{
 			_eventRepository = eventRepository;
 
@@ -53,7 +53,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task AddEventAsync()
 		{
-			_currentEvent = new EventModel(Title, Description, EventType, StartDateTime + StartExactTime, EndDateTime + EndExactTime);
+			_currentEvent = new AbstractEventModel(Title, Description, EventType, StartDateTime + StartExactTime, EndDateTime + EndExactTime);
 			await _eventRepository.AddEventAsync(_currentEvent);
 			ClearFields();
 		}

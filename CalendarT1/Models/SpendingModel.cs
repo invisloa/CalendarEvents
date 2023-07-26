@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models
 {
-	internal class EventModel
+	internal class SpendingModel
 	{
 	}
 }

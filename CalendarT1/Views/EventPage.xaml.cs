@@ -14,7 +14,7 @@ namespace CalendarT1.Views
 		}
 
 		// For editing events
-		public EventPage(IEventRepository eventRepository, EventModel eventModel)
+		public EventPage(IEventRepository eventRepository, AbstractEventModel eventModel)
 		{
 			BindingContext = new EventViewModel(eventRepository, eventModel);
 			InitializeComponent();

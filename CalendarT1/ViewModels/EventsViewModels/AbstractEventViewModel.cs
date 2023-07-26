@@ -54,8 +54,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private ObservableCollection<EventModel> _eventsToShowList = new ObservableCollection<EventModel>();
-		public ObservableCollection<EventModel> EventsToShowList
+		private ObservableCollection<AbstractEventModel> _eventsToShowList = new ObservableCollection<AbstractEventModel>();
+		public ObservableCollection<AbstractEventModel> EventsToShowList
 		{
 			get => _eventsToShowList;
 			set
@@ -65,8 +65,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private List<EventModel> _allEventsList;
-		public List<EventModel> AllEventsList
+		private List<AbstractEventModel> _allEventsList;
+		public List<AbstractEventModel> AllEventsList
 		{
 			get => _allEventsList;
 			set
@@ -123,9 +123,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public RelayCommand GoToAddEventPageCommand =>
 			_goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
 
-		public RelayCommand<EventModel> _selectEventCommand;
-		public RelayCommand<EventModel> SelectEventCommand =>
-			_selectEventCommand ?? (_selectEventCommand = new RelayCommand<EventModel>(SelectEvent));
+		public RelayCommand<AbstractEventModel> _selectEventCommand;
+		public RelayCommand<AbstractEventModel> SelectEventCommand =>
+			_selectEventCommand ?? (_selectEventCommand = new RelayCommand<AbstractEventModel>(SelectEvent));
 
 		#endregion
 
@@ -148,7 +148,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository));
 		}
 
-		private void SelectEvent(EventModel selectedEvent)
+		private void SelectEvent(AbstractEventModel selectedEvent)
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));
@@ -173,7 +173,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 			var allEvents = await EventRepository.GetEventsListAsync();
 
-			List<EventModel> filteredEvents = new List<EventModel>();
+			List<AbstractEventModel> filteredEvents = new List<AbstractEventModel>();
 
 			// Step 1: Get events that fall within the specified date range
 			foreach (var eventModel in allEvents)
@@ -195,7 +195,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 										selectedEventTypes.Contains(x.EventType.EventTypeName))
 							.ToList();
 			*/
-			EventsToShowList = new ObservableCollection<EventModel>(filteredEvents);
+			EventsToShowList = new ObservableCollection<AbstractEventModel>(filteredEvents);
 		}
 	}
 }

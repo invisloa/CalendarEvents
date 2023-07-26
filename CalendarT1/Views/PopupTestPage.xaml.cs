@@ -7,8 +7,8 @@ namespace CalendarT1.Views;
 public partial class PopupTestPage : ContentPage
 {
 	IEventRepository eventRepository;
-	EventModel eventModel;
-	public PopupTestPage(IEventRepository eventRepository, EventModel eventModel)
+	AbstractEventModel eventModel;
+	public PopupTestPage(IEventRepository eventRepository, AbstractEventModel eventModel)
 	{
 		InitializeComponent();
 	}

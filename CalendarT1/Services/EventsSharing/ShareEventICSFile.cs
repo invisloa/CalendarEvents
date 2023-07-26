@@ -9,7 +9,7 @@ namespace CalendarT1.Services.EventsSharing
 			throw new NotImplementedException();
 		}
 
-		public Task ShareEventAsync(EventModel eventModel)
+		public Task ShareEventAsync(AbstractEventModel eventModel)
 		{
 			throw new NotImplementedException();
 		}
