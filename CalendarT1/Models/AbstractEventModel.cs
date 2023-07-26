@@ -13,7 +13,7 @@ namespace CalendarT1.Models
 		public string Title { get; set; }
 		public string Description { get; set; }
 		public bool WasShown { get; set; }
-		public bool IsCompleted { get; set; }
+		public virtual bool IsCompleted { get; set; }
 
 		public List<DateTime> PostponeHistory { get; set; }
 		public TimeSpan ReminderTime { get; set; }
