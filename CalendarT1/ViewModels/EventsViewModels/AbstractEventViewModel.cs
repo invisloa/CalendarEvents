@@ -1,8 +1,6 @@
 ﻿using CalendarT1.Models;
-using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
-using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -47,7 +45,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			get => _eventTypesOC;
 			set
 			{
-				if(_eventTypesOC == value)
+				if (_eventTypesOC == value)
 				{
 					return;
 				}
@@ -88,7 +86,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public AbstractEventViewModel(IEventRepository eventRepository)
 		{
 
-			
+
 			EventTypesOC = new ObservableCollection<EventTypeModel>();
 			EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
 			EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
@@ -96,17 +94,17 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			var json = JsonConvert.SerializeObject(eventTypes);
 			Preferences.Set("event_types", json);
 
-			 json = Preferences.Get("event_types", "");
+			json = Preferences.Get("event_types", "");
 			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<EventTypeModel>>(json);
-/*			if (EventTypesOC == null)
-			{
-				EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
-				EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
-				var eventTypes = EventTypesOC;
-				json = JsonConvert.SerializeObject(eventTypes);
-				Preferences.Set("event_types", json);
-			}
-*/
+			/*			if (EventTypesOC == null)
+						{
+							EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
+							EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
+							var eventTypes = EventTypesOC;
+							json = JsonConvert.SerializeObject(eventTypes);
+							Preferences.Set("event_types", json);
+						}
+			*/
 			_eventRepository = eventRepository;
 
 		}

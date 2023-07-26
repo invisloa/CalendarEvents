@@ -10,7 +10,7 @@ public class LocalMachineEventRepository : IEventRepository
 	{
 		get
 		{
-			if (_allEventsList == null)     
+			if (_allEventsList == null)
 				GetEventsListAsync().Wait();
 			return _allEventsList;
 		}

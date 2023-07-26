@@ -1,10 +1,5 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services.DataOperations.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace CalendarT1.ViewModels.EventOperations

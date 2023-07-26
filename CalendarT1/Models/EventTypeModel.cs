@@ -1,6 +1,4 @@
-﻿using CalendarT1.Models.Enums;
-using CalendarT1.Services;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace CalendarT1.Models
@@ -18,7 +16,7 @@ namespace CalendarT1.Models
 
 		private string _eventTypeName;
 		public string EventTypeName
-		{
+		{ 
 			get => _eventTypeName;
 			set
 			{
@@ -48,17 +46,7 @@ namespace CalendarT1.Models
 				OnPropertyChanged();
 			}
 		}
-		private bool _isTask;
-		// if the event can be completed, it is a task, otherwise it is an event
-		public bool IsTask
-		{
-			get => _isTask;
-			set
-			{
-				_isTask = value;
-				OnPropertyChanged();
-			}
-		}
+
 		private bool _isSelectedToFilter;
 		public bool IsSelectedToFilter
 		{
@@ -78,11 +66,10 @@ namespace CalendarT1.Models
 			IsSelectedToFilter = isSelectedToFilter;
 			EventTypeName = eventTypeName;
 			EventTypeColor = eventTypeColor;
-			IsTask = isTask;
 		}
 		public override string ToString()
 		{
-			return EventTypeName; 
+			return EventTypeName;
 		}
 	}
 }

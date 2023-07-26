@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CalendarT1.Services.SettingsService
+﻿namespace CalendarT1.Services.SettingsService
 {
 	public class SettingsService : ISettingsService
 	{

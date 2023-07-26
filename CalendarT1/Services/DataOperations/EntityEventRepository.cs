@@ -1,11 +1,54 @@
 ﻿using CalendarT1.Models;
 using CalendarT1.Services.DataOperations.Interfaces;
+
+/* Unmerged change from project 'CalendarT1 (net7.0-ios)'
+Before:
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+After:
+using Microsoft.EntityFrameworkCore;
+using System;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-android)'
+Before:
+using System;
+After:
+using Microsoft.EntityFrameworkCore;
+using System;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-maccatalyst)'
+Before:
+using System;
+After:
+using Microsoft.EntityFrameworkCore;
+using System;
+*/
+using
+/* Unmerged change from project 'CalendarT1 (net7.0-ios)'
+Before:
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+After:
+using System.Threading.Tasks;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-android)'
+Before:
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+After:
+using System.Threading.Tasks;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-maccatalyst)'
+Before:
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+After:
+using System.Threading.Tasks;
+*/
+Microsoft.EntityFrameworkCore;
 
 
 

@@ -1,8 +1,4 @@
-﻿using CalendarT1.Models;
-using CalendarT1.Services;
-using CalendarT1.Services.DataOperations.Interfaces;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
@@ -10,7 +6,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	{
 
 		public WeeklyEventsViewModel
-						(IEventRepository eventRepository) 
+						(IEventRepository eventRepository)
 						: base(eventRepository) { }
 
 		public async override Task BindDataToScheduleList()

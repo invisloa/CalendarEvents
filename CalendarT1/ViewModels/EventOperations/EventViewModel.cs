@@ -1,11 +1,7 @@
 ﻿using CalendarT1.Models;
-using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Services.EventsSharing;
 using CommunityToolkit.Mvvm.Input;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventOperations
 {

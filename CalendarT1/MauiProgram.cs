@@ -30,13 +30,13 @@ public static class MauiProgram
 		builder.Services.AddSingleton<DailyEventsViewModel>();
 		builder.Services.AddSingleton<MonthlyEventsViewModel>();
 		builder.Services.AddSingleton<EventModel>();
-		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>(); 
+		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>();
 		builder.Services.AddScoped<IShareEvents, ShareEventsJson>();
 
 
 
 		Preferences.Default.Set("ProgramName", "CalendarT1");
-		
+
 
 #if DEBUG
 		builder.Logging.AddDebug();

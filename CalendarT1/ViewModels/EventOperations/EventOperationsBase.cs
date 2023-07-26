@@ -2,7 +2,6 @@
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
-using System;
 using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
@@ -134,7 +133,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				}
 				OnPropertyChanged();
 			}
-		}       
+		}
 		// Submit Event Command
 		public string SubmitButtonText
 		{

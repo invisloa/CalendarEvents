@@ -1,11 +1,9 @@
 ﻿namespace CalendarT1.Views.CustomControls
 {
 	using CalendarT1.Models;
-	using Microsoft.EntityFrameworkCore.Metadata.Internal;
 	using System;
 	using System.Collections.ObjectModel;
 	using System.Linq;
-	using System.Windows.Input;
 	using MauiGrid = Microsoft.Maui.Controls.Grid;
 
 	public class WeeklyEventsControl : MauiGrid
@@ -95,7 +93,7 @@
 
 
 			// Create columns for each day + first extra column for the hour indicator
-			for (int i = 0; i < 8 ; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 			}
@@ -105,7 +103,7 @@
 			for (int hour = 0; hour < 24; hour++)
 			{
 				// Add hour indicator
-				var hourLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{hour}:00"};
+				var hourLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{hour}:00" };
 				Grid.SetRow(hourLabel, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 				Grid.SetColumn(hourLabel, 0);  // Place the hour indicator in the first column
 				Children.Add(hourLabel);

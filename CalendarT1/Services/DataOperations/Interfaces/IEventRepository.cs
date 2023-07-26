@@ -1,6 +1,4 @@
 ﻿using CalendarT1.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace CalendarT1.Services.DataOperations.Interfaces
 {

@@ -1,11 +1,4 @@
-﻿using CalendarT1.Models;
-using CalendarT1.Services.DataOperations.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {

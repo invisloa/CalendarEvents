@@ -1,6 +1,4 @@
-﻿using CalendarT1.Models;
-using CalendarT1.Models.Enums;
-using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
 
 namespace CalendarT1.Services
 {

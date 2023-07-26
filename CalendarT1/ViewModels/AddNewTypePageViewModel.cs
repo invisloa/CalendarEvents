@@ -1,12 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
+﻿
+/* Unmerged change from project 'CalendarT1 (net7.0-ios)'
+Before:
+using System;
+After:
+using Microsoft.Maui.Graphics;
+using System;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-android)'
+Before:
+using System;
+After:
+using Microsoft.Maui.Graphics;
+using System;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-maccatalyst)'
+Before:
+using System;
+After:
+using Microsoft.Maui.Graphics;
+using System;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-ios)'
+Before:
 using Microsoft.Maui.Graphics;
 using System.Threading.Tasks;
-using System.Windows.Input;
+After:
+using System.Threading.Tasks;
+*/
 
+/* Unmerged change from project 'CalendarT1 (net7.0-android)'
+Before:
+using Microsoft.Maui.Graphics;
+using System.Threading.Tasks;
+After:
+using System.Threading.Tasks;
+*/
+
+/* Unmerged change from project 'CalendarT1 (net7.0-maccatalyst)'
+Before:
+using Microsoft.Maui.Graphics;
+using System.Threading.Tasks;
+After:
+using System.Threading.Tasks;
+*/
 namespace CalendarT1.ViewModels
 {
 	namespace CalendarT1.ViewModels
@@ -15,7 +54,7 @@ namespace CalendarT1.ViewModels
 		{
 			private Color _selectedColor;
 			private string _typeName;
-			private bool _isTask= false;
+			private bool _isTask = false;
 			private float _eventOpacity;
 			private float _taskOpacity;
 			private float _spendingOpacity;
