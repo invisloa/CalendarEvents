@@ -5,7 +5,7 @@ namespace CalendarT1.Services.DataOperations
 {
     public class EventDbContext : DbContext
 	{
-		public DbSet<AbstractEventModel> Events { get; set; }
+		public DbSet<IGeneralEventModel> Events { get; set; }
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{

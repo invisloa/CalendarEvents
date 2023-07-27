@@ -55,8 +55,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private ObservableCollection<AbstractEventModel> _eventsToShowList = new ObservableCollection<AbstractEventModel>();
-		public ObservableCollection<AbstractEventModel> EventsToShowList
+		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
+		public ObservableCollection<IGeneralEventModel> EventsToShowList
 		{
 			get => _eventsToShowList;
 			set
@@ -66,8 +66,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private List<AbstractEventModel> _allEventsList;
-		public List<AbstractEventModel> AllEventsList
+		private List<IGeneralEventModel> _allEventsList;
+		public List<IGeneralEventModel> AllEventsList
 		{
 			get => _allEventsList;
 			set
@@ -124,9 +124,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public RelayCommand GoToAddEventPageCommand =>
 			_goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
 
-		public RelayCommand<AbstractEventModel> _selectEventCommand;
-		public RelayCommand<AbstractEventModel> SelectEventCommand =>
-			_selectEventCommand ?? (_selectEventCommand = new RelayCommand<AbstractEventModel>(SelectEvent));
+		public RelayCommand<IGeneralEventModel> _selectEventCommand;
+		public RelayCommand<IGeneralEventModel> SelectEventCommand =>
+			_selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
 
 		#endregion
 
@@ -174,7 +174,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 			var allEvents = await EventRepository.GetEventsListAsync();
 
-			List<AbstractEventModel> filteredEvents = new List<AbstractEventModel>();
+			List<IGeneralEventModel> filteredEvents = new List<IGeneralEventModel>();
 
 			// Step 1: Get events that fall within the specified date range
 			foreach (var eventModel in allEvents)
@@ -196,7 +196,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 										selectedEventTypes.Contains(x.EventType.EventTypeName))
 							.ToList();
 			*/
-			EventsToShowList = new ObservableCollection<AbstractEventModel>(filteredEvents);
+			EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
 		}
 	}
 }

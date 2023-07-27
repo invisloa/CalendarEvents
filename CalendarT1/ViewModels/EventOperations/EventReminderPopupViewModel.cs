@@ -6,7 +6,7 @@ namespace CalendarT1.ViewModels.EventOperations
 {
     public class EventReminderPopupViewModel : EventOperationsBase
 	{
-		private AbstractEventModel _currentEvent;
+		private IGeneralEventModel _currentEvent;
 
 		public string Title => _currentEvent?.Title;
 		public string Description => _currentEvent?.Description;
@@ -16,7 +16,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		public ICommand EditEventCommand { get; }
 		public ICommand CloseCommand { get; }
 
-		public EventReminderPopupViewModel(IEventRepository eventRepository, AbstractEventModel eventToEdit)
+		public EventReminderPopupViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
 		{
 			_eventRepository = eventRepository;
 			_currentEvent = eventToEdit;

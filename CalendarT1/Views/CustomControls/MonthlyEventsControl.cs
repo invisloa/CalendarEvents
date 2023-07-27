@@ -23,36 +23,36 @@
 		public static readonly BindableProperty EventsToShowListProperty =
 			BindableProperty.Create(
 			nameof(EventsToShowList),
-			typeof(ObservableCollection<AbstractEventModel>),
+			typeof(ObservableCollection<IGeneralEventModel>),
 			typeof(MonthlyEventsControl),
 			defaultBindingMode: BindingMode.TwoWay);
-		public ObservableCollection<AbstractEventModel> EventsToShowList
+		public ObservableCollection<IGeneralEventModel> EventsToShowList
 		{
-			get => (ObservableCollection<AbstractEventModel>)GetValue(EventsToShowListProperty);
+			get => (ObservableCollection<IGeneralEventModel>)GetValue(EventsToShowListProperty);
 			set => SetValue(EventsToShowListProperty, value);
 		}
 
 		public static readonly BindableProperty AllEventsListProperty =
 			BindableProperty.Create(
 			nameof(AllEventsList),
-			typeof(List<AbstractEventModel>),
+			typeof(List<IGeneralEventModel>),
 			typeof(MonthlyEventsControl));
 
-		public List<AbstractEventModel> AllEventsList
+		public List<IGeneralEventModel> AllEventsList
 		{
-			get => (List<AbstractEventModel>)GetValue(AllEventsListProperty);
+			get => (List<IGeneralEventModel>)GetValue(AllEventsListProperty);
 			set => SetValue(AllEventsListProperty, value);
 		}
 
 		public static readonly BindableProperty EventSelectedCommandProperty =
 			BindableProperty.Create(
 			nameof(EventSelectedCommand),
-			typeof(RelayCommand<AbstractEventModel>),
+			typeof(RelayCommand<IGeneralEventModel>),
 			typeof(MonthlyEventsControl));
 
-		public RelayCommand<AbstractEventModel> EventSelectedCommand
+		public RelayCommand<IGeneralEventModel> EventSelectedCommand
 		{
-			get => (RelayCommand<AbstractEventModel>)GetValue(EventSelectedCommandProperty);
+			get => (RelayCommand<IGeneralEventModel>)GetValue(EventSelectedCommandProperty);
 			set => SetValue(EventSelectedCommandProperty, value);
 		}
 

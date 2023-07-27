@@ -4,7 +4,7 @@ namespace CalendarT1.Services.EventsSharing
 {
     public interface IShareEvents
 	{
-		public Task ShareEventAsync(AbstractEventModel eventModel);
+		public Task ShareEventAsync(IGeneralEventModel eventModel);
 
 		public Task ImportEventAsync(string jsonString);
 	}

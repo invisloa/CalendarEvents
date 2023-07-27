@@ -16,7 +16,7 @@ namespace CalendarT1.Services.DataOperations
 			_context = context;
 		}
 
-		public async Task<List<AbstractEventModel>> GetEventsListAsync()
+		public async Task<List<IGeneralEventModel>> GetEventsListAsync()
 		{
 			return await _context.Events.ToListAsync();
 		}
@@ -26,13 +26,13 @@ namespace CalendarT1.Services.DataOperations
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task DeleteFromEventsListAsync(AbstractEventModel eventToDelete)
+		public async Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete)
 		{
 			_context.Events.Remove(eventToDelete);
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task AddEventAsync(AbstractEventModel eventToAdd)
+		public async Task AddEventAsync(IGeneralEventModel eventToAdd)
 		{
 			await _context.Events.AddAsync(eventToAdd);
 			await _context.SaveChangesAsync();
@@ -44,12 +44,12 @@ namespace CalendarT1.Services.DataOperations
 			await _context.SaveChangesAsync();
 		}
 
-		public async Task UpdateEventAsync(AbstractEventModel eventToUpdate)
+		public async Task UpdateEventAsync(IGeneralEventModel eventToUpdate)
 		{
 			_context.Events.Update(eventToUpdate);
 			await _context.SaveChangesAsync();
 		}
-		public async Task<AbstractEventModel> GetEventByIdAsync(Guid eventId)
+		public async Task<IGeneralEventModel> GetEventByIdAsync(Guid eventId)
 		{
 			var selectedEvent = await _context.Events.FirstOrDefaultAsync(e => e.Id == eventId);
 			return selectedEvent;
