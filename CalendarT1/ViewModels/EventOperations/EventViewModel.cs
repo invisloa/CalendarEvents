@@ -1,4 +1,6 @@
-﻿using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Services.EventFactories;
 using CalendarT1.Services.EventsSharing;
 using CommunityToolkit.Mvvm.Input;
 
@@ -6,21 +8,24 @@ namespace CalendarT1.ViewModels.EventOperations
 {
     class EventViewModel : EventOperationsBase
 	{
+		// dictionary factory DI
+		Dictionary<string, IEventFactory> _eventFactories;
+		private IShareEvents _shareEvents;
+
 		public string PageTitle => IsEdit ? "Edit Event" : "Add Event";
 		public string HeaderText => IsEdit ? $"Edit event of Title: {Title}" : "Add New Event";
 		public string SubmitButtonText => IsEdit ? "Submit Changes" : "Add Event";
 		public bool IsEdit => _currentEvent != null;
-
-		private IShareEvents _shareEvents;
 		public IShareEvents ShareEvents { get => _shareEvents; set { _shareEvents = value; } }
 		private AsyncRelayCommand _deleteEventCommand;
 		public AsyncRelayCommand DeleteEventCommand { get => _deleteEventCommand; set { _deleteEventCommand = value; } }
 		private AsyncRelayCommand _shareEventCommand;
 		public AsyncRelayCommand ShareEventCommand { get => _shareEventCommand; set { _shareEventCommand = value; } }
 
-		public EventViewModel(IEventRepository eventRepository, AbstractEventModel eventToEdit = null) : base()
+		public EventViewModel(IEventRepository eventRepository, Dictionary<string, IEventFactory> eventFactories, AbstractEventModel eventToEdit = null) : base()
 		{
 			_eventRepository = eventRepository;
+			_eventFactories = eventFactories;
 
 			if (eventToEdit == null)
 			{
@@ -52,7 +57,21 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task AddEventAsync()
 		{
-			_currentEvent = new AbstractEventModel(Title, Description, EventType, StartDateTime + StartExactTime, EndDateTime + EndExactTime);
+			var factory = _eventFactories[EventType.EventTypeName];
+
+			if (factory is ISpendingEventFactory eventFactory)
+			{
+				_currentEvent = eventFactory.CreateEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime);
+			}
+			else if (factory is ISpendingEventFactory spendingFactory)
+			{
+				_currentEvent = spendingFactory.CreateEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, 0);
+			}
+			else if (factory is ITaskEventFactory taskFactory)
+			{
+				_currentEvent = taskFactory.CreateEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime);
+			}
+
 			await _eventRepository.AddEventAsync(_currentEvent);
 			ClearFields();
 		}

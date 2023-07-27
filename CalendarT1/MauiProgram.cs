@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Services.EventFactories;
 using CalendarT1.Services.EventsSharing;
 using CalendarT1.ViewModels.EventsViewModels;
 using CommunityToolkit.Maui;
@@ -15,6 +16,15 @@ public static class MauiProgram
 
 	public static MauiApp CreateMauiApp()
 	{
+		// event factories dictionary DI Factory 
+		var eventFactories = new Dictionary<string, IEventFactory>
+{
+			{ "Event", new EventModelFactory() },
+			{ "Spending", new SpendingModelFactory() },
+			//... add more factories as needed
+		};
+
+
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
@@ -28,10 +38,12 @@ public static class MauiProgram
 		builder.Services.AddSingleton<WeeklyEventsViewModel>();
 		builder.Services.AddSingleton<DailyEventsViewModel>();
 		builder.Services.AddSingleton<MonthlyEventsViewModel>();
-		builder.Services.AddSingleton<AbstractEventModel>();
+//		builder.Services.AddSingleton<AbstractEventModel>();
 		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>();
 		builder.Services.AddScoped<IShareEvents, ShareEventsJson>();
 
+		// add event dictionary factories DI
+		builder.Services.AddSingleton(eventFactories);
 
 
 		Preferences.Default.Set("ProgramName", "CalendarT1");
