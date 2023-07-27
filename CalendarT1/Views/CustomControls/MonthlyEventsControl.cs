@@ -1,12 +1,11 @@
 ﻿namespace CalendarT1.Views.CustomControls
 {
-	using CalendarT1.Models;
-	using System;
-	using System.Collections.ObjectModel;
-	using System.Linq;
-	using MauiGrid = Microsoft.Maui.Controls.Grid;
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using MauiGrid = Microsoft.Maui.Controls.Grid;
 
-	public class MonthlyEventsControl : MauiGrid
+    public class MonthlyEventsControl : MauiGrid
 	{
 		public static readonly BindableProperty CurrentSelectedDateProperty =
 			BindableProperty.Create(

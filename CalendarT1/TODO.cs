@@ -39,6 +39,8 @@
 // GOOGLE CALENDAR API
 // make reminders for events
 // show events in the hourly order
+
+// consider habit
 #endregion
 
 

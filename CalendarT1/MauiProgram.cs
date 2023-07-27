@@ -1,5 +1,4 @@
-﻿using CalendarT1.Models;
-using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Services.EventsSharing;
 using CalendarT1.ViewModels.EventsViewModels;
 using CommunityToolkit.Maui;

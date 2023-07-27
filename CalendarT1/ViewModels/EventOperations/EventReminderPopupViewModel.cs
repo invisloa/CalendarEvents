@@ -1,10 +1,9 @@
-﻿using CalendarT1.Models;
-using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
 using System.Windows.Input;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	public class EventReminderPopupViewModel : EventOperationsBase
+    public class EventReminderPopupViewModel : EventOperationsBase
 	{
 		private AbstractEventModel _currentEvent;
 

@@ -1,8 +1,6 @@
-﻿using CalendarT1.Models;
-
-namespace CalendarT1.Services.EventsSharing
+﻿namespace CalendarT1.Services.EventsSharing
 {
-	internal class ShareEventICSFile : IShareEvents
+    internal class ShareEventICSFile : IShareEvents
 	{
 		public Task ImportEventAsync(string jsonString)
 		{

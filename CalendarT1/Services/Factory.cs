@@ -1,9 +1,9 @@
-﻿using CalendarT1.Models;
+﻿using CalendarT1.Models.EventModel;
 using CalendarT1.Services.DataOperations.Interfaces;
 
 namespace CalendarT1.Services
 {
-	public static class Factory
+    public static class Factory
 	{
 		// Event Repository
 		#region EventRepository

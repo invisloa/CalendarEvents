@@ -1,5 +1,4 @@
-﻿using CalendarT1.Models;
-using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -7,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CalendarT1.Services.DataOperations
 {
-	public class EntityEventRepository : IEventRepository
+    public class EntityEventRepository : IEventRepository
 	{
 		private readonly EventDbContext _context;
 

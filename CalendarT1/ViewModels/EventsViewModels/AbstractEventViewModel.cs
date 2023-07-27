@@ -1,4 +1,4 @@
-﻿using CalendarT1.Models;
+﻿using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
 using Newtonsoft.Json;
@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-	public abstract class AbstractEventViewModel : BaseViewModel
+    public abstract class AbstractEventViewModel : BaseViewModel
 	{
 		#region Properties
 
@@ -39,8 +39,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private ObservableCollection<EventTypeModel> _eventTypesOC;
-		public ObservableCollection<EventTypeModel> EventTypesOC
+		private ObservableCollection<UserEventTypeModel> _eventTypesOC;
+		public ObservableCollection<UserEventTypeModel> EventTypesOC
 		{
 			get => _eventTypesOC;
 			set
@@ -87,15 +87,15 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 
 
-			EventTypesOC = new ObservableCollection<EventTypeModel>();
-			EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
-			EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
+			EventTypesOC = new ObservableCollection<UserEventTypeModel>();
+			EventTypesOC.Add(new UserEventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
+			EventTypesOC.Add(new UserEventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
 			var eventTypes = EventTypesOC;
 			var json = JsonConvert.SerializeObject(eventTypes);
 			Preferences.Set("event_types", json);
 
 			json = Preferences.Get("event_types", "");
-			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<EventTypeModel>>(json);
+			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<UserEventTypeModel>>(json);
 			/*			if (EventTypesOC == null)
 						{
 							EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
@@ -115,9 +115,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public RelayCommand<DateTime> DatePickerDateSelectedCommand =>
 			_datePickerDateSelectedCommand ?? (_datePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected));
 
-		private RelayCommand<EventTypeModel> _selectEventPriorityCommand;
-		public RelayCommand<EventTypeModel> SelectEventPriorityCommand =>
-			_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<EventTypeModel>(SelectEventType));
+		private RelayCommand<UserEventTypeModel> _selectEventPriorityCommand;
+		public RelayCommand<UserEventTypeModel> SelectEventPriorityCommand =>
+			_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<UserEventTypeModel>(SelectEventType));
 
 		private RelayCommand _goToAddEventPageCommand;
 		public RelayCommand GoToAddEventPageCommand =>
@@ -131,7 +131,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Methods
 
-		private void SelectEventType(EventTypeModel eventPriority)
+		private void SelectEventType(UserEventTypeModel eventPriority)
 		{
 			eventPriority.IsSelectedToFilter = !eventPriority.IsSelectedToFilter;
 			BindDataToScheduleList();

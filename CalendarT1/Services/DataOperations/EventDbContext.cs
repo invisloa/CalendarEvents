@@ -1,9 +1,8 @@
-﻿using CalendarT1.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CalendarT1.Services.DataOperations
 {
-	public class EventDbContext : DbContext
+    public class EventDbContext : DbContext
 	{
 		public DbSet<AbstractEventModel> Events { get; set; }
 

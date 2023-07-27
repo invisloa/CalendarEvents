@@ -1,10 +1,9 @@
-﻿using CalendarT1.Models;
-using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
 using Newtonsoft.Json;
 
 namespace CalendarT1.Services.EventsSharing
 {
-	public class ShareEventsJson : IShareEvents
+    public class ShareEventsJson : IShareEvents
 	{
 
 		public ShareEventsJson(IEventRepository eventRepository)

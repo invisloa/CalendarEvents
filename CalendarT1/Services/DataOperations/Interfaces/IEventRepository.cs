@@ -1,8 +1,6 @@
-﻿using CalendarT1.Models;
-
-namespace CalendarT1.Services.DataOperations.Interfaces
+﻿namespace CalendarT1.Services.DataOperations.Interfaces
 {
-	public interface IEventRepository
+    public interface IEventRepository
 	{
 		Task<List<AbstractEventModel>> GetEventsListAsync();
 		Task SaveEventsListAsync();

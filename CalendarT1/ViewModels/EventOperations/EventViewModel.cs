@@ -1,11 +1,10 @@
-﻿using CalendarT1.Models;
-using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Services.EventsSharing;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	class EventViewModel : EventOperationsBase
+    class EventViewModel : EventOperationsBase
 	{
 		public string PageTitle => IsEdit ? "Edit Event" : "Add Event";
 		public string HeaderText => IsEdit ? $"Edit event of Title: {Title}" : "Add New Event";

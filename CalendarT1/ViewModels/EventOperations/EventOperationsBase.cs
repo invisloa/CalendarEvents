@@ -1,4 +1,4 @@
-﻿using CalendarT1.Models;
+﻿using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -6,16 +6,16 @@ using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	public abstract class EventOperationsBase : BaseViewModel
+    public abstract class EventOperationsBase : BaseViewModel
 	{
 		public EventOperationsBase()
 		{
 			var json = Preferences.Get("event_types", "");
-			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<EventTypeModel>>(json);
+			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<UserEventTypeModel>>(json);
 			if (EventTypesOC == null)
 			{
-				EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
-				EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
+				EventTypesOC.Add(new UserEventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
+				EventTypesOC.Add(new UserEventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
 			}
 
 		}
@@ -164,8 +164,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = false;
 		}
 		#endregion
-		protected ObservableCollection<EventTypeModel> _eventTypesOC;
-		public ObservableCollection<EventTypeModel> EventTypesOC
+		protected ObservableCollection<UserEventTypeModel> _eventTypesOC;
+		public ObservableCollection<UserEventTypeModel> EventTypesOC
 		{
 			get => _eventTypesOC;
 			set
@@ -175,8 +175,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 
-		protected EventTypeModel _eventType;
-		public EventTypeModel EventType
+		protected UserEventTypeModel _eventType;
+		public UserEventTypeModel EventType
 		{
 			get => _eventType;
 			set
