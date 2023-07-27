@@ -12,13 +12,13 @@ namespace CalendarT1.Services.EventFactories
 	{
 		IGeneralEventModel CreateEvent(string title, string description, DateTime startDateTime, DateTime endDateTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false);
 	}
-
-	public interface ISpendingEventFactory : IEventFactory
-	{
-		IGeneralEventModel CreateEvent(string title, string description, DateTime startDateTime, DateTime endDateTime, decimal spendingAmount, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false);
-	}
 	public interface ITaskEventFactory : IEventFactory
 	{
 		IGeneralEventModel CreateEvent(string title, string description, DateTime startDateTime, DateTime endDateTime, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false);
 	}
+	public interface ISpendingEventFactory : IEventFactory
+	{
+		IGeneralEventModel CreateEvent(string title, string description, DateTime startDateTime, DateTime endDateTime, decimal spendingAmount, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false);
+	}
+
 }
