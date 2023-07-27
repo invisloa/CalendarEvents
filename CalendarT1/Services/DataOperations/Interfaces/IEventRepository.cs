@@ -1,13 +1,15 @@
-﻿namespace CalendarT1.Services.DataOperations.Interfaces
+﻿using CalendarT1.Models.EventModels;
+
+namespace CalendarT1.Services.DataOperations.Interfaces
 {
     public interface IEventRepository
 	{
-		Task<List<AbstractEventModel>> GetEventsListAsync();
+		Task<List<IGeneralEventModel>> GetEventsListAsync();
 		Task SaveEventsListAsync();
-		Task DeleteFromEventsListAsync(AbstractEventModel eventToDelete);
-		Task AddEventAsync(AbstractEventModel eventToAdd);
+		Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete);
+		Task AddEventAsync(IGeneralEventModel eventToAdd);
 		Task ClearEventsListAsync();
-		Task UpdateEventAsync(AbstractEventModel eventToUpdate);
-		Task<AbstractEventModel> GetEventByIdAsync(Guid eventId);
+		Task UpdateEventAsync(IGeneralEventModel eventToUpdate);
+		Task<IGeneralEventModel> GetEventByIdAsync(Guid eventId);
 	}
 }

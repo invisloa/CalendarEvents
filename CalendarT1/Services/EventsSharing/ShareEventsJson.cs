@@ -1,4 +1,5 @@
-﻿using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Services.DataOperations.Interfaces;
 using Newtonsoft.Json;
 
 namespace CalendarT1.Services.EventsSharing

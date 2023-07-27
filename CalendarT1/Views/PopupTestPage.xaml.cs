@@ -1,3 +1,4 @@
+using CalendarT1.Models.EventModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Maui.Views;
 

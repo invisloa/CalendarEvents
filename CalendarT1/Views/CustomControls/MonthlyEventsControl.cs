@@ -1,6 +1,7 @@
 ﻿namespace CalendarT1.Views.CustomControls
 {
-    using System;
+	using CalendarT1.Models.EventModels;
+	using System;
     using System.Collections.ObjectModel;
     using System.Linq;
     using MauiGrid = Microsoft.Maui.Controls.Grid;

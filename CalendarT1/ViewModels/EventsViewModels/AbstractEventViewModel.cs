@@ -1,4 +1,5 @@
-﻿using CalendarT1.Models.EventTypesModels;
+﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
 using Newtonsoft.Json;
@@ -148,7 +149,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository));
 		}
 
-		private void SelectEvent(AbstractEventModel selectedEvent)
+		private void SelectEvent(IGeneralEventModel selectedEvent)
 		{
 			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));

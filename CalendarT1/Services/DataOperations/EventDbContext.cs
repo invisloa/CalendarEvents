@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using CalendarT1.Models.EventModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace CalendarT1.Services.DataOperations
 {

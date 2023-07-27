@@ -1,4 +1,6 @@
-﻿namespace CalendarT1.Services.EventsSharing
+﻿using CalendarT1.Models.EventModels;
+
+namespace CalendarT1.Services.EventsSharing
 {
     public interface IShareEvents
 	{

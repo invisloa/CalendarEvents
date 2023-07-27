@@ -17,11 +17,12 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		// event factories dictionary DI Factory 
-		var eventFactories = new Dictionary<string, IEventFactory>
-{
+		var eventFactories = new Dictionary<string, IBaseEventFactory>
+		{
 			{ "Event", new EventModelFactory() },
 			{ "Spending", new SpendingModelFactory() },
-			//... add more factories as needed
+			{ "Task", new TaskModelFactory() },
+			//... add more factories
 		};
 
 
@@ -46,6 +47,11 @@ public static class MauiProgram
 		builder.Services.AddSingleton(eventFactories);
 
 
+
+
+
+
+		// Preferences Setting General Properties
 		Preferences.Default.Set("ProgramName", "CalendarT1");
 		Preferences.Default.Set("JsonFileName", "CalendarEvents");
 

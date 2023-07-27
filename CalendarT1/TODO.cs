@@ -2,7 +2,7 @@
 
 
 #region Current
-// FACTORIES FOR EACH TYPE OF EVENT
+// FACTORIES FOR EACH TYPE OF EVENT - make it work XD
 
 
 // add eventtypes page
