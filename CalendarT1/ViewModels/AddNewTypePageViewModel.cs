@@ -4,56 +4,62 @@
 	{
 		public class AddNewTypePageViewModel : BaseViewModel
 		{
+			private enum TypeOfEvent
+			{
+				Event,
+				Task,
+				Spending
+			}
 			private Color _selectedColor;
 			private string _typeName;
-			private bool _isTask = false;
 			private float _eventOpacity;
 			private float _taskOpacity;
 			private float _spendingOpacity;
 			private int _borderSize = 10;
 
+			// consider a list of buttons added dynamically??
 			private string _eventText = "Event";
 			private string _taskText = "Task";
 			private string _spendingText = "Spending";
-
+			private TypeOfEvent _typeOfEvent = TypeOfEvent.Event;
 			public string EventText
 			{
 				get => _eventText;
-				set
-				{
-					if (_eventText == value)
-					{
-						return;
-					}
-					_eventText = value;
-					OnPropertyChanged();
-				}
+				//set
+				//{
+				//	if (_eventText == value)
+				//	{
+				//		return;
+				//	}
+				//	_eventText = value;
+				//	OnPropertyChanged();
+				//}
 			}
 			public string TaskText
 			{
 				get => _taskText;
-				set
-				{
-					if (_taskText == value)
-					{
-						return;
-					}
-					_taskText = value;
-					OnPropertyChanged();
-				}
+				//set
+				//{
+				//	if (_taskText == value)
+				//	{
+				//		return;
+				//	}
+				//	_taskText = value;
+				//	OnPropertyChanged();
+				//}
 			}
 			public string SpendingText
 			{
 				get => _spendingText;
-				set
-				{
-					if (_spendingText == value)
-					{
-						return;
-					}
-					_spendingText = value;
-					OnPropertyChanged();
-				}
+				//set
+				//{
+				//	if (_spendingText == value)
+				//	{
+				//		return;
+				//	}
+				//	_spendingText = value;
+				//	OnPropertyChanged();
+				//}
 			}
 			public float EventOpacity
 			{
@@ -98,29 +104,46 @@
 			{
 				if (isTask == "Task")
 				{
-					IsTask = true;
+					_typeOfEvent = TypeOfEvent.Task;
 				}
-				else if (isTask == "Event")
+				else if (isTask == "Spending")
 				{
-					IsTask = false;
+					_typeOfEvent = TypeOfEvent.Spending;
+				}
+				else
+				{
+					_typeOfEvent = TypeOfEvent.Event;
 				}
 				SetVisualsForEventTask();
 			}
 			private void SetVisualsForEventTask()
 			{
-				if (IsTask)
-				{
-					EventOpacity = 0.3f;
-					TaskOpacity = 1;
-					EventBorder = 10;
-					TaskBorder = 0;
-				}
-				else if (IsTask)
+				if (_typeOfEvent==TypeOfEvent.Event)
 				{
 					EventOpacity = 1;
+					SpendingOpacity = 0.3f;
 					TaskOpacity = 0.3f;
 					EventBorder = 0;
 					TaskBorder = 10;
+					SpendingBorder = 10;
+				}
+				else if (_typeOfEvent == TypeOfEvent.Task)
+				{
+					EventOpacity = 0.3f;
+					SpendingOpacity = 0.3f;
+					TaskOpacity = 1;
+					EventBorder = 10;
+					TaskBorder = 0;
+					SpendingBorder = 10;
+				}
+				else if (_typeOfEvent == TypeOfEvent.Spending)
+				{
+					EventOpacity = 0.3f;
+					SpendingOpacity = 1;
+					TaskOpacity = 0.3f;
+					EventBorder = 10;
+					TaskBorder = 10;
+					SpendingBorder = 0;
 				}
 			}
 			public RelayCommand<string> ColorSelectionCommand { get; private set; }
@@ -153,21 +176,6 @@
 					OnPropertyChanged();
 				}
 			}
-
-			public bool IsTask
-			{
-				get => _isTask;
-				set
-				{
-					if (_isTask == value)
-					{
-						return;
-					}
-					_isTask = value;
-					OnPropertyChanged();
-				}
-			}
-
 			public AddNewTypePageViewModel()
 			{
 				ResetBorders();
@@ -280,6 +288,7 @@
 				}
 			}
 
+			// dont look... :) should be a better way to do this but I m tired of MAUI...
 			#region Button Borders 
 			private void ResetBorders()
 			{
@@ -345,8 +354,6 @@
 					OnPropertyChanged();
 				}
 			}
-
-
 			private int _orangeLBorder;
 			public int OrangeLBorder
 			{
