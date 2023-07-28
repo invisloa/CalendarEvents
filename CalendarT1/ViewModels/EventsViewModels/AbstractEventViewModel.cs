@@ -1,6 +1,7 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Services.EventFactories;
 using CalendarT1.Views;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
@@ -11,7 +12,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
     public abstract class AbstractEventViewModel : BaseViewModel
 	{
 		#region Properties
-
+		private Dictionary<string, IBaseEventFactory> _eventFactories;
 		private IEventRepository _eventRepository;
 		public IEventRepository EventRepository
 		{
@@ -84,9 +85,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			OnEventsToShowListUpdated?.Invoke();
 		}
-		public AbstractEventViewModel(IEventRepository eventRepository)
+		public AbstractEventViewModel(IEventRepository eventRepository, Dictionary<string, IBaseEventFactory> eventFactories)
 		{
-
+			_eventFactories = eventFactories;
 
 			EventTypesOC = new ObservableCollection<UserEventTypeModel>();
 			EventTypesOC.Add(new UserEventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
@@ -146,7 +147,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		private void GoToAddEventPage()
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository));
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, _eventFactories));
 		}
 
 		private void SelectEvent(IGeneralEventModel selectedEvent)

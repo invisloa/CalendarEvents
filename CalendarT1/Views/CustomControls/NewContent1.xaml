@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:models="clr-namespace:CalendarT1.Models;assembly=CalendarT1"
+             xmlns:type_models="clr-namespace:CalendarT1.Models.EventTypesModels;assembly=CalendarT1"
              x:Class="CalendarT1.Views.CustomControls.NewContent1">
             <CollectionView ItemsSource="{Binding EventTypesOC}" HorizontalOptions="CenterAndExpand">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Horizontal" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventTypeModel">
+                    <DataTemplate x:DataType="type_models:UserEventTypeModel">
                         <Button Text="{Binding EventTypeName}"  WidthRequest="100" TextColor="White" 
                                 Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
                                 CommandParameter="{Binding}">

@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Services.EventFactories;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
@@ -6,8 +7,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	{
 
 		public MonthlyEventsViewModel
-						(IEventRepository eventRepository)
-						: base(eventRepository) { }
+						(IEventRepository eventRepository, Dictionary<string, IBaseEventFactory> _eventFactories)
+						: base(eventRepository, _eventFactories) { }
 		public async override Task BindDataToScheduleList()
 		{
 			// Start of the month
