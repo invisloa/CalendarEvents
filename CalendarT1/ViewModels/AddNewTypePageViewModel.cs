@@ -10,12 +10,15 @@
 				Task,
 				Spending
 			}
+			private const int fullOpacity = 1;
+			private const float _fadedOpacity = 0.3f;
+			private const int _noBorderSize = 0;
+			private const int _borderSize = 10;
 			private Color _selectedColor;
 			private string _typeName;
 			private float _eventOpacity;
 			private float _taskOpacity;
 			private float _spendingOpacity;
-			private int _borderSize = 10;
 
 			// consider a list of buttons added dynamically??
 			private string _eventText = "Event";
@@ -100,50 +103,48 @@
 					OnPropertyChanged();
 				}
 			}
-			private void SetEventTypeSelected(string isTask)
+			private void SetEventTypeSelected(string typeOfEvent)
 			{
-				if (isTask == "Task")
+				if (Enum.TryParse(typeOfEvent, out TypeOfEvent parsedTypeOfEvent))
 				{
-					_typeOfEvent = TypeOfEvent.Task;
-				}
-				else if (isTask == "Spending")
-				{
-					_typeOfEvent = TypeOfEvent.Spending;
+					_typeOfEvent = parsedTypeOfEvent;
 				}
 				else
 				{
-					_typeOfEvent = TypeOfEvent.Event;
+					// Handle the case where the string could not be parsed to TypeOfEvent
+					throw new ArgumentException($"Invalid TypeOfEvent value: {typeOfEvent}");
 				}
+
 				SetVisualsForEventTask();
 			}
+
+
 			private void SetVisualsForEventTask()
 			{
-				if (_typeOfEvent==TypeOfEvent.Event)
+				SetVisualsForEventType(_eventText, _typeOfEvent.ToString() == _eventText);
+				SetVisualsForEventType(_taskText, _typeOfEvent.ToString() == _taskText);
+				SetVisualsForEventType(_spendingText, _typeOfEvent.ToString() == _spendingText);
+			}
+
+			private void SetVisualsForEventType(string eventType, bool isSelected)
+			{
+				float opacity = isSelected ? fullOpacity : _fadedOpacity;
+				int border = isSelected ? _noBorderSize : _borderSize;
+
+				if (eventType == _eventText)
 				{
-					EventOpacity = 1;
-					SpendingOpacity = 0.3f;
-					TaskOpacity = 0.3f;
-					EventBorder = 0;
-					TaskBorder = 10;
-					SpendingBorder = 10;
+					EventOpacity = opacity;
+					EventBorder = border;
 				}
-				else if (_typeOfEvent == TypeOfEvent.Task)
+				else if (eventType == _taskText)
 				{
-					EventOpacity = 0.3f;
-					SpendingOpacity = 0.3f;
-					TaskOpacity = 1;
-					EventBorder = 10;
-					TaskBorder = 0;
-					SpendingBorder = 10;
+					TaskOpacity = opacity;
+					TaskBorder = border;
 				}
-				else if (_typeOfEvent == TypeOfEvent.Spending)
+				else if (eventType == _spendingText)
 				{
-					EventOpacity = 0.3f;
-					SpendingOpacity = 1;
-					TaskOpacity = 0.3f;
-					EventBorder = 10;
-					TaskBorder = 10;
-					SpendingBorder = 0;
+					SpendingOpacity = opacity;
+					SpendingBorder = border;
 				}
 			}
 			public RelayCommand<string> ColorSelectionCommand { get; private set; }
