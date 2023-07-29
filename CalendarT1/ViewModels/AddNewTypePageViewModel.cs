@@ -1,4 +1,6 @@
-﻿namespace CalendarT1.ViewModels
+﻿using System.Collections.ObjectModel;
+
+namespace CalendarT1.ViewModels
 {
 	namespace CalendarT1.ViewModels
 	{
@@ -631,6 +633,22 @@
 			}
 
 			#endregion
+
+
+
+			public ObservableCollection<ButtonProperties> ButtonCollection { get; } = new ObservableCollection<ButtonProperties>
+			{
+				new ButtonProperties { Color = "#FFB74D", BorderWidth = "{Binding OrangeLBorder}", ColorCode = "FFB74D" },
+				new ButtonProperties { Color = "#FFB74D", BorderWidth = "{Binding OrangeLBorder}", ColorCode = "FFB74D" },
+				new ButtonProperties { Color = "#FFB74D", BorderWidth = "{Binding OrangeLBorder}", ColorCode = "FFB74D" },
+				// other button properties...
+			};
+		}
+		public class ButtonProperties
+		{
+			public string Color { get; set; }
+			public string BorderWidth { get; set; }
+			public string ColorCode { get; set; }
 		}
 	}
 }

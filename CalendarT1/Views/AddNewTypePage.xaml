@@ -1,6 +1,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CalendarT1.Views.AddNewTypePage"
+             xmlns:controls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="AddNewTypePage"
              x:Name="AddNewTypePageName">
     <ScrollView>
@@ -17,87 +18,18 @@
             <Entry x:Name="TypeNameEntry" Placeholder="Type Name"/>
 
             <!-- Buttons for color selection -->
+
             <Label Text="Choose new type color:"/>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+            <CollectionView ItemsSource="{Binding ButtonCollection}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <!-- Use the custom control you defined -->
+                        <controls:ColorButton />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-                <!-- Orange Buttons -->
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="0" Grid.Column="0">
-                    <Button x:Name="OrangeLightButton" BorderWidth="{Binding OrangeLBorder}" BackgroundColor="#FFB74D" Command="{Binding ColorSelectionCommand}" CommandParameter="FFB74D" Margin="0"/>
-                </Frame>
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="1" Grid.Column="0">
-                    <Button x:Name="OrangeNormalButton" BorderWidth="{Binding OrangeNBorder}" BackgroundColor="#FF9800" Command="{Binding ColorSelectionCommand}" CommandParameter="FF9800" Margin="0"/>
-                </Frame>
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="2" Grid.Column="0">
-                    <Button x:Name="OrangeDarkButton" BorderWidth="{Binding OrangeDBorder}" BackgroundColor="#E65100" Command="{Binding ColorSelectionCommand}" CommandParameter="E65100" Margin="0"/>
-                </Frame>
 
-                <!-- Red Buttons -->
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="0" Grid.Column="1">
-                    <Button x:Name="RedLightButton" BorderWidth="{Binding RedLBorder}" BackgroundColor="#FF5252" Command="{Binding ColorSelectionCommand}" CommandParameter="FF5252" Margin="0"/>
-                </Frame>
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="1" Grid.Column="1">
-                    <Button x:Name="RedNormalButton" BorderWidth="{Binding RedNBorder}" BackgroundColor="#F44336" Command="{Binding ColorSelectionCommand}" CommandParameter="F44336" Margin="0"/>
-                </Frame>
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="2" Grid.Column="1">
-                    <Button x:Name="RedDarkButton" BorderWidth="{Binding RedDBorder}" BackgroundColor="#D32F2F" Command="{Binding ColorSelectionCommand}" CommandParameter="D32F2F" Margin="0"/>
-                </Frame>
-
-                <!-- Blue Buttons -->
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="0" Grid.Column="2">
-                    <Button x:Name="BlueLightButton" BorderWidth="{Binding BlueLBorder}" BackgroundColor="#64B5F6" Command="{Binding ColorSelectionCommand}" CommandParameter="64B5F6" Margin="0"/>
-                </Frame>
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="1" Grid.Column="2">
-                    <Button x:Name="BlueNormalButton" BorderWidth="{Binding BlueNBorder}" BackgroundColor="#1F59A7" Command="{Binding ColorSelectionCommand}" CommandParameter="1F59A7" Margin="0"/>
-                </Frame>
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="2" Grid.Column="2">
-                    <Button x:Name="BlueDarkButton" BorderWidth="{Binding BlueDBorder}" BackgroundColor="#0D468F" Command="{Binding ColorSelectionCommand}" CommandParameter="0D468F" Margin="0"/>
-                </Frame>
-
-                <!-- Green Buttons -->
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="0" Grid.Column="3">
-                    <Button x:Name="GreenLightButton" BorderWidth="{Binding GreenLBorder}" BackgroundColor="#69F0AE" Command="{Binding ColorSelectionCommand}" CommandParameter="69F0AE" Margin="0"/>
-                </Frame>
-                <Frame   HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="1" Grid.Column="3">
-                    <Button x:Name="GreenNormalButton" BorderWidth="{Binding GreenNBorder}" BackgroundColor="#00E676" Command="{Binding ColorSelectionCommand}" CommandParameter="00E676" Margin="0"/>
-                </Frame>
-                <Frame  HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="2" Grid.Column="3">
-                    <Button x:Name="GreenDarkButton" BorderWidth="{Binding GreenDBorder}" BackgroundColor="#00C853" Command="{Binding ColorSelectionCommand}" CommandParameter="00C853" Margin="0"/>
-                </Frame>
-
-                <!-- Yellow Buttons -->
-                <Frame  HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="0" Grid.Column="4">
-                    <Button x:Name="YellowLightButton" BorderWidth="{Binding YellowLBorder}" BackgroundColor="#FFEE58" Command="{Binding ColorSelectionCommand}" CommandParameter="FFEE58" Margin="0"/>
-                </Frame>
-                <Frame  HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="1" Grid.Column="4">
-                    <Button x:Name="YellowNormalButton" BorderWidth="{Binding YellowNBorder}" BackgroundColor="#FFEB3B" Command="{Binding ColorSelectionCommand}" CommandParameter="FFEB3B" Margin="0"/>
-                </Frame>
-                <Frame HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="2" Grid.Column="4">
-                    <Button x:Name="YellowDarkButton" BorderWidth="{Binding YellowDBorder}" BackgroundColor="#FDD835" Command="{Binding ColorSelectionCommand}" CommandParameter="FDD835" Margin="0"/>
-                </Frame>
-
-                <!-- Pink Buttons -->
-                <Frame  HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="0" Grid.Column="5">
-                    <Button x:Name="PinkLightButton" BorderWidth="{Binding PinkLBorder}" BackgroundColor="#FF80AB" Command="{Binding ColorSelectionCommand}" CommandParameter="FF80AB" Margin="0"/>
-                </Frame>
-                <Frame HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="1" Grid.Column="5">
-                    <Button x:Name="PinkNormalButton" BorderWidth="{Binding PinkNBorder}" BackgroundColor="#FF4081" Command="{Binding ColorSelectionCommand}" CommandParameter="FF4081" Margin="0"/>
-                </Frame>
-                <Frame HasShadow="True" Padding="0" IsClippedToBounds="True" Grid.Row="2" Grid.Column="5">
-                    <Button x:Name="PinkDarkButton" BorderWidth="{Binding PinkDBorder}" BackgroundColor="#F50057" Command="{Binding ColorSelectionCommand}" CommandParameter="F50057" Margin="0"/>
-                </Frame>
-            </Grid>
 
         </StackLayout>
     </ScrollView>

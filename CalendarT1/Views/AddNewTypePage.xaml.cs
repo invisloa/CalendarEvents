@@ -9,4 +9,4 @@ public partial class AddNewTypePage : ContentPage
 		InitializeComponent();
 		BindingContext = new AddNewTypePageViewModel();
 	}
-}
+} 
