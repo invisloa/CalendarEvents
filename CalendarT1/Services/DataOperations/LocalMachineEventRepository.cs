@@ -40,16 +40,27 @@ public class LocalMachineEventRepository : IEventRepository
 			SaveUserEventTypesListAsync().Wait();
 		}
 	}
-	public Task AddEventAsync(IGeneralEventModel eventToAdd)
+
+
+
+
+
+
+
+
+
+
+
+	public async Task AddEventAsync(IGeneralEventModel eventToAdd)
 	{
 		AllEventsList.Add(eventToAdd);
-		return SaveEventsListAsync();
+		await SaveEventsListAsync();
 	}
 
-	public Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete)
+	public async Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete)
 	{
 		AllEventsList.Remove(eventToDelete);
-		return SaveEventsListAsync();
+		await SaveEventsListAsync();
 	}
 
 	public Task ClearEventsListAsync()
@@ -85,18 +96,19 @@ public class LocalMachineEventRepository : IEventRepository
 		await File.WriteAllTextAsync(EventsFilePath, jsonString);
 	}
 
-	public Task UpdateEventAsync(IGeneralEventModel eventToUpdate)
+	public async Task UpdateEventAsync(IGeneralEventModel eventToUpdate)
 	{
 		var eventToUpdateInList = AllEventsList.FirstOrDefault(e => e.Id == eventToUpdate.Id);
 		if (eventToUpdateInList != null)
 		{
-			AllEventsList.Remove(eventToUpdateInList);
-			AllEventsList.Add(eventToUpdate);
-			return SaveEventsListAsync();
+			// TO CHECK
+			//AllEventsList.Remove(eventToUpdateInList);
+			//AllEventsList.Add(eventToUpdate);
+			await SaveEventsListAsync();
 		}
 		else
 		{
-			return Task.CompletedTask;
+			await Task.CompletedTask;
 		}
 	}
 
@@ -117,9 +129,19 @@ public class LocalMachineEventRepository : IEventRepository
 
 
 
-	public Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
+	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{
-		throw new NotImplementedException();
+		if (File.Exists(EventsFilePath))
+		{
+			var jsonString = await File.ReadAllTextAsync(UserTypesFilePath);
+			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+			_allEventTypesList = JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(jsonString, settings);
+		}
+		else
+		{
+			_allEventTypesList = new List<IUserEventTypeModel>();
+		}
+		return _allEventTypesList;
 	}
 
 	public async Task SaveUserEventTypesListAsync()
@@ -134,13 +156,19 @@ public class LocalMachineEventRepository : IEventRepository
 		await File.WriteAllTextAsync(UserTypesFilePath, jsonString);
 	}
 
-	public Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete)
+	public async Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete)
 	{
-		throw new NotImplementedException();
+		AllEventTypesList.Remove(eventTypeToDelete);
+		await SaveUserEventTypesListAsync();
 	}
 
-	public Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
+	public async Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
 	{
-		throw new NotImplementedException();
+		AllEventTypesList.Add(eventTypeToAdd);
+		await SaveUserEventTypesListAsync();
+	}
+	public async Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate)
+	{
+		await SaveUserEventTypesListAsync();
 	}
 }

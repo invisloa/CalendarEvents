@@ -16,6 +16,8 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 		Task SaveUserEventTypesListAsync();
 		Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete);
 		Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd);
+		Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate);
+
 	}
 }
 
