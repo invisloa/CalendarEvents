@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Models.EventTypesModels;
 
 namespace CalendarT1.Services.DataOperations.Interfaces
 {
@@ -11,5 +12,9 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 		Task ClearEventsListAsync();
 		Task UpdateEventAsync(IGeneralEventModel eventToUpdate);
 		Task<IGeneralEventModel> GetEventByIdAsync(Guid eventId);
+		Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync();
+		Task SaveUserEventTypesListAsync();
+		Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete);
+		Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd);
 	}
 }
