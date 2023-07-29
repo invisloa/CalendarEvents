@@ -18,3 +18,7 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 		Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd);
 	}
 }
+
+
+
+
