@@ -2,6 +2,10 @@
 
 
 #region Current
+// Dynamic colors in type of event page
+
+
+
 // FACTORIES FOR EACH TYPE OF EVENT - make it work XD
 
 

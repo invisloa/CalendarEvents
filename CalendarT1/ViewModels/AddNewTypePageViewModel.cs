@@ -638,15 +638,15 @@ namespace CalendarT1.ViewModels
 
 			public ObservableCollection<ButtonProperties> ButtonCollection { get; } = new ObservableCollection<ButtonProperties>
 			{
-				new ButtonProperties { Color = "#FFB74D", BorderWidth = "{Binding OrangeLBorder}", ColorCode = "FFB74D" },
-				new ButtonProperties { Color = "#FFB74D", BorderWidth = "{Binding OrangeLBorder}", ColorCode = "FFB74D" },
-				new ButtonProperties { Color = "#FFB74D", BorderWidth = "{Binding OrangeLBorder}", ColorCode = "FFB74D" },
+				new ButtonProperties { Color = Color.FromHex("#FFB74D"), BorderWidth = "{Binding OrangeLBorder}", ColorCode = "FFB74D" },
+				new ButtonProperties { Color = Color.FromHex("#226688"), BorderWidth ="{Binding OrangeLBorder}", ColorCode = "226688" },
+				new ButtonProperties { Color = Color.FromHex("#773344"), BorderWidth = "{Binding OrangeLBorder}", ColorCode = "773344" },
 				// other button properties...
 			};
 		}
 		public class ButtonProperties
 		{
-			public string Color { get; set; }
+			public Color Color { get; set; }
 			public string BorderWidth { get; set; }
 			public string ColorCode { get; set; }
 		}
