@@ -25,14 +25,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-
-            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                <Button Text="{Binding EventText}" Opacity="{Binding EventOpacity}" BorderWidth="{Binding EventBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Event" HorizontalOptions="FillAndExpand"/>
-                <Button Text="{Binding TaskText}" Opacity="{Binding TaskOpacity}" BorderWidth="{Binding TaskBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Task" HorizontalOptions="FillAndExpand"/>
-                <Button Text="{Binding SpendingText}" Opacity="{Binding SpendingOpacity}" BorderWidth="{Binding SpendingBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Spending" HorizontalOptions="FillAndExpand"/>
-            </StackLayout>
-
             <!-- Textbox for new type name -->
             <Label Text="Enter new type name:"/>
             <Entry x:Name="TypeNameEntry" Placeholder="Type Name"/>
