@@ -4,7 +4,8 @@
 #region Current
 // Dynamic colors in type of event page
 
-
+// quicknotes page
+// all events list page with filrers and sorting
 
 // FACTORIES FOR EACH TYPE OF EVENT - make it work XD
 
