@@ -50,4 +50,5 @@
             </CollectionView>
         </StackLayout>
     </ScrollView>
+    <Button Text="{Binding}" Command="{Binding AddNewTypeCommand}" CommandParameter="{Binding Text, Source={x:Reference TypeNameEntry}}"/>
 </ContentPage>
