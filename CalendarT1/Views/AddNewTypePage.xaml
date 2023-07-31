@@ -5,7 +5,27 @@
              Title="AddNewTypePage"
              x:Name="AddNewTypePageName">
     <ScrollView>
-        <StackLayout Padding="20">
+        <StackLayout>
+            <CollectionView ItemsSource="{Binding EventTypesOC}" HorizontalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                         Span="3" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                            <Button 
+                            Text="{Binding Text}"
+                            Opacity="{Binding Opacity}"
+                            BorderWidth="{Binding Border}"
+                            Command="{Binding Path=BindingContext.EventTypeSelectedCommand, Source={x:Reference Name=AddNewTypePageName}}"
+                            CommandParameter="{Binding .}"
+                            HeightRequest="60"
+                            BackgroundColor="{Binding Path=BindingContext.SelectedColor, Source={x:Reference Name=AddNewTypePageName}}"
+                            />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
                 <Button Text="{Binding EventText}" Opacity="{Binding EventOpacity}" BorderWidth="{Binding EventBorder}" BackgroundColor="{Binding SelectedColor}" Command="{Binding EventTypeSelectedCommand}" CommandParameter="Event" HorizontalOptions="FillAndExpand"/>

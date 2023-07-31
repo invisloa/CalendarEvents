@@ -1,4 +1,4 @@
-using CalendarT1.ViewModels.CalendarT1.ViewModels;
+using CalendarT1.ViewModels;
 
 namespace CalendarT1.Views;
 
