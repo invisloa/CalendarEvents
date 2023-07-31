@@ -19,7 +19,7 @@
                             BorderWidth="{Binding Border}"
                             Command="{Binding Path=BindingContext.EventTypeSelectedCommand, Source={x:Reference Name=AddNewTypePageName}}"
                             CommandParameter="{Binding .}"
-                            HeightRequest="60"
+                            HeightRequest="50"
                             BackgroundColor="{Binding Path=BindingContext.SelectedColor, Source={x:Reference Name=AddNewTypePageName}}"
                             />
                     </DataTemplate>
