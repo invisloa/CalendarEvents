@@ -21,8 +21,6 @@ namespace CalendarT1.ViewModels
 			private float _eventOpacity;
 			private float _taskOpacity;
 			private float _spendingOpacity;
-
-			// consider a list of buttons added dynamically??
 			private string _eventText = "Event";
 			private string _taskText = "Task";
 			private string _spendingText = "Spending";
@@ -105,216 +103,6 @@ namespace CalendarT1.ViewModels
 					OnPropertyChanged();
 				}
 			}
-			private void SetEventTypeSelected(string typeOfEvent)
-			{
-				if (Enum.TryParse(typeOfEvent, out TypeOfEvent parsedTypeOfEvent))
-				{
-					_typeOfEvent = parsedTypeOfEvent;
-				}
-				else
-				{
-					// Handle the case where the string could not be parsed to TypeOfEvent
-					throw new ArgumentException($"Invalid TypeOfEvent value: {typeOfEvent}");
-				}
-
-				SetVisualsForEventTask();
-			}
-
-
-			private void SetVisualsForEventTask()
-			{
-				SetVisualsForEventType(_eventText, _typeOfEvent.ToString() == _eventText);
-				SetVisualsForEventType(_taskText, _typeOfEvent.ToString() == _taskText);
-				SetVisualsForEventType(_spendingText, _typeOfEvent.ToString() == _spendingText);
-			}
-
-			private void SetVisualsForEventType(string eventType, bool isSelected)
-			{
-				float opacity = isSelected ? fullOpacity : _fadedOpacity;
-				int border = isSelected ? _noBorderSize : _borderSize;
-
-				if (eventType == _eventText)
-				{
-					EventOpacity = opacity;
-					EventBorder = border;
-				}
-				else if (eventType == _taskText)
-				{
-					TaskOpacity = opacity;
-					TaskBorder = border;
-				}
-				else if (eventType == _spendingText)
-				{
-					SpendingOpacity = opacity;
-					SpendingBorder = border;
-				}
-			}
-			public RelayCommand<string> ColorSelectionCommand { get; private set; }
-			public RelayCommand<string> EventTypeSelectedCommand { get; private set; }
-
-			public Color SelectedColor
-			{
-				get => _selectedColor;
-				set
-				{
-					if (_selectedColor == value)
-					{
-						return;
-					}
-					_selectedColor = value;
-					OnPropertyChanged();
-				}
-			}
-
-			public string TypeName
-			{
-				get => _typeName;
-				set
-				{
-					if (_typeName == value)
-					{
-						return;
-					}
-					_typeName = value;
-					OnPropertyChanged();
-				}
-			}
-			public AddNewTypePageViewModel()
-			{
-				ResetBorders();
-				ColorSelectionCommand = new RelayCommand<string>(OnColorSelection);
-				EventTypeSelectedCommand = new RelayCommand<string>(SetEventTypeSelected);
-				SelectedColor = StringToHexConverter("1F59A7");
-				BlueNBorder = 0;
-				SetVisualsForEventTask();
-
-			}
-			private Color StringToHexConverter(string hex)
-			{
-				return Color.FromHex($"#{hex}");
-			}
-			private void OnColorSelection(string buttonIdentifier)
-			{
-				ResetBorders();
-
-				switch (buttonIdentifier)
-				{
-					case "FFB74D":
-						OrangeLBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-						break;
-					case "FF9800":
-						OrangeNBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "E65100":
-						OrangeDBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "FF5252":
-						RedLBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "F44336":
-						RedNBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "D32F2F":
-						RedDBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "64B5F6":
-						BlueLBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "1F59A7":
-						BlueNBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "0D468F":
-						BlueDBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "69F0AE":
-						GreenLBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "00E676":
-						GreenNBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "00C853":
-						GreenDBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "FFEE58":
-						YellowLBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "FFEB3B":
-						YellowNBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "FDD835":
-						YellowDBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "FF80AB":
-						PinkLBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "FF4081":
-						PinkNBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-					case "F50057":
-						PinkDBorder = 0;
-						SelectedColor = StringToHexConverter(buttonIdentifier);
-
-						break;
-				}
-			}
-
-			// dont look... :) should be a better way to do this but I m tired of MAUI...
-			#region Button Borders 
-			private void ResetBorders()
-			{
-				// Reset all colors and shades
-				OrangeLBorder = _borderSize;
-				OrangeNBorder = _borderSize;
-				OrangeDBorder = _borderSize;
-				RedLBorder = _borderSize;
-				RedNBorder = _borderSize;
-				RedDBorder = _borderSize;
-				BlueLBorder = _borderSize;
-				BlueNBorder = _borderSize;
-				BlueDBorder = _borderSize;
-				GreenLBorder = _borderSize;
-				GreenNBorder = _borderSize;
-				GreenDBorder = _borderSize;
-				YellowLBorder = _borderSize;
-				YellowNBorder = _borderSize;
-				YellowDBorder = _borderSize;
-				PinkLBorder = _borderSize;
-				PinkNBorder = _borderSize;
-				PinkDBorder = _borderSize;
-			}
 			private int _eventBorder;
 			public int EventBorder
 			{
@@ -357,298 +145,136 @@ namespace CalendarT1.ViewModels
 					OnPropertyChanged();
 				}
 			}
-			private int _orangeLBorder;
-			public int OrangeLBorder
+			public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
+			private void SetEventTypeSelected(string typeOfEvent)
 			{
-				get => _orangeLBorder;
+				if (Enum.TryParse(typeOfEvent, out TypeOfEvent parsedTypeOfEvent))
+				{
+					_typeOfEvent = parsedTypeOfEvent;
+				}
+				else
+				{
+					// Handle the case where the string could not be parsed to TypeOfEvent
+					throw new ArgumentException($"Invalid TypeOfEvent value: {typeOfEvent}");
+				}
+				SetVisualsForEventTask();
+			}
+			private void SetVisualsForEventTask()
+			{
+				SetVisualsForEventType(_eventText, _typeOfEvent.ToString() == _eventText);
+				SetVisualsForEventType(_taskText, _typeOfEvent.ToString() == _taskText);
+				SetVisualsForEventType(_spendingText, _typeOfEvent.ToString() == _spendingText);
+			}
+			private void SetVisualsForEventType(string eventType, bool isSelected)
+			{
+				float opacity = isSelected ? fullOpacity : _fadedOpacity;
+				int border = isSelected ? _noBorderSize : _borderSize;
+
+				if (eventType == _eventText)
+				{
+					EventOpacity = opacity;
+					EventBorder = border;
+				}
+				else if (eventType == _taskText)
+				{
+					TaskOpacity = opacity;
+					TaskBorder = border;
+				}
+				else if (eventType == _spendingText)
+				{
+					SpendingOpacity = opacity;
+					SpendingBorder = border;
+				}
+			}
+			public RelayCommand<string> ColorSelectionCommand { get; private set; }
+			public RelayCommand<string> EventTypeSelectedCommand { get; private set; }
+			public Color SelectedColor
+			{
+				get => _selectedColor;
 				set
 				{
-					if (_orangeLBorder == value)
+					if (_selectedColor == value)
 					{
 						return;
 					}
-					_orangeLBorder = value;
+					_selectedColor = value;
 					OnPropertyChanged();
 				}
 			}
-
-			private int _orangeNBorder;
-			public int OrangeNBorder
+			public string TypeName
 			{
-				get => _orangeNBorder;
+				get => _typeName;
 				set
 				{
-					if (_orangeNBorder == value)
+					if (_typeName == value)
 					{
 						return;
 					}
-					_orangeNBorder = value;
+					_typeName = value;
 					OnPropertyChanged();
 				}
 			}
-
-			private int _orangeDBorder;
-			public int OrangeDBorder
+			public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
+			public AddNewTypePageViewModel()
 			{
-				get => _orangeDBorder;
-				set
+				ColorSelectionCommand = new RelayCommand<string>(OnColorSelection);
+				EventTypeSelectedCommand = new RelayCommand<string>(SetEventTypeSelected);
+				SelectedColor = Color.FromInt(1234);
+				SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
+				ButtonsColors = new ObservableCollection<ButtonProperties>
+{
+					new ButtonProperties { ButtonColor = Color.FromRgb(255, 0, 0), IsSelected = false }, // Red
+					new ButtonProperties { ButtonColor = Color.FromRgb(0, 255, 0), IsSelected = false }, // Green
+					new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 255), IsSelected = false }, // Blue
+					new ButtonProperties { ButtonColor = Color.FromRgb(255, 0, 0), IsSelected = false }, // Red
+					new ButtonProperties { ButtonColor = Color.FromRgb(0, 255, 0), IsSelected = false }, // Green
+					new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 255), IsSelected = false }, // Blue
+					new ButtonProperties { ButtonColor = Color.FromRgb(255, 0, 0), IsSelected = false }, // Red
+					new ButtonProperties { ButtonColor = Color.FromRgb(0, 255, 0), IsSelected = false }, // Green
+					new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 255), IsSelected = false }, // Blue
+				};
+				//ResetBorders();
+
+				SetVisualsForEventTask();
+			}
+			private void ResetBorders()
+			{
+				foreach (var button in ButtonsColors)
 				{
-					if (_orangeDBorder == value)
-					{
-						return;
-					}
-					_orangeDBorder = value;
-					OnPropertyChanged();
+					button.ButtonBorder = _borderSize;
 				}
 			}
-
-			// Properties for Red color
-			private int _redLBorder;
-			public int RedLBorder
+			private void OnColorSelection(string buttonIdentifier)
 			{
-				get => _redLBorder;
-				set
+				foreach (var button in ButtonsColors)
 				{
-					if (_redLBorder == value)
+					if (button.ButtonColor.ToString() == buttonIdentifier)
 					{
-						return;
+						button.ButtonBorder = _noBorderSize;
 					}
-					_redLBorder = value;
-					OnPropertyChanged();
+					else
+					{
+						button.ButtonBorder = _borderSize;
+					}
 				}
 			}
-
-			private int _redNBorder;
-			public int RedNBorder
+			private void SelectColor(ButtonProperties selectedColor)
 			{
-				get => _redNBorder;
-				set
+				SelectedColor = selectedColor.ButtonColor;
+
+				foreach (var button in ButtonsColors)
 				{
-					if (_redNBorder == value)
-					{
-						return;
-					}
-					_redNBorder = value;
-					OnPropertyChanged();
+					button.ButtonBorder = button == selectedColor ? 0 : 10;
 				}
+
+				OnPropertyChanged(nameof(SelectedColor));
 			}
-
-			private int _redDBorder;
-			public int RedDBorder
-			{
-				get => _redDBorder;
-				set
-				{
-					if (_redDBorder == value)
-					{
-						return;
-					}
-					_redDBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			// Properties for Blue color
-			private int _blueLBorder;
-			public int BlueLBorder
-			{
-				get => _blueLBorder;
-				set
-				{
-					if (_blueLBorder == value)
-					{
-						return;
-					}
-					_blueLBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			private int _blueNBorder;
-			public int BlueNBorder
-			{
-				get => _blueNBorder;
-				set
-				{
-					if (_blueNBorder == value)
-					{
-						return;
-					}
-					_blueNBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			private int _blueDBorder;
-			public int BlueDBorder
-			{
-				get => _blueDBorder;
-				set
-				{
-					if (_blueDBorder == value)
-					{
-						return;
-					}
-					_blueDBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			// Properties for Green color
-			private int _greenLBorder;
-			public int GreenLBorder
-			{
-				get => _greenLBorder;
-				set
-				{
-					if (_greenLBorder == value)
-					{
-						return;
-					}
-					_greenLBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			private int _greenNBorder;
-			public int GreenNBorder
-			{
-				get => _greenNBorder;
-				set
-				{
-					if (_greenNBorder == value)
-					{
-						return;
-					}
-					_greenNBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			private int _greenDBorder;
-			public int GreenDBorder
-			{
-				get => _greenDBorder;
-				set
-				{
-					if (_greenDBorder == value)
-					{
-						return;
-					}
-					_greenDBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			// Properties for Yellow color
-			private int _yellowLBorder;
-			public int YellowLBorder
-			{
-				get => _yellowLBorder;
-				set
-				{
-					if (_yellowLBorder == value)
-					{
-						return;
-					}
-					_yellowLBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			private int _yellowNBorder;
-			public int YellowNBorder
-			{
-				get => _yellowNBorder;
-				set
-				{
-					if (_yellowNBorder == value)
-					{
-						return;
-					}
-					_yellowNBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			private int _yellowDBorder;
-			public int YellowDBorder
-			{
-				get => _yellowDBorder;
-				set
-				{
-					if (_yellowDBorder == value)
-					{
-						return;
-					}
-					_yellowDBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			// Properties for Pink color
-			private int _pinkLBorder;
-			public int PinkLBorder
-			{
-				get => _pinkLBorder;
-				set
-				{
-					if (_pinkLBorder == value)
-					{
-						return;
-					}
-					_pinkLBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			private int _pinkNBorder;
-			public int PinkNBorder
-			{
-				get => _pinkNBorder;
-				set
-				{
-					if (_pinkNBorder == value)
-					{
-						return;
-					}
-					_pinkNBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			private int _pinkDBorder;
-			public int PinkDBorder
-			{
-				get => _pinkDBorder;
-				set
-				{
-					if (_pinkDBorder == value)
-					{
-						return;
-					}
-					_pinkDBorder = value;
-					OnPropertyChanged();
-				}
-			}
-
-			#endregion
-
-
-
-			public ObservableCollection<ButtonProperties> ButtonCollection { get; } = new ObservableCollection<ButtonProperties>
-			{
-				new ButtonProperties { Color = Color.FromHex("#FFB74D"), BorderWidth = "{Binding OrangeLBorder}", ColorCode = "FFB74D" },
-				new ButtonProperties { Color = Color.FromHex("#226688"), BorderWidth ="{Binding OrangeLBorder}", ColorCode = "226688" },
-				new ButtonProperties { Color = Color.FromHex("#773344"), BorderWidth = "{Binding OrangeLBorder}", ColorCode = "773344" },
-				// other button properties...
-			};
 		}
 		public class ButtonProperties
 		{
-			public Color Color { get; set; }
-			public string BorderWidth { get; set; }
-			public string ColorCode { get; set; }
+			public Color ButtonColor { get; set; }
+			public int ButtonBorder { get; set; } = 10;
+			public bool IsSelected { get; set; }
 		}
 	}
 }

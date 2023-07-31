@@ -20,17 +20,22 @@
             <!-- Buttons for color selection -->
 
             <Label Text="Choose new type color:"/>
-            <CollectionView ItemsSource="{Binding ButtonCollection}">
+            <CollectionView ItemsSource="{Binding ButtonsColors}">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical"
+                         Span="5" />
+                </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <!-- Use the custom control you defined -->
-                        <controls:ColorButton />
+                        <Button 
+                               BackgroundColor="{Binding ButtonColor}"
+                               BorderWidth="{Binding ButtonBorder}"
+                               Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewTypePageName}}"
+                               CommandParameter="{Binding .}"
+                               IsVisible="True"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-
-
         </StackLayout>
     </ScrollView>
 </ContentPage>
