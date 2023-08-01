@@ -2,7 +2,10 @@
 
 
 #region Current
-// Dynamic colors in type of event page
+// Test json file for event types
+// delete bad event types from json file
+// page for removing event types
+// page for editing event types
 
 // quicknotes page
 // all events list page with filrers and sorting
