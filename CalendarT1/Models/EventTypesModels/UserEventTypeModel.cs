@@ -1,40 +1,24 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace CalendarT1.Models.EventTypesModels
 {
-    public class UserEventTypeModel : INotifyPropertyChanged, IUserEventTypeModel
+    public class UserEventTypeModel :  IUserEventTypeModel
     {
-        #region InotifyPropertyChanged implementation
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
-        private string _eventTypeName;
-        public string EventTypeName
-        {
-            get => _eventTypeName;
-            set
-            {
-                _eventTypeName = value;
-                OnPropertyChanged();
-            }
-        }
-        // Store color as string
-        [NonSerialized] // This won't be included in the serialized data
-        private Color _eventTypeColor;
-
+		public MainEventType MainType { get; set; }
+        public string EventTypeName { get; set; }
+		// Store color as string due to serialization issues
+		[JsonIgnore] // This won't be included in the serialized data
+		private Color _eventTypeColor;
         // This will be included in the serialized data instead
         public string EventTypeColorString
         {
             get => _eventTypeColor.ToHex();
             set => _eventTypeColor = Color.FromHex(value);
         }
-        public Color EventTypeColor
+		[JsonIgnore]
+		public Color EventTypeColor
         {
             get
             {
@@ -43,27 +27,15 @@ namespace CalendarT1.Models.EventTypesModels
             set
             {
                 _eventTypeColor = value;
-                OnPropertyChanged();
             }
         }
 
         private bool _isSelectedToFilter;
-        public bool IsSelectedToFilter
+        public bool IsSelectedToFilter { get; set; }
+		public UserEventTypeModel(MainEventType mainEventType, string eventTypeName, Color eventTypeColor, bool isSelectedToFilter = true)
         {
-            get => _isSelectedToFilter;
-            set
-            {
-                if (_isSelectedToFilter != value)
-                {
-                    _isSelectedToFilter = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-
-        public UserEventTypeModel(string eventTypeName, Color eventTypeColor, bool isTask, bool isSelectedToFilter = true)
-        {
-            IsSelectedToFilter = isSelectedToFilter;
+			MainType = mainEventType;
+			IsSelectedToFilter = isSelectedToFilter;
             EventTypeName = eventTypeName;
             EventTypeColor = eventTypeColor;
         }

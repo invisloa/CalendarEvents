@@ -1,9 +1,12 @@
-﻿using CalendarT1.Services.DataOperations.Interfaces;
+﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Models.EventTypesModels;
+using CalendarT1.Services.DataOperations.Interfaces;
 
 namespace CalendarT1.Services
 {
     public static class Factory
 	{
+
 		// Event Repository
 		#region EventRepository
 		private static IEventRepository CreateEventRepository() => new LocalMachineEventRepository();
@@ -22,6 +25,12 @@ namespace CalendarT1.Services
 		}
 
 		#endregion
+
+
+		public static IUserEventTypeModel CreateNewEventType(MainEventType mainEventType, string eventTypeName, Color eventTypeColor)
+		{
+			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor);
+		} 
 
 	}
 }

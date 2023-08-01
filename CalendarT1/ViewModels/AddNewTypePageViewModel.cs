@@ -4,15 +4,15 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.ComponentModel;
-using static Android.Icu.Text.CaseMap;
 using CalendarT1.Models.EventTypesModels;
 using Newtonsoft.Json;
+using CalendarT1.Services;
 
 namespace CalendarT1.ViewModels
 {
 	public class AddNewTypePageViewModel : BaseViewModel
 	{
-		private enum TypeOfEvent
+		private enum MainEventType
 		{
 			Event,
 			Task,
@@ -30,8 +30,8 @@ namespace CalendarT1.ViewModels
 		private const int BorderSize = 10;
 		private Color _selectedColor;
 		private string _typeName;
-		private readonly Dictionary<TypeOfEvent, EventDetails> _eventDetails = new Dictionary<TypeOfEvent, EventDetails>();
-		private TypeOfEvent _selectedEventType = TypeOfEvent.Event;
+		private readonly Dictionary<MainEventType, EventDetails> _eventDetails = new Dictionary<MainEventType, EventDetails>();
+		private MainEventType _selectedEventType = MainEventType.Event;
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 		public ObservableCollection<EventDetails> EventTypesOC { get; set; }
 		public IUserEventTypeModel CurrentType
@@ -76,7 +76,30 @@ namespace CalendarT1.ViewModels
 		}
 		public RelayCommand<EventDetails> EventTypeSelectedCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
+		public RelayCommand SubmitTypeCommand { get; private set; }
+		private void SubmitEvent()
+		{
+			if (IsEdit)
+			{
+				_currentType.EventTypeName = TypeName;
+				_currentType.EventTypeColor = SelectedColor;
+			}
+			else
+			{
+				if(_selectedEventType==MainEventType.Event)
+				{
+					Factory.CreateNewEventType(TypeName, _selectedColor);
+					public UserEventTypeModel(string eventTypeName, Color eventTypeColor, bool isTask, bool isSelectedToFilter = true)
+					{
+						IsSelectedToFilter = isSelectedToFilter;
+						EventTypeName = eventTypeName;
+						EventTypeColor = eventTypeColor;
+					}
 
+				}
+				//_currentType = Factory.CreateNewTypeOfEvent();
+			}
+		}
 		public AddNewTypePageViewModel(IUserEventTypeModel currentType = null)
 		{
 			if(currentType != null)
@@ -84,9 +107,9 @@ namespace CalendarT1.ViewModels
 				// TODO to change this to act dynamically
 				_selectedEventType = currentType.EventTypeName switch
 				{
-					"Event" => TypeOfEvent.Event,
-					"Task" => TypeOfEvent.Task,
-					"Spending" => TypeOfEvent.Spending,
+					"Event" => MainEventType.Event,
+					"Task" => MainEventType.Task,
+					"Spending" => MainEventType.Spending,
 					_ => throw new ArgumentException("Invalid event type"),
 				};
 				CurrentType = currentType;
@@ -104,8 +127,8 @@ namespace CalendarT1.ViewModels
 				new ButtonProperties { ButtonColor = Color.FromRgb(144, 238, 144), ButtonBorder = BorderSize}, // LightGreen
 				new ButtonProperties { ButtonColor = Color.FromRgb(60, 179, 113), ButtonBorder = BorderSize}, // MediumSeaGreen
 				new ButtonProperties { ButtonColor = Color.FromRgb(34, 139, 34), ButtonBorder = BorderSize}, // ForestGreen
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 100, 0), ButtonBorder = BorderSize}, // DarkGreen
 				new ButtonProperties { ButtonColor = Color.FromRgb(0, 255, 0), ButtonBorder = BorderSize}, // Lime
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 100, 0), ButtonBorder = BorderSize}, // DarkGreen
     
 				// Blue shades
 				new ButtonProperties { ButtonColor = Color.FromRgb(135, 206, 235), ButtonBorder = BorderSize}, // SkyBlue
@@ -118,15 +141,15 @@ namespace CalendarT1.ViewModels
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 99, 71), ButtonBorder = BorderSize}, // Tomato
 				new ButtonProperties { ButtonColor = Color.FromRgb(220, 20, 60), ButtonBorder = BorderSize}, // Crimson
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 0, 0), ButtonBorder = BorderSize}, // Red
-				new ButtonProperties { ButtonColor = Color.FromRgb(128, 0, 0), ButtonBorder = BorderSize}, // Maroon
 				new ButtonProperties { ButtonColor = Color.FromRgb(139, 0, 0), ButtonBorder = BorderSize}, // DarkRed
+				new ButtonProperties { ButtonColor = Color.FromRgb(128, 0, 0), ButtonBorder = BorderSize}, // Maroon
     
 				// Violet shades
 				new ButtonProperties { ButtonColor = Color.FromRgb(238, 130, 238), ButtonBorder = BorderSize}, // Violet
 				new ButtonProperties { ButtonColor = Color.FromRgb(221, 160, 221), ButtonBorder = BorderSize}, // Plum
-				new ButtonProperties { ButtonColor = Color.FromRgb(148, 0, 211), ButtonBorder = BorderSize}, // DarkViolet
 				new ButtonProperties { ButtonColor = Color.FromRgb(138, 43, 226), ButtonBorder = BorderSize}, // BlueViolet
 				new ButtonProperties { ButtonColor = Color.FromRgb(153, 50, 204), ButtonBorder = BorderSize}, // DarkOrchid
+				new ButtonProperties { ButtonColor = Color.FromRgb(148, 0, 211), ButtonBorder = BorderSize}, // DarkViolet
     
 				// Orange shades
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 160, 122), ButtonBorder = BorderSize},  // LightSalmon
@@ -141,7 +164,7 @@ namespace CalendarT1.ViewModels
 		{
 			EventTypesOC = new ObservableCollection<EventDetails>();
 
-			foreach (TypeOfEvent eventType in Enum.GetValues(typeof(TypeOfEvent)))
+			foreach (MainEventType eventType in Enum.GetValues(typeof(MainEventType)))
 			{
 				var eventDetails = new EventDetails
 				{
@@ -158,14 +181,14 @@ namespace CalendarT1.ViewModels
 		}
 		private void SetEventTypeSelected(EventDetails selectedEventTypeDetails)
 		{
-			if (!Enum.TryParse(selectedEventTypeDetails.Text, out TypeOfEvent parsedTypeOfEvent))
+			if (!Enum.TryParse(selectedEventTypeDetails.Text, out MainEventType parsedTypeOfEvent))
 			{
 				throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.Text}");
 			}
 
 			SetSelectedEventType(parsedTypeOfEvent);
 		}
-		private void SetSelectedEventType(TypeOfEvent eventType)
+		private void SetSelectedEventType(MainEventType eventType)
 		{
 			_selectedEventType = eventType;
 

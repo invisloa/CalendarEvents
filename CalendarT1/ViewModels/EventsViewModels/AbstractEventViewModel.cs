@@ -90,8 +90,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			_eventFactories = eventFactories;
 
 			EventTypesOC = new ObservableCollection<UserEventTypeModel>();
-			EventTypesOC.Add(new UserEventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
-			EventTypesOC.Add(new UserEventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
+			EventTypesOC.Add(new UserEventTypeModel(MainEventType.Event, "BasicEvent", Color.FromHex("#FF0000")));
+			EventTypesOC.Add(new UserEventTypeModel(MainEventType.Task, "BasicTask", Color.FromHex("#00FFFF")));
 			var eventTypes = EventTypesOC;
 			var json = JsonConvert.SerializeObject(eventTypes);
 			Preferences.Set("event_types", json);

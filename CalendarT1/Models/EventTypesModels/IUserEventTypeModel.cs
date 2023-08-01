@@ -2,11 +2,11 @@
 {
     public interface IUserEventTypeModel
     {
-        Color EventTypeColor { get; set; }
+		MainEventType MainType { get; set; }
+		Color EventTypeColor { get; set; }
         string EventTypeColorString { get; set; }
         string EventTypeName { get; set; }
         bool IsSelectedToFilter { get; set; }
-
         string ToString();
     }
 }

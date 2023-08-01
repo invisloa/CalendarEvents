@@ -13,7 +13,7 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                            <Button 
+                        <Button 
                             Text="{Binding Text}"
                             Opacity="{Binding Opacity}"
                             BorderWidth="{Binding Border}"
@@ -48,7 +48,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+        <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" />
         </StackLayout>
     </ScrollView>
-    <Button Text="{Binding}" Command="{Binding AddNewTypeCommand}" CommandParameter="{Binding Text, Source={x:Reference TypeNameEntry}}"/>
 </ContentPage>
