@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models.EventTypesModels
 {
-	internal class MainEventTypes
+	public enum MainEventType
 	{
+		Event,
+		Spending,
+		Task
 	}
 }
