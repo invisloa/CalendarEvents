@@ -12,12 +12,6 @@ namespace CalendarT1.ViewModels
 {
 	public class AddNewTypePageViewModel : BaseViewModel
 	{
-		private enum MainEventType
-		{
-			Event,
-			Task,
-			Spending
-		}
 		public string PageTitle => IsEdit ? "Edit Type" : "Add new Type";
 		public string HeaderText => IsEdit ? $"Edit Type: {TypeName}" : "Add New Type";
 		public string SubmitButtonText => IsEdit ? "Submit changes" : "Add new type";
@@ -88,14 +82,7 @@ namespace CalendarT1.ViewModels
 			{
 				if(_selectedEventType==MainEventType.Event)
 				{
-					Factory.CreateNewEventType(TypeName, _selectedColor);
-					public UserEventTypeModel(string eventTypeName, Color eventTypeColor, bool isTask, bool isSelectedToFilter = true)
-					{
-						IsSelectedToFilter = isSelectedToFilter;
-						EventTypeName = eventTypeName;
-						EventTypeColor = eventTypeColor;
-					}
-
+					Factory.CreateNewEventType(_selectedEventType, TypeName, _selectedColor);
 				}
 				//_currentType = Factory.CreateNewTypeOfEvent();
 			}
