@@ -1,6 +1,7 @@
 ﻿using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Services.EventFactories;
 using CalendarT1.Services.EventsSharing;
+using CalendarT1.ViewModels;
 using CalendarT1.ViewModels.EventsViewModels;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
@@ -36,12 +37,19 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
-		builder.Services.AddSingleton<WeeklyEventsViewModel>();
-		builder.Services.AddSingleton<DailyEventsViewModel>();
-		builder.Services.AddSingleton<MonthlyEventsViewModel>();
-//		builder.Services.AddSingleton<AbstractEventModel>();
+
+		// Interfaces DI
 		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>();
 		builder.Services.AddScoped<IShareEvents, ShareEventsJson>();
+		Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddTransient<AddNewTypePageViewModel>(builder.Services);
+
+
+		// Pages 
+		builder.Services.AddTransient<AddNewTypePageViewModel>();
+		builder.Services.AddSingleton<MonthlyEventsViewModel>();
+		builder.Services.AddSingleton<WeeklyEventsViewModel>();
+		builder.Services.AddSingleton<DailyEventsViewModel>();
+
 
 		// add event dictionary factories DI
 		builder.Services.AddSingleton(eventFactories);

@@ -6,7 +6,7 @@
              x:Name="AddNewTypePageName">
     <ScrollView>
         <StackLayout>
-            <CollectionView ItemsSource="{Binding EventTypesOC}" HorizontalOptions="FillAndExpand">
+            <CollectionView ItemsSource="{Binding MainEventTypesOC}" HorizontalOptions="FillAndExpand">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
                          Span="3" />

@@ -5,10 +5,9 @@ using Newtonsoft.Json;
 
 public class LocalMachineEventRepository : IEventRepository
 {
+	#region Events Repository
 	private List<IGeneralEventModel> _allEventsList;
-	private List<IUserEventTypeModel> _allEventTypesList;
 	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonFileName", "CalendarEventsD"));
-	private static readonly string UserTypesFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonFileName", "CalendarTypesOfEventsD"));
 	public List<IGeneralEventModel> AllEventsList
 	{
 		get
@@ -24,33 +23,6 @@ public class LocalMachineEventRepository : IEventRepository
 			SaveEventsListAsync().Wait();
 		}
 	}
-
-	public List<IUserEventTypeModel> AllEventTypesList
-	{
-		get
-		{
-			if (_allEventTypesList == null)
-				GetUserEventTypesListAsync().Wait();
-			return _allEventTypesList;
-		}
-		set
-		{
-			if (_allEventTypesList == value) { return; }
-			_allEventTypesList = value;
-			SaveUserEventTypesListAsync().Wait();
-		}
-	}
-
-
-
-
-
-
-
-
-
-
-
 	public async Task AddEventAsync(IGeneralEventModel eventToAdd)
 	{
 		AllEventsList.Add(eventToAdd);
@@ -118,6 +90,7 @@ public class LocalMachineEventRepository : IEventRepository
 		return Task.FromResult(selectedEvent);
 	}
 
+	#endregion
 
 
 
@@ -125,9 +98,26 @@ public class LocalMachineEventRepository : IEventRepository
 
 
 
+	#region UserTypes Repository
 
 
-
+	private List<IUserEventTypeModel> _allEventTypesList;
+	private static readonly string UserTypesFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonFileName", "CalendarTypesOfEventsD"));
+	public List<IUserEventTypeModel> AllEventTypesList
+	{
+		get
+		{
+			if (_allEventTypesList == null)
+				GetUserEventTypesListAsync().Wait();
+			return _allEventTypesList;
+		}
+		set
+		{
+			if (_allEventTypesList == value) { return; }
+			_allEventTypesList = value;
+			SaveUserEventTypesListAsync().Wait();
+		}
+	}
 
 	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{
@@ -171,4 +161,5 @@ public class LocalMachineEventRepository : IEventRepository
 	{
 		await SaveUserEventTypesListAsync();
 	}
+	#endregion
 }

@@ -90,19 +90,18 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			_eventFactories = eventFactories;
 
 			EventTypesOC = new ObservableCollection<UserEventTypeModel>();
-			EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "BasicEvent", Color.FromHex("#FF0000")));
-			EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Task, "BasicTask", Color.FromHex("#00FFFF")));
 			var eventTypes = EventTypesOC;
 			var json = JsonConvert.SerializeObject(eventTypes);
 			Preferences.Set("event_types", json);
 
 			json = Preferences.Get("event_types", "");
 			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<UserEventTypeModel>>(json);
+
+			// if there are no event types in the preferences, add the default ones
 			/*			if (EventTypesOC == null)
 						{
-							EventTypesOC.Add(new EventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
-							EventTypesOC.Add(new EventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
-							var eventTypes = EventTypesOC;
+							EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "BasicEvent", Color.FromHex("#FF0000")));
+							EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Task, "BasicTask", Color.FromHex("#00FFFF")));
 							json = JsonConvert.SerializeObject(eventTypes);
 							Preferences.Set("event_types", json);
 						}

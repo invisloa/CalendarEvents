@@ -7,6 +7,7 @@ using System.ComponentModel;
 using CalendarT1.Models.EventTypesModels;
 using Newtonsoft.Json;
 using CalendarT1.Services;
+using CalendarT1.Services.DataOperations.Interfaces;
 
 namespace CalendarT1.ViewModels
 {
@@ -24,10 +25,11 @@ namespace CalendarT1.ViewModels
 		private const int BorderSize = 10;
 		private Color _selectedColor;
 		private string _typeName;
+		IEventRepository _eventRepository;
 		private readonly Dictionary<MainEventTypes, EventDetails> _eventDetails = new Dictionary<MainEventTypes, EventDetails>();
 		private MainEventTypes _selectedEventType = MainEventTypes.Event;
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
-		public ObservableCollection<EventDetails> EventTypesOC { get; set; }
+		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
 		public IUserEventTypeModel CurrentType
 		{
 			get => _currentType;
@@ -74,9 +76,11 @@ namespace CalendarT1.ViewModels
 		private void SubmitEvent()
 		{
 			if (IsEdit)
-			{
+			{ 
+				// cannot change main event type => may lead to some future errors
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = SelectedColor;
+				//UpdateEventTypes repository
 			}
 			else
 			{
@@ -84,12 +88,13 @@ namespace CalendarT1.ViewModels
 				{
 					Factory.CreateNewEventType(_selectedEventType, TypeName, _selectedColor);
 				}
-				//_currentType = Factory.CreateNewTypeOfEvent();
+				//UpdateEventTypes repository
 			}
 		}
-		public AddNewTypePageViewModel(IUserEventTypeModel currentType = null)
+		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType = null)
 		{
-			if(currentType != null)
+			_eventRepository = eventRepository;
+			if (currentType != null)
 			{
 				// TODO to change this to act dynamically
 				_selectedEventType = currentType.EventTypeName switch
@@ -102,6 +107,7 @@ namespace CalendarT1.ViewModels
 				CurrentType = currentType;
 				SelectedColor = currentType.EventTypeColor;
 				TypeName = currentType.EventTypeName;
+				_eventRepository.UpdateEventTypeAsync(_currentType);
 			}
 			EventTypeSelectedCommand = new RelayCommand<EventDetails>(SetEventTypeSelected);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
@@ -149,7 +155,7 @@ namespace CalendarT1.ViewModels
 		}
 		private void InitializeEventTypes()
 		{
-			EventTypesOC = new ObservableCollection<EventDetails>();
+			MainEventTypesOC = new ObservableCollection<EventDetails>();
 
 			foreach (MainEventTypes eventType in Enum.GetValues(typeof(MainEventTypes)))
 			{
@@ -161,7 +167,7 @@ namespace CalendarT1.ViewModels
 				};
 
 				_eventDetails[eventType] = eventDetails;
-				EventTypesOC.Add(eventDetails);
+				MainEventTypesOC.Add(eventDetails);
 			}
 
 			SetSelectedEventType(_selectedEventType);
@@ -189,7 +195,7 @@ namespace CalendarT1.ViewModels
 			_eventDetails[eventType].Border = NoBorderSize;
 
 			// Force update of the ObservableCollection
-			EventTypesOC = new ObservableCollection<EventDetails>(_eventDetails.Values);
+			MainEventTypesOC = new ObservableCollection<EventDetails>(_eventDetails.Values);
 		}
 		private void SelectColor(ButtonProperties selectedColor)
 		{

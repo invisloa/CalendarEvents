@@ -30,7 +30,6 @@ namespace CalendarT1.Models.EventTypesModels
             }
         }
 
-        private bool _isSelectedToFilter;
         public bool IsSelectedToFilter { get; set; }
 		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, bool isSelectedToFilter = true)
         {

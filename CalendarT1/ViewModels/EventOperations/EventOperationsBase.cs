@@ -16,9 +16,9 @@ namespace CalendarT1.ViewModels.EventOperations
 			if (EventTypesOC == null)
 			{
 				// TODO TO CHANGE
-				EventTypesOC.Add(new UserEventTypeModel("BasicEvent", Color.FromHex("#FF0000"), false));
-				EventTypesOC.Add(new UserEventTypeModel("BasicTask", Color.FromHex("#00FFFF"), true));
-				EventTypesOC.Add(new UserEventTypeModel("BasicSpending", Color.FromHex("#00FFFF"), true));
+				EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "BasicEvent", Color.FromHex("#FF0000")));
+				EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Task, "BasicTask", Color.FromHex("#00FFFF")));
+				EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Spending, "BasicSpending", Color.FromHex("#00FFFF")));
 			}
 
 		}
