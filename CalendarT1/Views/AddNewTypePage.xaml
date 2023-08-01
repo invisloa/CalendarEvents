@@ -27,7 +27,7 @@
             </CollectionView>
             <!-- Textbox for new type name -->
             <Label Text="Enter new type name:"/>
-            <Entry x:Name="TypeNameEntry" Placeholder="Type Name"/>
+            <Entry x:Name="TypeNameEntry" Placeholder="Type Name" Text="{Binding TypeName, Mode=TwoWay}"/>
 
             <!-- Buttons for color selection -->
 
