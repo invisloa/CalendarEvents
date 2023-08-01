@@ -27,7 +27,7 @@ namespace CalendarT1.Services
 		#endregion
 
 
-		public static IUserEventTypeModel CreateNewEventType(MainEventType mainEventType, string eventTypeName, Color eventTypeColor)
+		public static IUserEventTypeModel CreateNewEventType(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor)
 		{
 			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor);
 		} 

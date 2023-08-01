@@ -2,7 +2,7 @@
 {
     public interface IUserEventTypeModel
     {
-		MainEventType MainType { get; set; }
+		MainEventTypes MainType { get; set; }
 		Color EventTypeColor { get; set; }
         string EventTypeColorString { get; set; }
         string EventTypeName { get; set; }

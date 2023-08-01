@@ -24,8 +24,8 @@ namespace CalendarT1.ViewModels
 		private const int BorderSize = 10;
 		private Color _selectedColor;
 		private string _typeName;
-		private readonly Dictionary<MainEventType, EventDetails> _eventDetails = new Dictionary<MainEventType, EventDetails>();
-		private MainEventType _selectedEventType = MainEventType.Event;
+		private readonly Dictionary<MainEventTypes, EventDetails> _eventDetails = new Dictionary<MainEventTypes, EventDetails>();
+		private MainEventTypes _selectedEventType = MainEventTypes.Event;
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 		public ObservableCollection<EventDetails> EventTypesOC { get; set; }
 		public IUserEventTypeModel CurrentType
@@ -80,7 +80,7 @@ namespace CalendarT1.ViewModels
 			}
 			else
 			{
-				if(_selectedEventType==MainEventType.Event)
+				if(_selectedEventType==MainEventTypes.Event)
 				{
 					Factory.CreateNewEventType(_selectedEventType, TypeName, _selectedColor);
 				}
@@ -94,9 +94,9 @@ namespace CalendarT1.ViewModels
 				// TODO to change this to act dynamically
 				_selectedEventType = currentType.EventTypeName switch
 				{
-					"Event" => MainEventType.Event,
-					"Task" => MainEventType.Task,
-					"Spending" => MainEventType.Spending,
+					"Event" => MainEventTypes.Event,
+					"Task" => MainEventTypes.Task,
+					"Spending" => MainEventTypes.Spending,
 					_ => throw new ArgumentException("Invalid event type"),
 				};
 				CurrentType = currentType;
@@ -151,7 +151,7 @@ namespace CalendarT1.ViewModels
 		{
 			EventTypesOC = new ObservableCollection<EventDetails>();
 
-			foreach (MainEventType eventType in Enum.GetValues(typeof(MainEventType)))
+			foreach (MainEventTypes eventType in Enum.GetValues(typeof(MainEventTypes)))
 			{
 				var eventDetails = new EventDetails
 				{
@@ -168,14 +168,14 @@ namespace CalendarT1.ViewModels
 		}
 		private void SetEventTypeSelected(EventDetails selectedEventTypeDetails)
 		{
-			if (!Enum.TryParse(selectedEventTypeDetails.Text, out MainEventType parsedTypeOfEvent))
+			if (!Enum.TryParse(selectedEventTypeDetails.Text, out MainEventTypes parsedTypeOfEvent))
 			{
 				throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.Text}");
 			}
 
 			SetSelectedEventType(parsedTypeOfEvent);
 		}
-		private void SetSelectedEventType(MainEventType eventType)
+		private void SetSelectedEventType(MainEventTypes eventType)
 		{
 			_selectedEventType = eventType;
 

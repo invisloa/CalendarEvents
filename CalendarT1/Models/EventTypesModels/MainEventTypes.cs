@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models.EventTypesModels
 {
-	public enum MainEventType
+	public enum MainEventTypes
 	{
 		Event,
 		Spending,
