@@ -11,15 +11,17 @@ namespace CalendarT1.ViewModels.EventOperations
 	{
 		public EventOperationsBase()
 		{
-			var json = Preferences.Get("event_types", "");
-			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<IUserEventTypeModel>>(json);
-			if (EventTypesOC == null)
-			{
-				// TODO TO CHANGE
-				EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "BasicEvent", Color.FromHex("#FF0000")));
-				EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Task, "BasicTask", Color.FromHex("#00FFFF")));
-				EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Spending, "BasicSpending", Color.FromHex("#00FFFF")));
-			}
+			//var json = Preferences.Get("event_types", "");
+			//EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<IUserEventTypeModel>>(json);
+			//if (EventTypesOC == null)
+			//{
+			//	// TODO TO CHANGE
+			//	EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "BasicEvent", Color.FromHex("#FF0000")));
+			//	EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Task, "BasicTask", Color.FromHex("#00FFFF")));
+			//	EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Spending, "BasicSpending", Color.FromHex("#00FFFF")));
+			//}
+
+			// TODO GET EVENT TYPES FROM DATABASE
 
 		}
 		#region Properties

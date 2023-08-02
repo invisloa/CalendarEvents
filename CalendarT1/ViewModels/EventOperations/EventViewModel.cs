@@ -9,7 +9,7 @@ namespace CalendarT1.ViewModels.EventOperations
     class EventViewModel : EventOperationsBase
 	{
 		// dictionary factory DI
-		Dictionary<string, IBaseEventFactory> _eventFactories;
+		Dictionary<string, IBaseEventFactory> _eventFactories;				// To Change?? after adding event types
 		private IShareEvents _shareEvents;
 
 		public string PageTitle => IsEdit ? "Edit Event" : "Add Event";

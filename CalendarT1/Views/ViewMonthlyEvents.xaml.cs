@@ -1,26 +1,5 @@
 using CalendarT1.Helpers;
-using CalendarT1.
-/* Unmerged change from project 'CalendarT1 (net7.0-ios)'
-Before:
-using CalendarT1.Helpers;
-After:
 using CalendarT1.ViewModels.EventsViewModels;
-*/
-
-/* Unmerged change from project 'CalendarT1 (net7.0-android)'
-Before:
-using CalendarT1.Helpers;
-After:
-using CalendarT1.ViewModels.EventsViewModels;
-*/
-
-/* Unmerged change from project 'CalendarT1 (net7.0-maccatalyst)'
-Before:
-using CalendarT1.Helpers;
-After:
-using CalendarT1.ViewModels.EventsViewModels;
-*/
-ViewModels.EventsViewModels;
 
 namespace CalendarT1.Views;
 

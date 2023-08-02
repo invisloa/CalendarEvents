@@ -90,8 +90,6 @@ namespace CalendarT1.ViewModels
 
 		private async Task SubmitEvent()
 		{
-			var some = await _eventRepository.GetUserEventTypesListAsync();
-			int k = 0;
 			if (IsEdit)
 			{
 				// cannot change main event type => may lead to some future errors
@@ -124,6 +122,8 @@ namespace CalendarT1.ViewModels
 				SelectedColor = currentType.EventTypeColor;
 				TypeName = currentType.EventTypeName;
 				_eventRepository.UpdateEventTypeAsync(_currentType);
+
+				// set propper visuals for a edited event type
 			}
 			InitializeColorButtons();
 			EventTypeSelectedCommand = new RelayCommand<EventDetails>(SetEventTypeSelected);

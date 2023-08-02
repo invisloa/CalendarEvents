@@ -41,8 +41,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private ObservableCollection<UserEventTypeModel> _eventTypesOC;
-		public ObservableCollection<UserEventTypeModel> EventTypesOC
+		private ObservableCollection<IUserEventTypeModel> _eventTypesOC;
+		public ObservableCollection<IUserEventTypeModel> EventTypesOC
 		{
 			get => _eventTypesOC;
 			set
@@ -88,26 +88,18 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public AbstractEventViewModel(IEventRepository eventRepository, Dictionary<string, IBaseEventFactory> eventFactories)
 		{
 			_eventFactories = eventFactories;
-
-			EventTypesOC = new ObservableCollection<UserEventTypeModel>();
-			var eventTypes = EventTypesOC;
-			var json = JsonConvert.SerializeObject(eventTypes);
-			Preferences.Set("event_types", json);
-
-			json = Preferences.Get("event_types", "");
-			EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<UserEventTypeModel>>(json);
-
-			// if there are no event types in the preferences, add the default ones
-			/*			if (EventTypesOC == null)
-						{
-							EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "BasicEvent", Color.FromHex("#FF0000")));
-							EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Task, "BasicTask", Color.FromHex("#00FFFF")));
-							json = JsonConvert.SerializeObject(eventTypes);
-							Preferences.Set("event_types", json);
-						}
-			*/
+			EventTypesOC = new ObservableCollection<IUserEventTypeModel>();      // load event types in onappearing method
 			_eventRepository = eventRepository;
+		}
+		public async Task LoadEventTypes()
+		{
+			var eventTypes = await _eventRepository.GetUserEventTypesListAsync();
+			EventTypesOC.Clear(); // Clear the collection before adding new items
 
+			foreach (var eventType in eventTypes)
+			{
+				EventTypesOC.Add(eventType);
+			}
 		}
 
 		#region Commands
@@ -132,9 +124,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Methods
 
-		private void SelectEventType(UserEventTypeModel eventPriority)
+		private void SelectEventType(IUserEventTypeModel eventSubType)
 		{
-			eventPriority.IsSelectedToFilter = !eventPriority.IsSelectedToFilter;
+			eventSubType.IsSelectedToFilter = !eventSubType.IsSelectedToFilter;
 			BindDataToScheduleList();
 		}
 

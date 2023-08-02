@@ -7,7 +7,7 @@ public class LocalMachineEventRepository : IEventRepository
 {
 	#region Events Repository
 	private List<IGeneralEventModel> _allEventsList;
-	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonFileName", "CalendarEventsD"));
+	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
 	public List<IGeneralEventModel> AllEventsList
 	{
 		get
@@ -92,17 +92,9 @@ public class LocalMachineEventRepository : IEventRepository
 
 	#endregion
 
-
-
-
-
-
-
 	#region UserTypes Repository
-
-
 	private List<IUserEventTypeModel> _allEventTypesList;
-	private static readonly string UserTypesFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonFileName", "CalendarTypesOfEventsD"));
+	private static readonly string UserTypesFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonUserTypesFileName", "CalendarTypesOfEventsD"));
 	public List<IUserEventTypeModel> AllEventTypesList
 	{
 		get
