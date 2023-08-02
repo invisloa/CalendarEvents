@@ -6,7 +6,12 @@
              x:Name="AddNewTypePageName">
     <ScrollView>
         <StackLayout>
-            <CollectionView ItemsSource="{Binding MainEventTypesOC}" HorizontalOptions="FillAndExpand">
+
+            <!-- Textbox for new type name -->
+            <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" HorizontalOptions="CenterAndExpand" Margin="10"/>
+
+            <!--Main Event Types-->
+            <CollectionView ItemsSource="{Binding MainEventTypesOC}" HorizontalOptions="FillAndExpand" Margin="20" IsVisible="{Binding IsNotEdit}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
                          Span="3" />
@@ -25,13 +30,9 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <!-- Textbox for new type name -->
-            <Label Text="Enter new type name:"/>
-            <Entry x:Name="TypeNameEntry" Placeholder="Type Name" Text="{Binding TypeName, Mode=TwoWay}"/>
-
             <!-- Buttons for color selection -->
 
-            <Label Text="Choose new type color:"/>
+            <Label Text="CHOOSE TYPES COLOR:" HorizontalOptions="CenterAndExpand" Margin="0, 0, 0, 20"/>
             <CollectionView ItemsSource="{Binding ButtonsColors}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
@@ -44,11 +45,12 @@
                                BorderWidth="{Binding ButtonBorder}"
                                Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewTypePageName}}"
                                CommandParameter="{Binding .}"
-                               IsVisible="True"/>
+                               IsVisible="True" Margin="1"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" />
+            <Button Text="DELETE SELECTED EVENT" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}" Margin="10"/>
+            <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" Margin="10"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

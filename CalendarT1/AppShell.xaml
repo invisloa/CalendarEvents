@@ -14,10 +14,6 @@
                 ContentTemplate="{DataTemplate local:AddNewTypePage}"
                 Route="AddNewTypePage" />
             <ShellContent
-                Title="PopupTestPage"
-                ContentTemplate="{DataTemplate local:PopupTestPage}"
-                Route="PopupTestPage" />
-            <ShellContent
                 Title="Weekly"
                 ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
                 Route="MainPage" />
@@ -29,6 +25,10 @@
                 Title="Monthly"
                 ContentTemplate="{DataTemplate local:ViewMonthlyEvents}"
                 Route="MonthlyEvents" />
+            <!--<ShellContent
+                Title="PopupTestPage"
+                ContentTemplate="{DataTemplate local:PopupTestPage}"
+                Route="PopupTestPage" />-->
 
         </Tab>
     </FlyoutItem>

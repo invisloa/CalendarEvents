@@ -29,14 +29,14 @@ namespace CalendarT1.ViewModels.EventOperations
 			if (eventToEdit == null)
 			{
 				// Add mode
-				_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecute);
+				_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
 			}
 			else
 			{
 				_eventFactories = eventFactories;
 
 				// Edit mode
-				_submitEventCommand = new AsyncRelayCommand(EditEvent, CanExecute);
+				_submitEventCommand = new AsyncRelayCommand(EditEvent, CanExecuteSubmitCommand);
 				DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 				ShareEvents = new ShareEventsJson(eventRepository);
 				ShareEventCommand = new AsyncRelayCommand(ShareEvent);
@@ -54,7 +54,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 
-		private bool CanExecute() => !string.IsNullOrEmpty(Title);
+		private bool CanExecuteSubmitCommand() => !string.IsNullOrEmpty(Title);
 
 		private async Task AddEventAsync()
 		{

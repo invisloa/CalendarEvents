@@ -14,11 +14,10 @@ namespace CalendarT1.ViewModels
 {
 	public class AddNewTypePageViewModel : BaseViewModel
 	{
-		public string PageTitle => IsEdit ? "Edit Type" : "Add new Type";
-		public string HeaderText => IsEdit ? $"Edit Type: {TypeName}" : "Add New Type";
-		public string SubmitButtonText => IsEdit ? "Submit changes" : "Add new type";
+		public string PageTitle => IsEdit ? "EDIT TYPE" : "ADD NEW TYPE";               // idk
+		public string PlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {TypeName}" : "NEW TYPE NAME";   // top of the page
+		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
 		public bool IsEdit => _currentType != null;
-
 		private IUserEventTypeModel _currentType;
 		private const int FullOpacity = 1;
 		private const float FadedOpacity = 0.3f;
@@ -31,6 +30,8 @@ namespace CalendarT1.ViewModels
 		private MainEventTypes _selectedEventType = MainEventTypes.Event;
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
+		public bool IsNotEdit => !IsEdit;
+
 		public IUserEventTypeModel CurrentType
 		{
 			get => _currentType;
@@ -44,6 +45,7 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
+
 		public Color SelectedColor
 		{
 			get => _selectedColor;
@@ -57,6 +59,7 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
+
 		public string TypeName
 		{
 			get => _typeName;
@@ -67,13 +70,24 @@ namespace CalendarT1.ViewModels
 					return;
 				}
 				_typeName = value;
+				SubmitTypeCommand.NotifyCanExecuteChanged();
 				OnPropertyChanged();
 			}
-
 		}
+
 		public RelayCommand<EventDetails> EventTypeSelectedCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
+		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
+
+		private bool CanExecuteSubmitCommand() => !string.IsNullOrEmpty(TypeName);
+
+		private async Task DeleteSelectedEventType()
+		{
+			await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
+			await Shell.Current.GoToAsync("..");
+		}
+
 		private async Task SubmitEvent()
 		{
 			var some = await _eventRepository.GetUserEventTypesListAsync();
@@ -84,11 +98,13 @@ namespace CalendarT1.ViewModels
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = SelectedColor;
 				_eventRepository.UpdateEventTypeAsync(_currentType);
+				await Shell.Current.GoToAsync("..");
 			}
 			else
 			{
 				var newUserType = Factory.CreateNewEventType(_selectedEventType, TypeName, _selectedColor);
 				_eventRepository.AddUserEventTypeAsync(newUserType);
+				await Shell.Current.GoToAsync("..");
 			}
 		}
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType = null)
@@ -114,50 +130,9 @@ namespace CalendarT1.ViewModels
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
 			SelectedColor = Color.FromRgb(255, 0, 0); // Red
 			InitializeEventTypes();
-			SubmitTypeCommand = new AsyncRelayCommand(SubmitEvent);
-
+			SubmitTypeCommand = new AsyncRelayCommand(SubmitEvent, CanExecuteSubmitCommand);
+			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 			CurrentType = currentType;
-		}
-		private void InitializeColorButtons()
-		{
-			ButtonsColors = new ObservableCollection<ButtonProperties>
-			{
-
-				new ButtonProperties { ButtonColor = Color.FromRgb(144, 238, 144), ButtonBorder = BorderSize}, // LightGreen
-				new ButtonProperties { ButtonColor = Color.FromRgb(60, 179, 113), ButtonBorder = BorderSize}, // MediumSeaGreen
-				new ButtonProperties { ButtonColor = Color.FromRgb(34, 139, 34), ButtonBorder = BorderSize}, // ForestGreen
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 255, 0), ButtonBorder = BorderSize}, // Lime
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 100, 0), ButtonBorder = BorderSize}, // DarkGreen
-    
-				// Blue shades
-				new ButtonProperties { ButtonColor = Color.FromRgb(135, 206, 235), ButtonBorder = BorderSize}, // SkyBlue
-				new ButtonProperties { ButtonColor = Color.FromRgb(70, 130, 180), ButtonBorder = BorderSize}, // SteelBlue
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 255), ButtonBorder = BorderSize}, // Blue
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 205), ButtonBorder = BorderSize}, // MediumBlue
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 128), ButtonBorder = BorderSize}, // Navy
-    
-				// Red shades
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 99, 71), ButtonBorder = BorderSize}, // Tomato
-				new ButtonProperties { ButtonColor = Color.FromRgb(220, 20, 60), ButtonBorder = BorderSize}, // Crimson
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 0, 0), ButtonBorder = BorderSize}, // Red
-				new ButtonProperties { ButtonColor = Color.FromRgb(139, 0, 0), ButtonBorder = BorderSize}, // DarkRed
-				new ButtonProperties { ButtonColor = Color.FromRgb(128, 0, 0), ButtonBorder = BorderSize}, // Maroon
-    
-				// Violet shades
-				new ButtonProperties { ButtonColor = Color.FromRgb(238, 130, 238), ButtonBorder = BorderSize}, // Violet
-				new ButtonProperties { ButtonColor = Color.FromRgb(221, 160, 221), ButtonBorder = BorderSize}, // Plum
-				new ButtonProperties { ButtonColor = Color.FromRgb(138, 43, 226), ButtonBorder = BorderSize}, // BlueViolet
-				new ButtonProperties { ButtonColor = Color.FromRgb(153, 50, 204), ButtonBorder = BorderSize}, // DarkOrchid
-				new ButtonProperties { ButtonColor = Color.FromRgb(148, 0, 211), ButtonBorder = BorderSize}, // DarkViolet
-    
-				// Orange shades
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 160, 122), ButtonBorder = BorderSize},  // LightSalmon
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 165, 0), ButtonBorder = BorderSize}, // Orange
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 140, 0), ButtonBorder = BorderSize}, // DarkOrange
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 69, 0), ButtonBorder = BorderSize}, // OrangeRed
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 30, 0), ButtonBorder = BorderSize}, // OrangeRed
-			};
-
 		}
 		private void InitializeEventTypes()
 		{
@@ -212,15 +187,50 @@ namespace CalendarT1.ViewModels
 				button.ButtonBorder = button == selectedColor ? NoBorderSize : BorderSize;
 			}
 		}
+		private void InitializeColorButtons()
+		{
+			ButtonsColors = new ObservableCollection<ButtonProperties>
+			{
+
+				new ButtonProperties { ButtonColor = Color.FromRgb(144, 238, 144), ButtonBorder = BorderSize}, // LightGreen
+				new ButtonProperties { ButtonColor = Color.FromRgb(60, 179, 113), ButtonBorder = BorderSize}, // MediumSeaGreen
+				new ButtonProperties { ButtonColor = Color.FromRgb(34, 139, 34), ButtonBorder = BorderSize}, // ForestGreen
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 255, 0), ButtonBorder = BorderSize}, // Lime
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 100, 0), ButtonBorder = BorderSize}, // DarkGreen
+    
+				// Blue shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(135, 206, 235), ButtonBorder = BorderSize}, // SkyBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(70, 130, 180), ButtonBorder = BorderSize}, // SteelBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 255), ButtonBorder = BorderSize}, // Blue
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 205), ButtonBorder = BorderSize}, // MediumBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 128), ButtonBorder = BorderSize}, // Navy
+    
+				// Red shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 99, 71), ButtonBorder = BorderSize}, // Tomato
+				new ButtonProperties { ButtonColor = Color.FromRgb(220, 20, 60), ButtonBorder = BorderSize}, // Crimson
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 0, 0), ButtonBorder = BorderSize}, // Red
+				new ButtonProperties { ButtonColor = Color.FromRgb(139, 0, 0), ButtonBorder = BorderSize}, // DarkRed
+				new ButtonProperties { ButtonColor = Color.FromRgb(128, 0, 0), ButtonBorder = BorderSize}, // Maroon
+    
+				// Violet shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(238, 130, 238), ButtonBorder = BorderSize}, // Violet
+				new ButtonProperties { ButtonColor = Color.FromRgb(221, 160, 221), ButtonBorder = BorderSize}, // Plum
+				new ButtonProperties { ButtonColor = Color.FromRgb(138, 43, 226), ButtonBorder = BorderSize}, // BlueViolet
+				new ButtonProperties { ButtonColor = Color.FromRgb(153, 50, 204), ButtonBorder = BorderSize}, // DarkOrchid
+				new ButtonProperties { ButtonColor = Color.FromRgb(148, 0, 211), ButtonBorder = BorderSize}, // DarkViolet
+    
+				// Orange shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 160, 122), ButtonBorder = BorderSize},  // LightSalmon
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 165, 0), ButtonBorder = BorderSize}, // Orange
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 140, 0), ButtonBorder = BorderSize}, // DarkOrange
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 69, 0), ButtonBorder = BorderSize}, // OrangeRed
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 30, 0), ButtonBorder = BorderSize}, // OrangeRed
+			};
+
+		}
+
 	}
-
-
-
-
-
-
-
-
+	#region Helperclass
 	public class EventDetails : BaseViewModel
 	{
 		private string _text;
@@ -243,11 +253,6 @@ namespace CalendarT1.ViewModels
 			set { _border = value; OnPropertyChanged(); }
 		}
 	}
-
-
-
-
-
 	public class ButtonProperties : BaseViewModel
 	{
 		private int _borderSize;
@@ -272,4 +277,5 @@ namespace CalendarT1.ViewModels
 			}
 		}
 	}
+	#endregion
 }
