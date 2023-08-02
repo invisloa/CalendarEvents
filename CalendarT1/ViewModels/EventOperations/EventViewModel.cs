@@ -29,7 +29,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			if (eventToEdit == null)
 			{
 				// Add mode
-				_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
+				_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand); // ????????????
 			}
 			else
 			{
@@ -56,7 +56,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private bool CanExecuteSubmitCommand() => !string.IsNullOrEmpty(Title);
 
-		private async Task AddEventAsync()
+		private async Task AddEventAsync()			// TO CHANGE after adding event types NO NEED TO USE DICTIONARY JUST USE EVENTTYPE of Event
 		{
 			var factory = _eventFactories[EventType.EventTypeName];
 
