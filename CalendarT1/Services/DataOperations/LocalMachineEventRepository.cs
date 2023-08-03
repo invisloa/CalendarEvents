@@ -5,15 +5,18 @@ using Newtonsoft.Json;
 
 public class LocalMachineEventRepository : IEventRepository
 {
+	public LocalMachineEventRepository()
+	{
+		GetEventsListAsync().ConfigureAwait(false).GetAwaiter().GetResult();		// this is a workaround for the async method to be called in the constructor
+		GetUserEventTypesListAsync().ConfigureAwait(false).GetAwaiter().GetResult();// this is a workaround for the async method to be called in the constructor
+	}
 	#region Events Repository
 	private List<IGeneralEventModel> _allEventsList;
 	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
-	public List<IGeneralEventModel> AllEventsList
+	public List<IGeneralEventModel> AllEventsList			// TODO ASYNC CHANGE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	{
 		get
 		{
-			if (_allEventsList == null)
-				GetEventsListAsync();
 			return _allEventsList;
 		}
 		set
@@ -35,10 +38,10 @@ public class LocalMachineEventRepository : IEventRepository
 		await SaveEventsListAsync();
 	}
 
-	public Task ClearEventsListAsync()
+	public async Task ClearEventsListAsync()
 	{
 		AllEventsList.Clear();
-		return SaveEventsListAsync();
+		await SaveEventsListAsync();
 	}
 
 	public async Task<List<IGeneralEventModel>> GetEventsListAsync()
