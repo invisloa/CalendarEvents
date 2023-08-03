@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
+using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Services.EventsSharing;
 using CommunityToolkit.Mvvm.Input;
@@ -65,23 +66,10 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private bool CanExecuteSubmitCommand() => !string.IsNullOrEmpty(Title);
 
-		private async Task AddEventAsync()			// TO CHANGE after adding event types NO NEED TO USE DICTIONARY JUST USE EVENTTYPE of Event
+		private async Task AddEventAsync()
 		{
-			//var factory = _eventFactories[EventType.EventTypeName];
-
-			//if (factory is ISpendingEventFactory eventFactory)
-			//{
-			//	_currentEvent = eventFactory.CreateEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, EventType);
-			//}
-			//else if (factory is ISpendingEventFactory spendingFactory)
-			//{
-			//	_currentEvent = spendingFactory.CreateEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, EventType, 0);
-			//}
-			//else if (factory is ITaskEventFactory taskFactory)
-			//{
-			//	_currentEvent = taskFactory.CreateEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, EventType);
-			//}
-
+			// Create new Event according to a selected EventType
+			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime, EndDateTime, EventType, SpendingAmount);
 			await _eventRepository.AddEventAsync(_currentEvent);
 			ClearFields();
 		}

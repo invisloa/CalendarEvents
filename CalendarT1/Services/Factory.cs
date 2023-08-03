@@ -25,7 +25,21 @@ namespace CalendarT1.Services
 		}
 
 		#endregion
-
+		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, decimal spendingAmount=0, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
+		{
+			if (eventTypeModel.MainType == MainEventTypes.Event)
+			{
+				return new EventModel(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
+			}
+			else if (eventTypeModel.MainType == MainEventTypes.Task)
+			{
+				return new TaskModel(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
+			}
+			else	// spending event
+			{
+				return new SpendingModel(title, description, startTime, endTime, eventTypeModel, spendingAmount, isCompleted, postponeTime, wasShown);
+			}
+		}
 
 		public static IUserEventTypeModel CreateNewEventType(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor)
 		{

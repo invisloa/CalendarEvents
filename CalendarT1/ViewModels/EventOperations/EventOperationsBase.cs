@@ -30,14 +30,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected bool _isCompleted;
 		protected string _title;
 		protected string _description;
-
-
+		protected decimal _spendingAmount;
 		protected DateTime _startDateTime = DateTime.Today;
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
-
 		protected DateTime _endDateTime = DateTime.Today;
 		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
-
 		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
 		// Basic Event Information
@@ -136,6 +133,15 @@ namespace CalendarT1.ViewModels.EventOperations
 				{
 					_endExactTime = value;
 				}
+				OnPropertyChanged();
+			}
+		}
+		public decimal SpendingAmount
+		{
+			get => _spendingAmount;
+			set
+			{
+				_spendingAmount = value;
 				OnPropertyChanged();
 			}
 		}
