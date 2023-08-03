@@ -121,7 +121,7 @@ namespace CalendarT1.ViewModels
 				// set propper visuals for a edited event type
 			}
 			InitializeColorButtons();
-			EventTypeSelectedCommand = new RelayCommand<EventDetails>(SetSelectedEventType);
+			EventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
 			SelectedColor = Color.FromRgb(255, 0, 0); // Red
 			InitializeMainEventTypes();
