@@ -1,5 +1,4 @@
 ﻿using CalendarT1.Services.DataOperations.Interfaces;
-using CalendarT1.Services.EventFactories;
 using CalendarT1.Services.EventsSharing;
 using CalendarT1.ViewModels;
 using CalendarT1.ViewModels.EventsViewModels;
@@ -18,13 +17,13 @@ public static class MauiProgram
 	public static MauiApp CreateMauiApp()
 	{
 		// event factories dictionary DI Factory 
-		var eventFactories = new Dictionary<string, IBaseEventFactory>
-		{
-			{ "Event", new EventModelFactory() },
-			{ "Spending", new SpendingModelFactory() },
-			{ "Task", new TaskModelFactory() },
-			//... add more factories
-		};
+		//var eventFactories = new Dictionary<string, IBaseEventFactory>
+		//{
+		//	{ "Event", new EventModelFactory() },
+		//	{ "Spending", new SpendingModelFactory() },
+		//	{ "Task", new TaskModelFactory() },
+		//	//... add more factories
+		//};
 
 
 		var builder = MauiApp.CreateBuilder();
@@ -52,7 +51,7 @@ public static class MauiProgram
 
 
 		// add event dictionary factories DI
-		builder.Services.AddSingleton(eventFactories);
+		//builder.Services.AddSingleton(eventFactories);
 
 
 

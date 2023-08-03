@@ -19,15 +19,17 @@ namespace CalendarT1.ViewModels
 		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
 		public bool IsEdit => _currentType != null;
 		private IUserEventTypeModel _currentType;
+		private Color _selectedColor;
+		private string _typeName;
+		IEventRepository _eventRepository;
+		private readonly Dictionary<MainEventTypes, EventDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventDetails>();
+		private MainEventTypes _selectedEventType = MainEventTypes.Event;
+
 		private const int FullOpacity = 1;
 		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
-		private Color _selectedColor;
-		private string _typeName;
-		IEventRepository _eventRepository;
-		private readonly Dictionary<MainEventTypes, EventDetails> _eventDetails = new Dictionary<MainEventTypes, EventDetails>();
-		private MainEventTypes _selectedEventType = MainEventTypes.Event;
+
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
 		public bool IsNotEdit => !IsEdit;
@@ -88,20 +90,20 @@ namespace CalendarT1.ViewModels
 			await Shell.Current.GoToAsync("..");
 		}
 
-		private async Task SubmitEvent()
+		private async Task SubmitType()
 		{
 			if (IsEdit)
 			{
 				// cannot change main event type => may lead to some future errors
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = SelectedColor;
-				_eventRepository.UpdateEventTypeAsync(_currentType);
+				await _eventRepository.UpdateEventTypeAsync(_currentType);
 				await Shell.Current.GoToAsync("..");
 			}
 			else
 			{
 				var newUserType = Factory.CreateNewEventType(_selectedEventType, TypeName, _selectedColor);
-				_eventRepository.AddUserEventTypeAsync(newUserType);
+				await _eventRepository.AddUserEventTypeAsync(newUserType);
 				await Shell.Current.GoToAsync("..");
 			}
 		}
@@ -110,14 +112,7 @@ namespace CalendarT1.ViewModels
 			_eventRepository = eventRepository;
 			if (currentType != null)
 			{
-				// TODO to change this to act dynamically
-				_selectedEventType = currentType.EventTypeName switch
-				{
-					"Event" => MainEventTypes.Event,
-					"Task" => MainEventTypes.Task,
-					"Spending" => MainEventTypes.Spending,
-					_ => throw new ArgumentException("Invalid event type"),
-				};
+				_selectedEventType = currentType.MainType;
 				CurrentType = currentType;
 				SelectedColor = currentType.EventTypeColor;
 				TypeName = currentType.EventTypeName;
@@ -126,18 +121,19 @@ namespace CalendarT1.ViewModels
 				// set propper visuals for a edited event type
 			}
 			InitializeColorButtons();
-			EventTypeSelectedCommand = new RelayCommand<EventDetails>(SetEventTypeSelected);
+			EventTypeSelectedCommand = new RelayCommand<EventDetails>(SetSelectedEventType);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
 			SelectedColor = Color.FromRgb(255, 0, 0); // Red
-			InitializeEventTypes();
-			SubmitTypeCommand = new AsyncRelayCommand(SubmitEvent, CanExecuteSubmitCommand);
+			InitializeMainEventTypes();
+			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 			CurrentType = currentType;
 		}
-		private void InitializeEventTypes()
+		private void InitializeMainEventTypes()
 		{
 			MainEventTypesOC = new ObservableCollection<EventDetails>();
 
+			// dynamically create Main Event Types according to enum
 			foreach (MainEventTypes eventType in Enum.GetValues(typeof(MainEventTypes)))
 			{
 				var eventDetails = new EventDetails
@@ -147,13 +143,13 @@ namespace CalendarT1.ViewModels
 					Border = BorderSize
 				};
 
-				_eventDetails[eventType] = eventDetails;
+				_eventVisualDetails[eventType] = eventDetails;
 				MainEventTypesOC.Add(eventDetails);
 			}
 
 			SetSelectedEventType(_selectedEventType);
 		}
-		private void SetEventTypeSelected(EventDetails selectedEventTypeDetails)
+		private void ConvertEventDetailsAndSelectType(EventDetails selectedEventTypeDetails)
 		{
 			if (!Enum.TryParse(selectedEventTypeDetails.Text, out MainEventTypes parsedTypeOfEvent))
 			{
@@ -166,17 +162,18 @@ namespace CalendarT1.ViewModels
 		{
 			_selectedEventType = eventType;
 
-			foreach (var eventDetail in _eventDetails.Values)
+			foreach (var eventDetail in _eventVisualDetails.Values)
 			{
 				eventDetail.Opacity = FadedOpacity;
 				eventDetail.Border = BorderSize;
 			}
 
-			_eventDetails[eventType].Opacity = FullOpacity;
-			_eventDetails[eventType].Border = NoBorderSize;
+			//for selected event type set different visuals
+			_eventVisualDetails[eventType].Opacity = FullOpacity;
+			_eventVisualDetails[eventType].Border = NoBorderSize;
 
 			// Force update of the ObservableCollection
-			MainEventTypesOC = new ObservableCollection<EventDetails>(_eventDetails.Values);
+			MainEventTypesOC = new ObservableCollection<EventDetails>(_eventVisualDetails.Values);
 		}
 		private void SelectColor(ButtonProperties selectedColor)
 		{

@@ -1,6 +1,5 @@
 using CalendarT1.Models.EventModels;
 using CalendarT1.Services.DataOperations.Interfaces;
-using CalendarT1.Services.EventFactories;
 using CalendarT1.ViewModels.EventOperations;
 
 namespace CalendarT1.Views
@@ -8,9 +7,9 @@ namespace CalendarT1.Views
     public partial class EventPage : ContentPage
 	{
 		// For adding events
-		public EventPage(IEventRepository eventRepository, Dictionary<string, IBaseEventFactory> eventFactories)
+		public EventPage(IEventRepository eventRepository)
 		{
-			BindingContext = new EventViewModel(eventRepository, eventFactories);
+			BindingContext = new EventViewModel(eventRepository);
 			InitializeComponent();
 		}
 
@@ -23,7 +22,8 @@ namespace CalendarT1.Views
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
-			await (BindingContext as EventViewModel).XXXX();
+			// nie wiem co naraazie
+			await (BindingContext as EventViewModel).OnApearing();
 		}
 	}
 }

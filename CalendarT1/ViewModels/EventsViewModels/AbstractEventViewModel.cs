@@ -1,7 +1,6 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
-using CalendarT1.Services.EventFactories;
 using CalendarT1.Views;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
@@ -12,19 +11,16 @@ namespace CalendarT1.ViewModels.EventsViewModels
     public abstract class AbstractEventViewModel : BaseViewModel
 	{
 		#region Properties
-		private Dictionary<string, IBaseEventFactory> _eventFactories;
 		private IEventRepository _eventRepository;
 		public IEventRepository EventRepository
 		{
 			get => _eventRepository;
 		}
-
 		private DateTime _currentDate = DateTime.Now;
 		public DateTime CurrentDate
 		{
 			get => _currentDate;
 		}
-
 		private DateTime _currentSelectedDate = DateTime.Now;
 		public DateTime CurrentSelectedDate
 		{
@@ -40,7 +36,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				}
 			}
 		}
-
 		private ObservableCollection<IUserEventTypeModel> _eventTypesOC;
 		public ObservableCollection<IUserEventTypeModel> EventTypesOC
 		{
@@ -66,7 +61,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		private List<IGeneralEventModel> _allEventsList;
 		public List<IGeneralEventModel> AllEventsList
 		{
@@ -77,17 +71,14 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		#endregion
 		public event Action OnEventsToShowListUpdated;
-
 		protected virtual void OnOnEventsToShowListUpdated()
 		{
 			OnEventsToShowListUpdated?.Invoke();
 		}
-		public AbstractEventViewModel(IEventRepository eventRepository, Dictionary<string, IBaseEventFactory> eventFactories)
+		public AbstractEventViewModel(IEventRepository eventRepository)
 		{
-			_eventFactories = eventFactories;
 			EventTypesOC = new ObservableCollection<IUserEventTypeModel>();      // load event types in onappearing method
 			_eventRepository = eventRepository;
 		}
@@ -138,7 +129,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		private void GoToAddEventPage()
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, _eventFactories));
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository));
 		}
 
 		private void SelectEvent(IGeneralEventModel selectedEvent)
