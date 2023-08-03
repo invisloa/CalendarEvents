@@ -92,6 +92,7 @@ namespace CalendarT1.ViewModels
 
 		private async Task SubmitType()
 		{
+			await _eventRepository.ClearEventsListAsync();
 			if (IsEdit)
 			{
 				// cannot change main event type => may lead to some future errors

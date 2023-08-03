@@ -13,14 +13,14 @@ public class LocalMachineEventRepository : IEventRepository
 		get
 		{
 			if (_allEventsList == null)
-				GetEventsListAsync().Wait();
+				GetEventsListAsync();
 			return _allEventsList;
 		}
 		set
 		{
 			if (_allEventsList == value) { return; }
 			_allEventsList = value;
-			SaveEventsListAsync().Wait();
+			SaveEventsListAsync();
 		}
 	}
 	public async Task AddEventAsync(IGeneralEventModel eventToAdd)
