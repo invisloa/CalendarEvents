@@ -82,7 +82,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_currentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_currentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 			_currentEvent.IsCompleted = IsCompleted;
-			await _eventRepository.UpdateEventAsync(_currentEvent);
+			await _eventRepository.UpdateEventsAsync(_currentEvent);
 			await Shell.Current.GoToAsync("..");
 		}
 

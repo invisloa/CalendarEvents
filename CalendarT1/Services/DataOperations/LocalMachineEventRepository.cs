@@ -5,15 +5,12 @@ using Newtonsoft.Json;
 
 public class LocalMachineEventRepository : IEventRepository
 {
-	public LocalMachineEventRepository()
-	{
-		GetEventsListAsync().ConfigureAwait(false).GetAwaiter().GetResult();		// this is a workaround for the async method to be called in the constructor
-		GetUserEventTypesListAsync().ConfigureAwait(false).GetAwaiter().GetResult();// this is a workaround for the async method to be called in the constructor
-	}
+	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
+	internal LocalMachineEventRepository() { }
+
 	#region Events Repository
 	private List<IGeneralEventModel> _allEventsList;
-	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
-	public List<IGeneralEventModel> AllEventsList			// TODO ASYNC CHANGE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	public List<IGeneralEventModel> AllEventsList			
 	{
 		get
 		{
@@ -23,7 +20,6 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			if (_allEventsList == value) { return; }
 			_allEventsList = value;
-			SaveEventsListAsync();
 		}
 	}
 	public async Task AddEventAsync(IGeneralEventModel eventToAdd)
@@ -50,13 +46,13 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			var jsonString = await File.ReadAllTextAsync(EventsFilePath);
 			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-			_allEventsList = JsonConvert.DeserializeObject<List<IGeneralEventModel>>(jsonString, settings);
+			AllEventsList = JsonConvert.DeserializeObject<List<IGeneralEventModel>>(jsonString, settings);
 		}
 		else
 		{
-			_allEventsList = new List<IGeneralEventModel>();
+			AllEventsList = new List<IGeneralEventModel>();
 		}
-		return _allEventsList;
+		return AllEventsList;
 	}
 
 	public async Task SaveEventsListAsync()
@@ -71,7 +67,7 @@ public class LocalMachineEventRepository : IEventRepository
 		await File.WriteAllTextAsync(EventsFilePath, jsonString);
 	}
 
-	public async Task UpdateEventAsync(IGeneralEventModel eventToUpdate)
+	public async Task UpdateEventsAsync(IGeneralEventModel eventToUpdate)
 	{
 		var eventToUpdateInList = AllEventsList.FirstOrDefault(e => e.Id == eventToUpdate.Id);
 		if (eventToUpdateInList != null)
@@ -92,8 +88,9 @@ public class LocalMachineEventRepository : IEventRepository
 		var selectedEvent = AllEventsList.FirstOrDefault(e => e.Id == eventId);
 		return Task.FromResult(selectedEvent);
 	}
-
 	#endregion
+
+
 
 	#region UserTypes Repository
 	private List<IUserEventTypeModel> _allEventTypesList;
@@ -102,18 +99,19 @@ public class LocalMachineEventRepository : IEventRepository
 	{
 		get
 		{
-			if (_allEventTypesList == null)
-				GetUserEventTypesListAsync().Wait();
 			return _allEventTypesList;
 		}
 		set
 		{
 			if (_allEventTypesList == value) { return; }
 			_allEventTypesList = value;
-			SaveUserEventTypesListAsync().Wait();
 		}
 	}
-
+	public async Task InitializeAsync()
+	{
+		_allEventsList = await GetEventsListAsync().ConfigureAwait(false);                          // TO CHECK - cosideer ConfigureAwait left to default??????
+		_allEventTypesList = await GetUserEventTypesListAsync().ConfigureAwait(false);               // TO CHECK - cosideer ConfigureAwait left to default??????
+	}
 	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{
 		if (File.Exists(EventsFilePath))

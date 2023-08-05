@@ -8,21 +8,6 @@ namespace CalendarT1.Services
 	{
 
 		// Event Repository
-		#region EventRepository
-		private static IEventRepository CreateEventRepository() => new LocalMachineEventRepository();
-
-		private static IEventRepository _eventRepository;
-		public static IEventRepository EventRepository
-		{
-			get
-			{
-				if (_eventRepository == null)
-				{
-					_eventRepository = CreateEventRepository();
-				}
-				return _eventRepository;
-			}
-		}
 
 		#endregion
 		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, decimal spendingAmount=0, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)

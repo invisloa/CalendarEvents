@@ -38,7 +38,7 @@ public static class MauiProgram
 			});
 
 		// Interfaces DI
-		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>();
+		builder.Services.AddScoped<IEventRepository, LocalMachineEventRepository>();			// events repository DI
 		builder.Services.AddScoped<IShareEvents, ShareEventsJson>();
 		Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddTransient<AddNewTypePageViewModel>(builder.Services);
 

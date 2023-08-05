@@ -43,6 +43,10 @@
 
 
 #region High Priority
+// Check for data Operations thread safety!!!
+
+
+
 // fix the scrolling isse horizontal and vertical
 // save events button available only if there were changes made - share events button only if there are no changes made
 // highest priority color in weekly view

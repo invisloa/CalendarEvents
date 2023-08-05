@@ -147,9 +147,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			AllEventsList = await _eventRepository.GetEventsListAsync();
 			await BindDataToScheduleList();
 		}
-
 		#endregion
-
 
 		protected async Task ApplyEventFilter(DateTime startDate, DateTime endDate)
 		{

@@ -1,10 +1,15 @@
-﻿namespace CalendarT1;
+﻿using CalendarT1.Services.DataOperations.Interfaces;
+
+namespace CalendarT1;
 
 public partial class App : Application
 {
-	public App()
+	private readonly IEventRepository _repository;
+
+	public App(IEventRepository repository)
 	{
 		InitializeComponent();
+		_repository = repository;
 
 		MainPage = new AppShell();
 	}
@@ -24,6 +29,7 @@ public partial class App : Application
 		{
 			statusStorageWrite = await Permissions.RequestAsync<Permissions.StorageRead>();
 		}
+		await _repository.InitializeAsync();
 
 
 	}
