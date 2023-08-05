@@ -10,7 +10,6 @@ public partial class App : Application
 	{
 		InitializeComponent();
 		_repository = repository;
-
 		MainPage = new AppShell();
 	}
 	protected override async void OnStart()
@@ -30,7 +29,5 @@ public partial class App : Application
 			statusStorageWrite = await Permissions.RequestAsync<Permissions.StorageRead>();
 		}
 		await _repository.InitializeAsync();
-
-
 	}
 }

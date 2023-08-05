@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 public class LocalMachineEventRepository : IEventRepository
 {
 	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
-	internal LocalMachineEventRepository() { }
+	public LocalMachineEventRepository() { }
 
 	#region Events Repository
 	private List<IGeneralEventModel> _allEventsList;

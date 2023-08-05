@@ -14,17 +14,17 @@ namespace CalendarT1.ViewModels
 {
 	public class AddNewTypePageViewModel : BaseViewModel
 	{
-		public string PageTitle => IsEdit ? "EDIT TYPE" : "ADD NEW TYPE";               // idk
-		public string PlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {TypeName}" : "NEW TYPE NAME";   // top of the page
-		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
-		public bool IsEdit => _currentType != null;
-		private IUserEventTypeModel _currentType;
-		private Color _selectedColor;
+		public string PageTitle => IsEdit ? "EDIT TYPE" : "ADD NEW TYPE";								// idk
+		public string PlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {TypeName}" : "NEW TYPE NAME";   // top of the page TextBox
+		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";		
+		private Color _selectedColor = Color.FromRgb(255, 0, 0);                                        // initialize with red
 		private string _typeName;
-		IEventRepository _eventRepository;
+		public bool IsEdit => _currentType != null;
 		private readonly Dictionary<MainEventTypes, EventDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventDetails>();
 		private MainEventTypes _selectedEventType = MainEventTypes.Event;
-
+		IEventRepository _eventRepository;
+		private IUserEventTypeModel _currentType;
+		public bool IsNotEdit => !IsEdit;
 		private const int FullOpacity = 1;
 		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
@@ -32,7 +32,6 @@ namespace CalendarT1.ViewModels
 
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
-		public bool IsNotEdit => !IsEdit;
 
 		public IUserEventTypeModel CurrentType
 		{
@@ -92,10 +91,10 @@ namespace CalendarT1.ViewModels
 
 		private async Task SubmitType()
 		{
-			await _eventRepository.ClearEventsListAsync();
+	//		await _eventRepository.ClearEventsListAsync();    // was made for testing purposes to delete all inconsistent events
 			if (IsEdit)
 			{
-				// cannot change main event type => may lead to some future errors
+				// cannot change main event type => may lead to some future errors???
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = SelectedColor;
 				await _eventRepository.UpdateEventTypeAsync(_currentType);
@@ -113,22 +112,18 @@ namespace CalendarT1.ViewModels
 			_eventRepository = eventRepository;
 			if (currentType != null)
 			{
-				_selectedEventType = currentType.MainType;
 				CurrentType = currentType;
+				_selectedEventType = currentType.MainType;
 				SelectedColor = currentType.EventTypeColor;
 				TypeName = currentType.EventTypeName;
-				_eventRepository.UpdateEventTypeAsync(_currentType);
-
 				// set propper visuals for a edited event type
 			}
 			InitializeColorButtons();
 			EventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
-			SelectedColor = Color.FromRgb(255, 0, 0); // Red
 			InitializeMainEventTypes();
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
-			CurrentType = currentType;
 		}
 		private void InitializeMainEventTypes()
 		{
@@ -148,7 +143,7 @@ namespace CalendarT1.ViewModels
 				MainEventTypesOC.Add(eventDetails);
 			}
 
-			SetSelectedEventType(_selectedEventType);
+			SetSelectedEventType(_selectedEventType);	// if create it is event by default, if edit it is the type of the event
 		}
 		private void ConvertEventDetailsAndSelectType(EventDetails selectedEventTypeDetails)
 		{
