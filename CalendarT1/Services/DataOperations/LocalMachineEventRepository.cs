@@ -93,24 +93,24 @@ public class LocalMachineEventRepository : IEventRepository
 
 
 	#region UserTypes Repository
-	private List<IUserEventTypeModel> _allEventTypesList;
+	private List<IUserEventTypeModel> _allUserEventTypesList;
 	private static readonly string UserTypesFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonUserTypesFileName", "CalendarTypesOfEventsD"));
-	public List<IUserEventTypeModel> AllEventTypesList
+	public List<IUserEventTypeModel> AllUserEventTypesList
 	{
 		get
 		{
-			return _allEventTypesList;
+			return _allUserEventTypesList;
 		}
 		set
 		{
-			if (_allEventTypesList == value) { return; }
-			_allEventTypesList = value;
+			if (_allUserEventTypesList == value) { return; }
+			_allUserEventTypesList = value;
 		}
 	}
 	public async Task InitializeAsync()
 	{
 		_allEventsList = await GetEventsListAsync().ConfigureAwait(false);                          // TO CHECK - cosideer ConfigureAwait left to default??????
-		_allEventTypesList = await GetUserEventTypesListAsync().ConfigureAwait(false);               // TO CHECK - cosideer ConfigureAwait left to default??????
+		_allUserEventTypesList = await GetUserEventTypesListAsync().ConfigureAwait(false);               // TO CHECK - cosideer ConfigureAwait left to default??????
 	}
 	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{
@@ -118,13 +118,13 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			var jsonString = await File.ReadAllTextAsync(UserTypesFilePath);
 			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-			_allEventTypesList = JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(jsonString, settings);
+			_allUserEventTypesList = JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(jsonString, settings);
 		}
 		else
 		{
-			_allEventTypesList = new List<IUserEventTypeModel>();
+			_allUserEventTypesList = new List<IUserEventTypeModel>();
 		}
-		return _allEventTypesList;
+		return _allUserEventTypesList;
 	}
 
 	public async Task SaveUserEventTypesListAsync()
@@ -135,19 +135,19 @@ public class LocalMachineEventRepository : IEventRepository
 			Directory.CreateDirectory(directoryPath);
 		}
 		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-		var jsonString = JsonConvert.SerializeObject(AllEventTypesList, settings);
+		var jsonString = JsonConvert.SerializeObject(AllUserEventTypesList, settings);
 		await File.WriteAllTextAsync(UserTypesFilePath, jsonString);
 	}
 
 	public async Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete)
 	{
-		AllEventTypesList.Remove(eventTypeToDelete);
+		AllUserEventTypesList.Remove(eventTypeToDelete);
 		await SaveUserEventTypesListAsync();
 	}
 
 	public async Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
 	{
-		AllEventTypesList.Add(eventTypeToAdd);
+		AllUserEventTypesList.Add(eventTypeToAdd);
 		await SaveUserEventTypesListAsync();
 	}
 	public async Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate)

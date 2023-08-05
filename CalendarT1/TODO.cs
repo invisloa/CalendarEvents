@@ -2,6 +2,9 @@
 
 
 #region Current
+// notify view when event is added/edited/deleted by using _eventRepository.AllEventsList
+
+
 // LocalMachineEventRepository Async await fix
 
 

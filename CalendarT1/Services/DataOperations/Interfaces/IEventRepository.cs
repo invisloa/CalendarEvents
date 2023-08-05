@@ -5,6 +5,8 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 {
     public interface IEventRepository
 	{
+		public List<IGeneralEventModel> AllEventsList { get; set; }
+		public List<IUserEventTypeModel> AllUserEventTypesList { get; set; }
 		Task<List<IGeneralEventModel>> GetEventsListAsync();
 		Task SaveEventsListAsync();
 		Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete);

@@ -61,15 +61,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-		private List<IGeneralEventModel> _allEventsList;
 		public List<IGeneralEventModel> AllEventsList
 		{
-			get => _allEventsList;
-			set
-			{
-				_allEventsList = value;
-				OnPropertyChanged();
-			}
+			get => _eventRepository.AllEventsList;
 		}
 		#endregion
 		public event Action OnEventsToShowListUpdated;
@@ -79,7 +73,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		public AbstractEventViewModel(IEventRepository eventRepository)
 		{
-			EventTypesOC = new ObservableCollection<IUserEventTypeModel>();      // load event types in onappearing method
+	//		EventTypesOC = new ObservableCollection<IUserEventTypeModel>();      // load event types in onappearing method
 			_eventRepository = eventRepository;
 		}
 		public async Task LoadEventTypes()
@@ -144,7 +138,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public abstract Task BindDataToScheduleList();
 		public async Task LoadAndBindDataToScheduleListAsync()
 		{
-			AllEventsList = await _eventRepository.GetEventsListAsync();
 			await BindDataToScheduleList();
 		}
 		#endregion

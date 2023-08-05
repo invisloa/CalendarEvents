@@ -5,12 +5,12 @@ namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public class DailyEventsViewModel : AbstractEventViewModel
 	{
-		public AsyncRelayCommand DeleteOneEventCommand { get; set; }
-		public AsyncRelayCommand DeleteAllEventsCommand { get; set; }
+		public AsyncRelayCommand DeleteOneEventCommand { get; set; }                    // for testing purposes
+		public AsyncRelayCommand DeleteAllEventsCommand { get; set; }                   // for testing purposes
 		public DailyEventsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
-			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
-			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
+			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);				// for testing purposes
+			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);            // for testing purposes
 		}
 		public async Task DeleteOneEvent()
 		{
