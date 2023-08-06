@@ -1,11 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using CalendarT1.ViewModels;
+using Newtonsoft.Json;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace CalendarT1.Models.EventTypesModels
 {
-    public class UserEventTypeModel :  IUserEventTypeModel
-    {
+    public class UserEventTypeModel : BaseViewModel, IUserEventTypeModel
+	{
 		public MainEventTypes MainType { get; set; }
         public string EventTypeName { get; set; }
 		// Store color as string due to serialization issues
@@ -27,10 +28,22 @@ namespace CalendarT1.Models.EventTypesModels
             set
             {
                 _eventTypeColor = value;
+                OnPropertyChanged();
             }
         }
-
-        public bool IsSelectedToFilter { get; set; }
+        private bool _isSelectedToFilter;
+        public bool IsSelectedToFilter
+        {
+            get => _isSelectedToFilter;
+            set
+            {
+				if (_isSelectedToFilter != value)
+                {
+					_isSelectedToFilter = value;
+					OnPropertyChanged();
+				}
+			}
+        }
 		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, bool isSelectedToFilter = true)
         {
 			MainType = mainEventType;

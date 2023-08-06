@@ -36,7 +36,7 @@
         </Grid>
 
         <!-- EventPriorities collection -->
-        <customControls:NewContent1 Grid.Row="1"/>
+        <customControls:EventTypesCustomControl Grid.Row="1"/>
 
         <!--<CollectionView ItemsSource="{Binding EventTypesOC}" Grid.Row="1" HorizontalOptions="CenterAndExpand">
             <CollectionView.ItemsLayout>

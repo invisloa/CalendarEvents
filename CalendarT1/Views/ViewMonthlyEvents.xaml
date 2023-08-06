@@ -35,7 +35,7 @@
         </Grid>
 
         <!-- EventPriorities collection -->
-        <customControls:NewContent1 Grid.Row="1"/>
+        <customControls:EventTypesCustomControl Grid.Row="1"/>
 
         <!--Events list layout-->
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
