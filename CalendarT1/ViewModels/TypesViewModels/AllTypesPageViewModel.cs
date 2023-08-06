@@ -42,20 +42,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 				OnPropertyChanged();
 			}
 		}
-		private ObservableCollection<IUserEventTypeModel> _typesToShowOC;
-		public ObservableCollection<IUserEventTypeModel> TypesToShowOC
-		{
-			get => _typesToShowOC;
-			set
-			{
-				if (_typesToShowOC == value)
-				{
-					return;
-				}
-				_typesToShowOC = value;
-				OnPropertyChanged();
-			}
-		}
+
 		public RelayCommand<IUserEventTypeModel> EditSelectedTypeCommand { get; set; }
 
 		public AllTypesPageViewModel(IEventRepository eventRepository)
@@ -63,7 +50,6 @@ namespace CalendarT1.ViewModels.TypesViewModels
 			_eventRepository = eventRepository;
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			TypesToShowOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList); // just temporary To Do: change to only show selected types
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
 			EditSelectedTypeCommand = new RelayCommand<IUserEventTypeModel>(EditSelectedType);

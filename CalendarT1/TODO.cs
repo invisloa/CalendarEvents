@@ -2,6 +2,7 @@
 
 
 #region Current
+// After Editing event type in AddNewTypePage go back to AllTypesPage and update the list of event types list is not updating???
 // when deleting an event type ask user what to do with events of this type switch to other similar type or delete all events of this type
 // all event types page with select an event type and edit
 
