@@ -11,6 +11,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);				// for testing purposes
 			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);            // for testing purposes
+
 		}
 		public async Task DeleteOneEvent()
 		{

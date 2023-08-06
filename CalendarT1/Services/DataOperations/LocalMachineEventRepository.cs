@@ -5,6 +5,9 @@ using Newtonsoft.Json;
 
 public class LocalMachineEventRepository : IEventRepository
 {
+	public event Action OnEventListChanged;
+	public event Action OnUserTypeListChanged;
+
 	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
 	public LocalMachineEventRepository() { }
 
@@ -16,28 +19,35 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			return _allEventsList;
 		}
-		set
+		private set
 		{
 			if (_allEventsList == value) { return; }
 			_allEventsList = value;
+			OnEventListChanged?.Invoke();
 		}
 	}
 	public async Task AddEventAsync(IGeneralEventModel eventToAdd)
 	{
 		AllEventsList.Add(eventToAdd);
 		await SaveEventsListAsync();
+		OnEventListChanged?.Invoke();
+
 	}
 
 	public async Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete)
 	{
 		AllEventsList.Remove(eventToDelete);
 		await SaveEventsListAsync();
+		OnEventListChanged?.Invoke();
+
 	}
 
 	public async Task ClearEventsListAsync()
 	{
 		AllEventsList.Clear();
 		await SaveEventsListAsync();
+		OnEventListChanged?.Invoke();
+
 	}
 
 	public async Task<List<IGeneralEventModel>> GetEventsListAsync()
@@ -67,7 +77,7 @@ public class LocalMachineEventRepository : IEventRepository
 		await File.WriteAllTextAsync(EventsFilePath, jsonString);
 	}
 
-	public async Task UpdateEventsAsync(IGeneralEventModel eventToUpdate)
+	public async Task UpdateEventsAsync(IGeneralEventModel eventToUpdate)	// cos nie tak	???
 	{
 		var eventToUpdateInList = AllEventsList.FirstOrDefault(e => e.Id == eventToUpdate.Id);
 		if (eventToUpdateInList != null)
@@ -91,7 +101,7 @@ public class LocalMachineEventRepository : IEventRepository
 	#endregion
 
 
-
+	// UserTypes Repository
 	#region UserTypes Repository
 	private List<IUserEventTypeModel> _allUserEventTypesList;
 	private static readonly string UserTypesFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonUserTypesFileName", "CalendarTypesOfEventsD"));
@@ -101,10 +111,11 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			return _allUserEventTypesList;
 		}
-		set
+		private set
 		{
 			if (_allUserEventTypesList == value) { return; }
 			_allUserEventTypesList = value;
+			OnUserTypeListChanged?.Invoke();
 		}
 	}
 	public async Task InitializeAsync()
@@ -118,13 +129,13 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			var jsonString = await File.ReadAllTextAsync(UserTypesFilePath);
 			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-			_allUserEventTypesList = JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(jsonString, settings);
+			AllUserEventTypesList = JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(jsonString, settings);
 		}
 		else
 		{
-			_allUserEventTypesList = new List<IUserEventTypeModel>();
+			AllUserEventTypesList = new List<IUserEventTypeModel>();
 		}
-		return _allUserEventTypesList;
+		return AllUserEventTypesList;
 	}
 
 	public async Task SaveUserEventTypesListAsync()
@@ -137,22 +148,29 @@ public class LocalMachineEventRepository : IEventRepository
 		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
 		var jsonString = JsonConvert.SerializeObject(AllUserEventTypesList, settings);
 		await File.WriteAllTextAsync(UserTypesFilePath, jsonString);
+		OnUserTypeListChanged?.Invoke();
+
 	}
 
 	public async Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete)
 	{
 		AllUserEventTypesList.Remove(eventTypeToDelete);
 		await SaveUserEventTypesListAsync();
+		OnUserTypeListChanged?.Invoke();
+
 	}
 
 	public async Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
 	{
 		AllUserEventTypesList.Add(eventTypeToAdd);
 		await SaveUserEventTypesListAsync();
+		OnUserTypeListChanged?.Invoke();
+
 	}
 	public async Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate)
 	{
 		await SaveUserEventTypesListAsync();
+		OnUserTypeListChanged?.Invoke();
 	}
 	#endregion
 }

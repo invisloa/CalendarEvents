@@ -2,6 +2,7 @@
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -11,6 +12,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
     public abstract class AbstractEventViewModel : BaseViewModel
 	{
 		#region Properties
+		ObservableCollection<IGeneralEventModel> _allEventsListOC;
+		ObservableCollection<IGeneralEventModel> AllEventsListOC { get => _allEventsListOC; }
 		private IEventRepository _eventRepository;
 		public IEventRepository EventRepository
 		{
@@ -36,21 +39,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				}
 			}
 		}
-		private ObservableCollection<IUserEventTypeModel> _eventTypesOC;
-		public ObservableCollection<IUserEventTypeModel> EventTypesOC
-		{
-			get => _eventTypesOC;
-			set
-			{
-				if (_eventTypesOC == value)
-				{
-					return;
-				}
-				_eventTypesOC = value;
-				OnPropertyChanged();
-			}
-		}
-
 		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
 		public ObservableCollection<IGeneralEventModel> EventsToShowList
 		{
@@ -73,8 +61,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		public AbstractEventViewModel(IEventRepository eventRepository)
 		{
-	//		EventTypesOC = new ObservableCollection<IUserEventTypeModel>();      // load event types in onappearing method
 			_eventRepository = eventRepository;
+			_allEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+			_eventRepository.OnEventListChanged += SomeLoadDataMethod;
 		}
 		public async Task LoadEventTypes()
 		{
@@ -84,6 +73,20 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			foreach (var eventType in eventTypes)
 			{
 				EventTypesOC.Add(eventType);
+			}
+		}
+		private ObservableCollection<IUserEventTypeModel> _eventTypesOC;
+		public ObservableCollection<IUserEventTypeModel> EventTypesOC
+		{
+			get => _eventTypesOC;
+			set
+			{
+				if (_eventTypesOC == value)
+				{
+					return;
+				}
+				_eventTypesOC = value;
+				OnPropertyChanged();
 			}
 		}
 
