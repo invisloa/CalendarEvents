@@ -35,12 +35,12 @@
 		public static readonly BindableProperty AllEventsListProperty =
 			BindableProperty.Create(
 			nameof(AllEventsList),
-			typeof(List<IGeneralEventModel>),
+			typeof(ObservableCollection<IGeneralEventModel>),
 			typeof(MonthlyEventsControl));
 
-		public List<IGeneralEventModel> AllEventsList
+		public ObservableCollection<IGeneralEventModel> AllEventsList
 		{
-			get => (List<IGeneralEventModel>)GetValue(AllEventsListProperty);
+			get => (ObservableCollection<IGeneralEventModel>)GetValue(AllEventsListProperty);
 			set => SetValue(AllEventsListProperty, value);
 		}
 

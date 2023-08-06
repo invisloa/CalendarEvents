@@ -2,7 +2,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:CalendarT1.ViewModels"
-             xmlns:models="clr-namespace:CalendarT1.Models"
              xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
              xmlns:local="clr-namespace:CalendarT1.ViewModels.EventsViewModels"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
@@ -43,7 +42,6 @@
             <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
             <Button Text="+" Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0"/>
-            <Button Text="Generate Grid" Command="{Binding GenerateGridCommand, Source={x:Reference weeklyEventsControl}}" />
         </StackLayout>
         <ScrollView Grid.Row="3" Orientation="Vertical">
 

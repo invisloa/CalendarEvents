@@ -27,6 +27,20 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
+		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
+		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
+		{
+			get => _allEventTypesOC;
+			set
+			{
+				if (_allEventTypesOC == value)
+				{
+					return;
+				}
+				_allEventTypesOC = value;
+				OnPropertyChanged();
+			}
+		}
 
 		private DateTime _currentDate = DateTime.Now;
 		public DateTime CurrentDate
@@ -79,20 +93,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public void UpdateAllEventTypesList()
 		{
 			AllEventTypesOC= new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
-		}
-		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
-		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
-		{
-			get => _allEventTypesOC;
-			set
-			{
-				if (_allEventTypesOC == value)
-				{
-					return;
-				}
-				_allEventTypesOC = value;
-				OnPropertyChanged();
-			}
 		}
 
 		#region Commands
