@@ -121,7 +121,7 @@ public class LocalMachineEventRepository : IEventRepository
 	public async Task InitializeAsync()
 	{
 		_allEventsList = await GetEventsListAsync().ConfigureAwait(false);                          // TO CHECK - cosideer ConfigureAwait left to default??????
-		_allUserEventTypesList = await GetUserEventTypesListAsync().ConfigureAwait(false);               // TO CHECK - cosideer ConfigureAwait left to default??????
+		_allUserEventTypesList = await GetUserEventTypesListAsync().ConfigureAwait(false);          // TO CHECK - cosideer ConfigureAwait left to default??????
 	}
 	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{
@@ -149,7 +149,6 @@ public class LocalMachineEventRepository : IEventRepository
 		var jsonString = JsonConvert.SerializeObject(AllUserEventTypesList, settings);
 		await File.WriteAllTextAsync(UserTypesFilePath, jsonString);
 		OnUserTypeListChanged?.Invoke();
-
 	}
 
 	public async Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete)
@@ -157,7 +156,6 @@ public class LocalMachineEventRepository : IEventRepository
 		AllUserEventTypesList.Remove(eventTypeToDelete);
 		await SaveUserEventTypesListAsync();
 		OnUserTypeListChanged?.Invoke();
-
 	}
 
 	public async Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
@@ -165,12 +163,17 @@ public class LocalMachineEventRepository : IEventRepository
 		AllUserEventTypesList.Add(eventTypeToAdd);
 		await SaveUserEventTypesListAsync();
 		OnUserTypeListChanged?.Invoke();
-
 	}
 	public async Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate)
 	{
 		await SaveUserEventTypesListAsync();
 		OnUserTypeListChanged?.Invoke();
+	}
+
+	public Task GetUserEventTypeAsync(IUserEventTypeModel eventTypeToSelect)
+	{
+		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e == eventTypeToSelect);		// TO CHANGE
+		return Task.FromResult(selectedEventType);
 	}
 	#endregion
 }

@@ -12,13 +12,22 @@ namespace CalendarT1.ViewModels.EventsViewModels
     public abstract class AbstractEventViewModel : BaseViewModel
 	{
 		#region Properties
-		ObservableCollection<IGeneralEventModel> _allEventsListOC;
-		ObservableCollection<IGeneralEventModel> AllEventsListOC { get => _allEventsListOC; }
 		private IEventRepository _eventRepository;
 		public IEventRepository EventRepository
 		{
 			get => _eventRepository;
 		}
+		ObservableCollection<IGeneralEventModel> _allEventsListOC;
+		public ObservableCollection<IGeneralEventModel> AllEventsListOC
+		{
+			get => _allEventsListOC;
+			set
+			{
+				_allEventsListOC = value;
+				OnPropertyChanged();
+			}
+		}
+
 		private DateTime _currentDate = DateTime.Now;
 		public DateTime CurrentDate
 		{
@@ -49,10 +58,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-		public List<IGeneralEventModel> AllEventsList
-		{
-			get => _eventRepository.AllEventsList;
-		}
 		#endregion
 		public event Action OnEventsToShowListUpdated;
 		protected virtual void OnOnEventsToShowListUpdated()
@@ -63,29 +68,29 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_eventRepository = eventRepository;
 			_allEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			_eventRepository.OnEventListChanged += SomeLoadDataMethod;
+			_allEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			_eventRepository.OnEventListChanged += UpdateAllEventList;
+			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
 		}
-		public async Task LoadEventTypes()
+		public void UpdateAllEventList()
 		{
-			var eventTypes = await _eventRepository.GetUserEventTypesListAsync();
-			EventTypesOC.Clear(); // Clear the collection before adding new items
-
-			foreach (var eventType in eventTypes)
-			{
-				EventTypesOC.Add(eventType);
-			}
+			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 		}
-		private ObservableCollection<IUserEventTypeModel> _eventTypesOC;
-		public ObservableCollection<IUserEventTypeModel> EventTypesOC
+		public void UpdateAllEventTypesList()
 		{
-			get => _eventTypesOC;
+			AllEventTypesOC= new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+		}
+		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
+		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
+		{
+			get => _allEventTypesOC;
 			set
 			{
-				if (_eventTypesOC == value)
+				if (_allEventTypesOC == value)
 				{
 					return;
 				}
-				_eventTypesOC = value;
+				_allEventTypesOC = value;
 				OnPropertyChanged();
 			}
 		}
@@ -147,14 +152,12 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		protected async Task ApplyEventFilter(DateTime startDate, DateTime endDate)
 		{
-			var selectedEventTypes = EventTypesOC.Where(x => x.IsSelectedToFilter).Select(x => x.EventTypeName).ToList();
-
-			var allEvents = await EventRepository.GetEventsListAsync();
+			var selectedEventTypes = AllEventTypesOC.Where(x => x.IsSelectedToFilter).Select(x => x.EventTypeName).ToList();
 
 			List<IGeneralEventModel> filteredEvents = new List<IGeneralEventModel>();
 
 			// Step 1: Get events that fall within the specified date range
-			foreach (var eventModel in allEvents)
+			foreach (var eventModel in AllEventsListOC)
 			{
 				if (eventModel.StartDateTime.Date >= startDate && eventModel.EndDateTime.Date <= endDate)
 				{
