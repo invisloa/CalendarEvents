@@ -136,7 +136,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		private void SelectEvent(IGeneralEventModel selectedEvent)
 		{
-			Debug.WriteLine($"Selected event: {selectedEvent.Title}");
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));
 		}
 		#endregion

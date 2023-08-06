@@ -9,6 +9,7 @@ using Newtonsoft.Json;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
+using CalendarT1.Views;
 
 namespace CalendarT1.ViewModels
 {
@@ -31,6 +32,7 @@ namespace CalendarT1.ViewModels
 		private const int BorderSize = 10;
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
+		public RelayCommand GoToAllTypesPageCommand { get; private set; }
 
 		public IUserEventTypeModel CurrentType
 		{
@@ -108,6 +110,13 @@ namespace CalendarT1.ViewModels
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType = null)
 		{
 			_eventRepository = eventRepository;
+			InitializeColorButtons();
+			EventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
+			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
+			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
+			InitializeMainEventTypes();
+			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
+			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 			if (currentType != null)
 			{
 				CurrentType = currentType;
@@ -116,12 +125,8 @@ namespace CalendarT1.ViewModels
 				TypeName = currentType.EventTypeName;
 				// set propper visuals for a edited event type
 			}
-			InitializeColorButtons();
-			EventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
-			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
-			InitializeMainEventTypes();
-			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
-			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
+
+
 		}
 		private void InitializeMainEventTypes()
 		{
@@ -141,7 +146,7 @@ namespace CalendarT1.ViewModels
 				MainEventTypesOC.Add(eventDetails);
 			}
 
-			SetSelectedEventType(_selectedEventType);	// if create it is event by default, if edit it is the type of the event
+			SetSelectedEventType(_selectedEventType);	// if create mode it is event by default, if edit it is the type of the event
 		}
 		private void ConvertEventDetailsAndSelectType(EventDetails selectedEventTypeDetails)
 		{
@@ -177,6 +182,10 @@ namespace CalendarT1.ViewModels
 			{
 				button.ButtonBorder = button == selectedColor ? NoBorderSize : BorderSize;
 			}
+		}
+		private void GoToAllTypesPage()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new AllTypesPage(_eventRepository));
 		}
 		private void InitializeColorButtons()
 		{

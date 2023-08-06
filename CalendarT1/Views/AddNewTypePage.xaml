@@ -8,7 +8,10 @@
         <StackLayout>
 
             <!-- Textbox for new type name -->
-            <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" HorizontalOptions="CenterAndExpand" Margin="10"/>
+            <StackLayout Orientation="Horizontal">
+                <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" HorizontalOptions="CenterAndExpand" Margin="10"/>
+                <Button Text="XXX" Command="{Binding GoToAllTypesPageCommand}"/>
+            </StackLayout>
 
             <!--Main Event Types-->
             <CollectionView ItemsSource="{Binding MainEventTypesOC}" HorizontalOptions="FillAndExpand" Margin="20" IsVisible="{Binding IsNotEdit}">

@@ -75,6 +75,9 @@
 	  <MauiXaml Update="Views\AddNewTypePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\AllTypesPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CustomControls\ColorButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

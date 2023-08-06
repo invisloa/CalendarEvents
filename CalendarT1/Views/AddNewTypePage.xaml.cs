@@ -13,4 +13,10 @@ public partial class AddNewTypePage : ContentPage
 		BindingContext = ServiceHelper.GetService<AddNewTypePageViewModel>();
 		InitializeComponent();
 	}
+	public AddNewTypePage(IEventRepository eventRepository, IUserEventTypeModel userEventTypeModel)	// edit mode
+	{
+		BindingContext = new AddNewTypePageViewModel(eventRepository, userEventTypeModel);
+		InitializeComponent();
+	}
+
 }
