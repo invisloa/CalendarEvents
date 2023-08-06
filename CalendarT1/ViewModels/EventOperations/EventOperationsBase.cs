@@ -9,20 +9,21 @@ namespace CalendarT1.ViewModels.EventOperations
 {
     public abstract class EventOperationsBase : BaseViewModel
 	{
-		public EventOperationsBase()
+		public EventOperationsBase(IEventRepository eventRepository)
 		{
-			//var json = Preferences.Get("event_types", "");
-			//EventTypesOC = JsonConvert.DeserializeObject<ObservableCollection<IUserEventTypeModel>>(json);
-			//if (EventTypesOC == null)
-			//{
-			//	// TODO TO CHANGE
-			//	EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "BasicEvent", Color.FromHex("#FF0000")));
-			//	EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Task, "BasicTask", Color.FromHex("#00FFFF")));
-			//	EventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Spending, "BasicSpending", Color.FromHex("#00FFFF")));
-			//}
-
-			// TODO GET EVENT TYPES FROM DATABASE
-
+			_eventRepository = eventRepository;
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+			_eventRepository.OnEventListChanged += UpdateAllEventList;
+			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
+		}
+		public void UpdateAllEventList()
+		{
+			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+		}
+		public void UpdateAllEventTypesList()
+		{
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
 		#region Properties
 		protected IEventRepository _eventRepository;
@@ -37,6 +38,8 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
 		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
+		public string EventTypePickerText { get; set; } = "Select event Type";
+
 		// Basic Event Information
 		public bool IsCompleted
 		{
@@ -164,9 +167,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			Title = "";
 			Description = "";
-			if (EventTypesOC != null && EventTypesOC.Count > 0)
+			if (AllEventTypesOC != null && AllEventTypesOC.Count > 0)
 			{
-				EventType = EventTypesOC[0];
+				EventType = AllEventTypesOC[0];
 			}
 			StartDateTime = DateTime.Today;
 			EndDateTime = DateTime.Today;
@@ -176,12 +179,23 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		#endregion
 		protected ObservableCollection<IUserEventTypeModel> _eventTypesOC;
-		public ObservableCollection<IUserEventTypeModel> EventTypesOC
+		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
 		{
 			get => _eventTypesOC;
 			set
 			{
 				_eventTypesOC = value;
+				OnPropertyChanged();
+			}
+		}
+
+		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
+		public ObservableCollection<IGeneralEventModel> AllEventsListOC
+		{
+			get => _allEventsListOC;
+			set
+			{
+				_allEventsListOC = value;
 				OnPropertyChanged();
 			}
 		}

@@ -2,6 +2,9 @@
 
 
 #region Current
+// when deleting an event type ask user what to do with events of this type switch to other similar type or delete all events of this type
+// all event types page with select an event type and edit
+
 // notify view when event is added/edited/deleted by using _eventRepository.AllEventsList
 
 

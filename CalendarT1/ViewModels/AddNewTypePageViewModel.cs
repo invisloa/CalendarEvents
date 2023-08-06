@@ -29,7 +29,6 @@ namespace CalendarT1.ViewModels
 		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
-
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
 
@@ -91,7 +90,6 @@ namespace CalendarT1.ViewModels
 
 		private async Task SubmitType()
 		{
-	//		await _eventRepository.ClearEventsListAsync();    // was made for testing purposes to delete all inconsistent events
 			if (IsEdit)
 			{
 				// cannot change main event type => may lead to some future errors???

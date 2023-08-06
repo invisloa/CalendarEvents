@@ -16,9 +16,8 @@ namespace CalendarT1.ViewModels.EventOperations
 		public ICommand EditEventCommand { get; }
 		public ICommand CloseCommand { get; }
 
-		public EventReminderPopupViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
+		public EventReminderPopupViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit) : base(eventRepository)
 		{
-			_eventRepository = eventRepository;
 			_currentEvent = eventToEdit;
 			MarkAsCompleteCommand = new RelayCommand(MarkAsComplete);
 			PostponeCommand = new RelayCommand(Postpone);

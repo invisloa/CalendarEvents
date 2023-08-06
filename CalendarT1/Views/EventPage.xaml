@@ -21,8 +21,8 @@
                     />
         <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
                     Time="{Binding EndExactTime}"/>
-        <Picker Title="Event type"
-                ItemsSource="{Binding EventTypesOC}"
+        <Picker Title="{Binding EventTypePickerText}"
+                ItemsSource="{Binding AllEventTypesOC}"
                 SelectedItem="{Binding EventType, Mode=TwoWay}">
         </Picker>
         <Editor Placeholder="Description"

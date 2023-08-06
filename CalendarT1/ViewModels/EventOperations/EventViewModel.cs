@@ -24,23 +24,15 @@ namespace CalendarT1.ViewModels.EventOperations
 		public AsyncRelayCommand ShareEventCommand { get => _shareEventCommand; set { _shareEventCommand = value; } }
 		public async Task OnApearing()
 		{
-			var userEventTypeModels = await _eventRepository.GetUserEventTypesListAsync();
-			ObservableCollection<IUserEventTypeModel> tempCollection = new ObservableCollection<IUserEventTypeModel>();
 
-			foreach (var item in userEventTypeModels)
-			{
-				tempCollection.Add(item);
-			}
-			// dont make OnpropertyChanged every added item
-			EventTypesOC = tempCollection;
 		}
-		public EventViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit = null) : base()
+		public EventViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit = null) : base(eventRepository)
 		{
-			_eventRepository = eventRepository;
 
 			if (eventToEdit == null)
 			{
 				// Create new Event mode
+				EventType = AllEventTypesOC.First(); // Initialize to first event type so it wont be null
 				_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand); // ????????????
 			}
 			else
@@ -69,7 +61,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private async Task AddEventAsync()
 		{
 			// Create new Event according to a selected EventType
-			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime, EndDateTime, EventType, SpendingAmount);
+			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime+StartExactTime, EndDateTime+EndExactTime, EventType, SpendingAmount);
 			await _eventRepository.AddEventAsync(_currentEvent);
 			ClearFields();
 		}
