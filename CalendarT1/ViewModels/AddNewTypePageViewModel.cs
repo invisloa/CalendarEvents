@@ -125,8 +125,6 @@ namespace CalendarT1.ViewModels
 				TypeName = currentType.EventTypeName;
 				// set propper visuals for a edited event type
 			}
-
-
 		}
 		private void InitializeMainEventTypes()
 		{
