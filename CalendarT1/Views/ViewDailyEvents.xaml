@@ -23,27 +23,27 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <StackLayout Grid.Column="0">
+            <StackLayout Grid.Column="0" IsVisible="{Binding IsDailyView}">
                 <Label Text="Current date:"/>
                 <Label Text="{Binding CurrentDate, StringFormat='{0:dd MM yyyy}'}" FontSize="Large" FontAttributes="Bold"/>
             </StackLayout>
 
-            <StackLayout Grid.Column="1" HorizontalOptions="End">
+            <StackLayout Grid.Column="1" HorizontalOptions="End" IsVisible="{Binding IsDailyView}">
                 <Label Text="Selected date:"/>
                 <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
             </StackLayout>
         </Grid>
 
         <!-- EventPriorities collection -->
-        <customControls:EventTypesCustomControl Grid.Row="1"/>
+        <customControls:EventTypesCustomControl Grid.Row="1" IsVisible="{Binding IsDailyView}"/>
 
         <!-- Events list layout -->
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-            <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
+            <Label Text="{Binding AboveEventsListText}" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
-            <Button Text="+" Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0"/>
-            <Button Text="-" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0"/>
-            <Button Text="---" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0"/>
+            <Button Text="+" Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0" IsVisible="{Binding IsDailyView}"/>
+            <Button Text="-" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" IsVisible="{Binding IsAllEventsView}"/>
+            <Button Text="CLEAR ALL" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0" IsVisible="{Binding IsAllEventsView}"/>
         </StackLayout>
 
         <!-- EventsToShowList collection -->

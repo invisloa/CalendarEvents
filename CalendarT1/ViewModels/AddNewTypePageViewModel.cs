@@ -97,6 +97,7 @@ namespace CalendarT1.ViewModels
 						_eventRepository.AllEventsList.RemoveAll(x => x.EventType.EventTypeName == _currentType.EventTypeName);
 						await _eventRepository.SaveEventsListAsync();
 						await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
+						// TODO make a confirmation message
 						break;
 					case "Go to All Events Page":
 						// Redirect to the All Events Page.
