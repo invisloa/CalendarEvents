@@ -9,7 +9,7 @@ public partial class ViewDailyEvents : ContentPage
 {
 	public ViewDailyEvents()
 	{
-		BindingContext = ServiceHelper.GetService<DailyEventsViewModel>();
+		BindingContext = ServiceHelper.GetService<DailyEventsViewModel>();//
 		InitializeComponent();
 	}
 	public ViewDailyEvents(IEventRepository eventRepository, IUserEventTypeModel eventType)
