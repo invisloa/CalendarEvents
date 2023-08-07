@@ -86,9 +86,32 @@ namespace CalendarT1.ViewModels
 
 		private async Task DeleteSelectedEventType()
 		{
+			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.EventType.EventTypeName == _currentType.EventTypeName);
+			if (eventTypesInDb.Any())
+			{
+				var action = await App.Current.MainPage.DisplayActionSheet("This type is used in some events.", "Cancel", null, "Delete all associated events", "Go to All Events Page");
+				switch (action)
+				{
+					case "Delete all associated events":
+						// Perform the operation to delete all events of the event type.
+						_eventRepository.AllEventsList.RemoveAll(x => x.EventType.EventTypeName == _currentType.EventTypeName);
+						await _eventRepository.SaveEventsListAsync();
+						await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
+						break;
+					case "Go to All Events Page":
+						// Redirect to the All Events Page.
+						await Shell.Current.GoToAsync("AllEventsPageList");
+						break;
+					default:
+						// Cancel was selected or back button was pressed.
+						break;
+				}
+				return;
+			}
 			await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
 			await Shell.Current.GoToAsync("..");
 		}
+
 
 		private async Task SubmitType()
 		{

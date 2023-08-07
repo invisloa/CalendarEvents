@@ -52,7 +52,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="DELETE SELECTED EVENT" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}" Margin="10"/>
+            <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}" Margin="10"/>
             <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" Margin="10"/>
         </StackLayout>
     </ScrollView>

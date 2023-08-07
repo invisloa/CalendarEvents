@@ -3,30 +3,34 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:type_models="clr-namespace:CalendarT1.Models.EventTypesModels;assembly=CalendarT1"
              x:Class="CalendarT1.Views.CustomControls.EventTypesCustomControl">
-    <CollectionView ItemsSource="{Binding AllEventTypesOC}" HorizontalOptions="CenterAndExpand">
-        <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical" Span="3" />
-            <!-- Modify the Span to adjust number of items in a row -->
-        </CollectionView.ItemsLayout>
-        <CollectionView.ItemTemplate>
-            <DataTemplate x:DataType="type_models:UserEventTypeModel">
-                <Button Text="{Binding EventTypeName}"  TextColor="White" 
+    <StackLayout>
+        <Label Text="FILTERS" HorizontalOptions="Center"/>
+        <CollectionView ItemsSource="{Binding AllEventTypesOC}" HorizontalOptions="FillAndExpand">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="3" />
+                <!-- Modify the Span to adjust number of items in a row -->
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="type_models:UserEventTypeModel">
+                    <Button Text="{Binding EventTypeName}"  TextColor="White" 
                         Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
                         CommandParameter="{Binding}">
-                    <Button.Triggers>
-                        <DataTrigger TargetType="Button" 
+                        <Button.Triggers>
+                            <DataTrigger TargetType="Button" 
                                      Binding="{Binding IsSelectedToFilter}" 
                                      Value="True">
-                            <Setter Property="BackgroundColor" Value="{Binding EventTypeColor}" />
-                        </DataTrigger>
-                        <DataTrigger TargetType="Button" 
+                                <Setter Property="BackgroundColor" Value="{Binding EventTypeColor}" />
+                            </DataTrigger>
+                            <DataTrigger TargetType="Button" 
                                      Binding="{Binding IsSelectedToFilter}" 
                                      Value="False">
-                            <Setter Property="BackgroundColor" Value="LightGray"/>
-                        </DataTrigger>
-                    </Button.Triggers>
-                </Button>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+                                <Setter Property="BackgroundColor" Value="LightGray"/>
+                            </DataTrigger>
+                        </Button.Triggers>
+                    </Button>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </StackLayout>
 </ContentView>

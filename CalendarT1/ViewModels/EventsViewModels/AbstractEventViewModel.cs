@@ -165,5 +165,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 			EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
 		}
+		protected async Task ApplyEventFilter(IUserEventTypeModel typeModel)
+		{
+			var tempAllFilteredEvents = AllEventsListOC.Where(x => x.EventType.EventTypeName == typeModel.EventTypeName).ToList();
+			EventsToShowList = new ObservableCollection<IGeneralEventModel>(tempAllFilteredEvents);
+		}
 	}
 }
