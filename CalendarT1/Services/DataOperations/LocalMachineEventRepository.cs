@@ -122,7 +122,6 @@ public class LocalMachineEventRepository : IEventRepository
 	{
 		_allEventsList = await GetEventsListAsync();                          // TO CHECK - cosideer ConfigureAwait left to default??????
 		_allUserEventTypesList = await GetUserEventTypesListAsync();          // TO CHECK - cosideer ConfigureAwait left to default??????
-		int i = 5;
 	}
 	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{
