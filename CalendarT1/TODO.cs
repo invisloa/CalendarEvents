@@ -2,7 +2,7 @@
 
 
 #region Current
-// Add Event from DailyEventsPage date from current selected date???
+// Add Event from DailyEventsPage date from current selected date
 // split DailyEventsPage into two pages one for events and one for all eventslist
 
 // all events page for types deleting (error)
