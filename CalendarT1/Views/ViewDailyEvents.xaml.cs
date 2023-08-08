@@ -12,6 +12,7 @@ public partial class ViewDailyEvents : ContentPage
 		BindingContext = ServiceHelper.GetService<DailyEventsViewModel>();//
 		InitializeComponent();
 	}
+		(BindingContext as DailyEventsViewModel).OnEventsToShowListUpdated -= (BindingContext as DailyEventsViewModel).BindDataToScheduleList;
 	public ViewDailyEvents(IEventRepository eventRepository, IUserEventTypeModel eventType)
 	{
 		BindingContext = new DailyEventsViewModel(eventRepository, eventType);
