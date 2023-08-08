@@ -9,10 +9,19 @@ public partial class ViewDailyEvents : ContentPage
 {
 	public ViewDailyEvents()
 	{
-		BindingContext = ServiceHelper.GetService<DailyEventsViewModel>();//
+		var viewModel = ServiceHelper.GetService<DailyEventsViewModel>();
+		BindingContext = viewModel;
 		InitializeComponent();
+		viewModel.OnEventsToShowListUpdated += () =>
+		{
+			viewModel.BindDataToScheduleList();
+		};
 	}
+	protected override void OnDisappearing()
+	{
+		base.OnDisappearing();
 		(BindingContext as DailyEventsViewModel).OnEventsToShowListUpdated -= (BindingContext as DailyEventsViewModel).BindDataToScheduleList;
+	}
 	public ViewDailyEvents(IEventRepository eventRepository, IUserEventTypeModel eventType)
 	{
 		BindingContext = new DailyEventsViewModel(eventRepository, eventType);
@@ -21,7 +30,7 @@ public partial class ViewDailyEvents : ContentPage
 	protected override async void OnAppearing()
 	{
 		base.OnAppearing();
-		await (BindingContext as DailyEventsViewModel).LoadAndBindDataToScheduleListAsync();
+		(BindingContext as DailyEventsViewModel).BindDataToScheduleList();
 	}
 
 }

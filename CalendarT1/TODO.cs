@@ -2,6 +2,8 @@
 
 
 #region Current
+// all events page for types deleting (error)
+
 
 // edit page with no go to all types page button
 // After Editing event type in AddNewTypePage go back to AllTypesPage and update the list of event types list is not updating???
@@ -53,7 +55,7 @@
 
 #region High Priority
 // Check for data Operations thread safety!!!
-
+// divide dailyeventsPage into two pages one for events and one for all eventslist for types
 
 
 // fix the scrolling isse horizontal and vertical

@@ -9,7 +9,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 						(IEventRepository eventRepository)
 						: base(eventRepository) { }
 
-		public async override Task BindDataToScheduleList()
+		public override void BindDataToScheduleList()
 		{
 			// Start of the Week
 			var startOfWeek = CurrentSelectedDate.AddDays(-(int)CurrentSelectedDate.DayOfWeek);
@@ -17,7 +17,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			// End of the Week
 			var endOfWeek = startOfWeek.AddDays(7);
 
-			await ApplyEventFilter(startOfWeek, endOfWeek);
+			ApplyEventFilter(startOfWeek, endOfWeek);
 
 			OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
 

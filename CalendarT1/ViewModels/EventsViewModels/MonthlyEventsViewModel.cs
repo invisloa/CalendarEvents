@@ -8,7 +8,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public MonthlyEventsViewModel
 						(IEventRepository eventRepository)
 						: base(eventRepository) { }
-		public async override Task BindDataToScheduleList()
+		public override void BindDataToScheduleList()
 		{
 			// Start of the month
 			var startOfMonth = new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, 1);
@@ -16,7 +16,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			// End of the month
 			var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
 
-			await ApplyEventFilter(startOfMonth, endOfMonth);
+			ApplyEventFilter(startOfMonth, endOfMonth);
 
 			OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
 

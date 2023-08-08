@@ -12,7 +12,7 @@ public class LocalMachineEventRepository : IEventRepository
 	public LocalMachineEventRepository() { }
 
 	#region Events Repository
-	private List<IGeneralEventModel> _allEventsList;
+	private List<IGeneralEventModel> _allEventsList = new List<IGeneralEventModel>();
 	public List<IGeneralEventModel> AllEventsList			
 	{
 		get
@@ -103,7 +103,7 @@ public class LocalMachineEventRepository : IEventRepository
 
 	// UserTypes Repository
 	#region UserTypes Repository
-	private List<IUserEventTypeModel> _allUserEventTypesList;
+	private List<IUserEventTypeModel> _allUserEventTypesList = new List<IUserEventTypeModel>();
 	private static readonly string UserTypesFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonUserTypesFileName", "CalendarTypesOfEventsD"));
 	public List<IUserEventTypeModel> AllUserEventTypesList
 	{
@@ -120,8 +120,9 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public async Task InitializeAsync()
 	{
-		_allEventsList = await GetEventsListAsync().ConfigureAwait(false);                          // TO CHECK - cosideer ConfigureAwait left to default??????
-		_allUserEventTypesList = await GetUserEventTypesListAsync().ConfigureAwait(false);          // TO CHECK - cosideer ConfigureAwait left to default??????
+		_allEventsList = await GetEventsListAsync();                          // TO CHECK - cosideer ConfigureAwait left to default??????
+		_allUserEventTypesList = await GetUserEventTypesListAsync();          // TO CHECK - cosideer ConfigureAwait left to default??????
+		int i = 5;
 	}
 	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{

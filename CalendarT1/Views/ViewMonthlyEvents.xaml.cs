@@ -10,6 +10,8 @@ public partial class ViewMonthlyEvents : ContentPage
 		InitializeComponent();
 		var viewModel = ServiceHelper.GetService<MonthlyEventsViewModel>();
 		BindingContext = viewModel;
+
+		// geterate new grid everytime the list of events to show is updated (e.g. when user adds new event)
 		viewModel.OnEventsToShowListUpdated += () =>
 		{
 			monthlyEventsControl.GenerateGrid();
@@ -23,7 +25,7 @@ public partial class ViewMonthlyEvents : ContentPage
 	protected override async void OnAppearing()
 	{
 		base.OnAppearing();
-		await (BindingContext as MonthlyEventsViewModel).LoadAndBindDataToScheduleListAsync();
+		(BindingContext as MonthlyEventsViewModel).BindDataToScheduleList();
 	}
 }
 

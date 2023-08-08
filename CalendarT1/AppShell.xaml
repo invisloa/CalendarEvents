@@ -4,13 +4,15 @@
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CalendarT1.Views">
-    <ShellItem Route="AllEventsPageList">
-        <ShellContent ContentTemplate="{DataTemplate local:ViewDailyEvents}"/>
-    </ShellItem>
+
 
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="Daily events list">
-            
+
+            <ShellContent
+                Title="Daily"
+                ContentTemplate="{DataTemplate local:ViewDailyEvents}"
+                Route="DailyEvents" />
             <ShellContent
                 Title="AddNewType"
                 ContentTemplate="{DataTemplate local:AddNewTypePage}"
@@ -19,14 +21,12 @@
                 Title="Weekly"
                 ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
                 Route="MainPage" />
-            <ShellContent
-                Title="Daily"
-                ContentTemplate="{DataTemplate local:ViewDailyEvents}"
-                Route="DailyEvents" />
+
             <ShellContent
                 Title="Monthly"
                 ContentTemplate="{DataTemplate local:ViewMonthlyEvents}"
                 Route="MonthlyEvents" />
+            
             <!--<ShellContent
                 Title="PopupTestPage"
                 ContentTemplate="{DataTemplate local:PopupTestPage}"

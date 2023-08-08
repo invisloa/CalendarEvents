@@ -24,7 +24,7 @@ namespace CalendarT1.Views
 		protected override async void OnAppearing()
 		{
 			base.OnAppearing();
-			await (BindingContext as WeeklyEventsViewModel).LoadAndBindDataToScheduleListAsync();
+			(BindingContext as WeeklyEventsViewModel).BindDataToScheduleList();
 		}
 	}
 

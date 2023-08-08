@@ -1,6 +1,8 @@
-﻿using CalendarT1.Models.EventTypesModels;
+﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
+using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
@@ -33,6 +35,11 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			IsDailyView = false;
 			_eventType = eventType;
+			var allTempTypes = new List<IUserEventTypeModel>();
+			foreach (var item in AllEventTypesOC)
+			{
+				allTempTypes.Add(item);
+			}
 			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);              // for testing purposes
 			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);            // for testing purposes
 		}
@@ -51,9 +58,16 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			await EventRepository.ClearEventsListAsync();
 		}
 
-		public override async Task BindDataToScheduleList()
+		public override void BindDataToScheduleList()
 		{
-			await ApplyEventFilter(CurrentSelectedDate.Date, CurrentSelectedDate.AddDays(1));
+			if ( IsDailyView )
+			{
+				 ApplyEventFilter(CurrentSelectedDate.Date, CurrentSelectedDate.AddDays(1));
+			}
+			else
+			{
+				 ApplyEventFilter(_eventType);
+			}
 		}
 
 	}

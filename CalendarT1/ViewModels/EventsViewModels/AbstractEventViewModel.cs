@@ -25,6 +25,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			{
 				_allEventsListOC = value;
 				OnPropertyChanged();
+				OnOnEventsToShowListUpdated();
+
 			}
 		}
 		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
@@ -39,6 +41,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				}
 				_allEventTypesOC = value;
 				OnPropertyChanged();
+				OnOnEventsToShowListUpdated();
+
 			}
 		}
 
@@ -68,6 +72,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			get => _eventsToShowList;
 			set
 			{
+				if (_eventsToShowList == value)
+				{
+					return;
+				}
 				_eventsToShowList = value;
 				OnPropertyChanged();
 			}
@@ -142,14 +150,11 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Abstract Methods
 
-		public abstract Task BindDataToScheduleList();
-		public async Task LoadAndBindDataToScheduleListAsync()
-		{
-			await BindDataToScheduleList();
-		}
+		public abstract void BindDataToScheduleList();
+
 		#endregion
 
-		protected async Task ApplyEventFilter(DateTime startDate, DateTime endDate)
+		protected void ApplyEventFilter(DateTime startDate, DateTime endDate)
 		{
 			var selectedEventTypes = AllEventTypesOC.Where(x => x.IsSelectedToFilter).Select(x => x.EventTypeName).ToList();
 			List<IGeneralEventModel> filteredEvents = new List<IGeneralEventModel>();
@@ -165,7 +170,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 			EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
 		}
-		protected async Task ApplyEventFilter(IUserEventTypeModel typeModel)
+		protected void ApplyEventFilter(IUserEventTypeModel typeModel)
 		{
 			var tempAllFilteredEvents = AllEventsListOC.Where(x => x.EventType.EventTypeName == typeModel.EventTypeName).ToList();
 			EventsToShowList = new ObservableCollection<IGeneralEventModel>(tempAllFilteredEvents);
