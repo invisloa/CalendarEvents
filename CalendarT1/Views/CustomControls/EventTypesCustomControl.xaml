@@ -4,7 +4,7 @@
              xmlns:type_models="clr-namespace:CalendarT1.Models.EventTypesModels;assembly=CalendarT1"
              x:Class="CalendarT1.Views.CustomControls.EventTypesCustomControl">
     <StackLayout>
-        <Label Text="FILTERS" HorizontalOptions="Center"/>
+        <Label Text="EVENT TYPES" HorizontalOptions="Center"/>
         <CollectionView ItemsSource="{Binding AllEventTypesOC}" HorizontalOptions="FillAndExpand">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="3" />

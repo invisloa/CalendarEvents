@@ -16,7 +16,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			// End of the month
 			var endOfMonth = startOfMonth.AddMonths(1).AddDays(-1);
 
-			ApplyEventFilter(startOfMonth, endOfMonth);
+			ApplyEventsDatesFilter(startOfMonth, endOfMonth);
 
 			OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
 

@@ -17,7 +17,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			// End of the Week
 			var endOfWeek = startOfWeek.AddDays(7);
 
-			ApplyEventFilter(startOfWeek, endOfWeek);
+			ApplyEventsDatesFilter(startOfWeek, endOfWeek);
 
 			OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
 

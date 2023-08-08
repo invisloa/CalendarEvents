@@ -1,39 +1,11 @@
-<ContentPage x:Name="ScheduleListViewPage"
-             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:viewModels="clr-namespace:CalendarT1.ViewModels"
+             x:Class="CalendarT1.Views.ViewAllEventsPage"
              xmlns:models="clr-namespace:CalendarT1.Models.EventModels"
-             xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
-             xmlns:local="clr-namespace:CalendarT1.ViewModels.EventsViewModels"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
-             x:DataType="local:DailyEventsViewModel"
-             x:Class="CalendarT1.Views.ViewDailyEvents"
-             Title="Daily events list">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <!-- Date layout -->
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <StackLayout Grid.Column="0">
-                <Label Text="Current date:"/>
-                <Label Text="{Binding CurrentDate, StringFormat='{0:dd MM yyyy}'}" FontSize="Large" FontAttributes="Bold"/>
-            </StackLayout>
-
-            <StackLayout Grid.Column="1" HorizontalOptions="End">
-                <Label Text="Selected date:"/>
-                <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
-            </StackLayout>
-        </Grid>
-
+             Title="ViewAllEventsPage">
+    <VerticalStackLayout>
         <!-- EventPriorities collection -->
         <customControls:EventTypesCustomControl Grid.Row="1" />
 
@@ -69,7 +41,7 @@
                                 Grid.Column="1"
                                 Grid.RowSpan="2" >
                             <Frame.GestureRecognizers>
-                               <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                                      CommandParameter="{Binding .}"/>
                             </Frame.GestureRecognizers>
                             <StackLayout Spacing="10">
@@ -81,5 +53,5 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-    </Grid>
+    </VerticalStackLayout>
 </ContentPage>

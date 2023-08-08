@@ -2,6 +2,8 @@
 
 
 #region Current
+// split DailyEventsPage into two pages one for events and one for all eventslist
+
 // all events page for types deleting (error)
 
 

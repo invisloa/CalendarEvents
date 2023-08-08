@@ -60,14 +60,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public override void BindDataToScheduleList()
 		{
-			if ( IsDailyView )
-			{
-				 ApplyEventFilter(CurrentSelectedDate.Date, CurrentSelectedDate.AddDays(1));
-			}
-			else
-			{
-				 ApplyEventFilter(_eventType);
-			}
+				 ApplyEventsDatesFilter(CurrentSelectedDate.Date, CurrentSelectedDate.AddDays(1));
 		}
 
 	}

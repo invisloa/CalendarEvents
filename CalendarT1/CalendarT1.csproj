@@ -93,7 +93,7 @@
 	  <MauiXaml Update="Views\Popups\PopupCalendar.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewDailyEvents.xaml">
+	  <MauiXaml Update="Views\ViewAllEventsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewMonthlyEvents.xaml">
@@ -112,9 +112,6 @@
 	  </Compile>
 	  <Compile Update="Views\CustomControls\EventTypesCustomControl.xaml.cs">
 	    <DependentUpon>EventTypesCustomControl.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\ViewDailyEvents.xaml.cs">
-	    <DependentUpon>ViewDailyEvents.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 
