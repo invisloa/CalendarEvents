@@ -15,34 +15,33 @@ namespace CalendarT1.ViewModels
 {
 	public class AddNewTypePageViewModel : BaseViewModel
 	{
-		public string PageTitle => IsEdit ? "EDIT TYPE" : "ADD NEW TYPE";								// idk
-		public string PlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {TypeName}" : "NEW TYPE NAME";   // top of the page TextBox
-		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";		
-		private Color _selectedColor = Color.FromRgb(255, 0, 0);                                        // initialize with red
-		private string _typeName;
-		public bool IsEdit => _currentType != null;
-		private readonly Dictionary<MainEventTypes, EventDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventDetails>();
-		private MainEventTypes _selectedEventType = MainEventTypes.Event;
-		IEventRepository _eventRepository;
-		private IUserEventTypeModel _currentType;
-		public bool IsNotEdit => !IsEdit;
+		#region Fields
 		private const int FullOpacity = 1;
 		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
-		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
-		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
-		public RelayCommand GoToAllTypesPageCommand { get; private set; }
+
+		private readonly Dictionary<MainEventTypes, EventDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventDetails>();
+		private MainEventTypes _selectedEventType = MainEventTypes.Event;
+		private IUserEventTypeModel _currentType;
+		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
+		private string _typeName;
+		private IEventRepository _eventRepository;
+		#endregion
+
+		#region Properties
+		public string PageTitle => IsEdit ? "EDIT TYPE" : "ADD NEW TYPE";
+		public string PlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {TypeName}" : "NEW TYPE NAME";
+		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
+		public bool IsEdit => _currentType != null;
+		public bool IsNotEdit => !IsEdit;
 
 		public IUserEventTypeModel CurrentType
 		{
 			get => _currentType;
 			set
 			{
-				if (value == _currentType)
-				{
-					return;
-				}
+				if (value == _currentType) return;
 				_currentType = value;
 				OnPropertyChanged();
 			}
@@ -53,10 +52,7 @@ namespace CalendarT1.ViewModels
 			get => _selectedColor;
 			set
 			{
-				if (value == _selectedColor)
-				{
-					return;
-				}
+				if (value == _selectedColor) return;
 				_selectedColor = value;
 				OnPropertyChanged();
 			}
@@ -67,23 +63,48 @@ namespace CalendarT1.ViewModels
 			get => _typeName;
 			set
 			{
-				if (value == _typeName)
-				{
-					return;
-				}
+				if (value == _typeName) return;
 				_typeName = value;
 				SubmitTypeCommand.NotifyCanExecuteChanged();
 				OnPropertyChanged();
 			}
 		}
 
+		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
+		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
+		#endregion
+
+		#region Commands
+		public RelayCommand GoToAllTypesPageCommand { get; private set; }
 		public RelayCommand<EventDetails> EventTypeSelectedCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
+		#endregion
 
+		#region Constructor
+		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType = null)
+		{
+			_eventRepository = eventRepository;
+			InitializeColorButtons();
+			EventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
+			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
+			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
+			InitializeMainEventTypes();
+			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
+			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
+			if (currentType != null)
+			{
+				CurrentType = currentType;
+				_selectedEventType = currentType.MainType;
+				SelectedColor = currentType.EventTypeColor;
+				TypeName = currentType.EventTypeName;
+				// set propper visuals for a edited event type
+			}
+		}
+		#endregion
+		#region Methods
 		private bool CanExecuteSubmitCommand() => !string.IsNullOrEmpty(TypeName);
-
 		private async Task DeleteSelectedEventType()
 		{
 			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.EventType.EventTypeName == _currentType.EventTypeName);
@@ -112,8 +133,15 @@ namespace CalendarT1.ViewModels
 			await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
 			await Shell.Current.GoToAsync("..");
 		}
+		private void ConvertEventDetailsAndSelectType(EventDetails selectedEventTypeDetails)
+		{
+			if (!Enum.TryParse(selectedEventTypeDetails.Text, out MainEventTypes parsedTypeOfEvent))
+			{
+				throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.Text}");
+			}
 
-
+			SetSelectedEventType(parsedTypeOfEvent);
+		}
 		private async Task SubmitType()
 		{
 			if (IsEdit)
@@ -130,54 +158,6 @@ namespace CalendarT1.ViewModels
 				await _eventRepository.AddUserEventTypeAsync(newUserType);
 				await Shell.Current.GoToAsync("..");
 			}
-		}
-		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType = null)
-		{
-			_eventRepository = eventRepository;
-			InitializeColorButtons();
-			EventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
-			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
-			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
-			InitializeMainEventTypes();
-			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
-			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
-			if (currentType != null)
-			{
-				CurrentType = currentType;
-				_selectedEventType = currentType.MainType;
-				SelectedColor = currentType.EventTypeColor;
-				TypeName = currentType.EventTypeName;
-				// set propper visuals for a edited event type
-			}
-		}
-		private void InitializeMainEventTypes()
-		{
-			MainEventTypesOC = new ObservableCollection<EventDetails>();
-
-			// dynamically create Main Event Types according to enum
-			foreach (MainEventTypes eventType in Enum.GetValues(typeof(MainEventTypes)))
-			{
-				var eventDetails = new EventDetails
-				{
-					Text = eventType.ToString(),
-					Opacity = FadedOpacity,
-					Border = BorderSize
-				};
-
-				_eventVisualDetails[eventType] = eventDetails;
-				MainEventTypesOC.Add(eventDetails);
-			}
-
-			SetSelectedEventType(_selectedEventType);	// if create mode it is event by default, if edit it is the type of the event
-		}
-		private void ConvertEventDetailsAndSelectType(EventDetails selectedEventTypeDetails)
-		{
-			if (!Enum.TryParse(selectedEventTypeDetails.Text, out MainEventTypes parsedTypeOfEvent))
-			{
-				throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.Text}");
-			}
-
-			SetSelectedEventType(parsedTypeOfEvent);
 		}
 		private void SetSelectedEventType(MainEventTypes eventType)
 		{
@@ -248,11 +228,34 @@ namespace CalendarT1.ViewModels
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 69, 0), ButtonBorder = BorderSize}, // OrangeRed
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 30, 0), ButtonBorder = BorderSize}, // OrangeRed
 			};
-
 		}
+		// ... other methods
 
+		private void InitializeMainEventTypes()
+		{
+			MainEventTypesOC = new ObservableCollection<EventDetails>();
+
+			// dynamically create Main Event Types according to enum
+			foreach (MainEventTypes eventType in Enum.GetValues(typeof(MainEventTypes)))
+			{
+				var eventDetails = new EventDetails
+				{
+					Text = eventType.ToString(),
+					Opacity = FadedOpacity,
+					Border = BorderSize
+				};
+
+				_eventVisualDetails[eventType] = eventDetails;
+				MainEventTypesOC.Add(eventDetails);
+			}
+
+			SetSelectedEventType(_selectedEventType);   // if create mode it is event by default, if edit it is the type of the event
+		}
 	}
-	#region Helperclass
+	#endregion
+
+
+	#region Helper Classes
 	public class EventDetails : BaseViewModel
 	{
 		private string _text;
@@ -275,6 +278,7 @@ namespace CalendarT1.ViewModels
 			set { _border = value; OnPropertyChanged(); }
 		}
 	}
+
 	public class ButtonProperties : BaseViewModel
 	{
 		private int _borderSize;

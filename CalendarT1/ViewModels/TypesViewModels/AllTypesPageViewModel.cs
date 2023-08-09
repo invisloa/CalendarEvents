@@ -11,14 +11,23 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.TypesViewModels
 {
-    class AllTypesPageViewModel : BaseViewModel
-    {
-        private IEventRepository _eventRepository;
+	class AllTypesPageViewModel : BaseViewModel
+	{
+		#region Fields
+
+		private IEventRepository _eventRepository;
+		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
+		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
+
+		#endregion
+
+		#region Properties
+
 		public IEventRepository EventRepository
 		{
 			get => _eventRepository;
 		}
-		ObservableCollection<IGeneralEventModel> _allEventsListOC;
+
 		public ObservableCollection<IGeneralEventModel> AllEventsListOC
 		{
 			get => _allEventsListOC;
@@ -28,7 +37,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 				OnPropertyChanged();
 			}
 		}
-		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
+
 		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
 		{
 			get => _allEventTypesOC;
@@ -45,8 +54,12 @@ namespace CalendarT1.ViewModels.TypesViewModels
 
 		public RelayCommand<IUserEventTypeModel> EditSelectedTypeCommand { get; set; }
 
+		#endregion
+
+		#region Constructor
+
 		public AllTypesPageViewModel(IEventRepository eventRepository)
-        {
+		{
 			_eventRepository = eventRepository;
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
@@ -55,19 +68,29 @@ namespace CalendarT1.ViewModels.TypesViewModels
 			EditSelectedTypeCommand = new RelayCommand<IUserEventTypeModel>(EditSelectedType);
 		}
 
+		#endregion
+
+		#region Public Methods
+
 		public void UpdateAllEventList()
 		{
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 		}
+
 		public void UpdateAllEventTypesList()
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
+
+		#endregion
+
+		#region Private Methods
+
 		private void EditSelectedType(IUserEventTypeModel userTypeToEdit)
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage(EventRepository, userTypeToEdit));
-
 		}
 
+		#endregion
 	}
 }

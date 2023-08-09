@@ -9,17 +9,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarT1.ViewModels
+namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public abstract class PlainBaseAbstractEventViewModel : BaseViewModel
 	{
-		#region Properties
+		#region Fields
 		private IEventRepository _eventRepository;
+		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
+		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
+		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
+		private RelayCommand _goToAddEventPageCommand;
+		private RelayCommand<UserEventTypeModel> _selectEventPriorityCommand;
+		private RelayCommand<IGeneralEventModel> _selectEventCommand;
+		#endregion
+
+		#region Properties
 		public IEventRepository EventRepository
 		{
 			get => _eventRepository;
 		}
-		ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		public ObservableCollection<IGeneralEventModel> AllEventsListOC
 		{
 			get => _allEventsListOC;
@@ -30,43 +38,33 @@ namespace CalendarT1.ViewModels
 				OnOnEventsToShowListUpdated();
 			}
 		}
-		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
 		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
 		{
 			get => _allEventTypesOC;
 			set
 			{
-				if (_allEventTypesOC == value)
-				{
-					return;
-				}
+				if (_allEventTypesOC == value) return;
 				_allEventTypesOC = value;
 				OnPropertyChanged();
 				OnOnEventsToShowListUpdated();
-
 			}
 		}
-
-		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
 		public ObservableCollection<IGeneralEventModel> EventsToShowList
 		{
 			get => _eventsToShowList;
 			set
 			{
-				if (_eventsToShowList == value)
-				{
-					return;
-				}
+				if (_eventsToShowList == value) return;
 				_eventsToShowList = value;
 				OnPropertyChanged();
 			}
 		}
+		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
+		public RelayCommand<UserEventTypeModel> SelectEventPriorityCommand => _selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<UserEventTypeModel>(SelectEventType));
+		public RelayCommand<IGeneralEventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
 		#endregion
-		public event Action OnEventsToShowListUpdated;
-		protected virtual void OnOnEventsToShowListUpdated()
-		{
-			OnEventsToShowListUpdated?.Invoke();
-		}
+
+		#region Constructor
 		public PlainBaseAbstractEventViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
@@ -75,32 +73,49 @@ namespace CalendarT1.ViewModels
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
 		}
+		#endregion
 
+		#region Public Methods
 		public void UpdateAllEventList()
 		{
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 		}
+
 		public void UpdateAllEventTypesList()
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
-		private RelayCommand<UserEventTypeModel> _selectEventPriorityCommand;
-		public RelayCommand<UserEventTypeModel> SelectEventPriorityCommand =>
-			_selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<UserEventTypeModel>(SelectEventType));
 
-		private RelayCommand<IGeneralEventModel> _selectEventCommand;
-		public RelayCommand<IGeneralEventModel> SelectEventCommand =>
-			_selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
+		public abstract void BindDataToScheduleList();
+		#endregion
+
+		#region Protected Methods
+		protected virtual void OnOnEventsToShowListUpdated()
+		{
+			OnEventsToShowListUpdated?.Invoke();
+		}
+		#endregion
+
+		#region Private Methods
 		private void SelectEventType(IUserEventTypeModel eventSubType)
 		{
 			eventSubType.IsSelectedToFilter = !eventSubType.IsSelectedToFilter;
 			BindDataToScheduleList();
 		}
+
 		private void SelectEvent(IGeneralEventModel selectedEvent)
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));              // TO DO CONSIDER CHANGE to await Shell.Current.GoToAsync($"AllEventsPageList?{string.Join("&", parameters.Select(p => $"{p.Key}={p.Value}"))}");
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));
 		}
-		public abstract void BindDataToScheduleList();
 
+		private void GoToAddEventPage()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository));
+		}
+		#endregion
+
+		#region Events
+		public event Action OnEventsToShowListUpdated;
+		#endregion
 	}
 }
