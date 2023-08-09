@@ -75,7 +75,11 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public async Task DeleteAllEvents()
 		{
-			await EventRepository.ClearEventsListAsync();
+			var eventsToNotDelete = AllEventsListOC.Where(x => EventsToShowList.Contains(x)).ToList();
+			foreach (var item in eventsToNotDelete)
+			{
+				await EventRepository.DeleteFromEventsListAsync(item);
+			}
 		}
 
 		#endregion
@@ -84,16 +88,30 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public override void BindDataToScheduleList()
 		{
-			var selectedToFilterEventTypes = AllEventTypesOC
+			if (_eventType == null)
+			{
+				var selectedToFilterEventTypes = AllEventTypesOC
 				.Where(x => x.IsSelectedToFilter)
 				.Select(x => x.EventTypeName)
 				.ToHashSet();
 
-			List<IGeneralEventModel> filteredEvents = AllEventsListOC
-				.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()))
-				.ToList();
+				List<IGeneralEventModel> filteredEvents = AllEventsListOC
+					.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()))
+					.ToList();
 
-			EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+				EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+			}
+			else 
+				if (_eventType != null)
+			{
+				// TODO Change to also visually select proper event type
+				List<IGeneralEventModel> filteredEvents = AllEventsListOC
+					.Where(x => x.EventType.EventTypeName == _eventType.EventTypeName)
+					.ToList();
+
+				EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+			}
+
 		}
 		#endregion
 	}
