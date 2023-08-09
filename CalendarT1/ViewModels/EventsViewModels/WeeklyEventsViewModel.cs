@@ -19,7 +19,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 			ApplyEventsDatesFilter(startOfWeek, endOfWeek);
 
-			//OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
+			OnOnEventsToShowListUpdated(); // invoke event to update customControl
 
 		}
 	}

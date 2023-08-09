@@ -72,12 +72,7 @@
 		// add to constructor or initialization method
 		public MonthlyEventsControl()
 		{
-			GenerateGridCommand = new RelayCommand(ExecuteGenerateGridCommand);
-		}
-
-		private void ExecuteGenerateGridCommand()
-		{
-			GenerateGrid();
+			GenerateGridCommand = new RelayCommand(GenerateGrid);
 		}
 		public void GenerateGrid()
 		{

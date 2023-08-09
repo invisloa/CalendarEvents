@@ -72,12 +72,7 @@
 		// add to constructor or initialization method
 		public WeeklyEventsControl()
 		{
-			GenerateGridCommand = new RelayCommand(ExecuteGenerateGridCommand);
-		}
-
-		private void ExecuteGenerateGridCommand()
-		{
-			GenerateGrid();
+			GenerateGridCommand = new RelayCommand(GenerateGrid);
 		}
 		public void GenerateGrid()
 		{
@@ -90,8 +85,6 @@
 			{
 				RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 			}
-
-
 			// Create columns for each day + first extra column for the hour indicator
 			for (int i = 0; i < 8; i++)
 			{
