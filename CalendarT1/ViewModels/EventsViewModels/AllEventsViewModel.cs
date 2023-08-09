@@ -84,9 +84,17 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public override void BindDataToScheduleList()
 		{
-			EventsToShowList = new ObservableCollection<IGeneralEventModel>(AllEventsListOC);
-		}
+			var selectedToFilterEventTypes = AllEventTypesOC
+				.Where(x => x.IsSelectedToFilter)
+				.Select(x => x.EventTypeName)
+				.ToHashSet();
 
+			List<IGeneralEventModel> filteredEvents = AllEventsListOC
+				.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()))
+				.ToList();
+
+			EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+		}
 		#endregion
 	}
 }
