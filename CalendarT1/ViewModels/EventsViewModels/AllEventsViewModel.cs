@@ -1,4 +1,4 @@
-﻿using Android.Service.Autofill;
+﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
@@ -23,11 +23,27 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public AsyncRelayCommand DeleteAllEventsCommand { get; set; } // for testing purposes
 		public AsyncRelayCommand DeleteOneEventCommand { get; set; }  // for testing purposes
+		public string AboveEventsListText
+		{
+			get
+			{
+				// switch selectedLanguage()
+				{
+					return "EVENTS LIST";
+				}
+			}
+		}
 
 		#endregion
 
-		#region Constructor
+		#region Constructors
 
+		public AllEventsViewModel(IEventRepository eventRepository) : base(eventRepository)
+		{
+			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
+			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
+			BindDataToScheduleList();
+		}
 		public AllEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
 		{
 			_eventType = eventType;
@@ -38,8 +54,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				allTempTypes.Add(item);
 			}
 
-			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent); // for testing purposes
-			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents); // for testing purposes
+			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
+			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
+			BindDataToScheduleList();
 		}
 
 		#endregion
@@ -67,7 +84,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public override void BindDataToScheduleList()
 		{
-			throw new NotImplementedException();
+			EventsToShowList = new ObservableCollection<IGeneralEventModel>(AllEventsListOC);
 		}
 
 		#endregion

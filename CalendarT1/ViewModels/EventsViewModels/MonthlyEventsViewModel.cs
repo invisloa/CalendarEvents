@@ -18,7 +18,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 			ApplyEventsDatesFilter(startOfMonth, endOfMonth);
 
-			OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
+//			OnOnEventsToShowListUpdated(); // TODO TO CHECK IF ITS NEEDED
 
 		}
 	}

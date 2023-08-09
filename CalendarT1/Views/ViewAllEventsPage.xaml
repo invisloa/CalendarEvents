@@ -6,15 +6,15 @@
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="ViewAllEventsPage">
     <VerticalStackLayout>
-        <!-- EventPriorities collection -->
+        
+        <!-- All Events Types collection -->
         <customControls:EventTypesCustomControl Grid.Row="1" />
 
         <!-- Events list layout -->
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
             <Label Text="{Binding AboveEventsListText}" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
-            <Button Text="+" Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0"/>
-            <Button Text="-" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" />
+            <Button Text="DELETE FIRST" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" />
             <Button Text="CLEAR ALL" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0" />
         </StackLayout>
 
@@ -33,10 +33,16 @@
                         </Grid.ColumnDefinitions>
 
                         <StackLayout Grid.Column="0" VerticalOptions="Center">
-                            <Label Text="{Binding StartDateTime, StringFormat='{0: hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
+                            <!-- Display StartDateTime -->
+                            <Label Text="{Binding StartDateTime, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
+
                             <Label Text="-" HorizontalTextAlignment="Center"/>
-                            <Label Text="{Binding EndDateTime, StringFormat='{0: hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
+
+                            <!-- Display EndDateTime -->
+                            <Label Text="{Binding EndDateTime, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
                         </StackLayout>
+                        
+                        <!--Consider changing this to normal color so it wont be blacked for enden events?? -->
                         <Frame BackgroundColor="{Binding EventVisibleColor}"
                                 Grid.Column="1"
                                 Grid.RowSpan="2" >

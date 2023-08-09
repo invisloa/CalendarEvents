@@ -19,11 +19,6 @@ namespace CalendarT1.Views
 			BindingContext = new EventViewModel(eventRepository, eventToEdit: eventModel);
 			InitializeComponent();
 		}
-		protected override async void OnAppearing()
-		{
-			base.OnAppearing();
-			// nie wiem co naraazie
-			await (BindingContext as EventViewModel).OnApearing();
-		}
+
 	}
 }

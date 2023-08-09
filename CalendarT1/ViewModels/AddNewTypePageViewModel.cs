@@ -151,6 +151,7 @@ namespace CalendarT1.ViewModels
 				_currentType.EventTypeColor = SelectedColor;
 				await _eventRepository.UpdateEventTypeAsync(_currentType);
 				await Shell.Current.GoToAsync("..");
+				
 			}
 			else
 			{

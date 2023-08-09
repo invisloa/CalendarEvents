@@ -16,16 +16,6 @@ public static class MauiProgram
 
 	public static MauiApp CreateMauiApp()
 	{
-		// event factories dictionary DI Factory 
-		//var eventFactories = new Dictionary<string, IBaseEventFactory>
-		//{
-		//	{ "Event", new EventModelFactory() },
-		//	{ "Spending", new SpendingModelFactory() },
-		//	{ "Task", new TaskModelFactory() },
-		//	//... add more factories
-		//};
-
-
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
@@ -48,6 +38,7 @@ public static class MauiProgram
 		builder.Services.AddSingleton<MonthlyEventsViewModel>();
 		builder.Services.AddSingleton<WeeklyEventsViewModel>();
 		builder.Services.AddSingleton<DailyEventsViewModel>();
+		builder.Services.AddSingleton<AllEventsViewModel>();
 
 
 		// add event dictionary factories DI

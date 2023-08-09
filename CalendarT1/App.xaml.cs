@@ -14,7 +14,7 @@ public partial class App : Application
 	}
 	protected override async void OnStart()
 	{
-		// Call base method
+		// Call base method 
 		base.OnStart();
 
 		// Check or request StorageRead permission
@@ -28,6 +28,8 @@ public partial class App : Application
 		{
 			statusStorageWrite = await Permissions.RequestAsync<Permissions.StorageRead>();
 		}
+
+		// load repository data OnStart of the app
 		await _repository.InitializeAsync();
 	}
 }
