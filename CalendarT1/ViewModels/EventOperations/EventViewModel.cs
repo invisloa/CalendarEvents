@@ -48,12 +48,44 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		#region Constructors
 
-		public EventViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit = null)
+		// Create new Event mode
+		public EventViewModel(IEventRepository eventRepository, DateTime selectedDate)
+		: base(eventRepository)
+		{
+			StartDateTime = selectedDate;
+			EndDateTime = selectedDate;
+			EventType = AllEventTypesOC.First(); // Initialize to the first event type to ensure it's not null
+			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
+		}
+
+		// Edit Event mode
+		public EventViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
+		: base(eventRepository)
+		{
+			_submitEventCommand = new AsyncRelayCommand(EditEvent, CanExecuteSubmitCommand);
+			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
+			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed
+			ShareEventCommand = new AsyncRelayCommand(ShareEvent);
+
+			// Set properties based on eventToEdit
+			_currentEvent = eventToEdit;
+			Title = _currentEvent.Title;
+			Description = _currentEvent.Description;
+			EventType = _currentEvent.EventType;
+			StartDateTime = _currentEvent.StartDateTime.Date;
+			EndDateTime = _currentEvent.EndDateTime.Date;
+			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
+			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
+			IsCompleted = _currentEvent.IsCompleted;
+		}
+		public EventViewModel(IEventRepository eventRepository, DateTime selectedDate, IGeneralEventModel eventToEdit = null)
 			: base(eventRepository)
 		{
 			if (eventToEdit == null)
 			{
 				// Create new Event mode
+				StartDateTime = selectedDate;
+				EndDateTime = selectedDate;
 				EventType = AllEventTypesOC.First(); // Initialize to the first event type to ensure it's not null
 				_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
 			}
@@ -77,7 +109,10 @@ namespace CalendarT1.ViewModels.EventOperations
 				IsCompleted = _currentEvent.IsCompleted;
 			}
 		}
-
+		// Overloaded constructors that provides default values
+		public EventViewModel(IEventRepository eventRepository)
+			: this(eventRepository, DateTime.Now)
+		{ }
 		#endregion
 
 		#region Command Execution Methods

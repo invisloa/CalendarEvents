@@ -12,12 +12,17 @@ namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public abstract class AbstractEventViewModel : PlainBaseAbstractEventViewModel
 	{
-		#region Properties
+		#region Fields
 
+		private RelayCommand<DateTime> _datePickerDateSelectedCommand;
+		private RelayCommand _goToAddEventPageCommand;
+		private DateTime _currentSelectedDate = DateTime.Now;
+		#endregion
+		
+		#region Properties
+		
 		private DateTime _currentDate = DateTime.Now;
 		public DateTime CurrentDate => _currentDate;
-
-		private DateTime _currentSelectedDate = DateTime.Now;
 		public DateTime CurrentSelectedDate
 		{
 			get => _currentSelectedDate;
@@ -32,13 +37,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				}
 			}
 		}
-
-		#endregion
-
-		#region Fields
-
-		private RelayCommand<DateTime> _datePickerDateSelectedCommand;
-
 		#endregion
 
 		#region Constructor
@@ -50,7 +48,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#endregion
 
 		#region Commands
-
+		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
 		public RelayCommand<DateTime> DatePickerDateSelectedCommand =>
 			_datePickerDateSelectedCommand ?? (_datePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected));
 
@@ -58,6 +56,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Private Methods
 
+		private void GoToAddEventPage()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository, _currentSelectedDate));
+		}
 		private void DatePickerDateSelected(DateTime newDate)
 		{
 			CurrentSelectedDate = newDate;

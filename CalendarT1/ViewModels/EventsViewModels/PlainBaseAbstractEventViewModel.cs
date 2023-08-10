@@ -18,7 +18,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
 		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
-		private RelayCommand _goToAddEventPageCommand;
 		private RelayCommand<UserEventTypeModel> _selectEventPriorityCommand;
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
 		#endregion
@@ -59,7 +58,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
 		public RelayCommand<UserEventTypeModel> SelectEventPriorityCommand => _selectEventPriorityCommand ?? (_selectEventPriorityCommand = new RelayCommand<UserEventTypeModel>(SelectEventType));
 		public RelayCommand<IGeneralEventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
 		#endregion
@@ -108,10 +106,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));
 		}
 
-		private void GoToAddEventPage()
-		{
-			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository));
-		}
 		#endregion
 
 		#region Events
