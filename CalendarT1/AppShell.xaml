@@ -5,7 +5,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CalendarT1.Views">
 
-
+    <ShellContent
+    Title="AllEventsPage"
+    ContentTemplate="{DataTemplate local:ViewAllEventsPage}"
+    Route="ViewAllEventsPage"
+    IsVisible="False" />
+    
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="Daily events list">
             
@@ -38,6 +43,8 @@
                 ContentTemplate="{DataTemplate local:PopupTestPage}"
                 Route="PopupTestPage" />-->
 
+
         </Tab>
     </FlyoutItem>
+
 </Shell>

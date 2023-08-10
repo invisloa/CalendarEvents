@@ -62,6 +62,7 @@
 
 
 #region High Priority
+// ADD SEARCH OPTION TO ALL EVENTS PAGE
 // Check for data Operations thread safety!!!
 // divide dailyeventsPage into two pages one for events and one for all eventslist for types
 //Change to also visually select proper event type in AllEventPage (IUserEventTypeModel)

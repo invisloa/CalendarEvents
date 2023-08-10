@@ -122,7 +122,7 @@ namespace CalendarT1.ViewModels
 						break;
 					case "Go to All Events Page":
 						// Redirect to the All Events Page.
-						await Shell.Current.GoToAsync("AllEventsPageList");
+						await Shell.Current.GoToAsync("ViewAllEventsPage");
 						break;
 					default:
 						// Cancel was selected or back button was pressed.

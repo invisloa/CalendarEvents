@@ -14,7 +14,7 @@
             <RowDefinition Height="*"/>
 
         </Grid.RowDefinitions>
-
+            <!--TODO ADD SEARCH OPTIONS-->
         <!-- All Events Types collection -->
         <customControls:EventTypesCustomControl Grid.Row="0" />
 
@@ -43,20 +43,20 @@
                         <Grid Grid.Column="0" VerticalOptions="Center">
                             <Grid Grid.Column="0" VerticalOptions="Center">
                                 <Label Text="{Binding StartDateTime, StringFormat='{0:dd/MM}'}" FontSize="15" Margin="10, 0, 0, 0" FontAttributes="Bold"/>
-                                <Label Text="{Binding StartDateTime, StringFormat='{0:yyyy}'}" FontSize="25" Margin="15, 15, 0, 0" FontAttributes="Bold"/>
+                                <Label Text="{Binding StartDateTime, StringFormat='{0:yyyy}'}" FontSize="15" Margin="15, 15, 0, 0" FontAttributes="Bold"/>
                                 <Label Text="{Binding StartDateTime, StringFormat='{0: mm}'}" 
-                                   FontSize="15" 
+                                   FontSize="20" 
                                    FontAttributes="Bold" 
-                                   Margin="50, 50, 0, 0" 
+                                   Margin="50, 35, 0, 0" 
                                    />
                                 <Label Text="{Binding StartDateTime, StringFormat='{0: tt}'}" 
                                    FontSize="10" 
                                    FontAttributes="Bold" 
-                                   Margin="55, 65, 0, 0" 
+                                   Margin="55, 55, 0, 0" 
                                    />
                                 <Label Text="{Binding StartDateTime, StringFormat='{0: hh }'}" 
-                                   Margin="10, 50, 0, 0" 
-                                   FontSize="30" 
+                                   Margin="10, 40, 0, 0" 
+                                   FontSize="35" 
                                    FontAttributes="Bold" 
                                    />
                                 <!--<Label Text="{Binding StartDateTime, StringFormat='{0: mm tt}'}" 
