@@ -2,7 +2,12 @@
 
 
 #region Current
-// Add Event in DailyEventsPage date = current selected date
+// order allevents by date and time
+// switching between sites stucks sometimes
+// can change event types only in its assigned type??
+// see what type is event
+// in event edit mode selected picker item is not the same as event type
+
 // split DailyEventsPage into two pages one for events and one for all eventslist
 
 // all events page for types deleting (error)

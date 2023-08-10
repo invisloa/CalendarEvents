@@ -21,14 +21,15 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <StackLayout Grid.Column="0">
-                <Label Text="Current date:"/>
+                <Label Text="TODAY"/>
                 <Label Text="{Binding CurrentDate, StringFormat='{0:dd MM yyyy}'}" FontSize="Large" FontAttributes="Bold"/>
             </StackLayout>
 
-            <StackLayout Grid.Column="1" HorizontalOptions="End">
+            <StackLayout Grid.Column="1"  Grid.ColumnSpan="2" HorizontalOptions="EndAndExpand">
                 <Label Text="Selected date:"/>
                 <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
             </StackLayout>
@@ -57,15 +58,25 @@
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
+                        <!-- Hourly look-->
+                        <Grid Grid.Column="0" VerticalOptions="Center">
+                            <Grid Grid.Column="0" VerticalOptions="Center">
+                                <Label Text="{Binding StartDateTime, StringFormat='{0: mm tt}'}" 
+                                   FontSize="20" 
+                                   FontAttributes="Bold" 
+                                   Margin="60, 10, 0, 0" 
+                                   />
+                                <Label Text="{Binding StartDateTime, StringFormat='{0: hh }'}" 
+                                   Margin="-10, 15, 0, 0" 
+                                   FontSize="50" 
+                                   FontAttributes="Bold" 
+                                   />
+                            </Grid>
+                        </Grid>
 
-                        <StackLayout Grid.Column="0" VerticalOptions="Center">
-                            <Label Text="{Binding StartDateTime, StringFormat='{0: hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
-                            <Label Text="-" HorizontalTextAlignment="Center"/>
-                            <Label Text="{Binding EndDateTime, StringFormat='{0: hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
-                        </StackLayout>
                         <Frame BackgroundColor="{Binding EventVisibleColor}"
                                 Grid.Column="1"
-                                Grid.RowSpan="2" >
+                                >
                             <Frame.GestureRecognizers>
                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                                      CommandParameter="{Binding .}"/>

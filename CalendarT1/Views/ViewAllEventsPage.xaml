@@ -6,12 +6,13 @@
              Title="ViewAllEventsPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <!-- for EventTypesCustomControl -->
             <RowDefinition Height="Auto"/>
             <!-- for the horizontal StackLayout -->
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <!-- for CollectionView -->
+            <RowDefinition Height="*"/>
+
         </Grid.RowDefinitions>
 
         <!-- All Events Types collection -->
@@ -22,7 +23,7 @@
             <Label Text="{Binding AboveEventsListText}" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
             <Button Text="DELETE FIRST" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" />
-            <Button Text="DELETE ALL BELOW EVENTS" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0" />
+            <Button Text="DELETE ALL BELOW" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0" />
         </StackLayout>
 
         <!-- EventsToShowList collection -->
@@ -38,16 +39,47 @@
                             <ColumnDefinition Width="100"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-
-                        <StackLayout Grid.Column="0" VerticalOptions="Center">
-                            <!-- Display StartDateTime -->
+                        
+                        <Grid Grid.Column="0" VerticalOptions="Center">
+                            <Grid Grid.Column="0" VerticalOptions="Center">
+                                <Label Text="{Binding StartDateTime, StringFormat='{0:dd/MM}'}" FontSize="15" Margin="10, 0, 0, 0" FontAttributes="Bold"/>
+                                <Label Text="{Binding StartDateTime, StringFormat='{0:yyyy}'}" FontSize="25" Margin="15, 15, 0, 0" FontAttributes="Bold"/>
+                                <Label Text="{Binding StartDateTime, StringFormat='{0: mm}'}" 
+                                   FontSize="15" 
+                                   FontAttributes="Bold" 
+                                   Margin="50, 50, 0, 0" 
+                                   />
+                                <Label Text="{Binding StartDateTime, StringFormat='{0: tt}'}" 
+                                   FontSize="10" 
+                                   FontAttributes="Bold" 
+                                   Margin="55, 65, 0, 0" 
+                                   />
+                                <Label Text="{Binding StartDateTime, StringFormat='{0: hh }'}" 
+                                   Margin="10, 50, 0, 0" 
+                                   FontSize="30" 
+                                   FontAttributes="Bold" 
+                                   />
+                                <!--<Label Text="{Binding StartDateTime, StringFormat='{0: mm tt}'}" 
+                                   FontSize="20" 
+                                   FontAttributes="Bold" 
+                                   Margin="60, 10, 0, 0" 
+                                   />
+                                <Label Text="{Binding StartDateTime, StringFormat='{0: hh }'}" 
+                                   Margin="0, 15, 0, 0" 
+                                   FontSize="30" 
+                                   FontAttributes="Bold" 
+                                   />-->
+                            </Grid>
+                        </Grid>
+                        <!--<StackLayout Grid.Column="0" VerticalOptions="Center">
+                            --><!-- Display StartDateTime --><!--
                             <Label Text="{Binding StartDateTime, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
 
                             <Label Text="-" HorizontalTextAlignment="Center"/>
 
-                            <!-- Display EndDateTime -->
+                            --><!-- Display EndDateTime --><!--
                             <Label Text="{Binding EndDateTime, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
-                        </StackLayout>
+                        </StackLayout>-->
                         
                         <!--Consider changing this to normal color so it wont be blacked for enden events?? -->
                         <Frame BackgroundColor="{Binding EventVisibleColor}"
