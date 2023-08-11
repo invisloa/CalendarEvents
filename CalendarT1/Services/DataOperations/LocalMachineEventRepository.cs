@@ -8,7 +8,44 @@ public class LocalMachineEventRepository : IEventRepository
 	public event Action OnEventListChanged;
 	public event Action OnUserTypeListChanged;
 
-	private static readonly string EventsFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
+	#region File Paths generation code
+	private static string _eventsFilePath = null;
+	private static string _userTypesFilePath = null;
+
+	private static string EventsFilePath
+	{
+		get
+		{
+			if (_eventsFilePath == null)
+			{
+				_eventsFilePath = CalculateEventsFilePath();
+			}
+			return _eventsFilePath;
+		}
+	}
+
+	private static string UserTypesFilePath
+	{
+		get
+		{
+			if (_userTypesFilePath == null)
+			{
+				_userTypesFilePath = CalculateUserTypesFilePath();
+			}
+			return _userTypesFilePath;
+		}
+	}
+	private static string CalculateEventsFilePath()
+	{
+		return Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
+	}
+
+	private static string CalculateUserTypesFilePath()
+	{
+		return Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonUserTypesFileName", "CalendarTypesOfEventsD"));
+	}
+	#endregion
+
 	public LocalMachineEventRepository() { }
 
 	#region Events Repository
@@ -67,15 +104,23 @@ public class LocalMachineEventRepository : IEventRepository
 
 	public async Task SaveEventsListAsync()
 	{
-		var directoryPath = Path.GetDirectoryName(EventsFilePath);
-		if (!Directory.Exists(directoryPath))
+		try
 		{
-			Directory.CreateDirectory(directoryPath);
+			var directoryPath = Path.GetDirectoryName(EventsFilePath);
+			if (!Directory.Exists(directoryPath))
+			{
+				Directory.CreateDirectory(directoryPath);
+			}
+			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+			var jsonString = JsonConvert.SerializeObject(AllEventsList, settings);
+			await File.WriteAllTextAsync(EventsFilePath, jsonString);
 		}
-		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented};
-		var jsonString = JsonConvert.SerializeObject(AllEventsList, settings);
-		await File.WriteAllTextAsync(EventsFilePath, jsonString);
+		catch (Exception ex)
+		{
+			Console.WriteLine(ex.Message + "while SaveEventsListAsync");
+		}
 	}
+
 
 	public async Task UpdateEventsAsync(IGeneralEventModel eventToUpdate)	// cos nie tak	???
 	{
@@ -83,8 +128,6 @@ public class LocalMachineEventRepository : IEventRepository
 		if (eventToUpdateInList != null)
 		{
 			// TO CHECK
-			//AllEventsList.Remove(eventToUpdateInList);
-			//AllEventsList.Add(eventToUpdate);
 			await SaveEventsListAsync();
 		}
 		else
@@ -104,7 +147,6 @@ public class LocalMachineEventRepository : IEventRepository
 	// UserTypes Repository
 	#region UserTypes Repository
 	private List<IUserEventTypeModel> _allUserEventTypesList = new List<IUserEventTypeModel>();
-	private static readonly string UserTypesFilePath = Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonUserTypesFileName", "CalendarTypesOfEventsD"));
 	public List<IUserEventTypeModel> AllUserEventTypesList
 	{
 		get
@@ -120,8 +162,8 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public async Task InitializeAsync()
 	{
-		_allEventsList = await GetEventsListAsync();                          // TO CHECK - cosideer ConfigureAwait left to default??????
-		_allUserEventTypesList = await GetUserEventTypesListAsync();          // TO CHECK - cosideer ConfigureAwait left to default??????
+		_allEventsList = await GetEventsListAsync();                          // TO CHECK -  ConfigureAwait
+		_allUserEventTypesList = await GetUserEventTypesListAsync();          // TO CHECK -  ConfigureAwait
 	}
 	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{
@@ -140,7 +182,7 @@ public class LocalMachineEventRepository : IEventRepository
 
 	public async Task SaveUserEventTypesListAsync()
 	{
-		var directoryPath = Path.GetDirectoryName(UserTypesFilePath);
+		var directoryPath = CalculateUserTypesFilePath();
 		if (!Directory.Exists(directoryPath))
 		{
 			Directory.CreateDirectory(directoryPath);
@@ -169,7 +211,6 @@ public class LocalMachineEventRepository : IEventRepository
 		await SaveUserEventTypesListAsync();
 		OnUserTypeListChanged?.Invoke();
 	}
-
 	public Task GetUserEventTypeAsync(IUserEventTypeModel eventTypeToSelect)
 	{
 		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e == eventTypeToSelect);		// TO CHANGE

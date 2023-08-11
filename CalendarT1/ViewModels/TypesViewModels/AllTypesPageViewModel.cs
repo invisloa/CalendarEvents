@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.TypesViewModels
 {
+
 	class AllTypesPageViewModel : BaseViewModel
 	{
 		#region Fields

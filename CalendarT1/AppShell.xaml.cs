@@ -11,6 +11,8 @@ public partial class AppShell : Shell
 		CultureInfo.CurrentUICulture = new CultureInfo("pl-PL", false);
 
 		// REGISTER ROUTING
+		Routing.RegisterRoute(nameof(AddNewTypePage), typeof(AddNewTypePage));
+
 
 		// Change the first day of the week to Monday
 		CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek = DayOfWeek.Monday;

@@ -34,20 +34,17 @@ public static class MauiProgram
 
 
 		// Pages 
+		// AddSingleton - one instance for all timne
+		// AddTransient - new instance every time
 		builder.Services.AddTransient<AddNewTypePageViewModel>();
-		builder.Services.AddSingleton<MonthlyEventsViewModel>();
-		builder.Services.AddSingleton<WeeklyEventsViewModel>();
-		builder.Services.AddSingleton<DailyEventsViewModel>();
-		builder.Services.AddSingleton<AllEventsViewModel>();
+		builder.Services.AddTransient<MonthlyEventsViewModel>();
+		builder.Services.AddTransient<WeeklyEventsViewModel>();
+		builder.Services.AddTransient<DailyEventsViewModel>();
+		builder.Services.AddTransient<AllEventsViewModel>();
 
 
 		// add event dictionary factories DI
 		//builder.Services.AddSingleton(eventFactories);
-
-
-
-
-
 
 		// Preferences Setting General Properties
 		Preferences.Default.Set("ProgramName", "CalendarT1");
