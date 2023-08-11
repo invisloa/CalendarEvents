@@ -5,7 +5,8 @@ namespace CalendarT1.Models.EventModels
 {
     public abstract class AbstractEventModel : IGeneralEventModel
     {
-        public Guid Id { get; set; }
+		private const int _alphaColorDivisor= 20;
+		public Guid Id { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
         public string Title { get; set; }
@@ -44,8 +45,7 @@ namespace CalendarT1.Models.EventModels
         }
         private Color IsCompleteColorAdapt(Color color)
         {
-            // Here you can make the color gray or decrease the alpha. Here's an example of decreasing the alpha:
-            return Color.FromRgba(color.Red, color.Green, color.Blue, color.Alpha / 20);
+            return Color.FromRgba(color.Red, color.Green, color.Blue, color.Alpha / _alphaColorDivisor);
         }
 
     }

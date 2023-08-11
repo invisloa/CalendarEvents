@@ -167,7 +167,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
 	{
-		if (File.Exists(EventsFilePath))
+		if (File.Exists(UserTypesFilePath))
 		{
 			var jsonString = await File.ReadAllTextAsync(UserTypesFilePath);
 			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
@@ -182,7 +182,7 @@ public class LocalMachineEventRepository : IEventRepository
 
 	public async Task SaveUserEventTypesListAsync()
 	{
-		var directoryPath = CalculateUserTypesFilePath();
+		var directoryPath = Path.GetDirectoryName(UserTypesFilePath);
 		if (!Directory.Exists(directoryPath))
 		{
 			Directory.CreateDirectory(directoryPath);
@@ -213,7 +213,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public Task GetUserEventTypeAsync(IUserEventTypeModel eventTypeToSelect)
 	{
-		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e == eventTypeToSelect);		// TO CHANGE
+		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName);		// TO CHANGE
 		return Task.FromResult(selectedEventType);
 	}
 	#endregion

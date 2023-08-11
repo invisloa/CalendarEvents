@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 namespace CalendarT1.Models.EventTypesModels
 {
-    public class UserEventTypeModel : BaseViewModel, IUserEventTypeModel        // not the best to implement INotifyPropertyChanged here, but doing it for simplicity
+    public class UserEventTypeModel : BaseViewModel, IUserEventTypeModel
 	{
 		public MainEventTypes MainType { get; set; }
         public string EventTypeName { get; set; }

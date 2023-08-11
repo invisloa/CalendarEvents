@@ -9,6 +9,9 @@ namespace CalendarT1;
 
 public static class MauiProgram
 {
+	private const string DefaultProgramName = "CalendarT1";
+	private const string DefaultJsonEventsFileName = "CalendarEventsD";
+	private const string DefaultJsonUserTypesFileName = "CalendarTypesOfEventsD";
 
 	//statc mauiapp instance to use it for creating DI
 	public static MauiApp Current { get; private set; }
