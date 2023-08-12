@@ -2,6 +2,9 @@
 
 
 #region Current
+// alleventslist with custom filters and sorting for each main operations and with custom date filtering
+
+
 // order allevents by date and time
 // switching between sites stucks sometimes
 // can change event types only in its assigned type??

@@ -122,7 +122,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private async Task AddEventAsync()
 		{
 			// Create a new Event based on the selected EventType
-			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, EventType, SpendingAmount);
+			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, EventType, ValueAmount);
 			await _eventRepository.AddEventAsync(_currentEvent);
 			ClearFields();
 		}

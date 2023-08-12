@@ -9,7 +9,7 @@ namespace CalendarT1.Services
 
 		// Event Repository
 
-		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, decimal spendingAmount=0, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
+		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, decimal valueAmount=0, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
 		{
 			if (eventTypeModel.MainType == MainEventTypes.Event)
 			{
@@ -19,9 +19,9 @@ namespace CalendarT1.Services
 			{
 				return new TaskModel(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
 			}
-			else	// spending event
+			else	// Value type event
 			{
-				return new SpendingModel(title, description, startTime, endTime, eventTypeModel, spendingAmount, isCompleted, postponeTime, wasShown);
+				return new ValueModel(title, description, startTime, endTime, eventTypeModel, valueAmount, isCompleted, postponeTime, wasShown);
 			}
 		}
 

@@ -9,7 +9,7 @@ namespace CalendarT1.Models.EventTypesModels
 	public enum MainEventTypes
 	{
 		Event,
-		Spending,
+		Value,
 		Task
 	}
 }
