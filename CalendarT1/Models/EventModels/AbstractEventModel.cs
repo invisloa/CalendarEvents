@@ -31,6 +31,8 @@ namespace CalendarT1.Models.EventModels
                 return color;
             }
         }
+
+        // TO Consider postpone time and maybe some other extra options for advanced event adding mode??
         public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventType, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
         {
             Id = Guid.NewGuid();

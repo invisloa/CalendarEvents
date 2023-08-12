@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	class EventViewModel : EventOperationsBase
+	class EventViewModel : EventOperationsBaseViewModel
 	{
 		#region Fields
 
@@ -122,7 +122,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private async Task AddEventAsync()
 		{
 			// Create a new Event based on the selected EventType
-			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, EventType, ValueAmount);
+			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, EventType, QuantityAmount);
 			await _eventRepository.AddEventAsync(_currentEvent);
 			ClearFields();
 		}

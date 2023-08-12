@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-    public class EventReminderPopupViewModel : EventOperationsBase
+    public class EventReminderPopupViewModel : EventOperationsBaseViewModel
 	{
 		private IGeneralEventModel _currentEvent;
 

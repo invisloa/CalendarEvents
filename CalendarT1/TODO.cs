@@ -26,7 +26,7 @@
 
 // LocalMachineEventRepository Async await fix
 
-
+// TO Consider AbstractEventModel ctor - postpone time and maybe some other extra options for advanced event adding mode??
 
 // Test json file for event types
 // delete bad event types from json file
