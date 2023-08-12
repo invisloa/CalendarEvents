@@ -11,16 +11,23 @@ namespace CalendarT1.ViewModels.EventOperations
 {
 	class EventViewModel : EventOperationsBaseViewModel
 	{
+		//add observable collection for all MeasurementUnit types
+		// there has to be some picker for a user to select measurement unit so i need an observable collectiion so a user could select one
+		public ObservableCollection<MeasurementUnit> MeasurementUnits { get; set; }
+
+
+
+
+
+
 		#region Fields
 
 		private IShareEvents _shareEvents;
 		private AsyncRelayCommand _deleteEventCommand;
 		private AsyncRelayCommand _shareEventCommand;
-
 		#endregion
 
 		#region Properties
-
 		public string PageTitle => IsEdit ? "Edit Event" : "Add Event";
 		public string HeaderText => IsEdit ? $"Edit event of Title: {Title}" : "Add New Event";
 		public string SubmitButtonText => IsEdit ? "Submit Changes" : "Add Event";
@@ -48,7 +55,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		#region Constructors
 
-		// Create new Event mode
+		// ctor Create new Event mode
 		public EventViewModel(IEventRepository eventRepository, DateTime selectedDate)
 		: base(eventRepository)
 		{
@@ -58,7 +65,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
 		}
 
-		// Edit Event mode
+		// ctor Edit Event mode
 		public EventViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
 		: base(eventRepository)
 		{
@@ -78,6 +85,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
 			IsCompleted = _currentEvent.IsCompleted;
 		}
+
+		// ctor
 		public EventViewModel(IEventRepository eventRepository, DateTime selectedDate, IGeneralEventModel eventToEdit = null)
 			: base(eventRepository)
 		{
@@ -109,7 +118,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				IsCompleted = _currentEvent.IsCompleted;
 			}
 		}
-		// Overloaded constructors that provides default values
+		// Overloaded constructors that provides default values for SelectedDate because its value has to be known at the time of construction
 		public EventViewModel(IEventRepository eventRepository)
 			: this(eventRepository, DateTime.Now)
 		{ }

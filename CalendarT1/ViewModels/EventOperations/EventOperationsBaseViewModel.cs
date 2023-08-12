@@ -7,17 +7,17 @@ using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-    public abstract class EventOperationsBase : BaseViewModel
+    public abstract class EventOperationsBaseViewModel : BaseViewModel
 	{
-		public EventOperationsBase(IEventRepository eventRepository)
+		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			_eventRepository.OnEventListChanged += UpdateAllEventList;
+			_eventRepository.OnEventListChanged += UpdateAllEventsList;
 			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
 		}
-		public void UpdateAllEventList()
+		public void UpdateAllEventsList()
 		{
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 		}
@@ -38,9 +38,12 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
 		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
-		public string EventTypePickerText { get; set; } = "Select event Type";
+		MeasurementUnit _measurementUnit;
+
+		public string EventTypePickerText { get => "Select event Type"; }
 
 		// Basic Event Information
+		#region
 		public bool IsCompleted
 		{
 			get => _isCompleted;
@@ -148,6 +151,17 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
+		public MeasurementUnit MeasurementUnit
+		{
+			get => _measurementUnit;
+			set
+			{
+				_measurementUnit = value;
+				OnPropertyChanged(nameof(MeasurementUnit));
+			}
+		}
+
+		#endregion
 		// Submit Event Command
 		public string SubmitButtonText
 		{
@@ -207,6 +221,10 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_eventType = value;
+				if (_eventType.MainType == MainEventTypes.Value)
+				{
+					MeasurementUnits = new ObservableCollection<MeasurementUnit>(Enum.GetValues(typeof(MeasurementUnit)).Cast<MeasurementUnit>());
+				}
 				OnPropertyChanged();
 			}
 		}

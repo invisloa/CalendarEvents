@@ -2,6 +2,8 @@
 
 
 #region Current
+// IsCompleted should call onpropertychanged for eventvisiblecolor
+
 // alleventslist with custom filters and sorting for each main operations and with custom date filtering
 
 
