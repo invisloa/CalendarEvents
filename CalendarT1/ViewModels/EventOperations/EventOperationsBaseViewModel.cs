@@ -163,15 +163,8 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		#endregion
 		// Submit Event Command
-		public string SubmitButtonText
-		{
-			get => _submitButtonText;
-			set
-			{
-				_submitButtonText = value;
-				OnPropertyChanged();
-			}
-		}
+		public abstract string SubmitButtonText { get; set; }
+	
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 		#endregion
 

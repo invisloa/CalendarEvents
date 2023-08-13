@@ -11,7 +11,7 @@ public partial class EventReminderPopupView : Popup
 	public EventReminderPopupView(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
 	{
 
-		BindingContext = new EventReminderPopupViewModel(eventRepository, eventToEdit);
+//		BindingContext = new EventReminderPopupViewModel(eventRepository, eventToEdit);
 		InitializeComponent();
 	}
 }

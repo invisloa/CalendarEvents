@@ -1,53 +1,53 @@
-﻿using CalendarT1.Models.EventModels;
-using CalendarT1.Services.DataOperations.Interfaces;
-using System.Windows.Input;
+﻿//using CalendarT1.Models.EventModels;
+//using CalendarT1.Services.DataOperations.Interfaces;
+//using System.Windows.Input;
 
-namespace CalendarT1.ViewModels.EventOperations
-{
-    public class EventReminderPopupViewModel : EventOperationsBaseViewModel
-	{
-		private IGeneralEventModel _currentEvent;
+//namespace CalendarT1.ViewModels.EventOperations
+//{
+//    public class EventReminderPopupViewModel : EventOperationsBaseViewModel
+//	{
+//		private IGeneralEventModel _currentEvent;
 
-		public string Title => _currentEvent?.Title;
-		public string Description => _currentEvent?.Description;
-		IEventRepository _eventRepository;
-		public ICommand MarkAsCompleteCommand { get; }
-		public ICommand PostponeCommand { get; }
-		public ICommand EditEventCommand { get; }
-		public ICommand CloseCommand { get; }
+//		public string Title => _currentEvent?.Title;
+//		public string Description => _currentEvent?.Description;
+//		IEventRepository _eventRepository;
+//		public ICommand MarkAsCompleteCommand { get; }
+//		public ICommand PostponeCommand { get; }
+//		public ICommand EditEventCommand { get; }
+//		public ICommand CloseCommand { get; }
 
-		public EventReminderPopupViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit) : base(eventRepository)
-		{
-			_currentEvent = eventToEdit;
-			MarkAsCompleteCommand = new RelayCommand(MarkAsComplete);
-			PostponeCommand = new RelayCommand(Postpone);
-			EditEventCommand = new RelayCommand(EditEvent);
-			CloseCommand = new RelayCommand(Close);
-		}
+//		public EventReminderPopupViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit) : base(eventRepository)
+//		{
+//			_currentEvent = eventToEdit;
+//			MarkAsCompleteCommand = new RelayCommand(MarkAsComplete);
+//			PostponeCommand = new RelayCommand(Postpone);
+//			EditEventCommand = new RelayCommand(EditEvent);
+//			CloseCommand = new RelayCommand(Close);
+//		}
 
-		public void SetEvent()
-		{
-			// _currentEvent = eventModel;
-		}
+//		public void SetEvent()
+//		{
+//			// _currentEvent = eventModel;
+//		}
 
-		private void MarkAsComplete()
-		{
-			// Implementation to mark the event as complete
-		}
+//		private void MarkAsComplete()
+//		{
+//			// Implementation to mark the event as complete
+//		}
 
-		private void Postpone()
-		{
-			// Implementation to postpone the event by 24 hours
-		}
+//		private void Postpone()
+//		{
+//			// Implementation to postpone the event by 24 hours
+//		}
 
-		private void EditEvent()
-		{
-			// Implementation to navigate to the event editing page
-		}
+//		private void EditEvent()
+//		{
+//			// Implementation to navigate to the event editing page
+//		}
 
-		private void Close()
-		{
-			// Implementation to close the popup
-		}
-	}
-}
+//		private void Close()
+//		{
+//			// Implementation to close the popup
+//		}
+//	}
+//}

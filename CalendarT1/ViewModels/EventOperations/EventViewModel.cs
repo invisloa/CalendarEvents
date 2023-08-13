@@ -42,7 +42,27 @@ namespace CalendarT1.ViewModels.EventOperations
 			get => _shareEventCommand;
 			set => _shareEventCommand = value;
 		}
+		public override string SubmitButtonText
+		{
+			get
+			{
+				if(IsEdit)
+				{
+					return "SUBMIT CHANGES";
+				}
+				else
+				{
+					return "ADD NEW EVENT";
+				}
+			}
+			set
+			{
 
+				// for now set is not used maybe it will be implemented when Languages will be added
+				_submitButtonText = value;
+				OnPropertyChanged();
+			}
+		}
 		#endregion
 
 		#region Constructors
