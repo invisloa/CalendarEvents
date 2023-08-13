@@ -15,5 +15,6 @@ namespace CalendarT1.Models.EventModels
         DateTime StartDateTime { get; set; }
         string Title { get; set; }
         bool WasShown { get; set; }
+        public Quantity QuantityAmount { get; set; }
     }
 }

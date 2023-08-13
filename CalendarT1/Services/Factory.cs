@@ -9,7 +9,7 @@ namespace CalendarT1.Services
 
 		// Event Repository
 
-		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
+		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
 			if (eventTypeModel.MainType == MainEventTypes.Event)
 			{
