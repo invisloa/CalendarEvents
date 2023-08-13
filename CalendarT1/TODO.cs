@@ -2,6 +2,8 @@
 
 
 #region Current
+// make custom controll for main event types and make interface for it
+
 // Measurement Units added for events operations
 
 // alleventslist with custom filters and sorting for each main operations and with custom date filtering
