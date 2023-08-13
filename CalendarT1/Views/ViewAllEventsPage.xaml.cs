@@ -34,6 +34,7 @@ public partial class ViewAllEventsPage : ContentPage
 	protected override void OnDisappearing()
 	{
 		base.OnDisappearing();
+
 		(BindingContext as AllEventsViewModel).OnEventsToShowListUpdated -= (BindingContext as AllEventsViewModel).BindDataToScheduleList;
 	}
 

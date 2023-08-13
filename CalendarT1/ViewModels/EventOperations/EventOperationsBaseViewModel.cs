@@ -14,8 +14,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			_eventRepository = eventRepository;
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			_eventRepository.OnEventListChanged += UpdateAllEventsList;
-			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
+			//	_eventRepository.OnEventListChanged += UpdateAllEventsList;					// TO CHECK IF ITS NEEDED
+			//	_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;			// TO CHECK IF ITS NEEDED
 		}
 		public void UpdateAllEventsList()
 		{
@@ -199,6 +199,16 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_eventTypesOC = value;
+				OnPropertyChanged();
+			}
+		}
+		protected ObservableCollection<MeasurementUnit> _measurementUnits;
+		public ObservableCollection<MeasurementUnit> MeasurementUnits
+		{
+			get => _measurementUnits;
+			set
+			{
+				_measurementUnits = value;
 				OnPropertyChanged();
 			}
 		}

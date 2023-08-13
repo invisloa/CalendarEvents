@@ -1,6 +1,7 @@
 using CalendarT1.Models.EventModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.EventOperations;
+using CalendarT1.ViewModels.EventsViewModels;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CalendarT1.Views
