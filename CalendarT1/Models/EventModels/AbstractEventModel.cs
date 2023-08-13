@@ -5,6 +5,7 @@ namespace CalendarT1.Models.EventModels
 {
     public abstract class AbstractEventModel : IGeneralEventModel
     {
+        private TimeSpan _defaulteventremindertime = TimeSpan.FromHours(24);
 		private const int _alphaColorDivisor= 20;
 		public Guid Id { get; set; }
         public DateTime StartDateTime { get; set; }
@@ -15,7 +16,9 @@ namespace CalendarT1.Models.EventModels
         public virtual bool IsCompleted { get; set; }
         public IUserEventTypeModel EventType { get; set; }
         public List<DateTime> PostponeHistory { get; set; }
+        public TimeSpan DefaultPostponeTime { get; set; }
         public TimeSpan ReminderTime { get; set; }
+        public Quantity QuantityAmount { get; set; }
         [JsonIgnore]
         public Color EventVisibleColor
         {
@@ -32,10 +35,16 @@ namespace CalendarT1.Models.EventModels
             }
         }
 
-        // TO Consider postpone time and maybe some other extra options for advanced event adding mode??
-        public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventType, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
-        {
-            Id = Guid.NewGuid();
+		// TO Consider postpone time and maybe some other extra options for advanced event adding mode??
+		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
+		{
+			//... rest of the code
+
+			if (postponeTime.HasValue)
+				ReminderTime = postponeTime.Value;
+			else
+				ReminderTime = _defaulteventremindertime;
+			Id = Guid.NewGuid();
             Title = title;
             Description = description;
             StartDateTime = startTime;

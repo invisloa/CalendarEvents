@@ -12,7 +12,7 @@ namespace CalendarT1.Models.EventModels
 	{
 		public Quantity Amount { get; set; }
 
-		public ValueModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity amount, bool isCompleted = false, DateTime? postponeTime = null, bool wasShown = false)
+		public ValueModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity amount, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 			: base(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown)
 		{
 			Amount = amount;
@@ -82,7 +82,7 @@ namespace CalendarT1.Models.EventModels
 					case MeasurementUnit.SquareMeter when targetUnit == MeasurementUnit.Hectare:
 						return new Quantity(Value / 10_000, targetUnit);
 				}
-
+				// if the exception is thrown, show message to the user he tries to convert from incompatible units
 				throw new Exception($"Conversion from {Unit} to {targetUnit} not defined.");
 			}
 
