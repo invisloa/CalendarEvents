@@ -2,10 +2,11 @@
 
 
 #region Current
-// IsCompleted should call onpropertychanged for eventvisiblecolor
+// Measurement Units added for events operations
 
 // alleventslist with custom filters and sorting for each main operations and with custom date filtering
 
+// IsCompleted should call onpropertychanged for eventvisiblecolor
 
 // order allevents by date and time
 // switching between sites stucks sometimes

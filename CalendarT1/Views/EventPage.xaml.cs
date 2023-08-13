@@ -8,12 +8,6 @@ namespace CalendarT1.Views
 {
     public partial class EventPage : ContentPage
 	{
-		public EventPage(IEventRepository eventRepository)
-		{
-			BindingContext = new EventViewModel(eventRepository);
-			InitializeComponent();
-		}
-
 		// For adding events
 		public EventPage(IEventRepository eventRepository, DateTime selcetedDate)
 		{
@@ -27,6 +21,5 @@ namespace CalendarT1.Views
 			BindingContext = new EventViewModel(eventRepository, eventToEdit: eventModel);
 			InitializeComponent();
 		}
-de
 	}
 }
