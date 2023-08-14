@@ -11,21 +11,21 @@ using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 using CalendarT1.Views;
 using CalendarT1.Views.CustomControls.CCInterfaces;
+using CalendarT1.Views.CustomControls;
 
 namespace CalendarT1.ViewModels
 {
-	public class AddNewTypePageViewModel : BaseViewModel
+	public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC
 	{
+		public MainEventTypesCCHelper MainEventTypesCCHelperClass { get; set; } = new MainEventTypesCCHelper();
 		#region Fields
 		private const int FullOpacity = 1;
 		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
 
-		// each event type has its EventDetails object assigned which contains visuals info(so its easy to change visuals on selection)
-		private readonly Dictionary<MainEventTypes, EventDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventDetails>();
-		private MainEventTypes _selectedEventType = MainEventTypes.Event;
-		private IUserEventTypeModel _currentType;
+		private MainEventTypes _selectedEventType = MainEventTypes.Event; // initialize for create mode
+		private IUserEventTypeModel _currentType;   // if null => add new type, else => edit type
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 		private string _typeName;
 		private IEventRepository _eventRepository;
@@ -73,12 +73,12 @@ namespace CalendarT1.ViewModels
 		}
 
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
-		public ObservableCollection<EventDetails> MainEventTypesOC { get; set; }
+		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get; set; }
 		#endregion
 
 		#region Commands
 		public RelayCommand GoToAllTypesPageCommand { get; private set; }
-		public RelayCommand<EventDetails> MainEventTypeSelectedCommand { get; private set; }
+		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
@@ -89,12 +89,13 @@ namespace CalendarT1.ViewModels
 		{
 			_eventRepository = eventRepository;
 			InitializeColorButtons();
-			MainEventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
-			InitializeMainEventTypes();
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
+
+			MainEventTypeSelectedCommand = MainEventTypesCCHelperClass.MainEventTypeSelectedCommand;
+			MainEventTypesOC = MainEventTypesCCHelperClass.MainEventTypesOC;
 			if (currentType != null)
 			{
 				CurrentType = currentType;
@@ -135,15 +136,7 @@ namespace CalendarT1.ViewModels
 			await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
 			await Shell.Current.GoToAsync("..");
 		}
-		private void ConvertEventDetailsAndSelectType(EventDetails selectedEventTypeDetails)
-		{
-			if (!Enum.TryParse(selectedEventTypeDetails.MainEventNameText, out MainEventTypes parsedTypeOfEvent))
-			{
-				throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.MainEventNameText}");
-			}
 
-			SetSelectedEventType(parsedTypeOfEvent);
-		}
 		private async Task SubmitType()
 		{
 			if (IsEdit)
@@ -162,23 +155,8 @@ namespace CalendarT1.ViewModels
 				await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
 			}
 		}
-		private void SetSelectedEventType(MainEventTypes eventType)
-		{
-			_selectedEventType = eventType;
 
-			foreach (var eventDetail in _eventVisualDetails.Values)
-			{
-				eventDetail.Opacity = FadedOpacity;
-				eventDetail.Border = BorderSize;
-			}
 
-			//for selected event type set different visuals
-			_eventVisualDetails[eventType].Opacity = FullOpacity;
-			_eventVisualDetails[eventType].Border = NoBorderSize;
-
-			// Force update of the ObservableCollection
-			MainEventTypesOC = new ObservableCollection<EventDetails>(_eventVisualDetails.Values);
-		}
 		private void SelectColor(ButtonProperties selectedColor)
 		{
 			SelectedColor = selectedColor.ButtonColor;
@@ -192,7 +170,7 @@ namespace CalendarT1.ViewModels
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AllTypesPage(_eventRepository));
 		}
-		private void InitializeColorButtons()
+		private void InitializeColorButtons()		// also to extract as a separate custom control
 		{
 			ButtonsColors = new ObservableCollection<ButtonProperties>
 			{
@@ -232,55 +210,11 @@ namespace CalendarT1.ViewModels
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 30, 0), ButtonBorder = BorderSize}, // OrangeRed
 			};
 		}
-		// ... other methods
-
-		private void InitializeMainEventTypes()
-		{
-			MainEventTypesOC = new ObservableCollection<EventDetails>();
-
-			// dynamically create Main Event Types according to enum
-			foreach (MainEventTypes eventType in Enum.GetValues(typeof(MainEventTypes)))
-			{
-				var eventDetails = new EventDetails
-				{
-					MainEventNameText = eventType.ToString(),
-					Opacity = FadedOpacity,
-					Border = BorderSize
-				};
-
-				_eventVisualDetails[eventType] = eventDetails;
-				MainEventTypesOC.Add(eventDetails);
-			}
-
-			SetSelectedEventType(_selectedEventType);   // if create mode it is event by default, if edit it is the type of the event
-		}
 	}
 	#endregion
 
 
 	#region Helper Classes
-	public class EventDetails : BaseViewModel
-	{
-		private string _mainEventNameText;
-		private float _opacity;
-		private int _border;
-
-		public string MainEventNameText
-		{
-			get => _mainEventNameText;
-			set { _mainEventNameText = value; OnPropertyChanged(); }
-		}
-		public float Opacity
-		{
-			get => _opacity;
-			set { _opacity = value; OnPropertyChanged(); }
-		}
-		public int Border
-		{
-			get => _border;
-			set { _border = value; OnPropertyChanged(); }
-		}
-	}
 
 	public class ButtonProperties : BaseViewModel
 	{

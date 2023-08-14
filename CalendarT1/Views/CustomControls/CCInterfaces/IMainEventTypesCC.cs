@@ -10,16 +10,10 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces
 {
 	public interface IMainEventTypesCC
 	{
-		public const int FullOpacity = 1;
-		public const float FadedOpacity = 0.3f;
-		public const int NoBorderSize = 0;
-		public const int BorderSize = 10;
-		public string MainEventNameText { get; set; }
-		public Color MainEventTypesColor { get; set; }
-		public RelayCommand MainEventTypeSelectedCommand { get; set; }
-		public ObservableCollection<IUserEventTypeModel> MainEventTypesOC { get; set; }
-		public void InitializeMainEventTypes();
+		ObservableCollection<EventVisualDetails> MainEventTypesOC { get; set; }
+		RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; }
 
-
+		//Helper class that will contain most of the logic
+		MainEventTypesCCHelper MainEventTypesCCHelperClass { get; set; }
 	}
 }
