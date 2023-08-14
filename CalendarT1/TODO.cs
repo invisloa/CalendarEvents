@@ -4,6 +4,28 @@
 #region Current
 // make custom controll for main event types and make interface for it
 
+
+/*private async Task SubmitType()
+{
+	if (IsEdit)
+	{
+		// cannot change main event type => may lead to some future errors???
+		_currentType.EventTypeName = TypeName;
+		_currentType.EventTypeColor = SelectedColor;
+		await _eventRepository.UpdateEventTypeAsync(_currentType);
+		await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
+
+	}
+	else
+	{
+		var newUserType = Factory.CreateNewEventType(_selectedEventType, TypeName, _selectedColor);
+		await _eventRepository.AddUserEventTypeAsync(newUserType);
+		await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
+	}
+}
+*/
+
+
 // Measurement Units added for events operations
 
 // alleventslist with custom filters and sorting for each main operations and with custom date filtering

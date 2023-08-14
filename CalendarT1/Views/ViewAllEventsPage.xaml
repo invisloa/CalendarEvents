@@ -55,33 +55,14 @@
                                    Margin="55, 55, 0, 0" 
                                    />
                                 <Label Text="{Binding StartDateTime, StringFormat='{0: hh }'}" 
-                                   Margin="10, 40, 0, 0" 
+                                   Margin="0, 40, 0, 0" 
                                    FontSize="35" 
                                    FontAttributes="Bold" 
                                    />
-                                <!--<Label Text="{Binding StartDateTime, StringFormat='{0: mm tt}'}" 
-                                   FontSize="20" 
-                                   FontAttributes="Bold" 
-                                   Margin="60, 10, 0, 0" 
-                                   />
-                                <Label Text="{Binding StartDateTime, StringFormat='{0: hh }'}" 
-                                   Margin="0, 15, 0, 0" 
-                                   FontSize="30" 
-                                   FontAttributes="Bold" 
-                                   />-->
+
                             </Grid>
                         </Grid>
-                        <!--<StackLayout Grid.Column="0" VerticalOptions="Center">
-                            --><!-- Display StartDateTime --><!--
-                            <Label Text="{Binding StartDateTime, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
-
-                            <Label Text="-" HorizontalTextAlignment="Center"/>
-
-                            --><!-- Display EndDateTime --><!--
-                            <Label Text="{Binding EndDateTime, StringFormat='{0:dd/MM/yyyy hh:mm tt}'}" FontSize="20" FontAttributes="Bold"/>
-                        </StackLayout>-->
-                        
-                        <!--Consider changing this to normal color so it wont be blacked for enden events?? -->
+                        <!--Consider changing this to normal color so it wont be blacked for endet events?? -->
                         <Frame BackgroundColor="{Binding EventVisibleColor}"
                                 Grid.Column="1"
                                 Grid.RowSpan="2" >

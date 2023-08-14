@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:CalendarT1.ViewModels"
-             xmlns:models="clr-namespace:CalendarT1.Models"
              xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
              xmlns:local="clr-namespace:CalendarT1.ViewModels.EventsViewModels"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
@@ -35,34 +34,9 @@
             </StackLayout>
         </Grid>
 
-        <!-- EventPriorities collection -->
+        <!-- EventTypesCustomControl collection -->
         <customControls:EventTypesCustomControl Grid.Row="1"/>
 
-        <!--<CollectionView ItemsSource="{Binding EventTypesOC}" Grid.Row="1" HorizontalOptions="CenterAndExpand">
-            <CollectionView.ItemsLayout>
-                <LinearItemsLayout Orientation="Horizontal" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:EventTypeModel">
-                    <Button Text="{Binding EventTypeName}"  WidthRequest="100" TextColor="White" 
-                            Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                            CommandParameter="{Binding}">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button" 
-                                        Binding="{Binding IsSelectedToFilter}" 
-                                        Value="True">
-                                <Setter Property="BackgroundColor" Value="{Binding EventTypeColor}" />
-                            </DataTrigger>
-                            <DataTrigger TargetType="Button" 
-                                        Binding="{Binding IsSelectedToFilter}" 
-                                        Value="False">
-                                <Setter Property="BackgroundColor" Value="LightGray"/>
-                            </DataTrigger>
-                        </Button.Triggers>
-                    </Button>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>-->
 
         <!--Events list layout--> 
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">

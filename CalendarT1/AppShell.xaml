@@ -15,6 +15,10 @@
         <Tab Title="Daily events list">
             
             <ShellContent
+                Title="AddNewType"
+                ContentTemplate="{DataTemplate local:AddNewTypePage}"
+                Route="AddNewTypePage" />
+            <ShellContent
                 Title="AllEventsPage"
                 ContentTemplate="{DataTemplate local:ViewAllEventsPage}"
                 Route="ViewAllEventsPage" />
@@ -24,10 +28,7 @@
                 ContentTemplate="{DataTemplate local:ViewDailyEvents}"
                 Route="DailyEvents" />
 
-            <ShellContent
-                Title="AddNewType"
-                ContentTemplate="{DataTemplate local:AddNewTypePage}"
-                Route="AddNewTypePage" />
+
             <ShellContent
                 Title="Weekly"
                 ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"

@@ -13,28 +13,10 @@
                 <Button Text="XXX" Command="{Binding GoToAllTypesPageCommand}"/>
             </StackLayout>
 
-            <!--Main Event Types-->
-            <CollectionView ItemsSource="{Binding MainEventTypesOC}" HorizontalOptions="FillAndExpand" Margin="20" IsVisible="{Binding IsNotEdit}">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical"
-                         Span="3" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Button 
-                            Text="{Binding Text}"
-                            Opacity="{Binding Opacity}"
-                            BorderWidth="{Binding Border}"
-                            Command="{Binding Path=BindingContext.EventTypeSelectedCommand, Source={x:Reference Name=AddNewTypePageName}}"
-                            CommandParameter="{Binding .}"
-                            HeightRequest="50"
-                            BackgroundColor="{Binding Path=BindingContext.SelectedColor, Source={x:Reference Name=AddNewTypePageName}}"
-                            />
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-            <!-- Buttons for color selection -->
+            <!--Main Event Types Custom Control -->
+            <controls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}"/>
 
+            <!--Possible Colors of events to choose-->
             <Label Text="CHOOSE TYPES COLOR:" HorizontalOptions="CenterAndExpand" Margin="0, 0, 0, 20"/>
             <CollectionView ItemsSource="{Binding ButtonsColors}">
                 <CollectionView.ItemsLayout>
@@ -52,6 +34,8 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <!--Down of the screen buttons-->
             <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}" Margin="10"/>
             <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" Margin="10"/>
         </StackLayout>

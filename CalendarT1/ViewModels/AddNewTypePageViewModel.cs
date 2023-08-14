@@ -10,6 +10,7 @@ using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 using CalendarT1.Views;
+using CalendarT1.Views.CustomControls.CCInterfaces;
 
 namespace CalendarT1.ViewModels
 {
@@ -21,6 +22,7 @@ namespace CalendarT1.ViewModels
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
 
+		// each event type has its EventDetails object assigned which contains visuals info(so its easy to change visuals on selection)
 		private readonly Dictionary<MainEventTypes, EventDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventDetails>();
 		private MainEventTypes _selectedEventType = MainEventTypes.Event;
 		private IUserEventTypeModel _currentType;
@@ -76,7 +78,7 @@ namespace CalendarT1.ViewModels
 
 		#region Commands
 		public RelayCommand GoToAllTypesPageCommand { get; private set; }
-		public RelayCommand<EventDetails> EventTypeSelectedCommand { get; private set; }
+		public RelayCommand<EventDetails> MainEventTypeSelectedCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
@@ -87,7 +89,7 @@ namespace CalendarT1.ViewModels
 		{
 			_eventRepository = eventRepository;
 			InitializeColorButtons();
-			EventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
+			MainEventTypeSelectedCommand = new RelayCommand<EventDetails>(ConvertEventDetailsAndSelectType);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			InitializeMainEventTypes();
@@ -135,9 +137,9 @@ namespace CalendarT1.ViewModels
 		}
 		private void ConvertEventDetailsAndSelectType(EventDetails selectedEventTypeDetails)
 		{
-			if (!Enum.TryParse(selectedEventTypeDetails.Text, out MainEventTypes parsedTypeOfEvent))
+			if (!Enum.TryParse(selectedEventTypeDetails.MainEventNameText, out MainEventTypes parsedTypeOfEvent))
 			{
-				throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.Text}");
+				throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.MainEventNameText}");
 			}
 
 			SetSelectedEventType(parsedTypeOfEvent);
@@ -150,14 +152,14 @@ namespace CalendarT1.ViewModels
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = SelectedColor;
 				await _eventRepository.UpdateEventTypeAsync(_currentType);
-				await Shell.Current.GoToAsync("..");
+				await Shell.Current.GoToAsync("..");								// TODO CHANGE NOT WORKING!!!
 				
 			}
 			else
 			{
 				var newUserType = Factory.CreateNewEventType(_selectedEventType, TypeName, _selectedColor);
-				await _eventRepository.AddUserEventTypeAsync(newUserType);
-				await Shell.Current.GoToAsync("..");
+				await _eventRepository.AddUserEventTypeAsync(newUserType);			
+				await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
 			}
 		}
 		private void SetSelectedEventType(MainEventTypes eventType)
@@ -241,7 +243,7 @@ namespace CalendarT1.ViewModels
 			{
 				var eventDetails = new EventDetails
 				{
-					Text = eventType.ToString(),
+					MainEventNameText = eventType.ToString(),
 					Opacity = FadedOpacity,
 					Border = BorderSize
 				};
@@ -259,14 +261,14 @@ namespace CalendarT1.ViewModels
 	#region Helper Classes
 	public class EventDetails : BaseViewModel
 	{
-		private string _text;
+		private string _mainEventNameText;
 		private float _opacity;
 		private int _border;
 
-		public string Text
+		public string MainEventNameText
 		{
-			get => _text;
-			set { _text = value; OnPropertyChanged(); }
+			get => _mainEventNameText;
+			set { _mainEventNameText = value; OnPropertyChanged(); }
 		}
 		public float Opacity
 		{
