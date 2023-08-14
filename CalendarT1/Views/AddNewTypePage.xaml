@@ -14,7 +14,7 @@
             </StackLayout>
 
             <!--Main Event Types Custom Control -->
-            <controls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}"/>
+            <controls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
 
             <!--Possible Colors of events to choose-->
             <Label Text="CHOOSE TYPES COLOR:" HorizontalOptions="CenterAndExpand" Margin="0, 0, 0, 20"/>
