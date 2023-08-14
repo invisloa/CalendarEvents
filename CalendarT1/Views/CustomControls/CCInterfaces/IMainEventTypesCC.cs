@@ -13,7 +13,5 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces
 		ObservableCollection<EventVisualDetails> MainEventTypesOC { get; set; }
 		RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; }
 
-		//Helper class that will contain most of the logic
-		MainEventTypesCCHelper MainEventTypesCCHelperClass { get; set; }
 	}
 }

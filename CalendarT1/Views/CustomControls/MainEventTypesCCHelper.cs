@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models.EventTypesModels;
 using CalendarT1.ViewModels;
+using CalendarT1.Views.CustomControls.CCInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls
 {
-	public class MainEventTypesCCHelper
+	public class MainEventTypesCCHelper : IMainEventTypesCC
 	{
 		// Fields
 		private const int FullOpacity = 1;

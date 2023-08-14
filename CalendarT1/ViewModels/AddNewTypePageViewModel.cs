@@ -17,7 +17,6 @@ namespace CalendarT1.ViewModels
 {
 	public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC
 	{
-		public MainEventTypesCCHelper MainEventTypesCCHelperClass { get; set; } = new MainEventTypesCCHelper();
 		#region Fields
 		private const int FullOpacity = 1;
 		private const float FadedOpacity = 0.3f;
@@ -82,6 +81,10 @@ namespace CalendarT1.ViewModels
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
+
+		// helper class that makes dirty work for main event types
+		public IMainEventTypesCC MainEventTypesCCHelperClass { get; set; } = Factory.CreateNewIMainEventTypeHelperClass();
+
 		#endregion
 
 		#region Constructor

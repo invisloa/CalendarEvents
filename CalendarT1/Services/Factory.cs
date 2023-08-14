@@ -1,6 +1,8 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Views.CustomControls;
+using CalendarT1.Views.CustomControls.CCInterfaces;
 
 namespace CalendarT1.Services
 {
@@ -28,7 +30,11 @@ namespace CalendarT1.Services
 		public static IUserEventTypeModel CreateNewEventType(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor)
 		{
 			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor);
-		} 
+		}
 
+		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass()
+		{
+			return new MainEventTypesCCHelper();
+		}
 	}
 }
