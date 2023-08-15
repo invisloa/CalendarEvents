@@ -13,11 +13,11 @@ namespace CalendarT1.Services
 
 		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
-			if (eventTypeModel.MainType == MainEventTypes.Event)
+			if (eventTypeModel.MainEventType == MainEventTypes.Event)
 			{
 				return new EventModel(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
 			}
-			else if (eventTypeModel.MainType == MainEventTypes.Task)
+			else if (eventTypeModel.MainEventType == MainEventTypes.Task)
 			{
 				return new TaskModel(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
 			}

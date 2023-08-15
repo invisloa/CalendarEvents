@@ -2,6 +2,10 @@
 
 
 #region Current
+
+// TODO THERE IS NO EVENT TYPE SELECTION WORKING!!!! EventOperationsBaseViewModel.cs
+
+
 // make custom controll for main event types and make interface for it
 
 

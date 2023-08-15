@@ -7,7 +7,7 @@ namespace CalendarT1.Models.EventTypesModels
 {
     public class UserEventTypeModel : BaseViewModel, IUserEventTypeModel
 	{
-		public MainEventTypes MainType { get; set; }
+		public MainEventTypes MainEventType { get; set; }
         public string EventTypeName { get; set; }
 		// Store color as string due to serialization issues
 		[JsonIgnore] // This won't be included in the serialized data
@@ -46,7 +46,7 @@ namespace CalendarT1.Models.EventTypesModels
         }
 		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, bool isSelectedToFilter = true)
         {
-			MainType = mainEventType;
+			MainEventType = mainEventType;
 			IsSelectedToFilter = isSelectedToFilter;
             EventTypeName = eventTypeName;
             EventTypeColor = eventTypeColor;

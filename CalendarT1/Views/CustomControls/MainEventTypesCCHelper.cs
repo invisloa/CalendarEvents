@@ -17,12 +17,23 @@ namespace CalendarT1.Views.CustomControls
 		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
+		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 0); // Defeault color is black
+
 
 		private readonly Dictionary<MainEventTypes, EventVisualDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventVisualDetails>();
 		private MainEventTypes _selectedEventType = MainEventTypes.Event;
 		private IUserEventTypeModel _currentType;
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 		private string _typeName;
+		public MainEventTypes SelectedMainEventType
+		{
+			get => _selectedEventType;
+			set
+			{
+				_selectedEventType = value;
+				SetSelectedEventType(_selectedEventType);
+			}
+		}
 
 		// Properties
 		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get; set; }

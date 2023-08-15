@@ -22,7 +22,14 @@ namespace CalendarT1.ViewModels
 		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
-
+		public MainEventTypes SelectedMainEventType
+		{
+			get => _mainEventTypesCCHelper.SelectedMainEventType;
+			set
+			{
+				_mainEventTypesCCHelper.SelectedMainEventType = value;
+			}
+		}
 		private MainEventTypes _selectedEventType = MainEventTypes.Event; // initialize for create mode
 		private IUserEventTypeModel _currentType;   // if null => add new type, else => edit type
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
@@ -48,7 +55,7 @@ namespace CalendarT1.ViewModels
 			}
 		}
 
-		public Color SelectedColor
+		public Color MainEventTypeButtonsColor
 		{
 			get => _selectedColor;
 			set
@@ -70,25 +77,26 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
+		// helper class that makes dirty work for main event types
+		private IMainEventTypesCC _mainEventTypesCCHelper { get; set; } = Factory.CreateNewIMainEventTypeHelperClass();
+		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC = value; }
 
+		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand;
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
-		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get; set; }
+
 		#endregion
 
 		#region Commands
 		public RelayCommand GoToAllTypesPageCommand { get; private set; }
-		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
 
-		// helper class that makes dirty work for main event types
-		public IMainEventTypesCC MainEventTypesCCHelperClass { get; set; } = Factory.CreateNewIMainEventTypeHelperClass();
-
 		#endregion
 
 		#region Constructor
-		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType = null)
+		// constructor for create mode
+		public AddNewTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
 			InitializeColorButtons();
@@ -96,17 +104,16 @@ namespace CalendarT1.ViewModels
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
-
-			MainEventTypeSelectedCommand = MainEventTypesCCHelperClass.MainEventTypeSelectedCommand;
-			MainEventTypesOC = MainEventTypesCCHelperClass.MainEventTypesOC;
-			if (currentType != null)
-			{
-				CurrentType = currentType;
-				_selectedEventType = currentType.MainType;
-				SelectedColor = currentType.EventTypeColor;
-				TypeName = currentType.EventTypeName;
-				// set propper visuals for a edited event type
-			}
+		}
+		// constructor for edit mode
+		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
+			: this(eventRepository)
+		{
+			CurrentType = currentType;
+			_selectedEventType = currentType.MainEventType;
+			MainEventTypeButtonsColor = currentType.EventTypeColor;
+			TypeName = currentType.EventTypeName;
+			// set proper visuals for an edited event type
 		}
 		#endregion
 		#region Methods
@@ -146,7 +153,7 @@ namespace CalendarT1.ViewModels
 			{
 				// cannot change main event type => may lead to some future errors???
 				_currentType.EventTypeName = TypeName;
-				_currentType.EventTypeColor = SelectedColor;
+				_currentType.EventTypeColor = MainEventTypeButtonsColor;
 				await _eventRepository.UpdateEventTypeAsync(_currentType);
 				await Shell.Current.GoToAsync("..");								// TODO CHANGE NOT WORKING!!!
 				
@@ -162,7 +169,7 @@ namespace CalendarT1.ViewModels
 
 		private void SelectColor(ButtonProperties selectedColor)
 		{
-			SelectedColor = selectedColor.ButtonColor;
+			MainEventTypeButtonsColor = selectedColor.ButtonColor;
 
 			foreach (var button in ButtonsColors)
 			{

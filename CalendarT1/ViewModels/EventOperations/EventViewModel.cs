@@ -3,18 +3,19 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Services.EventsSharing;
+using CalendarT1.Views.CustomControls;
+using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	class EventViewModel : EventOperationsBaseViewModel
+	class EventViewModel : EventOperationsBaseViewModel, IMainEventTypesCC
 	{
 		//add observable collection for all MeasurementUnit types
 		// there has to be some picker for a user to select measurement unit so i need an observable collectiion so a user could select one
 		#region Fields
-
 		private IShareEvents _shareEvents;
 		private AsyncRelayCommand _deleteEventCommand;
 		private AsyncRelayCommand _shareEventCommand;
@@ -63,6 +64,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
+
 		#endregion
 
 		#region Constructors
@@ -84,7 +86,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed
 			ShareEventCommand = new AsyncRelayCommand(ShareEvent);
-
+			SelectedMainEventType = eventToEdit.EventType.MainEventType;
 			// Set properties based on eventToEdit
 			_currentEvent = eventToEdit;
 			Title = _currentEvent.Title;

@@ -1,6 +1,9 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
+using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Views.CustomControls;
+using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
@@ -17,15 +20,9 @@ namespace CalendarT1.ViewModels.EventOperations
 			//	_eventRepository.OnEventListChanged += UpdateAllEventsList;					// TO CHECK IF ITS NEEDED
 			//	_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;			// TO CHECK IF ITS NEEDED
 		}
-		public void UpdateAllEventsList()
-		{
-			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-		}
-		public void UpdateAllEventTypesList()
-		{
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
-		}
+
 		#region Properties
+		private IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _currentEvent;
 		protected bool _isCompleted;
@@ -38,12 +35,44 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
 		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
+		protected Color _mainEventTypeButtonColor;
+
 		MeasurementUnit _measurementUnit;
+
+		public MainEventTypes SelectedMainEventType
+		{
+			get => _mainEventTypesCCHelper.SelectedMainEventType;
+			set
+			{
+				_mainEventTypesCCHelper.SelectedMainEventType = value;
+				OnPropertyChanged();
+			}
+		}
+
 
 		public string EventTypePickerText { get => "Select event Type"; }
 
 		// Basic Event Information
 		#region
+		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC = value; }
+
+		public Color MainEventTypeButtonsColor
+		{
+			get
+			{
+				if (_mainEventTypeButtonColor == null)
+				{
+					return _mainEventTypesCCHelper.MainEventTypeButtonsColor;
+				}
+				else return _mainEventTypeButtonColor;
+			}
+			set
+			{
+				_mainEventTypeButtonColor = value;
+				OnPropertyChanged();
+			}
+		}
+
 		public bool IsCompleted
 		{
 			get => _isCompleted;
@@ -160,11 +189,13 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged(nameof(MeasurementUnit));
 			}
 		}
+		public abstract string SubmitButtonText { get; set; }
 
 		#endregion
-		// Submit Event Command
-		public abstract string SubmitButtonText { get; set; }
-	
+
+		// Command
+		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand;
+
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 		#endregion
 
@@ -218,18 +249,29 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 
 		protected IUserEventTypeModel _eventType;
-		public IUserEventTypeModel EventType
+		public IUserEventTypeModel EventType			// TODO THERE IS NO EVENT TYPE SELECTION WORKING!!!!
 		{
 			get => _eventType;
 			set
 			{
 				_eventType = value;
-				if (_eventType.MainType == MainEventTypes.Value)
+				MainEventTypeButtonsColor = _eventType.EventTypeColor;
+				if (_eventType.MainEventType == MainEventTypes.Value)
 				{
 					MeasurementUnits = new ObservableCollection<MeasurementUnit>(Enum.GetValues(typeof(MeasurementUnit)).Cast<MeasurementUnit>());
 				}
 				OnPropertyChanged();
 			}
+		}
+
+
+		public void UpdateAllEventsList()
+		{
+			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+		}
+		public void UpdateAllEventTypesList()
+		{
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
 
 	}
