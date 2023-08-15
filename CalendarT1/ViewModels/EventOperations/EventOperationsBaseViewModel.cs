@@ -256,6 +256,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_eventType = value;
 				MainEventTypeButtonsColor = _eventType.EventTypeColor;
+				_mainEventTypesCCHelper.SelectedMainEventType = _eventType.MainEventType;
 				if (_eventType.MainEventType == MainEventTypes.Value)
 				{
 					MeasurementUnits = new ObservableCollection<MeasurementUnit>(Enum.GetValues(typeof(MeasurementUnit)).Cast<MeasurementUnit>());

@@ -86,6 +86,13 @@ public class LocalMachineEventRepository : IEventRepository
 		OnEventListChanged?.Invoke();
 
 	}
+	public async Task ClearAllUserTypesAsync()
+	{
+		ClearEventsListAsync();
+		AllUserEventTypesList.Clear();
+		await SaveUserEventTypesListAsync();
+		OnUserTypeListChanged?.Invoke();
+	}
 
 	public async Task<List<IGeneralEventModel>> GetEventsListAsync()
 	{

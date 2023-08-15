@@ -11,6 +11,7 @@
             <StackLayout Orientation="Horizontal">
                 <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" HorizontalOptions="CenterAndExpand" Margin="10"/>
                 <Button Text="XXX" Command="{Binding GoToAllTypesPageCommand}"/>
+                <Button Text="TempClearALL" Command="{Binding TempRemoveAllUserTypesCommand}"/>
             </StackLayout>
 
             <!--Main Event Types Custom Control -->

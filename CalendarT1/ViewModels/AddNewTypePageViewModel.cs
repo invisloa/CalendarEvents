@@ -30,7 +30,6 @@ namespace CalendarT1.ViewModels
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
 			}
 		}
-		private MainEventTypes _selectedEventType = MainEventTypes.Event; // initialize for create mode
 		private IUserEventTypeModel _currentType;   // if null => add new type, else => edit type
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 		private string _typeName;
@@ -88,10 +87,11 @@ namespace CalendarT1.ViewModels
 
 		#region Commands
 		public RelayCommand GoToAllTypesPageCommand { get; private set; }
+		public AsyncRelayCommand TempRemoveAllUserTypesCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
-
+		
 		#endregion
 
 		#region Constructor
@@ -104,13 +104,13 @@ namespace CalendarT1.ViewModels
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
+			TempRemoveAllUserTypesCommand = new AsyncRelayCommand(TempRemoveAllUserTypes);
 		}
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
 			: this(eventRepository)
 		{
 			CurrentType = currentType;
-			_selectedEventType = currentType.MainEventType;
 			MainEventTypeButtonsColor = currentType.EventTypeColor;
 			TypeName = currentType.EventTypeName;
 			// set proper visuals for an edited event type
@@ -160,13 +160,16 @@ namespace CalendarT1.ViewModels
 			}
 			else
 			{
-				var newUserType = Factory.CreateNewEventType(_selectedEventType, TypeName, _selectedColor);
+				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor);
 				await _eventRepository.AddUserEventTypeAsync(newUserType);			
 				await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
 			}
 		}
 
-
+		private async Task TempRemoveAllUserTypes()
+		{
+			await _eventRepository.ClearAllUserTypesAsync();
+		}
 		private void SelectColor(ButtonProperties selectedColor)
 		{
 			MainEventTypeButtonsColor = selectedColor.ButtonColor;
@@ -175,6 +178,11 @@ namespace CalendarT1.ViewModels
 			{
 				button.ButtonBorder = button == selectedColor ? NoBorderSize : BorderSize;
 			}
+		}
+		public void SelectMainEventType(MainEventTypes mainEventTypes)
+		{
+			SelectedMainEventType = mainEventTypes;
+			 
 		}
 		private void GoToAllTypesPage()
 		{

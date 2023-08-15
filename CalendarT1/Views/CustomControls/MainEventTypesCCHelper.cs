@@ -31,6 +31,7 @@ namespace CalendarT1.Views.CustomControls
 			set
 			{
 				_selectedEventType = value;
+				// set visuals for selected event type
 				SetSelectedEventType(_selectedEventType);
 			}
 		}
