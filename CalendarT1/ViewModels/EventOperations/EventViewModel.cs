@@ -64,7 +64,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-
 		#endregion
 
 		#region Constructors
@@ -75,7 +74,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			// Create new Event mode
 			StartDateTime = selectedDate;
 			EndDateTime = selectedDate;
-			EventType = AllEventTypesOC.First(); // Initialize to the first event type to ensure it's not null
+			SelectedEventType = AllEventTypesOC.First(); // Initialize to the first event type to ensure it's not null
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
 		}
 		// ctor for editing events
@@ -86,12 +85,11 @@ namespace CalendarT1.ViewModels.EventOperations
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed
 			ShareEventCommand = new AsyncRelayCommand(ShareEvent);
-			SelectedMainEventType = eventToEdit.EventType.MainEventType;
 			// Set properties based on eventToEdit
 			_currentEvent = eventToEdit;
 			Title = _currentEvent.Title;
 			Description = _currentEvent.Description;
-			EventType = _currentEvent.EventType;
+			SelectedEventType = _currentEvent.EventType;
 			StartDateTime = _currentEvent.StartDateTime.Date;
 			EndDateTime = _currentEvent.EndDateTime.Date;
 			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
@@ -107,7 +105,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private async Task AddEventAsync()
 		{
 			// Create a new Event based on the selected EventType
-			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, EventType, QuantityAmount);
+			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, SelectedEventType, QuantityAmount);
 			await _eventRepository.AddEventAsync(_currentEvent);
 			ClearFields();
 		}
@@ -116,7 +114,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_currentEvent.Title = Title;
 			_currentEvent.Description = Description;
-			_currentEvent.EventType = EventType;
+			_currentEvent.EventType = SelectedEventType;
 			_currentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_currentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 			_currentEvent.IsCompleted = IsCompleted;

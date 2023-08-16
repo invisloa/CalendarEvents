@@ -15,9 +15,10 @@ namespace CalendarT1.ViewModels.EventOperations
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(OnMainEventTypeSelected);
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(OnMainEventTypeSelected);
+			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 			//	_eventRepository.OnEventListChanged += UpdateAllEventsList;					// TO CHECK IF ITS NEEDED
 			//	_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;			// TO CHECK IF ITS NEEDED
 		}
@@ -40,6 +41,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected Color _mainEventTypeButtonColor;
 
 		MeasurementUnit _measurementUnit;
+		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
 
 		public MainEventTypes SelectedMainEventType
 		{
@@ -234,16 +236,16 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 
-		protected IUserEventTypeModel _eventType;
-		public IUserEventTypeModel EventType
+		protected IUserEventTypeModel _selectedEventType;
+		public IUserEventTypeModel SelectedEventType
 		{
-			get => _eventType;
+			get => _selectedEventType;
 			set
 			{
-				_eventType = value;
-				MainEventTypeButtonsColor = _eventType.EventTypeColor;
-				_mainEventTypesCCHelper.SelectedMainEventType = _eventType.MainEventType;
-				if (_eventType.MainEventType == MainEventTypes.Value)
+				_selectedEventType = value;
+				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
+				_mainEventTypesCCHelper.SelectedMainEventType = _selectedEventType.MainEventType;
+				if (_selectedEventType.MainEventType == MainEventTypes.Value)
 				{
 					MeasurementUnits = new ObservableCollection<MeasurementUnit>(Enum.GetValues(typeof(MeasurementUnit)).Cast<MeasurementUnit>());
 				}
@@ -259,13 +261,27 @@ namespace CalendarT1.ViewModels.EventOperations
 			Description = "";
 			if (AllEventTypesOC != null && AllEventTypesOC.Count > 0)
 			{
-				EventType = AllEventTypesOC[0];
+				SelectedEventType = AllEventTypesOC[0];
 			}
 			StartDateTime = DateTime.Today;
 			EndDateTime = DateTime.Today;
 			StartExactTime = DateTime.Now.TimeOfDay;
 			EndExactTime = DateTime.Now.TimeOfDay;
 			IsCompleted = false;
+		}
+		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
+		{
+			SelectedEventType = selectedEvent;
+			SetVisualsForSelectedUserType();
+			XXX  SOMEWHERE HERE WAS THE PROBLEM WITH SETTING VISUALS FOR SELECTED USER TYPE
+		}
+		protected void SetVisualsForSelectedUserType()
+		{
+			foreach (var eventType in AllEventTypesOC)
+			{
+				eventType.BackgroundColor = Color.FromRgba(255, 255, 255, 1);
+			}
+			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
 		}
 		public void UpdateAllEventsList()
 		{
@@ -275,10 +291,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
-		private void OnMainEventTypeSelected(EventVisualDetails eventType)
+		protected void OnMainEventTypeSelected(EventVisualDetails eventType)
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
+			OnUserEventTypeSelected(AllEventTypesOC[0]);
 		}
 		#endregion
 
