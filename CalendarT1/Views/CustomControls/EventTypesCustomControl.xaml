@@ -12,21 +12,11 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="type_models:UserEventTypeModel">
-                    <Button Text="{Binding EventTypeName}"  TextColor="White" 
-                        Command="{Binding BindingContext.SelectEventPriorityCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
-                        CommandParameter="{Binding}">
-                        <Button.Triggers>
-                            <DataTrigger TargetType="Button" 
-                                     Binding="{Binding IsSelectedToFilter}" 
-                                     Value="True">
-                                <Setter Property="BackgroundColor" Value="{Binding EventTypeColor}" />
-                            </DataTrigger>
-                            <DataTrigger TargetType="Button" 
-                                     Binding="{Binding IsSelectedToFilter}" 
-                                     Value="False">
-                                <Setter Property="BackgroundColor" Value="LightGray"/>
-                            </DataTrigger>
-                        </Button.Triggers>
+                    <Button Text="{Binding EventTypeName}"
+                            TextColor="White"
+                            BackgroundColor="{Binding BackgroundColor}"
+                            Command="{Binding BindingContext.SelectUserEventTypeCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                            CommandParameter="{Binding}">
                     </Button>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

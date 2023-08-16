@@ -1,59 +1,95 @@
 ﻿using CalendarT1.ViewModels;
 using Newtonsoft.Json;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 
 namespace CalendarT1.Models.EventTypesModels
 {
-    public class UserEventTypeModel : BaseViewModel, IUserEventTypeModel
+	public class UserEventTypeModel : BaseViewModel, IUserEventTypeModel
 	{
 		public MainEventTypes MainEventType { get; set; }
-        public string EventTypeName { get; set; }
-		// Store color as string due to serialization issues
-		[JsonIgnore] // This won't be included in the serialized data
+		public string EventTypeName { get; set; }
 		private Color _eventTypeColor;
-        // This will be included in the serialized data instead
-        public string EventTypeColorString
-        {
-            get => _eventTypeColor.ToHex();
-            set => _eventTypeColor = Color.FromHex(value);
-        }
+
+		// Store color as string due to serialization issues
+		public string EventTypeColorString
+		{
+			get
+			{
+				return _eventTypeColor.ToHex();
+			}
+
+			set
+			{
+				_eventTypeColor = Color.FromHex(value);
+			}
+		}
+
 		[JsonIgnore]
 		public Color EventTypeColor
-        {
-            get
-            {
-                return _eventTypeColor;
-            }
-            set
-            {
-                _eventTypeColor = value;
-                OnPropertyChanged();
-            }
-        }
-        private bool _isSelectedToFilter;
-        public bool IsSelectedToFilter
-        {
-            get => _isSelectedToFilter;
-            set
-            {
+		{
+			get
+			{
+				return _eventTypeColor;
+			}
+			set
+			{
+				if (_eventTypeColor != value)
+				{
+					_eventTypeColor = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private Color _backgroundColor;
+
+		// BackgroundColor uses its own private backing field
+		[JsonIgnore]
+		public Color BackgroundColor
+		{
+			get => _backgroundColor;
+			set
+			{
+				if (_backgroundColor != value)
+				{
+					_backgroundColor = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private bool _isSelectedToFilter;
+		public bool IsSelectedToFilter
+		{
+			get => _isSelectedToFilter;
+			set
+			{
 				if (_isSelectedToFilter != value)
-                {
+				{
 					_isSelectedToFilter = value;
 					OnPropertyChanged();
 				}
 			}
-        }
+		}
+
 		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, bool isSelectedToFilter = true)
-        {
+		{
 			MainEventType = mainEventType;
 			IsSelectedToFilter = isSelectedToFilter;
-            EventTypeName = eventTypeName;
-            EventTypeColor = eventTypeColor;
-        }
-        public override string ToString()
-        {
-            return EventTypeName;
-        }
-    }
+			EventTypeName = eventTypeName;
+			EventTypeColor = eventTypeColor;
+			BackgroundColor = eventTypeColor; // Initialize BackgroundColor to EventTypeColor upon object creation
+		}
+
+		public override string ToString()
+		{
+			return EventTypeName;
+		}
+		//This method will be called after deserialization and will ensure that BackgroundColor is initialized to the value of EventTypeColor
+		[OnDeserialized]
+		private void OnDeserializedMethod(StreamingContext context)
+		{
+			BackgroundColor = EventTypeColor;
+		}
+	}
 }

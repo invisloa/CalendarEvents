@@ -45,6 +45,9 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
+				var tempFilteredEventTypes = _eventRepository.AllUserEventTypesList.FindAll(x => x.MainEventType == value);
+				AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+				OnPropertyChanged(nameof(AllEventTypesOC));
 				OnPropertyChanged();
 			}
 		}
@@ -199,23 +202,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 		#endregion
 
-		// Helper Methods
-		#region Date adjusting methods
-		protected void ClearFields()
-		{
-			Title = "";
-			Description = "";
-			if (AllEventTypesOC != null && AllEventTypesOC.Count > 0)
-			{
-				EventType = AllEventTypesOC[0];
-			}
-			StartDateTime = DateTime.Today;
-			EndDateTime = DateTime.Today;
-			StartExactTime = DateTime.Now.TimeOfDay;
-			EndExactTime = DateTime.Now.TimeOfDay;
-			IsCompleted = false;
-		}
-		#endregion
 		protected ObservableCollection<IUserEventTypeModel> _eventTypesOC;
 		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
 		{
@@ -249,7 +235,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 
 		protected IUserEventTypeModel _eventType;
-		public IUserEventTypeModel EventType			// TODO THERE IS NO EVENT TYPE SELECTION WORKING!!!!
+		public IUserEventTypeModel EventType
 		{
 			get => _eventType;
 			set
@@ -265,7 +251,22 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 
-
+		// Helper Methods
+		#region Date adjusting methods
+		protected void ClearFields()
+		{
+			Title = "";
+			Description = "";
+			if (AllEventTypesOC != null && AllEventTypesOC.Count > 0)
+			{
+				EventType = AllEventTypesOC[0];
+			}
+			StartDateTime = DateTime.Today;
+			EndDateTime = DateTime.Today;
+			StartExactTime = DateTime.Now.TimeOfDay;
+			EndExactTime = DateTime.Now.TimeOfDay;
+			IsCompleted = false;
+		}
 		public void UpdateAllEventsList()
 		{
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
@@ -274,6 +275,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
+		#endregion
 
 	}
 }

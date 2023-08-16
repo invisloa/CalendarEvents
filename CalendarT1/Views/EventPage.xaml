@@ -29,10 +29,12 @@
         
         <!--THIS TO CHANGE TO CUSTOM ALL EVENT TYPES BUT WITH CUSTOM ALLEVENTTYPESOC (WITH FILTERS)-->
         <!--User Event Types-->
-        <Picker Title="{Binding EventTypePickerText}"
+
+        <controls:EventTypesCustomControl/>
+        <!--<Picker Title="{Binding EventTypePickerText}"
                 ItemsSource="{Binding AllEventTypesOC}"
                 SelectedItem="{Binding EventType, Mode=TwoWay}">
-        </Picker>
+        </Picker>-->
         
         
         

@@ -2,6 +2,7 @@
 
 
 #region Current
+// 				XXX CHANGE POSSIBLE EVENTS TO SELECT
 
 // TODO THERE IS NO EVENT TYPE SELECTION WORKING!!!! EventOperationsBaseViewModel.cs
 
