@@ -15,11 +15,13 @@ namespace CalendarT1.ViewModels.EventOperations
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
+			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(OnMainEventTypeSelected);
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			//	_eventRepository.OnEventListChanged += UpdateAllEventsList;					// TO CHECK IF ITS NEEDED
 			//	_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;			// TO CHECK IF ITS NEEDED
 		}
+		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 
 		#region Properties
 		private IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
@@ -197,8 +199,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		#endregion
 
 		// Command
-		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand;
-
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 		#endregion
 
@@ -274,6 +274,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		public void UpdateAllEventTypesList()
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+		}
+		private void OnMainEventTypeSelected(EventVisualDetails eventType)
+		{
+			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
+			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 		}
 		#endregion
 

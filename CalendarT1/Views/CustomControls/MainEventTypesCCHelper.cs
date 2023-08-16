@@ -21,18 +21,18 @@ namespace CalendarT1.Views.CustomControls
 
 
 		private readonly Dictionary<MainEventTypes, EventVisualDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventVisualDetails>();
-		private MainEventTypes _selectedEventType = MainEventTypes.Event;
+		private MainEventTypes _selectedMainEventType = MainEventTypes.Event;
 		private IUserEventTypeModel _currentType;
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 		private string _typeName;
 		public MainEventTypes SelectedMainEventType
 		{
-			get => _selectedEventType;
+			get => _selectedMainEventType;
 			set
 			{
-				_selectedEventType = value;
+				_selectedMainEventType = value;
 				// set visuals for selected event type
-				SetSelectedEventType(_selectedEventType);
+				SetSelectedMainEventType(_selectedMainEventType);
 			}
 		}
 
@@ -56,12 +56,12 @@ namespace CalendarT1.Views.CustomControls
 				throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.MainEventNameText}");
 			}
 
-			SetSelectedEventType(parsedTypeOfEvent);
+			SetSelectedMainEventType(parsedTypeOfEvent);
 		}
 
-		private void SetSelectedEventType(MainEventTypes eventType)
+		private void SetSelectedMainEventType(MainEventTypes mainEventType)
 		{
-			_selectedEventType = eventType;
+			_selectedMainEventType = mainEventType;
 
 			foreach (var eventDetail in _eventVisualDetails.Values)
 			{
@@ -70,8 +70,8 @@ namespace CalendarT1.Views.CustomControls
 			}
 
 			//for selected event type set different visuals
-			_eventVisualDetails[eventType].Opacity = FullOpacity;
-			_eventVisualDetails[eventType].Border = NoBorderSize;
+			_eventVisualDetails[mainEventType].Opacity = FullOpacity;
+			_eventVisualDetails[mainEventType].Border = NoBorderSize;
 
 			// Force update of the ObservableCollection
 			MainEventTypesOC = new ObservableCollection<EventVisualDetails>(_eventVisualDetails.Values);
@@ -95,7 +95,7 @@ namespace CalendarT1.Views.CustomControls
 				MainEventTypesOC.Add(eventDetails);
 			}
 
-			SetSelectedEventType(_selectedEventType);   // if create mode it is event by default, if edit it is the type of the event
+			SetSelectedMainEventType(_selectedMainEventType);   // if create mode it is event by default, if edit it is the type of the event
 		}
 	}
 
