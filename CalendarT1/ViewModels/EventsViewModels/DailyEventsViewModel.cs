@@ -27,7 +27,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		public override void BindDataToScheduleList()
 		{
-				 ApplyEventsDatesFilter(CurrentSelectedDate.Date, CurrentSelectedDate.AddDays(1));
+				 ApplyEventsDatesFilter(CurrentSelectedDate.Date, CurrentSelectedDate.AddDays(0));
 		}
 
 	}

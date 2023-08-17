@@ -15,12 +15,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
-			//	_eventRepository.OnEventListChanged += UpdateAllEventsList;					// TO CHECK IF ITS NEEDED
-			//	_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;			// TO CHECK IF ITS NEEDED
 		}
 		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 
@@ -39,6 +38,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
 		protected Color _mainEventTypeButtonColor;
+		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
 
 		MeasurementUnit _measurementUnit;
 		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
@@ -49,7 +49,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
-				var tempFilteredEventTypes = _eventRepository.AllUserEventTypesList.FindAll(x => x.MainEventType == value);
+				var tempFilteredEventTypes = _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
 				AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
 				OnPropertyChanged(nameof(AllEventTypesOC));
 				OnPropertyChanged();
@@ -273,7 +273,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			SelectedEventType = selectedEvent;
 			SetVisualsForSelectedUserType();
-			XXX  SOMEWHERE HERE WAS THE PROBLEM WITH SETTING VISUALS FOR SELECTED USER TYPE
 		}
 		protected void SetVisualsForSelectedUserType()
 		{

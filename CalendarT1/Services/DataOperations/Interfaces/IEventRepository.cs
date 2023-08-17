@@ -25,6 +25,8 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 		Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate);
 		Task GetUserEventTypeAsync (IUserEventTypeModel eventTypeToSelect);
 		Task InitializeAsync();
+		List<IGeneralEventModel> DeepCopyAllEventsList();
+		List<IUserEventTypeModel> DeepCopyUserEventTypesList();
 
 	}
 }

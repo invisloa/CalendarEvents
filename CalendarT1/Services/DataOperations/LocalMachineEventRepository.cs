@@ -223,5 +223,17 @@ public class LocalMachineEventRepository : IEventRepository
 		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName);		// TO CHANGE
 		return Task.FromResult(selectedEventType);
 	}
+	public List<IGeneralEventModel> DeepCopyAllEventsList()
+	{
+		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+		var serialized = JsonConvert.SerializeObject(_allEventsList, settings);
+		return JsonConvert.DeserializeObject<List<IGeneralEventModel>>(serialized, settings);
+	}
+	public List<IUserEventTypeModel> DeepCopyUserEventTypesList()
+	{
+		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+		var serialized = JsonConvert.SerializeObject(_allUserEventTypesList, settings);
+		return JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(serialized, settings);
+	}
 	#endregion
 }
