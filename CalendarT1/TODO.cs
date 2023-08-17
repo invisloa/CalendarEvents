@@ -2,6 +2,9 @@
 
 
 #region Current
+// is completed not showing as intended
+
+
 // 				XXX Visual for selected user type and user type custom controll at all
 
 // TODO THERE IS NO EVENT TYPE SELECTION WORKING!!!! EventOperationsBaseViewModel.cs
