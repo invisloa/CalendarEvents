@@ -62,13 +62,7 @@ namespace CalendarT1.Views.CustomControls
 		private void SetSelectedMainEventType(MainEventTypes mainEventType)
 		{
 			_selectedMainEventType = mainEventType;
-
-			foreach (var eventDetail in _eventVisualDetails.Values)
-			{
-				eventDetail.Opacity = FadedOpacity;
-				eventDetail.Border = BorderSize;
-			}
-
+			DisableVisualsForAllMainEventTypes();
 			//for selected event type set different visuals
 			_eventVisualDetails[mainEventType].Opacity = FullOpacity;
 			_eventVisualDetails[mainEventType].Border = NoBorderSize;
@@ -76,7 +70,14 @@ namespace CalendarT1.Views.CustomControls
 			// Force update of the ObservableCollection
 			MainEventTypesOC = new ObservableCollection<EventVisualDetails>(_eventVisualDetails.Values);
 		}
-
+		public void DisableVisualsForAllMainEventTypes()
+		{
+			foreach (var eventType in _eventVisualDetails.Values)
+			{
+				eventType.Opacity = FadedOpacity;
+				eventType.Border = BorderSize;
+			}
+		}
 		private void InitializeMainEventTypes()
 		{
 			MainEventTypesOC = new ObservableCollection<EventVisualDetails>();

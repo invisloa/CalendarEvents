@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	class EventViewModel : EventOperationsBaseViewModel, IMainEventTypesCC
+	class EventViewModel : EventOperationsBaseViewModel
 	{
 		//add observable collection for all MeasurementUnit types
 		// there has to be some picker for a user to select measurement unit so i need an observable collectiion so a user could select one
@@ -71,10 +71,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		public EventViewModel(IEventRepository eventRepository, DateTime selectedDate)
 			: base(eventRepository)
 		{
-			// Create new Event mode
 			StartDateTime = selectedDate;
 			EndDateTime = selectedDate;
-			SelectedEventType = AllEventTypesOC.First(); // Initialize to the first event type to ensure it's not null
+			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
 		}
 		// ctor for editing events
@@ -89,18 +88,24 @@ namespace CalendarT1.ViewModels.EventOperations
 			_currentEvent = eventToEdit;
 			Title = _currentEvent.Title;
 			Description = _currentEvent.Description;
-			SelectedEventType = _currentEvent.EventType;
 			StartDateTime = _currentEvent.StartDateTime.Date;
 			EndDateTime = _currentEvent.EndDateTime.Date;
 			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
 			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
 			IsCompleted = _currentEvent.IsCompleted;
+			SelectedMainEventType = _currentEvent.EventType.MainEventType;
+			SelectedEventType = _currentEvent.EventType;
+			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(noMatterWhat => { return; });
+
 		}
 		#endregion
 
 		#region Command Execution Methods
 
-		private bool CanExecuteSubmitCommand() => !string.IsNullOrEmpty(Title);
+		private bool CanExecuteSubmitCommand()
+		{
+			return !string.IsNullOrWhiteSpace(Title) && SelectedEventType != null;
+		}
 
 		private async Task AddEventAsync()
 		{

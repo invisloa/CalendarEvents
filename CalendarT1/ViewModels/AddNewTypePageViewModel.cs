@@ -18,8 +18,6 @@ namespace CalendarT1.ViewModels
 	public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC
 	{
 		#region Fields
-		private const int FullOpacity = 1;
-		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
 		public MainEventTypes SelectedMainEventType
@@ -146,7 +144,10 @@ namespace CalendarT1.ViewModels
 			await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
 			await Shell.Current.GoToAsync("..");
 		}
-
+		public void DisableVisualsForAllMainEventTypes()
+		{
+			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
+		}
 		private async Task SubmitType()
 		{
 			if (IsEdit)

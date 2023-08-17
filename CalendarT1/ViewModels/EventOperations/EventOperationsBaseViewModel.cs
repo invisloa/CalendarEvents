@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-    public abstract class EventOperationsBaseViewModel : BaseViewModel
+    public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC
 	{
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
@@ -24,7 +24,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 
 		#region Properties
-		private IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
+		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _currentEvent;
 		protected bool _isCompleted;
@@ -244,7 +244,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_selectedEventType = value;
 				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
-				_mainEventTypesCCHelper.SelectedMainEventType = _selectedEventType.MainEventType;
+				_mainEventTypesCCHelper.SelectedMainEventType = _selectedEventType.MainEventType;		// Not SelectedMainEventType so I wont apply filtering of usertypes
+				SetVisualsForSelectedUserType();
 				if (_selectedEventType.MainEventType == MainEventTypes.Value)
 				{
 					MeasurementUnits = new ObservableCollection<MeasurementUnit>(Enum.GetValues(typeof(MeasurementUnit)).Cast<MeasurementUnit>());
@@ -272,29 +273,26 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
 		{
 			SelectedEventType = selectedEvent;
-			SetVisualsForSelectedUserType();
 		}
 		protected void SetVisualsForSelectedUserType()
 		{
-			foreach (var eventType in AllEventTypesOC)
+			foreach (var eventType in AllEventTypesOC)		// it sets colors in a different AllEventTypesOC then SelectedEventType is...
 			{
 				eventType.BackgroundColor = Color.FromRgba(255, 255, 255, 1);
 			}
+			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x.EventTypeName == _selectedEventType.EventTypeName);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
-		}
-		public void UpdateAllEventsList()
-		{
-			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-		}
-		public void UpdateAllEventTypesList()
-		{
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
 		protected void OnMainEventTypeSelected(EventVisualDetails eventType)
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
+		}
+
+		public void DisableVisualsForAllMainEventTypes()
+		{
+			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
 		#endregion
 
