@@ -63,6 +63,8 @@
 			defaultValue: null,
 			defaultBindingMode: BindingMode.OneWay,
 			propertyChanged: null);
+		private double _firstColumnForHoursWidth = 50;
+
 		public RelayCommand GenerateGridCommand
 		{
 			get => (RelayCommand)GetValue(GenerateGridCommandProperty);
@@ -80,15 +82,20 @@
 			RowDefinitions.Clear();
 			ColumnDefinitions.Clear();
 			Children.Clear();
+
 			// Create rows for each hour + 2 extra rows for the day of the week and date label
 			for (int i = 0; i < 24 + 2; i++)
 			{
 				RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 			}
+
 			// Create columns for each day + first extra column for the hour indicator
 			for (int i = 0; i < 8; i++)
 			{
-				ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+				if (i == 0)
+					ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(_firstColumnForHoursWidth) });
+				else
+					ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 			}
 			int dayOfWeekNumber = (int)DateTime.Now.DayOfWeek;
 
@@ -100,6 +107,7 @@
 				Grid.SetRow(hourLabel, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 				Grid.SetColumn(hourLabel, 0);  // Place the hour indicator in the first column
 				Children.Add(hourLabel);
+
 				for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
 				{
 					// Create a frame for each cell
