@@ -1,6 +1,7 @@
 ﻿namespace CalendarT1.Views.CustomControls
 {
 	using CalendarT1.Models.EventModels;
+	using Microsoft.Maui.Controls;
 	using System;
     using System.Collections.ObjectModel;
     using System.Linq;
@@ -8,6 +9,13 @@
 
     public class WeeklyEventsControl : MauiGrid
 	{
+		private readonly int _minimumDayOfWeekWidthRequest = 50;
+		private readonly int _minimumDayOfWeekHeightRequest = 25;
+		private readonly double _firstColumnForHoursWidth = 50;
+		private readonly int _displayLimit = 0;  // Set a limit to how many items will be displayed
+
+
+
 		public static readonly BindableProperty CurrentSelectedDateProperty =
 			BindableProperty.Create(
 				nameof(CurrentSelectedDate),
@@ -56,6 +64,19 @@
 			get => (RelayCommand<IGeneralEventModel>)GetValue(EventSelectedCommandProperty);
 			set => SetValue(EventSelectedCommandProperty, value);
 		}
+
+		public static readonly BindableProperty GoToSelectedDateCommandProperty =
+			BindableProperty.Create(
+			nameof(GoToSelectedDateCommand),
+			typeof(RelayCommand<DateTime>),
+			typeof(WeeklyEventsControl));
+
+		public RelayCommand<DateTime> GoToSelectedDateCommand
+		{
+			get => (RelayCommand<DateTime>)GetValue(GoToSelectedDateCommandProperty);
+			set => SetValue(GoToSelectedDateCommandProperty, value);
+		}
+
 		public static readonly BindableProperty GenerateGridCommandProperty = BindableProperty.Create(
 			nameof(GenerateGridCommand),
 			typeof(RelayCommand),
@@ -63,8 +84,6 @@
 			defaultValue: null,
 			defaultBindingMode: BindingMode.OneWay,
 			propertyChanged: null);
-		private double _firstColumnForHoursWidth = 50;
-
 		public RelayCommand GenerateGridCommand
 		{
 			get => (RelayCommand)GetValue(GenerateGridCommandProperty);
@@ -97,7 +116,7 @@
 				else
 					ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 			}
-			int dayOfWeekNumber = (int)DateTime.Now.DayOfWeek;
+			int dayOfWeekNumber = (int)CurrentSelectedDate.DayOfWeek;
 
 			// Add cells for each event
 			for (int hour = 0; hour < 24; hour++)
@@ -111,7 +130,7 @@
 				for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
 				{
 					// Create a frame for each cell
-					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5, MinimumWidthRequest = 100, MinimumHeightRequest = 50 };
+					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5, MinimumWidthRequest = _minimumDayOfWeekWidthRequest, MinimumHeightRequest = _minimumDayOfWeekHeightRequest };
 
 					var dayEvents = EventsToShowList
 						.Where(e => e.StartDateTime.Date == CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek).Date
@@ -124,8 +143,7 @@
 						// Create a StackLayout for the events
 						var stackLayout = new StackLayout();
 
-						int displayLimit = 2;  // Set a limit to how many items will be displayed
-						for (int i = 0; i < Math.Min(dayEvents.Count, displayLimit); i++)
+						for (int i = 0; i < Math.Min(dayEvents.Count, _displayLimit); i++)
 						{
 							var label = new Label
 							{
@@ -141,15 +159,23 @@
 							stackLayout.Children.Add(label);
 						}
 						// If there are more items than the limit, add a 'See more' label
-						if (dayEvents.Count > displayLimit)
+						if (dayEvents.Count > _displayLimit)
 						{
 							var moreLabel = new Label
 							{
-								FontSize = 10,
+								FontSize = 15,
 								FontAttributes = FontAttributes.Italic,
-								Text = $"See {dayEvents.Count - displayLimit} more...",
-								TextColor = Color.FromRgba(255, 255, 255, 255)
+								Text = $"... {dayEvents.Count - _displayLimit} ...",
+								TextColor = Color.FromRgba(255, 255, 255, 255),
+								BackgroundColor = Color.FromRgba(0, 0, 0, 100)
 							};
+							var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer();
+							tapGestureRecognizerForMoreEvents.Command = GoToSelectedDateCommand;
+							tapGestureRecognizerForMoreEvents.CommandParameter = CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek);
+
+
+							frame.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
+							moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 							stackLayout.Children.Add(moreLabel);
 						}
 
@@ -163,7 +189,7 @@
 				for (int day = 0; day < 7; day++)
 				{
 					//	var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
-					var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {DateTime.Now.AddDays(day - dayOfWeekNumber).ToString("dd-MM")}" };
+					var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - dayOfWeekNumber).ToString("dd")}" };
 					Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
 					Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
 					Children.Add(dayOfWeekLabel);

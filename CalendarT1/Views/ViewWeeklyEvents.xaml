@@ -53,7 +53,8 @@
                 AllEventsList="{Binding AllEventsListOC}" 
                 CurrentSelectedDate="{Binding CurrentSelectedDate}"
                 EventSelectedCommand="{Binding SelectEventCommand}" 
-                EventsToShowList="{Binding EventsToShowList, Mode=TwoWay}"/>
+                EventsToShowList="{Binding EventsToShowList, Mode=TwoWay}"
+                GoToSelectedDateCommand="{Binding GoToSelectedDateCommand}"    />
             </ScrollView>
         </ScrollView>
 

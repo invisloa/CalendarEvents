@@ -60,6 +60,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		public RelayCommand<UserEventTypeModel> SelectUserEventTypeCommand => _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<UserEventTypeModel>(SelectUserEventType));
 		public RelayCommand<IGeneralEventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
+		public RelayCommand<DateTime> GoToSelectedDateCommand { get; set; }
+
+
 		#endregion
 
 		#region Constructor
@@ -68,6 +71,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			_eventRepository = eventRepository;
 			_allEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			_allEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			GoToSelectedDateCommand = new RelayCommand<DateTime>(GoToSelectedDatePage);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
 		}
@@ -108,7 +112,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 			BindDataToScheduleList();
 		}
-
+		private void GoToSelectedDatePage(DateTime selectedDate)
+		{
+			var _dailyEventsPage = new ViewDailyEvents();
+			var _dailyEventsPageBindingContext = _dailyEventsPage.BindingContext as DailyEventsViewModel;
+			_dailyEventsPageBindingContext.CurrentSelectedDate = selectedDate;
+			Application.Current.MainPage.Navigation.PushAsync(_dailyEventsPage);
+		}
 		private void SelectEvent(IGeneralEventModel selectedEvent)
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));
