@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -127,8 +129,8 @@ namespace CalendarT1.Models.EventModels
 
 public enum MeasurementUnit
 {
-	None,
-	// Metric System Units:
+	[Description("currency")]
+	Money,
 	[Display(Name = "mg")]
 	Milligram,
 	[Display(Name = "g")]
@@ -157,4 +159,24 @@ public enum MeasurementUnit
 	Are,
 	[Display(Name = "Hectare (ha)")]
 	Hectare
+
+}
+
+// helper class
+public class MeasurementUnitItem
+{
+	public MeasurementUnit Value { get; set; }
+	public string DisplayName { get; set; }
+	public static string GetDescription(MeasurementUnit unit)
+	{
+		if (unit == MeasurementUnit.Money)
+		{
+			return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
+		}
+
+		var type = unit.GetType();
+		var memberInfo = type.GetMember(unit.ToString());
+		var attributes = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
+		return attributes.Length > 0 ? ((DescriptionAttribute)attributes[0]).Description : unit.ToString();
+	}
 }

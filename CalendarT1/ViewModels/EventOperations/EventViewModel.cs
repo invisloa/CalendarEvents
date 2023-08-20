@@ -13,8 +13,7 @@ namespace CalendarT1.ViewModels.EventOperations
 {
 	class EventViewModel : EventOperationsBaseViewModel
 	{
-		//add observable collection for all MeasurementUnit types
-		// there has to be some picker for a user to select measurement unit so i need an observable collectiion so a user could select one
+
 		#region Fields
 		private IShareEvents _shareEvents;
 		private AsyncRelayCommand _deleteEventCommand;
@@ -24,8 +23,12 @@ namespace CalendarT1.ViewModels.EventOperations
 		#region Properties
 		public string PageTitle => IsEdit ? "Edit Event" : "Add Event";
 		public string HeaderText => IsEdit ? $"Edit event of Title: {Title}" : "Add New Event";
-		public bool IsEdit => _currentEvent != null;
+		public bool IsEdit => _selectedCurrentEvent != null;
 
+		private bool IsNumeric(string value)
+		{
+			return double.TryParse(value, out _);
+		}
 		public IShareEvents ShareEvents
 		{
 			get => _shareEvents;
@@ -85,16 +88,16 @@ namespace CalendarT1.ViewModels.EventOperations
 			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed
 			ShareEventCommand = new AsyncRelayCommand(ShareEvent);
 			// Set properties based on eventToEdit
-			_currentEvent = eventToEdit;
-			Title = _currentEvent.Title;
-			Description = _currentEvent.Description;
-			StartDateTime = _currentEvent.StartDateTime.Date;
-			EndDateTime = _currentEvent.EndDateTime.Date;
-			StartExactTime = _currentEvent.StartDateTime.TimeOfDay;
-			EndExactTime = _currentEvent.EndDateTime.TimeOfDay;
-			IsCompleted = _currentEvent.IsCompleted;
-			SelectedMainEventType = _currentEvent.EventType.MainEventType;
-			SelectedEventType = _currentEvent.EventType;
+			_selectedCurrentEvent = eventToEdit;
+			Title = _selectedCurrentEvent.Title;
+			Description = _selectedCurrentEvent.Description;
+			StartDateTime = _selectedCurrentEvent.StartDateTime.Date;
+			EndDateTime = _selectedCurrentEvent.EndDateTime.Date;
+			StartExactTime = _selectedCurrentEvent.StartDateTime.TimeOfDay;
+			EndExactTime = _selectedCurrentEvent.EndDateTime.TimeOfDay;
+			IsCompleted = _selectedCurrentEvent.IsCompleted;
+			SelectedMainEventType = _selectedCurrentEvent.EventType.MainEventType;
+			SelectedEventType = _selectedCurrentEvent.EventType;
 			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(noMatterWhat => { return; });
 
 		}
@@ -110,32 +113,32 @@ namespace CalendarT1.ViewModels.EventOperations
 		private async Task AddEventAsync()
 		{
 			// Create a new Event based on the selected EventType
-			_currentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, SelectedEventType, QuantityAmount);
-			await _eventRepository.AddEventAsync(_currentEvent);
+			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime + StartExactTime, EndDateTime + EndExactTime, SelectedEventType, QuantityAmount);
+			await _eventRepository.AddEventAsync(_selectedCurrentEvent);
 			ClearFields();
 		}
 
 		private async Task EditEvent()
 		{
-			_currentEvent.Title = Title;
-			_currentEvent.Description = Description;
-			_currentEvent.EventType = SelectedEventType;
-			_currentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
-			_currentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
-			_currentEvent.IsCompleted = IsCompleted;
-			await _eventRepository.UpdateEventsAsync(_currentEvent);
+			_selectedCurrentEvent.Title = Title;
+			_selectedCurrentEvent.Description = Description;
+			_selectedCurrentEvent.EventType = SelectedEventType;
+			_selectedCurrentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
+			_selectedCurrentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
+			_selectedCurrentEvent.IsCompleted = IsCompleted;
+			await _eventRepository.UpdateEventsAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");
 		}
 
 		private async Task DeleteSelectedEvent()
 		{
-			await _eventRepository.DeleteFromEventsListAsync(_currentEvent);
+			await _eventRepository.DeleteFromEventsListAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");
 		}
 
 		private async Task ShareEvent()
 		{
-			await _shareEvents.ShareEventAsync(_currentEvent);
+			await _shareEvents.ShareEventAsync(_selectedCurrentEvent);
 		}
 
 		#endregion

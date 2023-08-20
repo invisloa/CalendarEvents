@@ -2,7 +2,10 @@
 
 
 #region Current
-// Value type operations
+
+// clean up code in EventOperationsBaseViewModel.cs and eventViewModel.cs ...
+// all events page date range filter
+// Value type operations,
 // GoTo change page routing 
 
 

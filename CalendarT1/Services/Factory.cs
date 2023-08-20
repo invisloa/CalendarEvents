@@ -3,6 +3,8 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views.CustomControls;
 using CalendarT1.Views.CustomControls.CCInterfaces;
+using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace CalendarT1.Services
 {
@@ -10,7 +12,20 @@ namespace CalendarT1.Services
 	{
 
 		// Event Repository
+		public static ObservableCollection<MeasurementUnitItem> PopulateMeasurementCollection()
+		{
+			return new ObservableCollection<MeasurementUnitItem>(
+			Enum.GetValues(typeof(MeasurementUnit))
+			.Cast<MeasurementUnit>()
+			.Select(unit => new MeasurementUnitItem
+				{
+					Value = unit,
+					DisplayName = unit == MeasurementUnit.Money
+					? CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol
+					: MeasurementUnitItem.GetDescription(unit)
 
+				}));
+		}
 		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
 			if (eventTypeModel.MainEventType == MainEventTypes.Event)

@@ -12,6 +12,7 @@ namespace CalendarT1.ViewModels.EventOperations
 {
     public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC
 	{
+
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
@@ -21,12 +22,12 @@ namespace CalendarT1.ViewModels.EventOperations
 			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 		}
-		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 
-		#region Properties
+		//Fields
+		#region Fields
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		protected IEventRepository _eventRepository;
-		protected IGeneralEventModel _currentEvent;
+		protected IGeneralEventModel _selectedCurrentEvent;
 		protected bool _isCompleted;
 		protected string _title;
 		protected string _description;
@@ -39,9 +40,36 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected AsyncRelayCommand _submitEventCommand;
 		protected Color _mainEventTypeButtonColor;
 		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
+		private bool _isValueTypeSelected;
+		private MeasurementUnitItem _selectedMeasurementUnit;
+		protected ObservableCollection<IUserEventTypeModel> _eventTypesOC;
+		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
+		protected IUserEventTypeModel _selectedEventType;
 
-		MeasurementUnit _measurementUnit;
-		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
+		private string _entryText = "";
+
+		#endregion 
+		//Properties
+		#region Properties
+		public abstract string SubmitButtonText { get; set; }
+
+		public string EventTypePickerText { get => "Select event Type"; }
+
+		public string EntryText
+		{
+			get => _entryText;
+			set
+			{
+				// Validate the value to ensure it's numeric
+				if (IsNumeric(value))
+				{
+					_entryText = value;
+					OnPropertyChanged();
+			//		OnPropertyChanged(nameof(ConcatenatedText)); // Raise property changed for ConcatenatedText too
+				}
+				// Optionally: Handle non-numeric values, e.g., show an error message or revert to previous value
+			}
+		}
 
 		public MainEventTypes SelectedMainEventType
 		{
@@ -49,19 +77,77 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
-				var tempFilteredEventTypes = _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
-				AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
-				OnPropertyChanged(nameof(AllEventTypesOC));
+				FilterAllEventTypesOCByMainEventType(value);
+				OnPropertyChanged();
+			}
+		}
+
+		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
+		{
+			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			OnPropertyChanged(nameof(AllEventTypesOC));
+		}
+
+		private List<IUserEventTypeModel> FilterUserTypesForVisuals(MainEventTypes value)
+		{
+			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
+		}
+		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC = value; }
+		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
+		{
+			get => _eventTypesOC;
+			set
+			{
+				_eventTypesOC = value;
+				OnPropertyChanged();
+			}
+		}
+		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC
+		{
+			get => _measurementUnitsOC;
+			set
+			{
+				_measurementUnitsOC = value;
+				OnPropertyChanged();
+			}
+		}
+		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
+		public ObservableCollection<IGeneralEventModel> AllEventsListOC
+		{
+			get => _allEventsListOC;
+			set
+			{
+				_allEventsListOC = value;
 				OnPropertyChanged();
 			}
 		}
 
 
-		public string EventTypePickerText { get => "Select event Type"; }
-
 		// Basic Event Information
-		#region
-		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC = value; }
+		#region Basic Event Information
+
+
+		public IUserEventTypeModel SelectedEventType
+		{
+			get => _selectedEventType;
+			set
+			{
+				_selectedEventType = value;
+				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
+				_mainEventTypesCCHelper.SelectedMainEventType = _selectedEventType.MainEventType; // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
+				SetVisualsForSelectedUserType();
+				SetPropperVisualForMainTypeSelected(value.MainEventType);
+				if (_selectedEventType.MainEventType == MainEventTypes.Value)
+				{
+					if (MeasurementUnitsOC == null || MeasurementUnitsOC.Count == 0)
+					{
+						MeasurementUnitsOC = Factory.PopulateMeasurementCollection();
+					}
+				}
+				OnPropertyChanged();
+			}
+		}
 
 		public Color MainEventTypeButtonsColor
 		{
@@ -89,7 +175,15 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-
+		public bool IsValueTypeSelected
+		{
+			get => _isValueTypeSelected;
+			set
+			{
+				_isValueTypeSelected = value;
+				OnPropertyChanged();
+			}
+		}
 		public string Title
 		{
 			get => _title;
@@ -124,7 +218,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				}
 			}
 		}
-
 		public TimeSpan StartExactTime
 		{
 			get => _startExactTime;
@@ -139,7 +232,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				}
 			}
 		}
-
 		public DateTime EndDateTime
 		{
 			get => _endDateTime;
@@ -158,7 +250,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-
 		public TimeSpan EndExactTime
 		{
 			get => _endExactTime;
@@ -187,75 +278,34 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-		public MeasurementUnit MeasurementUnit
+		public MeasurementUnitItem SelectedMeasurementUnit
 		{
-			get => _measurementUnit;
+			get => _selectedMeasurementUnit;
 			set
 			{
-				_measurementUnit = value;
-				OnPropertyChanged(nameof(MeasurementUnit));
+				_selectedMeasurementUnit = value;
+				OnPropertyChanged();
+				//OnPropertyChanged(nameof(ConcatenatedText)); // Raise property changed for ConcatenatedText too
 			}
 		}
-		public abstract string SubmitButtonText { get; set; }
 
 		#endregion
 
 		// Command
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
+		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
+		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; set; }
+
 		#endregion
 
-		protected ObservableCollection<IUserEventTypeModel> _eventTypesOC;
-		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
-		{
-			get => _eventTypesOC;
-			set
-			{
-				_eventTypesOC = value;
-				OnPropertyChanged();
-			}
-		}
-		protected ObservableCollection<MeasurementUnit> _measurementUnits;
-		public ObservableCollection<MeasurementUnit> MeasurementUnits
-		{
-			get => _measurementUnits;
-			set
-			{
-				_measurementUnits = value;
-				OnPropertyChanged();
-			}
-		}
-
-		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
-		public ObservableCollection<IGeneralEventModel> AllEventsListOC
-		{
-			get => _allEventsListOC;
-			set
-			{
-				_allEventsListOC = value;
-				OnPropertyChanged();
-			}
-		}
-
-		protected IUserEventTypeModel _selectedEventType;
-		public IUserEventTypeModel SelectedEventType
-		{
-			get => _selectedEventType;
-			set
-			{
-				_selectedEventType = value;
-				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
-				_mainEventTypesCCHelper.SelectedMainEventType = _selectedEventType.MainEventType;		// Not SelectedMainEventType so I wont apply filtering of usertypes
-				SetVisualsForSelectedUserType();
-				if (_selectedEventType.MainEventType == MainEventTypes.Value)
-				{
-					MeasurementUnits = new ObservableCollection<MeasurementUnit>(Enum.GetValues(typeof(MeasurementUnit)).Cast<MeasurementUnit>());
-				}
-				OnPropertyChanged();
-			}
-		}
 
 		// Helper Methods
-		#region Date adjusting methods
+		#region Helper Methods
+		private bool IsNumeric(string value)
+		{
+			return Decimal.TryParse(value, out _);
+		}
+
 		protected void ClearFields()
 		{
 			Title = "";
@@ -289,12 +339,21 @@ namespace CalendarT1.ViewModels.EventOperations
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
 		}
-
+		private void SetPropperVisualForMainTypeSelected(MainEventTypes _maineventType)
+		{
+			if(_maineventType == MainEventTypes.Value)
+			{
+				IsValueTypeSelected = true;
+			}
+			else
+			{
+				IsValueTypeSelected = false;
+			}
+		}
 		public void DisableVisualsForAllMainEventTypes()
 		{
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
 		#endregion
-
 	}
 }

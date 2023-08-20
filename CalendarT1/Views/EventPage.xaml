@@ -25,20 +25,24 @@
         <!--Main Event Types Custom Control-->
         <controls:MainEventTypesCustomControl/>
 
-        
-        
-        <!--THIS TO CHANGE TO CUSTOM ALL EVENT TYPES BUT WITH CUSTOM ALLEVENTTYPESOC (WITH FILTERS)-->
-        <!--User Event Types-->
-
+        <!--User Event Types Custom Control-->
         <controls:EventTypesCustomControl/>
-        <!--<Picker Title="{Binding EventTypePickerText}"
-                ItemsSource="{Binding AllEventTypesOC}"
-                SelectedItem="{Binding EventType, Mode=TwoWay}">
-        </Picker>-->
         
         
-        
-        
+        <!--Selection for measurment types-->
+        <StackLayout             VerticalOptions="CenterAndExpand" 
+            HorizontalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal"  IsVisible="{Binding IsValueTypeSelected}">
+                <Label Text="TYPE OF VALUE:"  VerticalOptions="Center" Margin="10"/>
+                <Picker ItemsSource="{Binding MeasurementUnitsOC}" 
+                        ItemDisplayBinding="{Binding DisplayName}"
+                        SelectedItem="{Binding SelectedMeasurementUnit}" 
+                        Margin="5" 
+                        MinimumWidthRequest="200" 
+                        HorizontalTextAlignment="Center"/>
+            </StackLayout >
+            <Entry HorizontalTextAlignment="Center" Text="{Binding ConcatenatedText}"/>
+        </StackLayout>
         <Editor Placeholder="Description"
                 x:Name="DescriptionEditor" 
                 Text="{Binding Description, Mode=TwoWay}"/>
