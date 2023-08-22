@@ -71,23 +71,21 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Protected Methods
 
 		protected virtual void ApplyEventsDatesFilter(DateTime startDate, DateTime endDate)
-		{
-			var selectedEventTypes = AllEventTypesOC.Where(x => x.IsSelectedToFilter).Select(x => x.EventTypeName).ToList();
-			List<IGeneralEventModel> filteredEvents = new List<IGeneralEventModel>();
-
-			foreach (var eventModel in AllEventsListOC)
 			{
-				if (eventModel.StartDateTime.Date >= startDate && eventModel.EndDateTime.Date <= endDate)
-				{
-					if (selectedEventTypes.Contains(eventModel.EventType.EventTypeName))
-					{
-						filteredEvents.Add(eventModel);
-					}
-				}
-			}
 
-			EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
-		}
+				var selectedToFilterEventTypes = AllEventTypesOC
+				.Where(x => x.IsSelectedToFilter)
+				.Select(x => x.EventTypeName)
+				.ToHashSet();
+
+				List<IGeneralEventModel> filteredEvents = AllEventsListOC
+					.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
+								x.StartDateTime.Date >= startDate &&
+								x.EndDateTime.Date <= endDate)
+					.ToList();
+
+				EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+			}
 
 		#endregion
 	}

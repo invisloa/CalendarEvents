@@ -11,7 +11,8 @@ public partial class ViewAllEventsPage : ContentPage
 	// for viewing all events
 	public ViewAllEventsPage()
 	{
-		var viewModel = ServiceHelper.GetService<AllEventsViewModel>();
+		// Retrieve the view model from DI container
+		var viewModel = MauiProgram.Current.Services.GetService<AllEventsViewModel>();
 
 		BindingContext = viewModel;
 		InitializeComponent();
@@ -40,7 +41,8 @@ public partial class ViewAllEventsPage : ContentPage
 
 	protected override async void OnAppearing()
 	{
+		var viewModel = BindingContext as AllEventsViewModel;
 		base.OnAppearing();
-		(BindingContext as AllEventsViewModel).BindDataToScheduleList();
+		viewModel.BindDataToScheduleList();
 	}
 }

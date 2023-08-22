@@ -16,9 +16,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Fields
 
 		private IUserEventTypeModel _eventType;
-		private DateTime _filterDateFrom = DateTime.MinValue;
-		private DateTime _filterDateTo = DateTime.Today;
-
+		private DateTime _filterDateFrom;
+		private DateTime _filterDateTo;
 		#endregion
 
 		#region Properties
@@ -32,6 +31,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			{
 				_filterDateFrom = value;
 				OnPropertyChanged();
+				BindDataToScheduleList();
 			}
 		}
 		public DateTime FilterDateTo
@@ -41,6 +41,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			{
 				_filterDateTo = value;
 				OnPropertyChanged();
+				BindDataToScheduleList();
 			}
 		}
 		public AsyncRelayCommand DeleteAllEventsCommand { get; set; } // for testing purposes
@@ -64,12 +65,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
 			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
-			BindDataToScheduleList();
+			SetFilterDatesValues();
 		}
 		public AllEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
 		{
-			_eventType = eventType;
-
 			var allTempTypes = new List<IUserEventTypeModel>();
 			foreach (var item in AllEventTypesOC)
 			{
@@ -78,7 +77,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
 			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
-			BindDataToScheduleList();
+			SetFilterDatesValues();
 		}
 
 		#endregion
@@ -110,21 +109,12 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public override void BindDataToScheduleList()
 		{
+
 			if (_eventType == null)
 			{
-				var selectedToFilterEventTypes = AllEventTypesOC
-				.Where(x => x.IsSelectedToFilter)
-				.Select(x => x.EventTypeName)
-				.ToHashSet();
-
-				List<IGeneralEventModel> filteredEvents = AllEventsListOC
-					.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()))
-					.ToList();
-
-				EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+				ApplyEventsDatesFilter(FilterDateFrom, FilterDateTo);
 			}
 			else 
-				if (_eventType != null)
 			{
 				// TODO Change to also visually select proper event type
 				List<IGeneralEventModel> filteredEvents = AllEventsListOC
@@ -136,5 +126,21 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		}
 		#endregion
+
+		public void SetFilterDatesValues()
+		{
+			if (AllEventsListOC.Count != 0)
+			{
+				FilterDateFrom = AllEventsListOC
+					.OrderBy(e => e.StartDateTime)
+					.FirstOrDefault()
+					.StartDateTime;
+			}
+            else
+            {
+				FilterDateFrom = DateTime.Today;
+            }
+            FilterDateTo = DateTime.Today;
+		}
 	}
 }

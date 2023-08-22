@@ -150,6 +150,8 @@ namespace CalendarT1.ViewModels.EventOperations
 						MeasurementUnitsOC = Factory.PopulateMeasurementCollection();
 					}
 				}
+				_submitEventCommand.NotifyCanExecuteChanged();
+
 				OnPropertyChanged();
 			}
 		}
