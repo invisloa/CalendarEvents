@@ -8,14 +8,15 @@
         <StackLayout>
 
             <!-- Textbox for new type name -->
-            <StackLayout Orientation="Horizontal">
-                <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" HorizontalOptions="CenterAndExpand" Margin="10"/>
-                <Button Text="XXX" Command="{Binding GoToAllTypesPageCommand}"/>
-                <Button Text="TempClearALL" Command="{Binding TempRemoveAllUserTypesCommand}"/>
+            <StackLayout Orientation="Horizontal" Margin="20" Padding="5">
+                <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" HorizontalOptions="CenterAndExpand" BackgroundColor="Azure" TextColor="Black"/>
             </StackLayout>
-
+            <Button Text="XXX" Command="{Binding GoToAllTypesPageCommand}"/>
+            <Button Text="TempClearALL" Command="{Binding TempRemoveAllUserTypesCommand}"/>
             <!--Main Event Types Custom Control -->
-            <controls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
+            <StackLayout>
+                <controls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
+            </StackLayout>
 
             <!--Possible Colors of events to choose-->
             <Label Text="CHOOSE TYPES COLOR:" HorizontalOptions="CenterAndExpand" Margin="0, 0, 0, 20"/>

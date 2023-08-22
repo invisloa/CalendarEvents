@@ -152,11 +152,14 @@
 								Text = dayEvents[i].Title,
 								BackgroundColor = dayEvents[i].EventVisibleColor
 							};
-							var tapGestureRecognizer = new TapGestureRecognizer();
-							tapGestureRecognizer.Command = EventSelectedCommand;
-							tapGestureRecognizer.CommandParameter = dayEvents[i];
-							label.GestureRecognizers.Add(tapGestureRecognizer);
-							stackLayout.Children.Add(label);
+							if (dayEvents.Count == 1)
+							{
+								var tapGestureRecognizer = new TapGestureRecognizer();
+								tapGestureRecognizer.Command = EventSelectedCommand;
+								tapGestureRecognizer.CommandParameter = dayEvents[i];
+								label.GestureRecognizers.Add(tapGestureRecognizer);
+								stackLayout.Children.Add(label);
+							}
 						}
 						// If there are more items than the limit, add a 'See more' label
 						if (dayEvents.Count > _displayLimit)

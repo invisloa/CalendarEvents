@@ -2,6 +2,7 @@
 
 
 #region Current
+// fix this 							frame.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 
 // WeeklyEventsPage auto GenerateGrid not working 
 // Value type operations,
