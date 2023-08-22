@@ -25,30 +25,34 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		//Fields
 		#region Fields
+				// Language
+		protected string _submitButtonText;
+
+		// normal fields
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _selectedCurrentEvent;
 		protected bool _isCompleted;
+		private bool _isValueTypeSelected;
 		protected string _title;
 		protected string _description;
+		private string _entryText = "";
 		protected Quantity _quantityAmount;
 		protected DateTime _startDateTime = DateTime.Today;
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
 		protected DateTime _endDateTime = DateTime.Today;
 		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
-		protected string _submitButtonText;
 		protected AsyncRelayCommand _submitEventCommand;
 		protected Color _mainEventTypeButtonColor;
-		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
-		private bool _isValueTypeSelected;
 		private MeasurementUnitItem _selectedMeasurementUnit;
+		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
 		protected ObservableCollection<IUserEventTypeModel> _eventTypesOC;
+		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
 		protected IUserEventTypeModel _selectedEventType;
 
-		private string _entryText = "";
 
-		#endregion 
+		#endregion
 		//Properties
 		#region Properties
 		public abstract string SubmitButtonText { get; set; }
@@ -93,7 +97,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
 		}
-		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC = value; }
+		public ObservableCollection<EventVisualDetails> MainEventTypesOC 
+		{ 
+			get => _mainEventTypesCCHelper.MainEventTypesOC;
+			set => _mainEventTypesCCHelper.MainEventTypesOC = value; 
+		}
 		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
 		{
 			get => _eventTypesOC;
@@ -112,7 +120,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		public ObservableCollection<IGeneralEventModel> AllEventsListOC
 		{
 			get => _allEventsListOC;
@@ -126,8 +133,6 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		// Basic Event Information
 		#region Basic Event Information
-
-
 		public IUserEventTypeModel SelectedEventType
 		{
 			get => _selectedEventType;

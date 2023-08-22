@@ -7,6 +7,10 @@
 // all events page date range filter
 // Value type operations,
 // GoTo change page routing 
+// entrytext to change and check
+
+
+
 
 
 // 				XXX Visual for selected user type and user type custom controll at all

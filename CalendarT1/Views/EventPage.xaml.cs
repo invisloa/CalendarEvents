@@ -11,14 +11,14 @@ namespace CalendarT1.Views
 		// For adding events
 		public EventPage(IEventRepository eventRepository, DateTime selcetedDate)
 		{
-			BindingContext = new EventViewModel(eventRepository, selcetedDate);
+			BindingContext = new EventOperationsViewModel(eventRepository, selcetedDate);
 			InitializeComponent();
 		}
 
 		// For editing events
 		public EventPage(IEventRepository eventRepository, IGeneralEventModel eventModel)
 		{
-			BindingContext = new EventViewModel(eventRepository, eventToEdit: eventModel);
+			BindingContext = new EventOperationsViewModel(eventRepository, eventToEdit: eventModel);
 			InitializeComponent();
 		}
 	}

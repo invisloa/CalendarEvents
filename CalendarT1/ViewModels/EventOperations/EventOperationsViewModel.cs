@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	class EventViewModel : EventOperationsBaseViewModel
+	class EventOperationsViewModel : EventOperationsBaseViewModel
 	{
 
 		#region Fields
@@ -71,7 +71,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		#region Constructors
 		// ctor for creating evnents
-		public EventViewModel(IEventRepository eventRepository, DateTime selectedDate)
+		public EventOperationsViewModel(IEventRepository eventRepository, DateTime selectedDate)
 			: base(eventRepository)
 		{
 			StartDateTime = selectedDate;
@@ -80,7 +80,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
 		}
 		// ctor for editing events
-		public EventViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
+		public EventOperationsViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
 		: base(eventRepository)
 		{
 			_submitEventCommand = new AsyncRelayCommand(EditEvent, CanExecuteSubmitCommand);
