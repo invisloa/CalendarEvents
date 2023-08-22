@@ -2,6 +2,7 @@
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Views;
 using CalendarT1.Views.CustomControls;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
@@ -28,7 +29,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				// Language
 		protected string _submitButtonText;
 
-		// normal fields
+				// normal fields
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _selectedCurrentEvent;
@@ -50,6 +51,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
 		protected IUserEventTypeModel _selectedEventType;
+		private RelayCommand _goToAddNewTypePageCommand;
 
 
 		#endregion
@@ -302,7 +304,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
 		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; set; }
-
+		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
 		#endregion
 
 
@@ -361,6 +363,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
+		private void GoToAddNewTypePage()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
+		}
+
 		#endregion
 	}
 }

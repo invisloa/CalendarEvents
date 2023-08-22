@@ -30,9 +30,12 @@
         
         
         <!--Selection for measurment types-->
-        <StackLayout             VerticalOptions="CenterAndExpand" 
-            HorizontalOptions="CenterAndExpand">
-            <StackLayout Orientation="Horizontal"  IsVisible="{Binding IsValueTypeSelected}">
+        <StackLayout
+            VerticalOptions="CenterAndExpand" 
+            HorizontalOptions="CenterAndExpand"
+            IsVisible="{Binding IsValueTypeSelected}">
+            
+            <StackLayout Orientation="Horizontal" >
                 <Label Text="TYPE OF VALUE:"  VerticalOptions="Center" Margin="10"/>
                 <Picker ItemsSource="{Binding MeasurementUnitsOC}" 
                         ItemDisplayBinding="{Binding DisplayName}"
@@ -42,6 +45,7 @@
                         HorizontalTextAlignment="Center"/>
             </StackLayout >
             <Entry HorizontalTextAlignment="Center" Text="{Binding ConcatenatedText}"/>
+
         </StackLayout>
         <Editor Placeholder="Description"
                 x:Name="DescriptionEditor" 

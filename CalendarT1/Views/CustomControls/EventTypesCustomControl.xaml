@@ -4,7 +4,10 @@
              xmlns:type_models="clr-namespace:CalendarT1.Models.EventTypesModels;assembly=CalendarT1"
              x:Class="CalendarT1.Views.CustomControls.EventTypesCustomControl">
     <StackLayout>
-        <Label Text="YOUR TYPES" HorizontalOptions="Center"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <Label Text="YOUR TYPES" HorizontalOptions="Center" FontSize="24" VerticalTextAlignment="Center" />
+            <Button Text="+" Command="{Binding GoToAddNewTypePageCommand}" Margin="10" BackgroundColor="Aquamarine"/>
+        </StackLayout>
         <CollectionView ItemsSource="{Binding AllEventTypesOC}" HorizontalOptions="FillAndExpand">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="3" />

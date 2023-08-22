@@ -3,11 +3,11 @@
 
 #region Current
 
-// all events page date range filter
+// WeeklyEventsPage auto GenerateGrid not working 
 // Value type operations,
 // GoTo change page routing 
 // entrytext to change and check
-
+// make same with EventTypesCustomControl as with maineventtypescustomcontrol
 
 
 

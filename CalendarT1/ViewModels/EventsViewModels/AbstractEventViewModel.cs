@@ -16,6 +16,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		private RelayCommand<DateTime> _datePickerDateSelectedCommand;
 		private RelayCommand _goToAddEventPageCommand;
+		private RelayCommand _goToAddNewTypePageCommand;
 		private DateTime _currentSelectedDate = DateTime.Now;
 		#endregion
 		
@@ -49,6 +50,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Commands
 		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
+		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
+
 		public RelayCommand<DateTime> DatePickerDateSelectedCommand =>
 			_datePickerDateSelectedCommand ?? (_datePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected));
 
@@ -60,6 +63,11 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository, _currentSelectedDate));
 		}
+		private void GoToAddNewTypePage()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
+		}
+
 		private void DatePickerDateSelected(DateTime newDate)
 		{
 			CurrentSelectedDate = newDate;
