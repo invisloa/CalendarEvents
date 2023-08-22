@@ -8,6 +8,8 @@
         <Grid.RowDefinitions>
             <!-- for EventTypesCustomControl -->
             <RowDefinition Height="Auto"/>
+            <!-- for Date Filtering -->
+            <RowDefinition Height="Auto"/>
             <!-- for the horizontal StackLayout -->
             <RowDefinition Height="Auto"/>
             <!-- for CollectionView -->
@@ -18,8 +20,28 @@
         <!-- All Events Types collection -->
         <customControls:EventTypesCustomControl Grid.Row="0" />
 
+        <!--Date Filters-->
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackLayout Grid.Row="1" >
+                <Label Grid.Row="1" Grid.Column="0" Text="{Binding TextFilterDateFrom}" HorizontalOptions="Center"/>
+                <DatePicker  Grid.Row="1" Grid.Column="0" Date="{Binding FilterDateFrom}" HorizontalOptions="Center" Margin="20"/>
+            </StackLayout >
+            
+            <Label Grid.Row="1" Grid.Column="1" Text="{Binding TextFilterDateTo}" HorizontalOptions="Center"/>
+            <DatePicker  Grid.Row="1" Grid.Column="1" Date="{Binding FilterDateTo}" HorizontalOptions="Center"/>
+            </Grid>
+
         <!-- Events list layout -->
-        <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
             <Label Text="{Binding AboveEventsListText}" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
             <Button Text="DELETE FIRST" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" />
@@ -27,7 +49,7 @@
         </StackLayout>
 
         <!-- EventsToShowList collection -->
-        <CollectionView ItemsSource="{Binding EventsToShowList}" Grid.Row="2">
+        <CollectionView ItemsSource="{Binding EventsToShowList}" Grid.Row="3">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:EventModel">
                     <Grid Margin="0,5,0,5">

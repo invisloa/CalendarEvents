@@ -16,11 +16,33 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Fields
 
 		private IUserEventTypeModel _eventType;
+		private DateTime _filterDateFrom = DateTime.MinValue;
+		private DateTime _filterDateTo = DateTime.Today;
 
 		#endregion
 
 		#region Properties
-
+		
+		public string TextFilterDateFrom { get; set; } = "FILTER FROM:";
+		public string TextFilterDateTo { get; set; } = "FILTER UP TO:";
+		public DateTime FilterDateFrom
+		{
+			get => _filterDateFrom;
+			set
+			{
+				_filterDateFrom = value;
+				OnPropertyChanged();
+			}
+		}
+		public DateTime FilterDateTo
+		{
+			get => _filterDateTo;
+			set
+			{
+				_filterDateTo = value;
+				OnPropertyChanged();
+			}
+		}
 		public AsyncRelayCommand DeleteAllEventsCommand { get; set; } // for testing purposes
 		public AsyncRelayCommand DeleteOneEventCommand { get; set; }  // for testing purposes
 		public string AboveEventsListText
