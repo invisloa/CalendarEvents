@@ -8,6 +8,7 @@
 
     public class MonthlyEventsControl : MauiGrid
 	{
+		private int _displayEventsLimit = 2;
 		public static readonly BindableProperty CurrentSelectedDateProperty =
 			BindableProperty.Create(
 				nameof(CurrentSelectedDate),
@@ -63,10 +64,23 @@
 			defaultValue: null,
 			defaultBindingMode: BindingMode.OneWay,
 			propertyChanged: null);
+
 		public RelayCommand GenerateGridCommand
 		{
 			get => (RelayCommand)GetValue(GenerateGridCommandProperty);
 			set => SetValue(GenerateGridCommandProperty, value);
+		}
+
+		public static readonly BindableProperty GoToSelectedDateCommandProperty =
+			BindableProperty.Create(
+			nameof(GoToSelectedDateCommand),
+			typeof(RelayCommand<DateTime>),
+			typeof(WeeklyEventsControl));
+
+		public RelayCommand<DateTime> GoToSelectedDateCommand
+		{
+			get => (RelayCommand<DateTime>)GetValue(GoToSelectedDateCommandProperty);
+			set => SetValue(GoToSelectedDateCommandProperty, value);
 		}
 
 		// add to constructor or initialization method
@@ -115,11 +129,13 @@
 				int gridColumn = (firstDayOfWeek + day - 1) % 7;
 
 				var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5, MinimumWidthRequest = 100, MinimumHeightRequest = 50 };
+				frame.AutomationId = new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, day).ToString("yyyy-MM-dd");
 
 				var dayEvents = EventsToShowList
 					.Where(e => e.StartDateTime.Date == new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, day))
 					.ToList();
-
+				
+				// if there are events on this day, display them
 				if (dayEvents != null && dayEvents.Count > 0)
 				{
 					var eventColor = dayEvents[0].EventVisibleColor;
@@ -127,12 +143,13 @@
 					// Create a StackLayout for the events
 					var stackLayout = new StackLayout();
 
-					int displayLimit = 2;  // Set a limit to how many items will be displayed
-					for (int i = 0; i < Math.Min(dayEvents.Count, displayLimit); i++)
+					  // Set a limit to how many items will be displayed
+					for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
 					{
 						var label = new Label
 						{
-							FontSize = 10,
+							FontSize = 15,
+							HorizontalTextAlignment = TextAlignment.Center,
 							FontAttributes = FontAttributes.Bold,
 							Text = dayEvents[i].Title,
 							BackgroundColor = dayEvents[i].EventVisibleColor
@@ -144,19 +161,35 @@
 						stackLayout.Children.Add(label);
 					}
 					// If there are more items than the limit, add a 'See more' label
-					if (dayEvents.Count > displayLimit)
+					if (dayEvents.Count > _displayEventsLimit)
 					{
 						var moreLabel = new Label
 						{
-							FontSize = 10,
+							FontSize = 20,
 							FontAttributes = FontAttributes.Italic,
-							Text = $"See {dayEvents.Count - displayLimit} more...",
-							TextColor = Color.FromRgba(255, 255, 255, 255)
+							Text = $"... {dayEvents.Count - _displayEventsLimit} MORE ...",
+							HorizontalTextAlignment = TextAlignment.Center,
+							TextColor = Color.FromRgba(255, 255, 255, 255),
+							BackgroundColor = Color.FromRgba(0, 0, 0, 100)
 						};
+						var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer();
+						tapGestureRecognizerForMoreEvents.Command = GoToSelectedDateCommand;
+						tapGestureRecognizerForMoreEvents.CommandParameter = DateTime.Parse(frame.AutomationId);
+
+
+						frame.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
+						moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 						stackLayout.Children.Add(moreLabel);
 					}
 
 					frame.Content = stackLayout;
+				}
+				else //There are no events in a specific day
+				{
+					var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer();
+					tapGestureRecognizerForMoreEvents.Command = GoToSelectedDateCommand;
+					tapGestureRecognizerForMoreEvents.CommandParameter = DateTime.Parse(frame.AutomationId);
+					frame.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 				}
 
 				Grid.SetRow(frame, gridRow);

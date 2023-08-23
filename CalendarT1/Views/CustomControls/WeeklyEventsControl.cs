@@ -12,7 +12,7 @@
 		private readonly int _minimumDayOfWeekWidthRequest = 50;
 		private readonly int _minimumDayOfWeekHeightRequest = 25;
 		private readonly double _firstColumnForHoursWidth = 50;
-		private readonly int _displayLimit = 0;  // Set a limit to how many items will be displayed
+		private readonly int _displayEventsLimit = 0;  // Set a limit to how many items will be displayed
 
 
 
@@ -143,7 +143,7 @@
 						// Create a StackLayout for the events
 						var stackLayout = new StackLayout();
 
-						for (int i = 0; i < Math.Min(dayEvents.Count, _displayLimit); i++)
+						for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
 						{
 							var label = new Label
 							{
@@ -162,13 +162,13 @@
 							}
 						}
 						// If there are more items than the limit, add a 'See more' label
-						if (dayEvents.Count > _displayLimit)
+						if (dayEvents.Count > _displayEventsLimit)
 						{
 							var moreLabel = new Label
 							{
 								FontSize = 15,
 								FontAttributes = FontAttributes.Italic,
-								Text = $"... {dayEvents.Count - _displayLimit} ...",
+								Text = $"... {dayEvents.Count - _displayEventsLimit} ...",
 								TextColor = Color.FromRgba(255, 255, 255, 255),
 								BackgroundColor = Color.FromRgba(0, 0, 0, 100)
 							};

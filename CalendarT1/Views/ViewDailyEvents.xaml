@@ -40,9 +40,8 @@
 
         <!-- Events list layout -->
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-            <Label Text="{Binding AboveEventsListText}" FontSize="30" HorizontalTextAlignment="Center" />
-            <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
-            <Button Text="+" Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0"/>
+            <Label Text="{Binding AboveEventsListText}" FontSize="25" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+            <Button Text="+" Command="{Binding GoToAddEventPageCommand}" Margin="10" BackgroundColor="Aquamarine" BorderColor="CadetBlue" BorderWidth="3"/>
         </StackLayout>
 
         <!-- EventsToShowList collection -->
