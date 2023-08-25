@@ -12,12 +12,9 @@ namespace CalendarT1.Models.EventModels
 {
 	public class ValueModel : AbstractEventModel
 	{
-		public Quantity Amount { get; set; }
-
-		public ValueModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity amount, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
-			: base(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown)
+		public ValueModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
+			: base(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown, quantityAmount)
 		{
-			Amount = amount;
 		}
 	}
 
@@ -165,6 +162,12 @@ public enum MeasurementUnit
 // helper class
 public class MeasurementUnitItem
 {
+	public MeasurementUnitItem(MeasurementUnit typeOfMeasurementUnit)
+	{
+		TypeOfMeasurementUnit = typeOfMeasurementUnit;
+		DisplayName = GetDescription(TypeOfMeasurementUnit);
+	}
+
 	public MeasurementUnit TypeOfMeasurementUnit { get; set; }
 	public string DisplayName { get; set; }
 	public static string GetDescription(MeasurementUnit typeOfMeasurementUnit)

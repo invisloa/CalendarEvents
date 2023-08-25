@@ -32,7 +32,9 @@ namespace CalendarT1.ViewModels.EventOperations
 				// Language
 		protected string _submitButtonText;
 		private int _fontSize = 20;
-				// normal fields
+
+		// normal fields
+		public bool _isValueTypeTextOK = false;
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _selectedCurrentEvent;
@@ -73,8 +75,10 @@ namespace CalendarT1.ViewModels.EventOperations
 				if (_entryText != value)
 				{
 					_entryText = value;
+					_isValueTypeTextOK = true;
 					QuantityAmount = new Quantity(EntryText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
 					OnPropertyChanged();
+					_submitEventCommand.NotifyCanExecuteChanged();
 				}
 			}
 		}
@@ -331,6 +335,10 @@ namespace CalendarT1.ViewModels.EventOperations
 			StartExactTime = DateTime.Now.TimeOfDay;
 			EndExactTime = DateTime.Now.TimeOfDay;
 			IsCompleted = false;
+			if(SelectedEventType.MainEventType == MainEventTypes.Value)
+			{
+				EntryText = 0;
+			}
 		}
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
 		{

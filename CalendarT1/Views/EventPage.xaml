@@ -57,7 +57,7 @@
                         HorizontalTextAlignment="Center"/>
             </StackLayout >
 
-            <Entry Keyboard="Numeric" Text="{Binding EntryText, Mode=TwoWay}"  HorizontalTextAlignment="End" FontSize="{Binding FontSize}" FontAttributes="Bold">
+            <Entry Keyboard="Numeric"  Text="{Binding EntryText, Mode=TwoWay}"  HorizontalTextAlignment="End" FontSize="{Binding FontSize}" FontAttributes="Bold">
                 <Entry.Behaviors>
                     <toolkit:NumericValidationBehavior 
                 InvalidStyle="{StaticResource InvalidEntryStyle}"

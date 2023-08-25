@@ -17,9 +17,8 @@ namespace CalendarT1.Services
 			return new ObservableCollection<MeasurementUnitItem>(
 			Enum.GetValues(typeof(MeasurementUnit))
 			.Cast<MeasurementUnit>()
-			.Select(unit => new MeasurementUnitItem
+			.Select(unit => new MeasurementUnitItem(unit)
 				{
-					TypeOfMeasurementUnit = unit,
 					DisplayName = unit == MeasurementUnit.Money
 					? CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol
 					: MeasurementUnitItem.GetDescription(unit)

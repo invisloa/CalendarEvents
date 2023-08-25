@@ -98,8 +98,14 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = _selectedCurrentEvent.IsCompleted;
 			SelectedMainEventType = _selectedCurrentEvent.EventType.MainEventType;
 			SelectedEventType = _selectedCurrentEvent.EventType;
-			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(noMatterWhat => { return; });
+			if(_selectedCurrentEvent.QuantityAmount != null)
+			{
+				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
+				EntryText = _selectedCurrentEvent.QuantityAmount.Value;
 
+			}
+			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(noMatterWhat => { return; });
+			
 		}
 		#endregion
 
@@ -107,7 +113,16 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private bool CanExecuteSubmitCommand()
 		{
+			bool isValid = false;
+			if(SelectedEventType!=null && SelectedEventType.MainEventType == MainEventTypes.Value)
+			{
+				if (!_isValueTypeTextOK)
+				{
+					return false; // EntryText is not valid
+				}
+			}
 			return !string.IsNullOrWhiteSpace(Title) && SelectedEventType != null;
+
 		}
 
 		private async Task AddEventAsync()
