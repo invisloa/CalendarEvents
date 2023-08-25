@@ -165,18 +165,18 @@ public enum MeasurementUnit
 // helper class
 public class MeasurementUnitItem
 {
-	public MeasurementUnit Value { get; set; }
+	public MeasurementUnit TypeOfMeasurementUnit { get; set; }
 	public string DisplayName { get; set; }
-	public static string GetDescription(MeasurementUnit unit)
+	public static string GetDescription(MeasurementUnit typeOfMeasurementUnit)
 	{
-		if (unit == MeasurementUnit.Money)
+		if (typeOfMeasurementUnit == MeasurementUnit.Money)
 		{
 			return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
 		}
 
-		var type = unit.GetType();
-		var memberInfo = type.GetMember(unit.ToString());
+		var type = typeOfMeasurementUnit.GetType();
+		var memberInfo = type.GetMember(typeOfMeasurementUnit.ToString());
 		var attributes = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-		return attributes.Length > 0 ? ((DescriptionAttribute)attributes[0]).Description : unit.ToString();
+		return attributes.Length > 0 ? ((DescriptionAttribute)attributes[0]).Description : typeOfMeasurementUnit.ToString();
 	}
 }

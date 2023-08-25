@@ -3,8 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:controls="clr-namespace:CalendarT1.Views.CustomControls"
              x:Class="CalendarT1.Views.EventPage"
-             Title="{Binding PageTitle}">
-    <VerticalStackLayout>
+             Title="{Binding PageTitle}"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+    
+    <ContentPage.Resources>
+        <Style x:Key="InvalidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Red" />
+        </Style>
+        <Style x:Key="ValidEntryStyle" TargetType="Entry">
+            <Setter Property="TextColor" Value="Green" />
+        </Style>
+    </ContentPage.Resources>
+    <ScrollView>
+
+        <VerticalStackLayout >
         <Label 
             Text="{Binding HeaderText}"
             VerticalOptions="StartAndExpand" 
@@ -39,20 +51,32 @@
                 <Label Text="TYPE OF VALUE:"  VerticalOptions="Center" Margin="10"/>
                 <Picker ItemsSource="{Binding MeasurementUnitsOC}" 
                         ItemDisplayBinding="{Binding DisplayName}"
-                        SelectedItem="{Binding SelectedMeasurementUnit}" 
+                        SelectedItem="{Binding SelectedMeasurementUnit, Mode=TwoWay}" 
                         Margin="5" 
                         MinimumWidthRequest="200" 
                         HorizontalTextAlignment="Center"/>
             </StackLayout >
-            <Entry HorizontalTextAlignment="Center" Text="{Binding ConcatenatedText}"/>
 
+            <Entry Keyboard="Numeric" Text="{Binding EntryText, Mode=TwoWay}"  HorizontalTextAlignment="End" FontSize="{Binding FontSize}" FontAttributes="Bold">
+                <Entry.Behaviors>
+                    <toolkit:NumericValidationBehavior 
+                InvalidStyle="{StaticResource InvalidEntryStyle}"
+                ValidStyle="{StaticResource ValidEntryStyle}"
+                Flags="ValidateOnValueChanged"
+                MaximumDecimalPlaces="10"/>
+                </Entry.Behaviors>
+                
+            </Entry>
         </StackLayout>
-        <Editor Placeholder="Description"
-                x:Name="DescriptionEditor" 
-                Text="{Binding Description, Mode=TwoWay}"/>
+        <Editor Placeholder="...DESCRIPTION..."
+                x:Name="DescriptionEditor"  HorizontalTextAlignment="Center"
+                Text="{Binding Description, Mode=TwoWay}"
+                Margin="0, 10, 0, 0" />
         <Button Text="{Binding SubmitButtonText}"
-                Command="{Binding SubmitEventCommand}"/>
-        <Button Text="ShareEvent"
+                Command="{Binding SubmitEventCommand}"      
+               Padding="15"/>
+
+            <Button Text="ShareEvent"
                 Command="{Binding ShareEventCommand}"
                 IsVisible="{Binding IsEdit}"/>
         <Button Text="Temporary Delete Button"
@@ -61,4 +85,7 @@
         <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
                   IsVisible="{Binding IsEdit}"/>
     </VerticalStackLayout>
+
+    </ScrollView>
+
 </ContentPage>

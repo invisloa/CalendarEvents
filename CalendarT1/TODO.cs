@@ -2,13 +2,18 @@
 
 
 #region Current
+// quantity amound for adding events???
+
+
+
+
 // fix this 	error on weekly page						frame.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 
 // WeeklyEventsPage auto GenerateGrid not working 
 // Value type operations,
 // GoTo change page routing 
 // entrytext to change and check
-// make same with EventTypesCustomControl as with maineventtypescustomcontrol
+// make same refactoring to EventTypesCustomControl as with maineventtypescustomcontrol (helper class and interface)
 
 
 

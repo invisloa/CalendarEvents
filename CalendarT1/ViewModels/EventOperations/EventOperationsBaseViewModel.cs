@@ -11,6 +11,9 @@ using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
+	/// <summary>
+	/// Contains only must know data for events
+	/// </summary>
     public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC
 	{
 
@@ -28,7 +31,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		#region Fields
 				// Language
 		protected string _submitButtonText;
-
+		private int _fontSize = 20;
 				// normal fields
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		protected IEventRepository _eventRepository;
@@ -37,7 +40,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private bool _isValueTypeSelected;
 		protected string _title;
 		protected string _description;
-		private string _entryText = "";
+		private decimal _entryText = 0;
 		protected Quantity _quantityAmount;
 		protected DateTime _startDateTime = DateTime.Today;
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
@@ -57,23 +60,22 @@ namespace CalendarT1.ViewModels.EventOperations
 		#endregion
 		//Properties
 		#region Properties
+		public int FontSize => _fontSize;
 		public abstract string SubmitButtonText { get; set; }
 
 		public string EventTypePickerText { get => "Select event Type"; }
 
-		public string EntryText
+		public decimal EntryText
 		{
-			get => _entryText;
+			get { return _entryText; }
 			set
 			{
-				// Validate the value to ensure it's numeric
-				if (IsNumeric(value))
+				if (_entryText != value)
 				{
 					_entryText = value;
+					QuantityAmount = new Quantity(EntryText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
 					OnPropertyChanged();
-			//		OnPropertyChanged(nameof(ConcatenatedText)); // Raise property changed for ConcatenatedText too
 				}
-				// Optionally: Handle non-numeric values, e.g., show an error message or revert to previous value
 			}
 		}
 
@@ -150,6 +152,7 @@ namespace CalendarT1.ViewModels.EventOperations
 					if (MeasurementUnitsOC == null || MeasurementUnitsOC.Count == 0)
 					{
 						MeasurementUnitsOC = Factory.PopulateMeasurementCollection();
+						SelectedMeasurementUnit = MeasurementUnitsOC[0];
 					}
 				}
 				_submitEventCommand.NotifyCanExecuteChanged();
@@ -293,8 +296,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_selectedMeasurementUnit = value;
+				QuantityAmount = new Quantity(EntryText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
 				OnPropertyChanged();
-				//OnPropertyChanged(nameof(ConcatenatedText)); // Raise property changed for ConcatenatedText too
 			}
 		}
 
@@ -346,7 +349,13 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
+			if (SelectedMainEventType == MainEventTypes.Value)
+			{
+				SelectedMeasurementUnit = MeasurementUnitsOC[0];
+			}
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
+
+
 		}
 		private void SetPropperVisualForMainTypeSelected(MainEventTypes _maineventType)
 		{

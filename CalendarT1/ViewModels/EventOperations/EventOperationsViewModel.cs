@@ -27,7 +27,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private bool IsNumeric(string value)
 		{
-			return double.TryParse(value, out _);
+			return decimal.TryParse(value, out _);
 		}
 		public IShareEvents ShareEvents
 		{
@@ -120,12 +120,28 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task EditEvent()
 		{
+			if(_selectedCurrentEvent.EventType.MainEventType == MainEventTypes.Value)
+			{
+				//if(!IsNumeric(EntryText))
+				//{
+				////TODO: Add error message
+				//MessageProcessingHandler.ReferenceEquals("Quantity Amount must be a number", "Error");
+				//return;
+				//}
+				//else
+				//{
+				//	//_selectedCurrentEvent.QuantityAmount = new Quantity((decimal)EntryText, SelectedMeasurementUnit.TypeOfMeasurementUnit);
+				//}
+
+			}
+			
 			_selectedCurrentEvent.Title = Title;
 			_selectedCurrentEvent.Description = Description;
 			_selectedCurrentEvent.EventType = SelectedEventType;
 			_selectedCurrentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_selectedCurrentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 			_selectedCurrentEvent.IsCompleted = IsCompleted;
+			_selectedCurrentEvent.QuantityAmount = QuantityAmount;
 			await _eventRepository.UpdateEventsAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");
 		}

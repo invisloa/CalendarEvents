@@ -19,7 +19,7 @@ namespace CalendarT1.Services
 			.Cast<MeasurementUnit>()
 			.Select(unit => new MeasurementUnitItem
 				{
-					Value = unit,
+					TypeOfMeasurementUnit = unit,
 					DisplayName = unit == MeasurementUnit.Money
 					? CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol
 					: MeasurementUnitItem.GetDescription(unit)
