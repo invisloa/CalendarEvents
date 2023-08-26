@@ -88,8 +88,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 				List<IGeneralEventModel> filteredEvents = AllEventsListOC
 					.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
-								x.StartDateTime.Date >= startDate &&
-								x.EndDateTime.Date <= endDate)
+								x.StartDateTime.Date.Day >= startDate.Day &&
+								x.EndDateTime.Date.Day <= endDate.Day)
 					.ToList();
 
 				EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
