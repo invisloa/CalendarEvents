@@ -25,10 +25,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		public string HeaderText => IsEdit ? $"Edit event of Title: {Title}" : "Add New Event";
 		public bool IsEdit => _selectedCurrentEvent != null;
 
-		private bool IsNumeric(string value)
-		{
-			return decimal.TryParse(value, out _);
-		}
 		public IShareEvents ShareEvents
 		{
 			get => _shareEvents;
@@ -104,7 +100,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				EntryText = _selectedCurrentEvent.QuantityAmount.Value;
 
 			}
-			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(noMatterWhat => { return; });
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(noMatterWhat => { return; });
 			
 		}
 		#endregion

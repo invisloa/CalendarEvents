@@ -2,8 +2,7 @@
 
 
 #region Current
-// quantity amount for adding events???
-
+//advanced search in all events page
 
 
 

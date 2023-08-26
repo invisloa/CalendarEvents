@@ -20,7 +20,7 @@ namespace CalendarT1.Views.CustomControls
 		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 0); // Defeault color is black
 
 
-		private readonly Dictionary<MainEventTypes, EventVisualDetails> _eventVisualDetails = new Dictionary<MainEventTypes, EventVisualDetails>();
+		private readonly Dictionary<MainEventTypes, MainEventVisualDetails> _eventVisualDetails = new Dictionary<MainEventTypes, MainEventVisualDetails>();
 		private MainEventTypes _selectedMainEventType = MainEventTypes.Event;
 		private IUserEventTypeModel _currentType;
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
@@ -37,19 +37,19 @@ namespace CalendarT1.Views.CustomControls
 		}
 
 		// Properties
-		public ObservableCollection<EventVisualDetails> MainEventTypesOC { get; set; }
+		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC { get; set; }
 
-		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; private set; }
+		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; private set; }
 
 		// Constructor
 		public MainEventTypesCCHelper()
 		{
-			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(ConvertEventDetailsAndSelectType);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(ConvertEventDetailsAndSelectType);
 			InitializeMainEventTypes();
 		}
 
 		// Methods
-		private void ConvertEventDetailsAndSelectType(EventVisualDetails selectedEventTypeDetails)
+		private void ConvertEventDetailsAndSelectType(MainEventVisualDetails selectedEventTypeDetails)
 		{
 			if (!Enum.TryParse(selectedEventTypeDetails.MainEventNameText, out MainEventTypes parsedTypeOfEvent))
 			{
@@ -68,7 +68,7 @@ namespace CalendarT1.Views.CustomControls
 			_eventVisualDetails[mainEventType].Border = NoBorderSize;
 
 			// Force update of the ObservableCollection
-			MainEventTypesOC = new ObservableCollection<EventVisualDetails>(_eventVisualDetails.Values);
+			MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>(_eventVisualDetails.Values);
 		}
 		public void DisableVisualsForAllMainEventTypes()
 		{
@@ -80,12 +80,12 @@ namespace CalendarT1.Views.CustomControls
 		}
 		private void InitializeMainEventTypes()
 		{
-			MainEventTypesOC = new ObservableCollection<EventVisualDetails>();
+			MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>();
 
 			// dynamically create Main Event Types according to enum
 			foreach (MainEventTypes eventType in Enum.GetValues(typeof(MainEventTypes)))
 			{
-				var eventDetails = new EventVisualDetails
+				var eventDetails = new MainEventVisualDetails
 				{
 					MainEventNameText = eventType.ToString(),
 					Opacity = FadedOpacity,
@@ -100,7 +100,7 @@ namespace CalendarT1.Views.CustomControls
 		}
 	}
 
-	public class EventVisualDetails : BaseViewModel
+	public class MainEventVisualDetails : BaseViewModel
 	{
 		// Fields
 		private string _mainEventNameText;

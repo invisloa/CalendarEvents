@@ -16,8 +16,8 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces
 	public interface IMainEventTypesCC
 	{
 		public MainEventTypes SelectedMainEventType { get; set; }
-		ObservableCollection<EventVisualDetails> MainEventTypesOC { get; set; }
-		RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; }
+		ObservableCollection<MainEventVisualDetails> MainEventTypesOC { get; set; }
+		RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; }
 		public Color MainEventTypeButtonsColor { get; set; }
 		public void DisableVisualsForAllMainEventTypes();
 	}

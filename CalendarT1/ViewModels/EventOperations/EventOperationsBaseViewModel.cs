@@ -23,7 +23,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			MainEventTypeSelectedCommand = new RelayCommand<EventVisualDetails>(OnMainEventTypeSelected);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 		}
 
@@ -105,7 +105,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
 		}
-		public ObservableCollection<EventVisualDetails> MainEventTypesOC 
+		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC 
 		{ 
 			get => _mainEventTypesCCHelper.MainEventTypesOC;
 			set => _mainEventTypesCCHelper.MainEventTypesOC = value; 
@@ -310,7 +310,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		// Command
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
-		public RelayCommand<EventVisualDetails> MainEventTypeSelectedCommand { get; set; }
+		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
 		#endregion
 
@@ -353,7 +353,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x.EventTypeName == _selectedEventType.EventTypeName);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
 		}
-		protected void OnMainEventTypeSelected(EventVisualDetails eventType)
+		protected void OnMainEventTypeSelected(MainEventVisualDetails eventType)
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
@@ -362,7 +362,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				SelectedMeasurementUnit = MeasurementUnitsOC[0];
 			}
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
-
 
 		}
 		private void SetPropperVisualForMainTypeSelected(MainEventTypes _maineventType)

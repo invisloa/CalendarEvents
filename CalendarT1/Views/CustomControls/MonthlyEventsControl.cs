@@ -85,7 +85,7 @@
 			BindableProperty.Create(
 			nameof(GoToSelectedDateCommand),
 			typeof(RelayCommand<DateTime>),
-			typeof(WeeklyEventsControl));
+			typeof(MonthlyEventsControl));  // TO CHECK CHANGED FROM WEEKLY TO MONTHLY
 
 		public RelayCommand<DateTime> GoToSelectedDateCommand
 		{

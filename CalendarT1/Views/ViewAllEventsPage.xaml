@@ -17,6 +17,9 @@
 
         </Grid.RowDefinitions>
             <!--TODO ADD SEARCH OPTIONS-->
+
+        <!--Main Event Types Custom Control-->
+        <customControls:MainEventTypesCustomControl/>
         <!-- All Events Types collection -->
         <customControls:EventTypesCustomControl Grid.Row="0" />
 

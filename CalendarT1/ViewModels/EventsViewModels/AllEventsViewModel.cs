@@ -1,6 +1,9 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
+using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Views.CustomControls;
+using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -11,17 +14,72 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-	internal class AllEventsViewModel : AbstractEventViewModel
+	internal class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC
 	{
+		#region MainEventTypesCC implementation
+
+
+		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
+
+		public MainEventTypes SelectedMainEventType
+		{
+			get => _mainEventTypesCCHelper.SelectedMainEventType;
+			set
+			{
+				_mainEventTypesCCHelper.SelectedMainEventType = value;
+				FilterAllEventTypesOCByMainEventType(value);
+				OnPropertyChanged();
+			}
+		}
+		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
+		{
+			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			OnPropertyChanged(nameof(AllEventTypesOC));
+		}
+		private List<IUserEventTypeModel> FilterUserTypesForVisuals(MainEventTypes value)
+		{
+			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
+		}
+		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC
+		{
+			get => _mainEventTypesCCHelper.MainEventTypesOC;
+			set => _mainEventTypesCCHelper.MainEventTypesOC = value;
+		}
+		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; }
+		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 153); // Defeault color is blue
+		public void DisableVisualsForAllMainEventTypes()
+		{
+			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
+		}
+		protected void OnMainEventTypeSelected(MainEventVisualDetails eventType)
+		{
+			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
+			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
+			if (SelectedMainEventType == MainEventTypes.Value)
+			{
+
+			}
+			OnUserEventTypeSelected(AllEventTypesOC[0]);
+
+		}
+
+		#endregion
+
+
+
+
+
 		#region Fields
 
 		private IUserEventTypeModel _eventType;
 		private DateTime _filterDateFrom;
 		private DateTime _filterDateTo;
+		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		#endregion
 
 		#region Properties
-		
+
 		public string TextFilterDateFrom { get; set; } = "FILTER FROM:";
 		public string TextFilterDateTo { get; set; } = "FILTER UP TO:";
 		public DateTime FilterDateFrom
