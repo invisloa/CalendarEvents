@@ -2,7 +2,7 @@
 
 
 #region Current
-// Alleventspage filtering with main events and user events
+// AllEventPpage filtering with main events and user events
 //advanced search in all events page
 
 
