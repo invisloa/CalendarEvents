@@ -357,12 +357,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-			if (SelectedMainEventType == MainEventTypes.Value)
-			{
-				SelectedMeasurementUnit = MeasurementUnitsOC[0];
-			}
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
-
 		}
 		private void SetPropperVisualForMainTypeSelected(MainEventTypes _maineventType)
 		{

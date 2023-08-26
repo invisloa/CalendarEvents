@@ -78,12 +78,12 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#endregion
 
 		#region Public Methods
-		public void UpdateAllEventList()
+		public void UpdateAllEventList()		// TO Check idk if it does anything OC updates automatically
 		{
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 		}
 
-		public void UpdateAllEventTypesList()
+		public void UpdateAllEventTypesList()	// TO Check idk if it does anything OC updates automatically
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}

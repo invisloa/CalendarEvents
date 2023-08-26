@@ -126,7 +126,7 @@ namespace CalendarT1.Models.EventModels
 
 public enum MeasurementUnit
 {
-	[Description("currency")]
+	[Description("Currency")]
 	Money,
 	[Display(Name = "mg")]
 	Milligram,
@@ -134,10 +134,12 @@ public enum MeasurementUnit
 	Gram,
 	[Display(Name = "kg")]
 	Kilogram,
+
 	[Display(Name = "ml")]
 	Milliliter,
 	[Display(Name = "L")]
 	Liter,
+
 	[Display(Name = "cm")]
 	Centimeter,
 	[Display(Name = "mm")]
@@ -148,6 +150,20 @@ public enum MeasurementUnit
 	Kilometer,
 
 
+	[Display(Name = "Week")]
+	Week,
+	[Display(Name = "Day")]
+	Day,
+	[Display(Name = "Hour")]
+	Hour,
+	[Display(Name = "Minute")]
+	Minute,
+	[Display(Name = "Second")]
+	Second,
+
+
+
+
 	[Display(Name = "Square Meter (m²)")]
 	SquareMeter,
 	[Display(Name = "Square Kilometer (km²)")]
@@ -155,7 +171,16 @@ public enum MeasurementUnit
 	[Display(Name = "Are (a)")]
 	Are,
 	[Display(Name = "Hectare (ha)")]
-	Hectare
+	Hectare,
+
+
+	[Display(Name = "Celsius")]
+	Celsius,
+	[Display(Name = "Fahrenheit")]
+	Fahrenheit,
+	[Display(Name = "Kelvin")]
+	Kelvin,
+
 
 }
 

@@ -2,6 +2,7 @@
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.ViewModels.HelperClass;
 using CalendarT1.Views.CustomControls;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
@@ -17,7 +18,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	internal class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC
 	{
 		#region MainEventTypesCC implementation
-
+		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
+		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass = Factory.CreateMeasurementOperationsHelperClass();
 
 		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
 
@@ -63,7 +65,37 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
 
 		}
-
+		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
+		{
+			selectedEvent.IsSelectedToFilter = !selectedEvent.IsSelectedToFilter;
+			if (selectedEvent.IsSelectedToFilter)
+			{
+				selectedEvent.BackgroundColor = selectedEvent.EventTypeColor;
+			}
+/*			else
+			{
+				selectedEvent.BackgroundColor = Color.FromHex("#FFC0C0C0");
+			}
+			var tempAlleventTypesToCheckIfValue = AllEventTypesOC.Where(x => x.IsSelectedToFilter == true).ToList();
+			if (tempAlleventTypesToCheckIfValue.Count != 0 )
+			{
+				var numberOfEvents = tempAlleventTypesToCheckIfValue.Count;
+				// if all selected events are of type value
+				if (numberOfEvents == tempAlleventTypesToCheckIfValue.Where(x => x.MainEventType == MainEventTypes.Value).Count())
+				{
+*//*					//check if all selected events are from same measurement type
+					var measurementTypeList = tempAlleventTypesToCheckIfValue.Select(x => x.).ToList();
+					if(_measurementOperationsHelperClass.DoValueTypesCalculations(AllEventsListOC.))*//*
+				}
+				else
+				{
+				}
+				BindDataToScheduleList();
+				return;
+			}
+			if(AllEventTypesOC)*/
+			BindDataToScheduleList();
+		}
 		#endregion
 
 
@@ -124,6 +156,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
 			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
 			SetFilterDatesValues();
+			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
+
 		}
 		public AllEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
 		{
