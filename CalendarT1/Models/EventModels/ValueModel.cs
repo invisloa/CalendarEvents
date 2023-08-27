@@ -128,57 +128,57 @@ public enum MeasurementUnit
 {
 	[Description("Currency")]
 	Money,
-	[Display(Name = "mg")]
+	[Description("mg")]
 	Milligram,
-	[Display(Name = "g")]
+	[Description("g")]
 	Gram,
-	[Display(Name = "kg")]
+	[Description("kg")]
 	Kilogram,
 
-	[Display(Name = "ml")]
+	[Description("ml")]
 	Milliliter,
-	[Display(Name = "L")]
+	[Description("L")]
 	Liter,
 
-	[Display(Name = "cm")]
+	[Description("cm")]
 	Centimeter,
-	[Display(Name = "mm")]
+	[Description("mm")]
 	Millimeter,
-	[Display(Name = "m")]
+	[Description("m")]
 	Meter,
-	[Display(Name = "km")]
+	[Description("km")]
 	Kilometer,
 
 
-	[Display(Name = "Week")]
+	[Description("Week")]
 	Week,
-	[Display(Name = "Day")]
+	[Description("Day")]
 	Day,
-	[Display(Name = "Hour")]
+	[Description("Hour")]
 	Hour,
-	[Display(Name = "Minute")]
+	[Description("Minute")]
 	Minute,
-	[Display(Name = "Second")]
+	[Description("Second")]
 	Second,
 
 
 
 
-	[Display(Name = "Square Meter (m²)")]
+	[Description("Square Meter (m²)")]
 	SquareMeter,
-	[Display(Name = "Square Kilometer (km²)")]
+	[Description("Square Kilometer (km²)")]
 	SquareKilometer,
-	[Display(Name = "Are (a)")]
+	[Description("Are (a)")]
 	Are,
-	[Display(Name = "Hectare (ha)")]
+	[Description("Hectare (ha)")]
 	Hectare,
 
 
-	[Display(Name = "Celsius")]
+	[Description("Celsius")]
 	Celsius,
-	[Display(Name = "Fahrenheit")]
+	[Description("Fahrenheit")]
 	Fahrenheit,
-	[Display(Name = "Kelvin")]
+	[Description("Kelvin")]
 	Kelvin,
 
 
@@ -187,24 +187,30 @@ public enum MeasurementUnit
 // helper class
 public class MeasurementUnitItem
 {
-	public MeasurementUnitItem(MeasurementUnit typeOfMeasurementUnit)
+	public MeasurementUnitItem(MeasurementUnit unit)
 	{
-		TypeOfMeasurementUnit = typeOfMeasurementUnit;
-		DisplayName = GetDescription(TypeOfMeasurementUnit);
+		Unit = unit;
+		DisplayName = unit.GetDescription(); // using extension method
 	}
 
-	public MeasurementUnit TypeOfMeasurementUnit { get; set; }
+	public MeasurementUnit Unit { get; set; }
 	public string DisplayName { get; set; }
-	public static string GetDescription(MeasurementUnit typeOfMeasurementUnit)
+}
+
+
+// Extension method for MeasurementUnitItem to get the description attribute
+public static class MeasurementUnitExtensions
+{
+	public static string GetDescription(this MeasurementUnit unit)
 	{
-		if (typeOfMeasurementUnit == MeasurementUnit.Money)
+		if (unit == MeasurementUnit.Money)
 		{
 			return CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol;
 		}
 
-		var type = typeOfMeasurementUnit.GetType();
-		var memberInfo = type.GetMember(typeOfMeasurementUnit.ToString());
+		var type = unit.GetType();
+		var memberInfo = type.GetMember(unit.ToString());
 		var attributes = memberInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
-		return attributes.Length > 0 ? ((DescriptionAttribute)attributes[0]).Description : typeOfMeasurementUnit.ToString();
+		return attributes.Length > 0 ? ((DescriptionAttribute)attributes[0]).Description : unit.ToString();
 	}
 }

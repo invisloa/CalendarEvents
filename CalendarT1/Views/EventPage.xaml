@@ -41,33 +41,7 @@
             <customControls:EventTypesCustomControl/>
         
         
-        <!--Selection for measurment types-->
-        <StackLayout
-            VerticalOptions="CenterAndExpand" 
-            HorizontalOptions="CenterAndExpand"
-            IsVisible="{Binding IsValueTypeSelected}">
-            
-            <StackLayout Orientation="Horizontal" >
-                <Label Text="TYPE OF VALUE:"  VerticalOptions="Center" Margin="10"/>
-                <Picker ItemsSource="{Binding MeasurementUnitsOC}" 
-                        ItemDisplayBinding="{Binding DisplayName}"
-                        SelectedItem="{Binding SelectedMeasurementUnit, Mode=TwoWay}" 
-                        Margin="5" 
-                        MinimumWidthRequest="200" 
-                        HorizontalTextAlignment="Center"/>
-            </StackLayout >
 
-            <Entry Keyboard="Numeric"  Text="{Binding EntryText, Mode=TwoWay}"  HorizontalTextAlignment="End" FontSize="{Binding FontSize}" FontAttributes="Bold">
-                <Entry.Behaviors>
-                    <toolkit:NumericValidationBehavior 
-                InvalidStyle="{StaticResource InvalidEntryStyle}"
-                ValidStyle="{StaticResource ValidEntryStyle}"
-                Flags="ValidateOnValueChanged"
-                MaximumDecimalPlaces="10"/>
-                </Entry.Behaviors>
-                
-            </Entry>
-        </StackLayout>
         <Editor Placeholder="...DESCRIPTION..."
                 x:Name="DescriptionEditor"  HorizontalTextAlignment="Center"
                 Text="{Binding Description, Mode=TwoWay}"

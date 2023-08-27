@@ -31,6 +31,14 @@ namespace CalendarT1.ViewModels
 				}
 			}
 		}
+		public MeasurementUnitItem SelectedMeasurementUnit
+		{
+			get => _mainEventTypesCCHelper.SelectedMeasurementUnit;
+			set
+			{
+				_mainEventTypesCCHelper.SelectedMeasurementUnit = value;
+			}
+		}
 
 		private void MarkIfValueTypeIsSelected(MainEventTypes _maineventType)
 		{
