@@ -141,7 +141,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		// Basic Event Information
 		#region Basic Event Information
-		public IUserEventTypeModel SelectedEventType
+		public IUserEventTypeModel SelectedEventType		// TO CHANGE !!!
 		{
 			get => _selectedEventType;
 			set
@@ -150,7 +150,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
 				_mainEventTypesCCHelper.SelectedMainEventType = _selectedEventType.MainEventType; // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
 				SetVisualsForSelectedUserType();
-				SetPropperVisualForMainTypeSelected(value.MainEventType);
+				MarkIfValueTypeIsSelected(value.MainEventType);
 				if (_selectedEventType.MainEventType == MainEventTypes.Value)
 				{
 					if (MeasurementUnitsOC == null || MeasurementUnitsOC.Count == 0)
@@ -359,7 +359,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
 		}
-		private void SetPropperVisualForMainTypeSelected(MainEventTypes _maineventType)
+		private void MarkIfValueTypeIsSelected(MainEventTypes _maineventType)
 		{
 			if(_maineventType == MainEventTypes.Value)
 			{

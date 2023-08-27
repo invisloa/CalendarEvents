@@ -20,6 +20,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
 		private RelayCommand<UserEventTypeModel> _selectUserEventTypeCommand;
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
+		private Color _deselectedUserEventTypeColor = Color.FromHex("#FFC0C0C0");
 		#endregion
 
 		#region Properties
@@ -58,7 +59,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-		public RelayCommand<UserEventTypeModel> SelectUserEventTypeCommand => _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<UserEventTypeModel>(SelectUserEventType));
+		public RelayCommand<UserEventTypeModel> SelectUserEventTypeCommand => _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<UserEventTypeModel>(OnUserEventTypeSelected));
 		public RelayCommand<IGeneralEventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
 		public RelayCommand<DateTime> GoToSelectedDateCommand { get; set; }
 
@@ -99,7 +100,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#endregion
 
 		#region Private Methods
-		protected virtual void SelectUserEventType(IUserEventTypeModel eventSubType)
+		protected virtual void OnUserEventTypeSelected(IUserEventTypeModel eventSubType)
 		{
 			eventSubType.IsSelectedToFilter = !eventSubType.IsSelectedToFilter;
 			if(eventSubType.IsSelectedToFilter)
@@ -108,7 +109,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 			else
 			{
-				eventSubType.BackgroundColor = Color.FromHex("#FFC0C0C0");
+				eventSubType.BackgroundColor = _deselectedUserEventTypeColor;
 			}
 			BindDataToScheduleList();
 		}

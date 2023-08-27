@@ -60,41 +60,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 			//OnUserEventTypeSelected(AllEventTypesOC[0]);
 		}
-		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
-		{
-			selectedEvent.IsSelectedToFilter = !selectedEvent.IsSelectedToFilter;
-			if (selectedEvent.IsSelectedToFilter)
-			{
-				selectedEvent.BackgroundColor = selectedEvent.EventTypeColor;
-			}
 
-
-
-			// TO DO TO DO
-/*			else
-			{
-				selectedEvent.BackgroundColor = Color.FromHex("#FFC0C0C0");
-			}
-			var tempAlleventTypesToCheckIfValue = AllEventTypesOC.Where(x => x.IsSelectedToFilter == true).ToList();
-			if (tempAlleventTypesToCheckIfValue.Count != 0 )
-			{
-				var numberOfEvents = tempAlleventTypesToCheckIfValue.Count;
-				// if all selected events are of type value
-				if (numberOfEvents == tempAlleventTypesToCheckIfValue.Where(x => x.MainEventType == MainEventTypes.Value).Count())
-				{
-*//*					//check if all selected events are from same measurement type
-					var measurementTypeList = tempAlleventTypesToCheckIfValue.Select(x => x.).ToList();
-					if(_measurementOperationsHelperClass.DoValueTypesCalculations(AllEventsListOC.))*//*
-				}
-				else
-				{
-				}
-				BindDataToScheduleList();
-				return;
-			}
-			if(AllEventTypesOC)*/
-			BindDataToScheduleList();
-		}
 		#endregion
 
 

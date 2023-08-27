@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Models.EventTypesModels;
+using CalendarT1.Services;
 using CalendarT1.ViewModels;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using System;
@@ -17,6 +18,8 @@ namespace CalendarT1.Views.CustomControls
 		private const float FadedOpacity = 0.3f;
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
+		private ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC;
+		private MeasurementUnitItem _selectedMeasurementUnit;
 		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 0); // Defeault color is black
 
 
@@ -32,10 +35,18 @@ namespace CalendarT1.Views.CustomControls
 			{
 				_selectedMainEventType = value;
 				// set visuals for selected event type
-				SetSelectedMainEventType(_selectedMainEventType);
+				// SetSelectedMainEventType(_selectedMainEventType);		// TO CHECK IF COMMENTING THIS LINE IS OK
 			}
 		}
 
+		public MeasurementUnitItem SelectedMeasurementUnit
+		{
+			get { return _selectedMeasurementUnit; }
+			set
+			{
+				_selectedMeasurementUnit = value;
+			}
+		}
 		// Properties
 		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC { get; set; }
 
@@ -68,7 +79,15 @@ namespace CalendarT1.Views.CustomControls
 			_eventVisualDetails[mainEventType].Border = NoBorderSize;
 
 			// Force update of the ObservableCollection
-			MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>(_eventVisualDetails.Values);
+			// To Check - OC Should Update automatically // MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>(_eventVisualDetails.Values);
+			if (mainEventType == MainEventTypes.Value)
+			{
+				if (MeasurementUnitsOC == null || MeasurementUnitsOC.Count == 0)
+				{
+					MeasurementUnitsOC = Factory.PopulateMeasurementCollection();
+					SelectedMeasurementUnit = MeasurementUnitsOC[0];
+				}
+			}
 		}
 		public void DisableVisualsForAllMainEventTypes()
 		{

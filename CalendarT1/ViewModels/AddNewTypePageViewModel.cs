@@ -17,9 +17,32 @@ namespace CalendarT1.ViewModels
 {
 	public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC
 	{
-		#region Fields
-		private const int NoBorderSize = 0;
-		private const int BorderSize = 10;
+
+		private bool _isValueTypeSelected;
+		public bool IsValueTypeSelected
+		{
+			get => IsValueTypeSelected;
+			set
+			{
+				if(_isValueTypeSelected != value)
+				{
+					_isValueTypeSelected = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		private void MarkIfValueTypeIsSelected(MainEventTypes _maineventType)
+		{
+			if (_maineventType == MainEventTypes.Value)
+			{
+				IsValueTypeSelected = true;
+			}
+			else
+			{
+				IsValueTypeSelected = false;
+			}
+		}
 		public MainEventTypes SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
@@ -28,6 +51,29 @@ namespace CalendarT1.ViewModels
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
 			}
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		#region Fields
+		private const int NoBorderSize = 0;
+		private const int BorderSize = 10;
+
 		private IUserEventTypeModel _currentType;   // if null => add new type, else => edit type
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 		private string _typeName;
@@ -179,11 +225,6 @@ namespace CalendarT1.ViewModels
 			{
 				button.ButtonBorder = button == selectedColor ? NoBorderSize : BorderSize;
 			}
-		}
-		public void SelectMainEventType(MainEventTypes mainEventTypes)
-		{
-			SelectedMainEventType = mainEventTypes;
-			 
 		}
 		private void GoToAllTypesPage()
 		{
