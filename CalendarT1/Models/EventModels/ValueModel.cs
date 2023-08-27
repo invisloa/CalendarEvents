@@ -189,11 +189,11 @@ public class MeasurementUnitItem
 {
 	public MeasurementUnitItem(MeasurementUnit unit)
 	{
-		Unit = unit;
+		TypeOfMeasurementUnit = unit;
 		DisplayName = unit.GetDescription(); // using extension method
 	}
 
-	public MeasurementUnit Unit { get; set; }
+	public MeasurementUnit TypeOfMeasurementUnit { get; set; }
 	public string DisplayName { get; set; }
 }
 
