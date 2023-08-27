@@ -7,6 +7,7 @@ using CalendarT1.Views.CustomControls;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
@@ -16,6 +17,78 @@ namespace CalendarT1.ViewModels.EventOperations
 	/// </summary>
     public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC
 	{
+
+		public Quantity QuantityAmount
+		{
+			get => _quantityAmount;
+			set
+			{
+				_quantityAmount = value;
+				OnPropertyChanged();
+			}
+		}
+		public MeasurementUnitItem SelectedMeasurementUnit
+		{
+			get => _selectedMeasurementUnit;
+			set
+			{
+				_selectedMeasurementUnit = value;
+				QuantityAmount = new Quantity(QuantityValueText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
+				OnPropertyChanged();
+			}
+		}
+		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
+		private MeasurementUnitItem _selectedMeasurementUnit;
+		public decimal QuantityValueText
+		{
+			get { return _entryText; }
+			set
+			{
+				if (_entryText != value)
+				{
+					_entryText = value;
+					_isValueTypeTextOK = true;
+					QuantityAmount = new Quantity(QuantityValueText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
+					OnPropertyChanged();
+					_submitEventCommand.NotifyCanExecuteChanged();
+				}
+			}
+		}
+		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC
+		{
+			get => _measurementUnitsOC;
+			set
+			{
+				_measurementUnitsOC = value;
+				OnPropertyChanged();
+			}
+		}
+
+
+
+		// The below code was in setter of SelectedEventType
+		//MarkIfValueTypeIsSelected(value.MainEventType);
+		//		if (_selectedEventType.MainEventType == MainEventTypes.Value)
+		//		{
+		//			if (MeasurementUnitsOC == null || MeasurementUnitsOC.Count == 0)
+		//			{
+		//				MeasurementUnitsOC = Factory.PopulateMeasurementCollection();
+		//				SelectedMeasurementUnit = MeasurementUnitsOC[0];
+		//			}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
@@ -50,11 +123,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
 		protected AsyncRelayCommand _submitEventCommand;
 		protected Color _mainEventTypeButtonColor;
-		private MeasurementUnitItem _selectedMeasurementUnit;
 		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
 		protected ObservableCollection<IUserEventTypeModel> _eventTypesOC;
 		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
-		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
 		protected IUserEventTypeModel _selectedEventType;
 		private RelayCommand _goToAddNewTypePageCommand;
 
@@ -67,21 +138,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		public string EventTypePickerText { get => "Select event Type"; }
 
-		public decimal EntryText
-		{
-			get { return _entryText; }
-			set
-			{
-				if (_entryText != value)
-				{
-					_entryText = value;
-					_isValueTypeTextOK = true;
-					QuantityAmount = new Quantity(EntryText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
-					OnPropertyChanged();
-					_submitEventCommand.NotifyCanExecuteChanged();
-				}
-			}
-		}
+
 
 		public MainEventTypes SelectedMainEventType
 		{
@@ -119,15 +176,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC
-		{
-			get => _measurementUnitsOC;
-			set
-			{
-				_measurementUnitsOC = value;
-				OnPropertyChanged();
-			}
-		}
+
 		public ObservableCollection<IGeneralEventModel> AllEventsListOC
 		{
 			get => _allEventsListOC;
@@ -150,15 +199,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
 				_mainEventTypesCCHelper.SelectedMainEventType = _selectedEventType.MainEventType; // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
 				SetVisualsForSelectedUserType();
-				MarkIfValueTypeIsSelected(value.MainEventType);
-				if (_selectedEventType.MainEventType == MainEventTypes.Value)
-				{
-					if (MeasurementUnitsOC == null || MeasurementUnitsOC.Count == 0)
-					{
-						MeasurementUnitsOC = Factory.PopulateMeasurementCollection();
-						SelectedMeasurementUnit = MeasurementUnitsOC[0];
-					}
-				}
+
 				_submitEventCommand.NotifyCanExecuteChanged();
 
 				OnPropertyChanged();
@@ -285,25 +326,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-		public Quantity QuantityAmount
-		{
-			get => _quantityAmount;
-			set
-			{
-				_quantityAmount = value;
-				OnPropertyChanged();
-			}
-		}
-		public MeasurementUnitItem SelectedMeasurementUnit
-		{
-			get => _selectedMeasurementUnit;
-			set
-			{
-				_selectedMeasurementUnit = value;
-				QuantityAmount = new Quantity(EntryText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
-				OnPropertyChanged();
-			}
-		}
+
 
 		#endregion
 
@@ -337,7 +360,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = false;
 			if(SelectedEventType.MainEventType == MainEventTypes.Value)
 			{
-				EntryText = 0;
+				QuantityValueText = 0;
 			}
 		}
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)

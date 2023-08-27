@@ -23,7 +23,7 @@ namespace CalendarT1.Models.EventModels
 			public decimal Value { get; private set; }
 			public MeasurementUnit Unit { get; private set; }
 
-			public Quantity(decimal value, MeasurementUnit unit)
+			public Quantity(MeasurementUnit unit, decimal value)
 			{
 				Value = value;
 				Unit = unit;
@@ -37,49 +37,49 @@ namespace CalendarT1.Models.EventModels
 				switch (Unit)
 				{
 					case MeasurementUnit.Kilogram when targetUnit == MeasurementUnit.Gram:
-						return new Quantity(Value * 1000, targetUnit);
+						return new Quantity(targetUnit, Value * 1000);
 					case MeasurementUnit.Kilogram when targetUnit == MeasurementUnit.Milligram:
-						return new Quantity(Value * 1000000, targetUnit);
+						return new Quantity(targetUnit, Value * 1000000);
 					case MeasurementUnit.Gram when targetUnit == MeasurementUnit.Kilogram:
-						return new Quantity(Value / 1000, targetUnit);
+						return new Quantity(targetUnit, Value / 1000);
 					case MeasurementUnit.Gram when targetUnit == MeasurementUnit.Milligram:
-						return new Quantity(Value * 1000, targetUnit);
+						return new Quantity(targetUnit, Value * 1000);
 					case MeasurementUnit.Milligram when targetUnit == MeasurementUnit.Gram:
-						return new Quantity(Value / 1000, targetUnit);
+						return new Quantity(targetUnit, Value / 1000);
 					case MeasurementUnit.Milligram when targetUnit == MeasurementUnit.Kilogram:
-						return new Quantity(Value / 1000000, targetUnit);
+						return new Quantity(targetUnit, Value / 1000000);
 					case MeasurementUnit.Liter when targetUnit == MeasurementUnit.Milliliter:
-						return new Quantity(Value * 1000, targetUnit);
+						return new Quantity(targetUnit, Value * 1000);
 					case MeasurementUnit.Milliliter when targetUnit == MeasurementUnit.Liter:
-						return new Quantity(Value / 1000, targetUnit);
+						return new Quantity(targetUnit, Value / 1000);
 					case MeasurementUnit.Meter when targetUnit == MeasurementUnit.Centimeter:
-						return new Quantity(Value * 100, targetUnit);
+						return new Quantity(targetUnit, Value * 100);
 					case MeasurementUnit.Meter when targetUnit == MeasurementUnit.Millimeter:
-						return new Quantity(Value * 1000, targetUnit);
+						return new Quantity(targetUnit, Value * 1000);
 					case MeasurementUnit.Meter when targetUnit == MeasurementUnit.Kilometer:
-						return new Quantity(Value / 1000, targetUnit);
+						return new Quantity(targetUnit, Value / 1000);
 					case MeasurementUnit.Centimeter when targetUnit == MeasurementUnit.Meter:
-						return new Quantity(Value / 100, targetUnit);
+						return new Quantity(targetUnit, Value / 100);
 					case MeasurementUnit.Centimeter when targetUnit == MeasurementUnit.Millimeter:
-						return new Quantity(Value * 10, targetUnit);
+						return new Quantity(targetUnit, Value * 10);
 					case MeasurementUnit.Millimeter when targetUnit == MeasurementUnit.Meter:
-						return new Quantity(Value / 1000, targetUnit);
+						return new Quantity(targetUnit, Value / 1000);
 					case MeasurementUnit.Millimeter when targetUnit == MeasurementUnit.Centimeter:
-						return new Quantity(Value / 10, targetUnit);
+						return new Quantity(targetUnit, Value / 10);
 					case MeasurementUnit.Kilometer when targetUnit == MeasurementUnit.Meter:
-						return new Quantity(Value * 1000, targetUnit);
+						return new Quantity(targetUnit, Value * 1000);
 					case MeasurementUnit.SquareMeter when targetUnit == MeasurementUnit.SquareKilometer:
-						return new Quantity(Value / 1_000_000, targetUnit);
+						return new Quantity(targetUnit, Value / 1_000_000);
 					case MeasurementUnit.SquareKilometer when targetUnit == MeasurementUnit.SquareMeter:
-						return new Quantity(Value * 1_000_000, targetUnit);
+						return new Quantity(targetUnit, Value * 1_000_000);
 					case MeasurementUnit.Are when targetUnit == MeasurementUnit.SquareMeter:
-						return new Quantity(Value * 100, targetUnit);
+						return new Quantity(targetUnit, Value * 100);
 					case MeasurementUnit.SquareMeter when targetUnit == MeasurementUnit.Are:
-						return new Quantity(Value / 100, targetUnit);
+						return new Quantity(targetUnit, Value / 100);
 					case MeasurementUnit.Hectare when targetUnit == MeasurementUnit.SquareMeter:
-						return new Quantity(Value * 10_000, targetUnit);
+						return new Quantity(targetUnit, Value * 10_000);
 					case MeasurementUnit.SquareMeter when targetUnit == MeasurementUnit.Hectare:
-						return new Quantity(Value / 10_000, targetUnit);
+						return new Quantity(targetUnit, Value / 10_000);
 				}
 				// if the exception is thrown, show message to the user he tries to convert from incompatible units
 				throw new Exception($"Conversion from {Unit} to {targetUnit} not defined.");
@@ -89,12 +89,12 @@ namespace CalendarT1.Models.EventModels
 			{
 				if (this.Unit == other.Unit)
 				{
-					return new Quantity(this.Value + other.Value, this.Unit);
+					return new Quantity(this.Unit, this.Value + other.Value);
 				}
 				else
 				{
 					Quantity otherConverted = other.ConvertTo(this.Unit);
-					return new Quantity(this.Value + otherConverted.Value, this.Unit);
+					return new Quantity(this.Unit, this.Value + otherConverted.Value);
 				}
 			}
 
@@ -102,24 +102,24 @@ namespace CalendarT1.Models.EventModels
 			{
 				if (this.Unit == other.Unit)
 				{
-					return new Quantity(this.Value - other.Value, this.Unit);
+					return new Quantity(this.Unit, this.Value - other.Value);
 				}
 				else
 				{
 					Quantity otherConverted = other.ConvertTo(this.Unit);
-					return new Quantity(this.Value - otherConverted.Value, this.Unit);
+					return new Quantity(this.Unit, this.Value - otherConverted.Value);
 				}
 			}
 
 			public Quantity Multiply(decimal factor)
 			{
-				return new Quantity(this.Value * factor, this.Unit);
+				return new Quantity(this.Unit, this.Value * factor);
 			}
 
 			public Quantity Divide(decimal divisor)
 			{
 				if (divisor == 0) throw new DivideByZeroException();
-				return new Quantity(this.Value / divisor, this.Unit);
+				return new Quantity(this.Unit, this.Value / divisor);
 			}
 		}
 	}

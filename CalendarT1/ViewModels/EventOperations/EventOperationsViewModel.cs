@@ -97,7 +97,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			if(_selectedCurrentEvent.QuantityAmount != null)
 			{
 				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
-				EntryText = _selectedCurrentEvent.QuantityAmount.Value;
+				QuantityValueText = _selectedCurrentEvent.QuantityAmount.Value;
 
 			}
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(noMatterWhat => { return; });
