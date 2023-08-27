@@ -31,26 +31,6 @@ namespace CalendarT1.ViewModels
 				}
 			}
 		}
-		public MeasurementUnitItem SelectedMeasurementUnit
-		{
-			get => _mainEventTypesCCHelper.SelectedMeasurementUnit;
-			set
-			{
-				_mainEventTypesCCHelper.SelectedMeasurementUnit = value;
-			}
-		}
-
-		private void MarkIfValueTypeIsSelected(MainEventTypes _maineventType)
-		{
-			if (_maineventType == MainEventTypes.Value)
-			{
-				IsValueTypeSelected = true;
-			}
-			else
-			{
-				IsValueTypeSelected = false;
-			}
-		}
 		public MainEventTypes SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
@@ -59,19 +39,6 @@ namespace CalendarT1.ViewModels
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
 			}
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

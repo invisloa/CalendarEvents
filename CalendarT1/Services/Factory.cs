@@ -22,7 +22,7 @@ namespace CalendarT1.Services
 				{
 					DisplayName = unit == MeasurementUnit.Money
 					? CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol
-					: MeasurementUnitItem.GetDescription(unit)
+					: unit.GetDescription()
 
 				}));
 		}
