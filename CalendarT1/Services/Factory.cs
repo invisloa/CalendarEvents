@@ -51,9 +51,9 @@ namespace CalendarT1.Services
 			}
 		}
 
-		public static IUserEventTypeModel CreateNewEventType(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor)
+		public static IUserEventTypeModel CreateNewEventType(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, Quantity quantity)
 		{
-			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor);
+			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, quantity);
 		}
 
 		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass()

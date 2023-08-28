@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Models.EventTypesModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,10 +19,11 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces
 		ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC { get;}
 		RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
         MeasurementUnitItem SelectedMeasurementUnit { get; set; }
-        Quantity EventQuantity { get; set; }
+        Quantity QuantityAmount { get; set; }
         bool IsValueTypeSelected { get; set; }
         public string QuantityValueText { get; set; }
 		public decimal QuantityValue { get; set; }
+		void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel);
 
 	}
 }

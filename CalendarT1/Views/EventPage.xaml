@@ -34,8 +34,12 @@
                     />
         <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
                     Time="{Binding EndExactTime}"/>
+            
         <!--Main Event Types Custom Control-->
             <customControls:MainEventTypesCustomControl/>
+
+        <!--Measurement selector Custom Control-->
+            <customControls:MeasurementSelectorCC/>
 
         <!--User Event Types Custom Control-->
             <customControls:EventTypesCustomControl/>

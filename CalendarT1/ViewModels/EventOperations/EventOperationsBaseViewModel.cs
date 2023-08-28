@@ -15,54 +15,50 @@ namespace CalendarT1.ViewModels.EventOperations
 	/// <summary>
 	/// Contains only must know data for events
 	/// </summary>
-    public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC
+    public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC, IMeasurementSelectorCC
 	{
+		#region MeasurementCC implementation
+		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
 
-		public Quantity QuantityAmount
+		private bool _isValueTypeSelected;
+		public bool IsValueTypeSelected
 		{
-			get => _quantityAmount;
+			get => _isValueTypeSelected;
 			set
 			{
-				_quantityAmount = value;
-				OnPropertyChanged();
-			}
-		}
-		public MeasurementUnitItem SelectedMeasurementUnit
-		{
-			get => _selectedMeasurementUnit;
-			set
-			{
-				_selectedMeasurementUnit = value;
-				QuantityAmount = new Quantity(_selectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValueText);
-				OnPropertyChanged();
-			}
-		}
-		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
-		private MeasurementUnitItem _selectedMeasurementUnit;
-		public decimal QuantityValueText
-		{
-			get { return _entryText; }
-			set
-			{
-				if (_entryText != value)
+				if (_isValueTypeSelected != value)
 				{
-					_entryText = value;
-					_isValueTypeTextOK = true;
-					QuantityAmount = new Quantity(_selectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValueText);
+					_isValueTypeSelected = value;
 					OnPropertyChanged();
-					_submitEventCommand.NotifyCanExecuteChanged();
 				}
 			}
 		}
-		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC
+		public void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel)
 		{
-			get => _measurementUnitsOC;
+			_measurementSelectorHelperClass.SelectPropperMeasurementData(userEventTypeModel);
+		}
+		public string QuantityValueText { get => _measurementSelectorHelperClass.QuantityValueText; set => _measurementSelectorHelperClass.QuantityValueText = value; }
+		public decimal QuantityValue { get => _measurementSelectorHelperClass.QuantityValue; set => _measurementSelectorHelperClass.QuantityValue = value; }
+
+		public MeasurementUnitItem SelectedMeasurementUnit
+		{
+			get => _measurementSelectorHelperClass.SelectedMeasurementUnit;
 			set
 			{
-				_measurementUnitsOC = value;
-				OnPropertyChanged();
+				_measurementSelectorHelperClass.SelectedMeasurementUnit = value;
 			}
 		}
+		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC => _measurementSelectorHelperClass.MeasurementUnitsOC;
+		public Quantity QuantityAmount { get => _measurementSelectorHelperClass.QuantityAmount; set => _measurementSelectorHelperClass.QuantityAmount = value; }
+		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)
+		{
+			_measurementSelectorHelperClass.SelectedMeasurementUnit = measurementUnitItem;
+			_measurementSelectorHelperClass.QuantityAmount = new Quantity(measurementUnitItem.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue);
+		}
+		// set this relay command in a constructor
+		public virtual RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
+		#endregion
+
 
 
 
@@ -98,6 +94,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
+			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 		}
 
 		//Fields
@@ -112,7 +109,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _selectedCurrentEvent;
 		protected bool _isCompleted;
-		private bool _isValueTypeSelected;
 		protected string _title;
 		protected string _description;
 		private decimal _entryText = 0;
@@ -229,15 +225,6 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_isCompleted = value;
-				OnPropertyChanged();
-			}
-		}
-		public bool IsValueTypeSelected
-		{
-			get => _isValueTypeSelected;
-			set
-			{
-				_isValueTypeSelected = value;
 				OnPropertyChanged();
 			}
 		}
@@ -360,12 +347,20 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = false;
 			if(SelectedEventType.MainEventType == MainEventTypes.Value)
 			{
-				QuantityValueText = 0;
+				QuantityValue = 0;
 			}
 		}
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
 		{
 			SelectedEventType = selectedEvent;
+			if(SelectedEventType.MainEventType == MainEventTypes.Value)
+			{
+				IsValueTypeSelected = true;
+			}
+			else
+			{
+				IsValueTypeSelected = false;
+			}
 		}
 		protected void SetVisualsForSelectedUserType()
 		{
@@ -376,18 +371,17 @@ namespace CalendarT1.ViewModels.EventOperations
 			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x.EventTypeName == _selectedEventType.EventTypeName);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
 		}
-		protected void OnMainEventTypeSelected(MainEventVisualDetails eventType)
+		protected virtual void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
 		{
-			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
+			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
-		}
-		private void MarkIfValueTypeIsSelected(MainEventTypes _maineventType)
-		{
-			if(_maineventType == MainEventTypes.Value)
+			if (SelectedMainEventType == MainEventTypes.Value)
 			{
 				IsValueTypeSelected = true;
+				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
+				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
+				QuantityValue = _measurementSelectorHelperClass.QuantityValue;
 			}
 			else
 			{
@@ -402,7 +396,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
 		}
-
+		
 		#endregion
 	}
 }

@@ -1,4 +1,6 @@
-﻿namespace CalendarT1.Models.EventTypesModels
+﻿using CalendarT1.Models.EventModels;
+
+namespace CalendarT1.Models.EventTypesModels
 {
     public interface IUserEventTypeModel
     {
@@ -8,6 +10,7 @@
 		string EventTypeColorString { get; set; }
         string EventTypeName { get; set; }
         bool IsSelectedToFilter { get; set; }
+        Quantity QuantityAmount { get; set; }
         string ToString();
     }
 }

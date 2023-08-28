@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.ViewModels.HelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
@@ -21,7 +22,6 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 		private RelayCommand<MeasurementUnitItem> _measurementUnitSelectedCommand;
 		private string _quantityValueText = "Default value:";
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
-
 		public IMeasurementOperationsHelperClass MeasurementOperationsHelperClass { get => _measurementOperationsHelperClass; set => _measurementOperationsHelperClass = value; }
 		public string QuantityValueText { get => _quantityValueText; set => _quantityValueText = value; }
 		public MeasurementSelectorCCHelperClass()
@@ -55,12 +55,28 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 				_selectedMeasurementUnit = value;
 			}
 		}
-		public Quantity EventQuantity { get => _eventQuantity; set => _eventQuantity = value; }
+		public Quantity QuantityAmount { get => _eventQuantity; set => _eventQuantity = value; }
 		public bool IsValueTypeSelected { get => _isValueTypeSelected; set => _isValueTypeSelected = value; }
 		public decimal QuantityValue { get =>_quantityValue; set => _quantityValue = value; }
 		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)
 		{
 			SelectedMeasurementUnit = measurementUnitItem;
+		}
+		public void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel)
+		{
+			try
+			{
+				if (userEventTypeModel.MainEventType == MainEventTypes.Value)
+				{
+					SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == userEventTypeModel.QuantityAmount.Unit);
+					QuantityValue = userEventTypeModel.QuantityAmount.Value;
+					IsValueTypeSelected = true;
+				}
+			}
+			catch (Exception ex)
+			{
+				throw new Exception("Error selecting proper measurement data for event type: " + userEventTypeModel.MainEventType, ex);
+			}
 		}
 	}
 }

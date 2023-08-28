@@ -1,4 +1,5 @@
-﻿using CalendarT1.ViewModels;
+﻿using CalendarT1.Models.EventModels;
+using CalendarT1.ViewModels;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
 
@@ -71,14 +72,28 @@ namespace CalendarT1.Models.EventTypesModels
 				}
 			}
 		}
+		Quantity _quantityAmount;
+		public Quantity QuantityAmount
+		{
+			get => _quantityAmount;
+			set
+			{
+				if (_quantityAmount != value)
+				{
+					_quantityAmount = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
-		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, bool isSelectedToFilter = true)
+		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, Quantity quantity = null, bool isSelectedToFilter = true)
 		{
 			MainEventType = mainEventType;
 			IsSelectedToFilter = isSelectedToFilter;
 			EventTypeName = eventTypeName;
 			EventTypeColor = eventTypeColor;
 			BackgroundColor = eventTypeColor; // Initialize BackgroundColor to EventTypeColor upon object creation
+			QuantityAmount = quantity;
 		}
 
 		public override string ToString()

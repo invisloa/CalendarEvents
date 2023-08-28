@@ -20,6 +20,8 @@ namespace CalendarT1.ViewModels
 	{
 
 		#region MeasurementCC implementation
+		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
+
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected
 		{
@@ -32,6 +34,10 @@ namespace CalendarT1.ViewModels
 					OnPropertyChanged();
 				}
 			}
+		}
+		public void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel)
+		{
+			_measurementSelectorHelperClass.SelectPropperMeasurementData(userEventTypeModel);
 		}
 
 		public string QuantityValueText { get => _measurementSelectorHelperClass.QuantityValueText; set => _measurementSelectorHelperClass.QuantityValueText = value; }
@@ -46,13 +52,14 @@ namespace CalendarT1.ViewModels
 			}
 		}
 		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC => _measurementSelectorHelperClass.MeasurementUnitsOC;
-		public Quantity EventQuantity { get => _measurementSelectorHelperClass.EventQuantity; set => _measurementSelectorHelperClass.EventQuantity = value; }
-		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
+		public Quantity QuantityAmount { get => _measurementSelectorHelperClass.QuantityAmount; set => _measurementSelectorHelperClass.QuantityAmount = value; }
 		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)
 		{
 			_measurementSelectorHelperClass.SelectedMeasurementUnit = measurementUnitItem;
-			_measurementSelectorHelperClass.EventQuantity = new Quantity(measurementUnitItem.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue) ;
+			_measurementSelectorHelperClass.QuantityAmount = new Quantity(measurementUnitItem.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue) ;
 		}
+		// Command set in the constructor
+		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
 		#endregion
 
 
@@ -117,7 +124,6 @@ namespace CalendarT1.ViewModels
 
 		// helper class that makes dirty work for main event types
 		private IMainEventTypesCC _mainEventTypesCCHelper { get; set; } = Factory.CreateNewIMainEventTypeHelperClass();
-		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
 
 		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC = value; }
 
@@ -209,14 +215,13 @@ namespace CalendarT1.ViewModels
 			}
 			else
 			{
-				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor);
+				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, QuantityAmount);
 				await _eventRepository.AddUserEventTypeAsync(newUserType);			
 				await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
 			}
 		}
 
 
-		// I AM HERE NOW
 		private void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
 		{
 			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
@@ -225,7 +230,10 @@ namespace CalendarT1.ViewModels
 			if(SelectedMainEventType == MainEventTypes.Value)
 			{
 				IsValueTypeSelected = true;
-				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
+			}
+			else
+			{
+				IsValueTypeSelected = false;
 			}
 		}
 

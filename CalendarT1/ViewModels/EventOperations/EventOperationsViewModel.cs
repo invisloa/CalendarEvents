@@ -83,6 +83,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed
 			ShareEventCommand = new AsyncRelayCommand(ShareEvent);
+
 			// Set properties based on eventToEdit
 			_selectedCurrentEvent = eventToEdit;
 			Title = _selectedCurrentEvent.Title;
@@ -97,10 +98,9 @@ namespace CalendarT1.ViewModels.EventOperations
 			if(_selectedCurrentEvent.QuantityAmount != null)
 			{
 				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
-				QuantityValueText = _selectedCurrentEvent.QuantityAmount.Value;
-
+				QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
 			}
-			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(noMatterWhat => { return; });
+			MainEventTypeSelectedCommand = null;
 			
 		}
 		#endregion
