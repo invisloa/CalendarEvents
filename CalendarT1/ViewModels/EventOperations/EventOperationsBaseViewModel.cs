@@ -142,7 +142,6 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
-				FilterAllEventTypesOCByMainEventType(value);
 				OnPropertyChanged();
 			}
 		}
@@ -193,9 +192,6 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_selectedEventType = value;
 				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
-				_mainEventTypesCCHelper.SelectedMainEventType = _selectedEventType.MainEventType; // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
-				SetVisualsForSelectedUserType();
-
 				_submitEventCommand.NotifyCanExecuteChanged();
 
 				OnPropertyChanged();
@@ -353,14 +349,21 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
 		{
 			SelectedEventType = selectedEvent;
-			if(SelectedEventType.MainEventType == MainEventTypes.Value)
+			SelectedMainEventType = SelectedEventType.MainEventType;
+			if (SelectedMainEventType == MainEventTypes.Value)
 			{
 				IsValueTypeSelected = true;
+				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
+				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
+				QuantityValue = _measurementSelectorHelperClass.QuantityValue;
 			}
 			else
 			{
 				IsValueTypeSelected = false;
 			}
+
+			//((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute( ); // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
+			SetVisualsForSelectedUserType();
 		}
 		protected void SetVisualsForSelectedUserType()
 		{
@@ -376,17 +379,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
-			if (SelectedMainEventType == MainEventTypes.Value)
-			{
-				IsValueTypeSelected = true;
-				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
-				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
-				QuantityValue = _measurementSelectorHelperClass.QuantityValue;
-			}
-			else
-			{
-				IsValueTypeSelected = false;
-			}
+			FilterAllEventTypesOCByMainEventType(SelectedMainEventType);
 		}
 		public void DisableVisualsForAllMainEventTypes()
 		{

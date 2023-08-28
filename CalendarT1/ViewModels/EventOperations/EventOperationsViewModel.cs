@@ -74,6 +74,11 @@ namespace CalendarT1.ViewModels.EventOperations
 			EndDateTime = selectedDate;
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
+			if(AllEventTypesOC != null && AllEventTypesOC.Count > 0)
+			{
+				SelectedEventType = AllEventTypesOC[0];
+				OnUserEventTypeSelected(SelectedEventType);
+			}
 		}
 		// ctor for editing events
 		public EventOperationsViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
@@ -86,6 +91,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 			// Set properties based on eventToEdit
 			_selectedCurrentEvent = eventToEdit;
+			OnUserEventTypeSelected(eventToEdit.EventType);
 			Title = _selectedCurrentEvent.Title;
 			Description = _selectedCurrentEvent.Description;
 			StartDateTime = _selectedCurrentEvent.StartDateTime.Date;

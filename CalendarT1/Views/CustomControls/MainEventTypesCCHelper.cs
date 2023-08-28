@@ -19,8 +19,6 @@ namespace CalendarT1.Views.CustomControls
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
 		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 0); // Defeault color is black
-
-
 		private readonly Dictionary<MainEventTypes, MainEventVisualDetails> _eventVisualDetails = new Dictionary<MainEventTypes, MainEventVisualDetails>();
 		private MainEventTypes _selectedMainEventType = MainEventTypes.Event;
 		private IUserEventTypeModel _currentType;
@@ -33,11 +31,9 @@ namespace CalendarT1.Views.CustomControls
 			{
 				_selectedMainEventType = value;
 				// set visuals for selected event type
-				// SetSelectedMainEventType(_selectedMainEventType);		// TO CHECK IF COMMENTING THIS LINE IS OK
+				SetSelectedMainEventType(_selectedMainEventType);		// TO CHECK IF COMMENTING THIS LINE IS OK
 			}
 		}
-
-
 		// Properties
 		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC { get; set; }
 
@@ -69,8 +65,8 @@ namespace CalendarT1.Views.CustomControls
 			_eventVisualDetails[mainEventType].Opacity = FullOpacity;
 			_eventVisualDetails[mainEventType].Border = NoBorderSize;
 
-			// Force update of the ObservableCollection
-			// To Check - OC Should Update automatically // MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>(_eventVisualDetails.Values);
+			// OC updates automatically
+			//MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>(_eventVisualDetails.Values);
 		}
 		public void DisableVisualsForAllMainEventTypes()
 		{
