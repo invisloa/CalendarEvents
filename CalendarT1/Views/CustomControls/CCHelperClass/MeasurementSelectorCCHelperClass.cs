@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Services;
+using CalendarT1.ViewModels.HelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,15 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 		private decimal _quantityValue = 0;
 		private RelayCommand<MeasurementUnitItem> _measurementUnitSelectedCommand;
 		private string _quantityValueText = "Default value:";
+		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
 
+		public IMeasurementOperationsHelperClass MeasurementOperationsHelperClass { get => _measurementOperationsHelperClass; set => _measurementOperationsHelperClass = value; }
 		public string QuantityValueText { get => _quantityValueText; set => _quantityValueText = value; }
 		public MeasurementSelectorCCHelperClass()
 		{
 			_measurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			_selectedMeasurementUnit = MeasurementUnitsOC[0];   //default value- Currency
 			_eventQuantity = new Quantity(_selectedMeasurementUnit.TypeOfMeasurementUnit, _quantityValue);
-
 		}
 		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC
 		{

@@ -33,7 +33,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_selectedMeasurementUnit = value;
-				QuantityAmount = new Quantity(QuantityValueText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
+				QuantityAmount = new Quantity(_selectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValueText);
 				OnPropertyChanged();
 			}
 		}
@@ -48,7 +48,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				{
 					_entryText = value;
 					_isValueTypeTextOK = true;
-					QuantityAmount = new Quantity(QuantityValueText, _selectedMeasurementUnit.TypeOfMeasurementUnit);
+					QuantityAmount = new Quantity(_selectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValueText);
 					OnPropertyChanged();
 					_submitEventCommand.NotifyCanExecuteChanged();
 				}
@@ -380,6 +380,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
+
 			OnUserEventTypeSelected(AllEventTypesOC[0]);
 		}
 		private void MarkIfValueTypeIsSelected(MainEventTypes _maineventType)

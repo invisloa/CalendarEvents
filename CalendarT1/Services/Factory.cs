@@ -3,6 +3,7 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.HelperClass;
 using CalendarT1.Views.CustomControls;
+using CalendarT1.Views.CustomControls.CCHelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -26,6 +27,14 @@ namespace CalendarT1.Services
 
 				}));
 		}
+		public static IMeasurementSelectorCC CreateMeasurementSelectorCCHelperClass()
+		{
+			return new MeasurementSelectorCCHelperClass();
+		}
+		public static IMeasurementOperationsHelperClass CreateMeasurementOperationsHelperClass()
+		{
+			return new MeasurementOperationsHelperClass();
+		}
 		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
 			if (eventTypeModel.MainEventType == MainEventTypes.Event)
@@ -47,10 +56,6 @@ namespace CalendarT1.Services
 			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor);
 		}
 
-		public static IMeasurementOperationsHelperClass CreateMeasurementOperationsHelperClass()
-		{
-			return new MeasurementOperationsHelperClass();
-		}
 		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass()
 		{
 			return new MainEventTypesCCHelper();

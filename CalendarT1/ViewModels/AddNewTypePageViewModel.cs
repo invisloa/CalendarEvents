@@ -12,16 +12,18 @@ using CommunityToolkit.Mvvm.Input;
 using CalendarT1.Views;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CalendarT1.Views.CustomControls;
+using CalendarT1.Models.EventModels;
 
 namespace CalendarT1.ViewModels
 {
-	public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC
+	public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC, IMeasurementSelectorCC
 	{
 
+		#region MeasurementCC implementation
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected
 		{
-			get => IsValueTypeSelected;
+			get => _isValueTypeSelected;
 			set
 			{
 				if(_isValueTypeSelected != value)
@@ -31,17 +33,27 @@ namespace CalendarT1.ViewModels
 				}
 			}
 		}
-		public MainEventTypes SelectedMainEventType
+
+		public string QuantityValueText { get => _measurementSelectorHelperClass.QuantityValueText; set => _measurementSelectorHelperClass.QuantityValueText = value; }
+		public decimal QuantityValue { get => _measurementSelectorHelperClass.QuantityValue; set => _measurementSelectorHelperClass.QuantityValue = value; }
+
+		public MeasurementUnitItem SelectedMeasurementUnit
 		{
-			get => _mainEventTypesCCHelper.SelectedMainEventType;
+			get => _measurementSelectorHelperClass.SelectedMeasurementUnit;
 			set
 			{
-				_mainEventTypesCCHelper.SelectedMainEventType = value;
+				_measurementSelectorHelperClass.SelectedMeasurementUnit = value;
 			}
 		}
-
-
-
+		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC => _measurementSelectorHelperClass.MeasurementUnitsOC;
+		public Quantity EventQuantity { get => _measurementSelectorHelperClass.EventQuantity; set => _measurementSelectorHelperClass.EventQuantity = value; }
+		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
+		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)
+		{
+			_measurementSelectorHelperClass.SelectedMeasurementUnit = measurementUnitItem;
+			_measurementSelectorHelperClass.EventQuantity = new Quantity(measurementUnitItem.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue) ;
+		}
+		#endregion
 
 
 
@@ -61,7 +73,14 @@ namespace CalendarT1.ViewModels
 		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
 		public bool IsEdit => _currentType != null;
 		public bool IsNotEdit => !IsEdit;
-
+		public MainEventTypes SelectedMainEventType
+		{
+			get => _mainEventTypesCCHelper.SelectedMainEventType;
+			set
+			{
+				_mainEventTypesCCHelper.SelectedMainEventType = value;
+			}
+		}
 		public IUserEventTypeModel CurrentType
 		{
 			get => _currentType;
@@ -95,11 +114,14 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
+
 		// helper class that makes dirty work for main event types
 		private IMainEventTypesCC _mainEventTypesCCHelper { get; set; } = Factory.CreateNewIMainEventTypeHelperClass();
+		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
+
 		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC = value; }
 
-		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand;
+		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 
 		#endregion
@@ -110,10 +132,9 @@ namespace CalendarT1.ViewModels
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
-		
 		#endregion
 
-		#region Constructor
+		#region Constructors
 		// constructor for create mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository)
 		{
@@ -122,8 +143,12 @@ namespace CalendarT1.ViewModels
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
+			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
+
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 			TempRemoveAllUserTypesCommand = new AsyncRelayCommand(TempRemoveAllUserTypes);
+
 		}
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
@@ -135,6 +160,8 @@ namespace CalendarT1.ViewModels
 			// set proper visuals for an edited event type
 		}
 		#endregion
+
+
 		#region Methods
 		private bool CanExecuteSubmitCommand() => !string.IsNullOrEmpty(TypeName);
 		private async Task DeleteSelectedEventType()
@@ -185,6 +212,20 @@ namespace CalendarT1.ViewModels
 				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor);
 				await _eventRepository.AddUserEventTypeAsync(newUserType);			
 				await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
+			}
+		}
+
+
+		// I AM HERE NOW
+		private void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
+		{
+			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
+
+			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
+			if(SelectedMainEventType == MainEventTypes.Value)
+			{
+				IsValueTypeSelected = true;
+				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
 			}
 		}
 

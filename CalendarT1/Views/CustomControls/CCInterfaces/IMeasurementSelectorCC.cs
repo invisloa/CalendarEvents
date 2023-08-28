@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCInterfaces
 {
-    public interface IMeasurementSelectorCC
+
+	/// <summary>
+	/// Its good to use MeasurementOperationsHelperClass
+	/// </summary>
+	public interface IMeasurementSelectorCC
     {
         // Properties
 		ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC { get;}
@@ -17,7 +21,6 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces
         Quantity EventQuantity { get; set; }
         bool IsValueTypeSelected { get; set; }
         public string QuantityValueText { get; set; }
-
 		public decimal QuantityValue { get; set; }
 
 	}
