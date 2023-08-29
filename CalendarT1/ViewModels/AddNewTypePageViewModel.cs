@@ -20,7 +20,10 @@ namespace CalendarT1.ViewModels
 	{
 
 		#region MeasurementCC implementation
+		public int ValueFontSize { get; set; } = 20;
+
 		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
+		public bool IsValueTypeSelectionEnabled { get; set; } = true;
 
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected
@@ -57,7 +60,9 @@ namespace CalendarT1.ViewModels
 		{
 			_measurementSelectorHelperClass.SelectedMeasurementUnit = measurementUnitItem;
 			_measurementSelectorHelperClass.QuantityAmount = new Quantity(measurementUnitItem.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue) ;
+			
 		}
+
 		// Command set in the constructor
 		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
 		#endregion
@@ -151,10 +156,8 @@ namespace CalendarT1.ViewModels
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
-
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 			TempRemoveAllUserTypesCommand = new AsyncRelayCommand(TempRemoveAllUserTypes);
-
 		}
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
@@ -215,6 +218,7 @@ namespace CalendarT1.ViewModels
 			}
 			else
 			{
+				QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, QuantityAmount);
 				await _eventRepository.AddUserEventTypeAsync(newUserType);			
 				await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!

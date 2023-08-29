@@ -121,11 +121,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
 			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
-
 			SetFilterDatesValues();
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
-
+			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
 		public AllEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
 		{

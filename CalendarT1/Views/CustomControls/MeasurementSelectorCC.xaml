@@ -25,7 +25,9 @@
                         SelectedItem="{Binding SelectedMeasurementUnit, Mode=TwoWay}" 
                         Margin="5" 
                         MinimumWidthRequest="200" 
-                        HorizontalTextAlignment="Center"/>
+                        HorizontalTextAlignment="Center"
+                        IsEnabled="{Binding IsValueTypeSelectionEnabled}"
+                    />
         </StackLayout >
         <Label Text= "{Binding QuantityValueText}" />
         <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}"  HorizontalTextAlignment="End" FontSize="{Binding FontSize}" FontAttributes="Bold">

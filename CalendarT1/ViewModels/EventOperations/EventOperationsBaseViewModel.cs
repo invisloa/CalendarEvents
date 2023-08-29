@@ -17,8 +17,11 @@ namespace CalendarT1.ViewModels.EventOperations
 	/// </summary>
     public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC, IMeasurementSelectorCC
 	{
+		//MeasurementCC implementation
 		#region MeasurementCC implementation
 		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
+		public int ValueFontSize { get; set; } = 20;
+		public bool IsValueTypeSelectionEnabled { get; set; } = true;
 
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected
@@ -38,8 +41,15 @@ namespace CalendarT1.ViewModels.EventOperations
 			_measurementSelectorHelperClass.SelectPropperMeasurementData(userEventTypeModel);
 		}
 		public string QuantityValueText { get => _measurementSelectorHelperClass.QuantityValueText; set => _measurementSelectorHelperClass.QuantityValueText = value; }
-		public decimal QuantityValue { get => _measurementSelectorHelperClass.QuantityValue; set => _measurementSelectorHelperClass.QuantityValue = value; }
-
+		public decimal QuantityValue
+		{
+			get => _measurementSelectorHelperClass.QuantityValue;
+			set
+			{
+				_measurementSelectorHelperClass.QuantityValue = value;
+				OnPropertyChanged();
+			}
+		}
 		public MeasurementUnitItem SelectedMeasurementUnit
 		{
 			get => _measurementSelectorHelperClass.SelectedMeasurementUnit;
@@ -53,7 +63,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)
 		{
 			_measurementSelectorHelperClass.SelectedMeasurementUnit = measurementUnitItem;
-			_measurementSelectorHelperClass.QuantityAmount = new Quantity(measurementUnitItem.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue);
 		}
 		// set this relay command in a constructor
 		public virtual RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
@@ -100,11 +109,13 @@ namespace CalendarT1.ViewModels.EventOperations
 		//Fields
 		#region Fields
 				// Language
-		protected string _submitButtonText;
 		private int _fontSize = 20;
+		protected string _submitButtonText;
+
 
 		// normal fields
-		public bool _isValueTypeTextOK = false;
+		private bool _firstTimeEventsShown = true;
+
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _selectedCurrentEvent;
@@ -193,7 +204,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				_selectedEventType = value;
 				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
 				_submitEventCommand.NotifyCanExecuteChanged();
-
 				OnPropertyChanged();
 			}
 		}
@@ -354,8 +364,9 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				IsValueTypeSelected = true;
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
+				
+				QuantityValue = SelectedEventType.QuantityAmount.Value;
 				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
-				QuantityValue = _measurementSelectorHelperClass.QuantityValue;
 			}
 			else
 			{
@@ -378,8 +389,19 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-			OnUserEventTypeSelected(AllEventTypesOC[0]);
+			if(SelectedMainEventType == MainEventTypes.Value)
+			{
+				IsValueTypeSelected = true;
+			}
+			else
+			{
+				IsValueTypeSelected = false;
+			}
 			FilterAllEventTypesOCByMainEventType(SelectedMainEventType);
+			if(AllEventTypesOC.Count > 0)
+			{
+				OnUserEventTypeSelected(AllEventTypesOC[0]);
+			}
 		}
 		public void DisableVisualsForAllMainEventTypes()
 		{

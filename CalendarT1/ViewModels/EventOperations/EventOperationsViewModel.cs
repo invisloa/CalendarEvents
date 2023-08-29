@@ -21,9 +21,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		#endregion
 
 		#region Properties
-		public string PageTitle => IsEdit ? "Edit Event" : "Add Event";
-		public string HeaderText => IsEdit ? $"Edit event of Title: {Title}" : "Add New Event";
-		public bool IsEdit => _selectedCurrentEvent != null;
+		public string PageTitle => isEdit ? "Edit Event" : "Add Event";
+		public string HeaderText => isEdit ? $"Edit event of Title: {Title}" : "Add New Event";
+		isEdit => _selectedCurrentEvent != null;
 
 		public IShareEvents ShareEvents
 		{
@@ -66,7 +66,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		#endregion
 
 		#region Constructors
-		// ctor for creating evnents
+		// ctor for creating evnents create mode
 		public EventOperationsViewModel(IEventRepository eventRepository, DateTime selectedDate)
 			: base(eventRepository)
 		{
@@ -74,16 +74,20 @@ namespace CalendarT1.ViewModels.EventOperations
 			EndDateTime = selectedDate;
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
-			if(AllEventTypesOC != null && AllEventTypesOC.Count > 0)
-			{
-				SelectedEventType = AllEventTypesOC[0];
-				OnUserEventTypeSelected(SelectedEventType);
-			}
+
+			// do not select any events by default
+			//if(AllEventTypesOC != null && AllEventTypesOC.Count > 0)
+			//{
+			//	SelectedEventType = AllEventTypesOC[0];
+			//	OnUserEventTypeSelected(SelectedEventType);
+			//}
 		}
-		// ctor for editing events
+		// ctor for editing events edit mode
 		public EventOperationsViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
 		: base(eventRepository)
-		{
+		{           
+			// value measurementType cannot be changed 
+			IsValueTypeSelectionEnabled = false;
 			_submitEventCommand = new AsyncRelayCommand(EditEvent, CanExecuteSubmitCommand);
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed
@@ -101,7 +105,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = _selectedCurrentEvent.IsCompleted;
 			SelectedMainEventType = _selectedCurrentEvent.EventType.MainEventType;
 			SelectedEventType = _selectedCurrentEvent.EventType;
-			if(_selectedCurrentEvent.QuantityAmount != null)
+			if (_selectedCurrentEvent.QuantityAmount != null)
 			{
 				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
 				QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
@@ -115,21 +119,19 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private bool CanExecuteSubmitCommand()
 		{
-			bool isValid = false;
-			if(SelectedEventType!=null && SelectedEventType.MainEventType == MainEventTypes.Value)
+			if (string.IsNullOrWhiteSpace(Title) || SelectedEventType == null)
 			{
-				if (!_isValueTypeTextOK)
-				{
-					return false; // EntryText is not valid
-				}
+				return false;
 			}
-			return !string.IsNullOrWhiteSpace(Title) && SelectedEventType != null;
-
+			return true;
 		}
 
 		private async Task AddEventAsync()
 		{
+			QuantityValueText = "SET DEFAULT VALUE:";
+
 			// Create a new Event based on the selected EventType
+			QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, QuantityAmount);
 			await _eventRepository.AddEventAsync(_selectedCurrentEvent);
 			ClearFields();
@@ -137,7 +139,9 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task EditEvent()
 		{
-			if(_selectedCurrentEvent.EventType.MainEventType == MainEventTypes.Value)
+			QuantityValueText = "SET VALUE:";
+
+			if (_selectedCurrentEvent.EventType.MainEventType == MainEventTypes.Value)
 			{
 				//if(!IsNumeric(EntryText))
 				//{
@@ -149,15 +153,14 @@ namespace CalendarT1.ViewModels.EventOperations
 				//{
 				//	//_selectedCurrentEvent.QuantityAmount = new Quantity((decimal)EntryText, SelectedMeasurementUnit.TypeOfMeasurementUnit);
 				//}
-
 			}
-			
 			_selectedCurrentEvent.Title = Title;
 			_selectedCurrentEvent.Description = Description;
 			_selectedCurrentEvent.EventType = SelectedEventType;
 			_selectedCurrentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_selectedCurrentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 			_selectedCurrentEvent.IsCompleted = IsCompleted;
+			QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 			_selectedCurrentEvent.QuantityAmount = QuantityAmount;
 			await _eventRepository.UpdateEventsAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");

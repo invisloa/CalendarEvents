@@ -21,9 +21,12 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces
         MeasurementUnitItem SelectedMeasurementUnit { get; set; }
         Quantity QuantityAmount { get; set; }
         bool IsValueTypeSelected { get; set; }
-        public string QuantityValueText { get; set; }
+		bool IsValueTypeSelectionEnabled { get; set; }
+
+		public string QuantityValueText { get; set; }
 		public decimal QuantityValue { get; set; }
 		void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel);
+		public int ValueFontSize { get; set; }
 
 	}
 }

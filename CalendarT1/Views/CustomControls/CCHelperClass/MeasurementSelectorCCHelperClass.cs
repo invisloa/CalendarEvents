@@ -18,10 +18,13 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 		private MeasurementUnitItem _selectedMeasurementUnit;
 		private Quantity _eventQuantity;
 		private bool _isValueTypeSelected;
+
 		private decimal _quantityValue = 0;
 		private RelayCommand<MeasurementUnitItem> _measurementUnitSelectedCommand;
-		private string _quantityValueText = "Default value:";
+		private string _quantityValueText;
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
+		public bool IsValueTypeSelectionEnabled { get; set; } = true;
+
 		public IMeasurementOperationsHelperClass MeasurementOperationsHelperClass { get => _measurementOperationsHelperClass; set => _measurementOperationsHelperClass = value; }
 		public string QuantityValueText { get => _quantityValueText; set => _quantityValueText = value; }
 		public MeasurementSelectorCCHelperClass()
@@ -55,9 +58,18 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 				_selectedMeasurementUnit = value;
 			}
 		}
+		public int ValueFontSize { get; set; } = 20;
+
 		public Quantity QuantityAmount { get => _eventQuantity; set => _eventQuantity = value; }
 		public bool IsValueTypeSelected { get => _isValueTypeSelected; set => _isValueTypeSelected = value; }
-		public decimal QuantityValue { get =>_quantityValue; set => _quantityValue = value; }
+		public decimal QuantityValue
+		{
+			get => _quantityValue;
+			set
+			{ 
+				_quantityValue = value;
+			}
+		}
 		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)
 		{
 			SelectedMeasurementUnit = measurementUnitItem;
@@ -69,7 +81,6 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 				if (userEventTypeModel.MainEventType == MainEventTypes.Value)
 				{
 					SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == userEventTypeModel.QuantityAmount.Unit);
-					QuantityValue = userEventTypeModel.QuantityAmount.Value;
 					IsValueTypeSelected = true;
 				}
 			}
