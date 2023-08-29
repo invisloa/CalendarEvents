@@ -21,9 +21,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		#endregion
 
 		#region Properties
-		public string PageTitle => isEdit ? "Edit Event" : "Add Event";
-		public string HeaderText => isEdit ? $"Edit event of Title: {Title}" : "Add New Event";
-		isEdit => _selectedCurrentEvent != null;
+		public string PageTitle => IsEdit ? "Edit Event" : "Add Event";
+		public string HeaderText => IsEdit ? $"Edit event of Title: {Title}" : "Add New Event";
+		public bool IsEdit => _selectedCurrentEvent != null;
 
 		public IShareEvents ShareEvents
 		{

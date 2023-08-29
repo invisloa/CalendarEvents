@@ -364,8 +364,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				IsValueTypeSelected = true;
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
-				
-				QuantityValue = SelectedEventType.QuantityAmount.Value;
+								QuantityValue = SelectedEventType.QuantityAmount.Value;
 				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
 			}
 			else
