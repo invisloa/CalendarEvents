@@ -21,9 +21,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		#endregion
 
 		#region Properties
-		public string PageTitle => IsEdit ? "Edit Event" : "Add Event";
-		public string HeaderText => IsEdit ? $"Edit event of Title: {Title}" : "Add New Event";
-		public bool IsEdit => _selectedCurrentEvent != null;
+		public string PageTitle => IsEditMode ? "Edit Event" : "Add Event";
+		public string HeaderText => IsEditMode ? $"Edit event of Title: {Title}" : "Add New Event";
+		protected override bool IsEditMode => _selectedCurrentEvent != null;
 
 		public IShareEvents ShareEvents
 		{
@@ -46,7 +46,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			get
 			{
-				if(IsEdit)
+				if(IsEditMode)
 				{
 					return "SUBMIT CHANGES";
 				}

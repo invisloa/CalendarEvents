@@ -106,6 +106,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 		}
 
+
 		//Fields
 		#region Fields
 				// Language
@@ -140,6 +141,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		#endregion
 		//Properties
 		#region Properties
+		protected abstract bool IsEditMode { get; }
 		public int FontSize => _fontSize;
 		public abstract string SubmitButtonText { get; set; }
 
@@ -358,13 +360,17 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
 		{
+			var lastSelectedTypedefaultValue = SelectedEventType?.QuantityAmount.Value ?? 0m;
 			SelectedEventType = selectedEvent;
 			SelectedMainEventType = SelectedEventType.MainEventType;
 			if (SelectedMainEventType == MainEventTypes.Value)
 			{
 				IsValueTypeSelected = true;
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
-								QuantityValue = SelectedEventType.QuantityAmount.Value;
+				if (!IsEditMode && (QuantityValue == 0 || QuantityValue == lastSelectedTypedefaultValue))
+				{	//Set default values when createMode
+					QuantityValue = SelectedEventType.QuantityAmount.Value;
+				}
 				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
 			}
 			else
