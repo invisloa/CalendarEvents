@@ -11,12 +11,12 @@ using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 using CalendarT1.Views;
 using CalendarT1.Views.CustomControls.CCInterfaces;
-using CalendarT1.Views.CustomControls;
 using CalendarT1.Models.EventModels;
+using CalendarT1.Views.CustomControls.CCHelperClass;
 
 namespace CalendarT1.ViewModels
 {
-	public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC, IMeasurementSelectorCC
+    public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC, IMeasurementSelectorCC
 	{
 
 		#region MeasurementCC implementation

@@ -3,7 +3,7 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.HelperClass;
-using CalendarT1.Views.CustomControls;
+using CalendarT1.Views.CustomControls.CCHelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-	internal class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC
+    internal class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC
 	{
 		#region MainEventTypesCC implementation
 		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }

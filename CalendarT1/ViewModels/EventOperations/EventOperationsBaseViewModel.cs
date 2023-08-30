@@ -3,7 +3,7 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
-using CalendarT1.Views.CustomControls;
+using CalendarT1.Views.CustomControls.CCHelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
@@ -12,9 +12,9 @@ using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	/// <summary>
-	/// Contains only must know data for events
-	/// </summary>
+    /// <summary>
+    /// Contains only must know data for events
+    /// </summary>
     public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC, IMeasurementSelectorCC
 	{
 		//MeasurementCC implementation
