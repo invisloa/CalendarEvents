@@ -2,6 +2,7 @@
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
+using CalendarT1.Views.CustomControls.CCHelperClass;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
@@ -13,15 +14,15 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	public abstract class AbstractEventViewModel : PlainBaseAbstractEventViewModel
 	{
 		#region Fields
-
 		private RelayCommand<DateTime> _datePickerDateSelectedCommand;
 		private RelayCommand _goToAddEventPageCommand;
-		private RelayCommand _goToAddNewTypePageCommand;
 		private DateTime _currentSelectedDate = DateTime.Now;
+		private RelayCommand _goToAddNewTypePageCommand;
+
 		#endregion
-		
+
 		#region Properties
-		
+
 		private DateTime _currentDate = DateTime.Now;
 		public DateTime CurrentDate => _currentDate;
 		public DateTime CurrentSelectedDate
@@ -63,15 +64,16 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository, _currentSelectedDate));
 		}
-		private void GoToAddNewTypePage()
-		{
-			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
-		}
+
 
 		private void DatePickerDateSelected(DateTime newDate)
 		{
 			CurrentSelectedDate = newDate;
 			BindDataToScheduleList();
+		}
+		private void GoToAddNewTypePage()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
 		}
 
 		#endregion
@@ -94,6 +96,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 				EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
 			}
+
 
 		#endregion
 	}

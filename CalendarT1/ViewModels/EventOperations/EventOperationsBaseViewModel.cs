@@ -68,33 +68,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		public virtual RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
 		#endregion
 
-
-
-
-		// The below code was in setter of SelectedEventType
-		//MarkIfValueTypeIsSelected(value.MainEventType);
-		//		if (_selectedEventType.MainEventType == MainEventTypes.Value)
-		//		{
-		//			if (MeasurementUnitsOC == null || MeasurementUnitsOC.Count == 0)
-		//			{
-		//				MeasurementUnitsOC = Factory.PopulateMeasurementCollection();
-		//				SelectedMeasurementUnit = MeasurementUnitsOC[0];
-		//			}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;

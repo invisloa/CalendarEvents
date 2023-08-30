@@ -2,6 +2,8 @@
 
 
 #region Current
+// EDIT VALUE TYPE PAGE TO ADD NEW CONTROLS
+
 // AllEventPpage filtering with main events and user events
 //advanced search in all events page
 
