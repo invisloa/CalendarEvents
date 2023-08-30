@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCHelperClass
 {
-	using global::CalendarT1.Views.CustomControls.CCInterfaces;
-	using System;
+    using global::CalendarT1.Views.CustomControls.CCInterfaces;
+    using System;
 
     namespace CalendarT1.Views.CustomControls.CCHelperClass
     {
-		public class FilterDatesCCHelperClass : IFilterDatesCC, IFilterDatesCCHelperClass
+        public class FilterDatesCCHelperClass : IFilterDatesCC, IFilterDatesCCHelperClass
 		{
 			private DateTime _filterDateFrom;
 			private DateTime _filterDateTo;
