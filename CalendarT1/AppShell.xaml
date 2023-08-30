@@ -14,7 +14,10 @@
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="Daily events list">
 
-
+            <ShellContent
+                Title="ValueTypeCalculationsPage"
+                ContentTemplate="{DataTemplate local:ValueTypeCalculationsPage}"
+                Route="ValueTypeCalculationsPage" />
             <ShellContent
                 Title="Weekly"
                 ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"

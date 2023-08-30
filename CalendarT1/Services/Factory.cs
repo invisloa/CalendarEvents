@@ -4,6 +4,7 @@ using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.HelperClass;
 using CalendarT1.Views.CustomControls;
 using CalendarT1.Views.CustomControls.CCHelperClass;
+using CalendarT1.Views.CustomControls.CCHelperClass.CalendarT1.Views.CustomControls.CCHelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using System.Collections.ObjectModel;
 using System.Globalization;
@@ -59,6 +60,11 @@ namespace CalendarT1.Services
 		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass()
 		{
 			return new MainEventTypesCCHelper();
+		}
+
+		public static IFilterDatesCCHelperClass CreateFilterDatesCCHelperClass()
+		{
+			return new FilterDatesCCHelperClass();
 		}
 	}
 }

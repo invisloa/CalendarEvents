@@ -4,6 +4,7 @@ using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.HelperClass;
 using CalendarT1.Views.CustomControls.CCHelperClass;
+using CalendarT1.Views.CustomControls.CCHelperClass.CalendarT1.Views.CustomControls.CCHelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
 using System;
@@ -15,9 +16,11 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-    internal class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC
+    internal class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
 	{
+		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
+		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass = Factory.CreateMeasurementOperationsHelperClass();
 
@@ -63,42 +66,59 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#endregion
 
-
-
-
-
-		#region Fields
-
-		private IUserEventTypeModel _eventType;
-		private DateTime _filterDateFrom;
-		private DateTime _filterDateTo;
-		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
-		#endregion
-
-		#region Properties
-
+		//IFilterDatesCC implementation
+		#region IFilterDatesCC implementation
+		private IFilterDatesCCHelperClass _filterDatesCCHelper = Factory.CreateFilterDatesCCHelperClass();
 		public string TextFilterDateFrom { get; set; } = "FILTER FROM:";
 		public string TextFilterDateTo { get; set; } = "FILTER UP TO:";
 		public DateTime FilterDateFrom
 		{
-			get => _filterDateFrom;
+			get => _filterDatesCCHelper.FilterDateFrom;
 			set
 			{
-				_filterDateFrom = value;
+				if (_filterDatesCCHelper.FilterDateFrom == value)
+				{
+					return;
+				}
+				_filterDatesCCHelper.FilterDateFrom = value;
 				OnPropertyChanged();
 				BindDataToScheduleList();
 			}
 		}
 		public DateTime FilterDateTo
 		{
-			get => _filterDateTo;
+			get => _filterDatesCCHelper.FilterDateTo;
 			set
 			{
-				_filterDateTo = value;
+				if (_filterDatesCCHelper.FilterDateTo == value)
+				{
+					return;
+				}
+				_filterDatesCCHelper.FilterDateTo = value;
 				OnPropertyChanged();
 				BindDataToScheduleList();
 			}
 		}
+		private void OnFilterDateFromChanged()
+		{
+			FilterDateFrom = _filterDatesCCHelper.FilterDateFrom;
+		}
+
+		private void OnFilterDateToChanged()
+		{
+			FilterDateTo = _filterDatesCCHelper.FilterDateTo;
+		}
+		#endregion
+
+		#region Fields
+
+		private IUserEventTypeModel _eventType;
+
+		#endregion
+
+		#region Properties
+
+
 		public AsyncRelayCommand DeleteAllEventsCommand { get; set; } // for testing purposes
 		public AsyncRelayCommand DeleteOneEventCommand { get; set; }  // for testing purposes
 		public string AboveEventsListText
@@ -116,24 +136,33 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Constructors
 
+		// All Events MODE
 		public AllEventsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
-			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
-			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
+			InitializeCommon(eventRepository);
+
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
-			SetFilterDatesValues();
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
+
+		// Single Event Type MODE
 		public AllEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
 		{
+			InitializeCommon(eventRepository);
+
 			var allTempTypes = new List<IUserEventTypeModel>();
 			foreach (var item in AllEventTypesOC)
 			{
 				allTempTypes.Add(item);
 			}
+		}
 
+		private void InitializeCommon(IEventRepository eventRepository)
+		{
+			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
+			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
 			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
 			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
 			SetFilterDatesValues();

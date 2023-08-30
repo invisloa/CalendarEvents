@@ -37,8 +37,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-                <Label Grid.Row="1" Grid.Column="0" Text="{Binding TextFilterDateFrom}" HorizontalOptions="Center"/>
-                <DatePicker  Grid.Row="1" Grid.Column="0" Date="{Binding FilterDateFrom}" HorizontalOptions="Center" Margin="20"/>
+            <Label Grid.Row="1" Grid.Column="0" Text="{Binding TextFilterDateFrom}" HorizontalOptions="Center"/>
+            <DatePicker  Grid.Row="1" Grid.Column="0" Date="{Binding FilterDateFrom}" HorizontalOptions="Center" Margin="20"/>
             
             <Label Grid.Row="1" Grid.Column="1" Text="{Binding TextFilterDateTo}" HorizontalOptions="Center"/>
             <DatePicker  Grid.Row="1" Grid.Column="1" Date="{Binding FilterDateTo}" HorizontalOptions="Center"/>
