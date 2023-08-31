@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCHelperClass
 {
-    using global::CalendarT1.Views.CustomControls.CCInterfaces;
+	using global::CalendarT1.Views.CustomControls.CCInterfaces;
     using System;
+	using System.Collections.ObjectModel;
 
-    namespace CalendarT1.Views.CustomControls.CCHelperClass
+	namespace CalendarT1.Views.CustomControls.CCHelperClass
     {
         public class FilterDatesCCHelperClass : IFilterDatesCC, IFilterDatesCCHelperClass
 		{
@@ -53,6 +54,8 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 					}
 				}
 			}
+
+			public ObservableCollection<Models.EventModels.IGeneralEventModel> AllEventsListOC { get; set; }
 		}
 	}
 

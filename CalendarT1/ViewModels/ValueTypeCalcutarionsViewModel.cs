@@ -8,11 +8,10 @@ using System.Threading.Tasks;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
-using CalendarT1.ViewModels.HelperClass.ExtensionsMethods;
 
 namespace CalendarT1.ViewModels
 {
-	public class ValueTypeCalcutarionsViewModel : PlainBaseAbstractEventViewModel, IFilterDatesCC, IFilterableByDate
+	public class ValueTypeCalcutarionsViewModel : PlainBaseAbstractEventViewModel, IFilterDatesCC
 	{
 		#region IFilterDatesCC implementation
 		private IFilterDatesCCHelperClass _filterDatesCCHelper = Factory.CreateFilterDatesCCHelperClass();
@@ -71,6 +70,7 @@ namespace CalendarT1.ViewModels
 		public ValueTypeCalcutarionsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
 			_eventRepository = eventRepository;
+			InitializeCommon();
 		}
 		private void InitializeCommon()
 		{

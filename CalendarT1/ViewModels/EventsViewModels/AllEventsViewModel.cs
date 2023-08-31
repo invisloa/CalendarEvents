@@ -3,7 +3,6 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.HelperClass;
-using CalendarT1.ViewModels.HelperClass.ExtensionsMethods;
 using CalendarT1.Views.CustomControls.CCHelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
@@ -16,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-    public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC, IFilterableByDate
+    public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
 	{
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
