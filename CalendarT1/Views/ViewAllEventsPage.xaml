@@ -23,6 +23,8 @@
             <customControls:MainEventTypesCustomControl/>
             <!-- All Events Types collection -->
             <customControls:EventTypesCustomControl/>
+            <customControls:AddNewTypeCC/>
+
         </StackLayout>
 
 

@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Models.EventTypesModels;
 
 namespace CalendarT1.ViewModels.HelperClass
 {
@@ -10,6 +11,6 @@ namespace CalendarT1.ViewModels.HelperClass
 		decimal MinOfMeasurements { get; set; }
 		decimal SumOfMeasurements { get; set; }
 
-		bool DoValueTypesCalculations(List<Quantity> allUserEvents);
+		bool DoValueTypesCalculations(List<IUserEventTypeModel> allUserEvents, DateTime from, DateTime to);
 	}
 }

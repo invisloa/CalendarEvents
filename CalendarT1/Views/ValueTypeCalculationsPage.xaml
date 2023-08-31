@@ -5,7 +5,46 @@
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="ValueTypeCalculationsPage">
     <VerticalStackLayout>
+        
+        <!--Date Filtering CustomControl-->
         <customControls:DateFilteringCC/>
+    
+        <!--All User Types CustomControl-->
+        <customControls:EventTypesCustomControl/>
+
+
+        <Label Text="SOME EXTRA CALCULATIONS XD" FontSize="30" HorizontalOptions="Center" Margin="0, 150, 0, 0"/>
+
+        <ScrollView HeightRequest="300">
+            <StackLayout>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
+            </StackLayout>
+        </ScrollView>
+
 
     </VerticalStackLayout>
 </ContentPage>

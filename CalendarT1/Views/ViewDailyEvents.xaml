@@ -36,7 +36,11 @@
         </Grid>
 
         <!-- EventTypesCustomControl collection -->
-        <customControls:EventTypesCustomControl Grid.Row="1" />
+        <StackLayout Grid.Row="1"  >
+            <customControls:EventTypesCustomControl/>
+            <customControls:AddNewTypeCC/>
+        </StackLayout>
+
 
         <!-- Events list layout -->
         <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">

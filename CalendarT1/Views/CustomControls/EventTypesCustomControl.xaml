@@ -6,8 +6,6 @@
     <StackLayout>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
             <Label Text="YOUR TYPES" HorizontalOptions="Center" FontSize="24" VerticalTextAlignment="Center" />
-
-                <Button Text="+"  FontAttributes="Bold" Command="{Binding GoToAddNewTypePageCommand}" Margin="10" BackgroundColor="Aquamarine" BorderColor="CadetBlue" BorderWidth="3"/>
         </StackLayout>
         <CollectionView ItemsSource="{Binding AllEventTypesOC}" HorizontalOptions="FillAndExpand">
             <CollectionView.ItemsLayout>

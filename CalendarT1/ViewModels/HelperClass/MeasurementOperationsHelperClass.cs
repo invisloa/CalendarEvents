@@ -1,6 +1,8 @@
 ﻿using CalendarT1.Models.EventModels;
+using CalendarT1.Models.EventTypesModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +17,25 @@ namespace CalendarT1.ViewModels.HelperClass
 		public decimal MinOfMeasurements { get; set; }
 		public decimal MedianOfMeasurements { get; set; }
 
+		// Average by Day
+		public decimal AverageByDay { get; set; }
+		public decimal AverageByWeek { get; set; }
+		public decimal AverageByMonth { get; set; }
+		public decimal AverageByYear { get; set; }
+
+		public decimal SumByDay { get; set; }
+		public decimal SumByWeek { get; set; }
+		public decimal SumByMonth { get; set; }
+		public decimal SumByYear { get; set; }
+
+		public decimal MaxByDay { get; set; }
+		public decimal MaxByWeek { get; set; }
+		public decimal MaxByMonth { get; set; }
+		public decimal MaxByYear { get; set; }
+		public decimal MinByDay { get; set; }
+		public decimal MinByWeek { get; set; }
+		public decimal MinByMonth { get; set; }
+		public decimal MinByYear { get; set; }
 
 		private List<MeasurementUnit> MoneyTypeMeasurements { get; set; }
 		private List<MeasurementUnit> WeightTypeMeasurements { get; set; }
@@ -37,7 +58,7 @@ namespace CalendarT1.ViewModels.HelperClass
 
 			measurementTypeMap = InitializeMappingDictionary();
 		}
-		public bool DoValueTypesCalculations(List<Quantity> allUserEvents)
+		public bool DoValueTypesCalculations(List<IUserEventTypeModel> allUserEvents, DateTime from, DateTime to)
 		{
 			if (allUserEvents.Count == 0)
 			{
@@ -46,8 +67,7 @@ namespace CalendarT1.ViewModels.HelperClass
 			else
 			{
 				var firstEvent = allUserEvents[0];
-				var firstEventUnit = firstEvent.Unit;
-				var firstEventValue = firstEvent.Value;
+				var firstEventUnit = firstEvent.QuantityAmount.Unit;
 
 				if (!measurementTypeMap.ContainsKey(firstEventUnit))
 				{
@@ -57,21 +77,66 @@ namespace CalendarT1.ViewModels.HelperClass
 				var measurementTypeList = measurementTypeMap[firstEventUnit];
 				foreach (var item in allUserEvents)
 				{
-					if (!measurementTypeList.Contains(item.Unit))
+					if (!measurementTypeList.Contains(item.QuantityAmount.Unit))
 					{
+						// if any event has a different measurement type, return false
+						// and do not perform any calculations
 						return false;
 					}
 				}
 
-				// Perform operations
-				SumOfMeasurements = allUserEvents.Sum(x => x.Value);
-				AverageOfMeasurements = allUserEvents.Average(x => x.Value);
-				MaxOfMeasurements = allUserEvents.Max(x => x.Value);
-				MinOfMeasurements = allUserEvents.Min(x => x.Value);
-				MedianOfMeasurements = allUserEvents.OrderBy(x => x.Value).ElementAt(allUserEvents.Count / 2).Value;
+				// Perform operations if all events are the same type
+				SumOfMeasurements = allUserEvents.Sum(x => x.QuantityAmount.Value);
+				AverageOfMeasurements = allUserEvents.Average(x => x.QuantityAmount.Value);
+				MaxOfMeasurements = allUserEvents.Max(x => x.QuantityAmount.Value);
+				MinOfMeasurements = allUserEvents.Min(x => x.QuantityAmount.Value);
+
+				// Median
+				var sortedEvents = allUserEvents.Select(x => x.QuantityAmount.Value).OrderBy(x => x).ToList();
+				var count = sortedEvents.Count;
+				if (count % 2 == 0)
+				{
+					MedianOfMeasurements = (sortedEvents[count / 2 - 1] + sortedEvents[count / 2]) / 2;
+				}
+				else
+				{
+					MedianOfMeasurements = sortedEvents[count / 2];
+				}
+
+				// Calculate by Period (using the DateTime parameters)
+				// For the purpose of this example, I'll assume you have a way to get the number of days, weeks, months, and years for the given period
+				int days = (to - from).Days;
+				int weeks = days / 7; // Simplified, consider using a more accurate method
+				int months = days / 30; // Simplified
+				int years = days / 365; // Simplified
+
+				//if not full time return amount by itself
+				AverageByDay = (days != 0) ? SumOfMeasurements / days : SumOfMeasurements;
+				AverageByWeek = (weeks != 0) ? SumOfMeasurements / weeks : SumOfMeasurements;
+				AverageByMonth = (months != 0) ? SumOfMeasurements / months : SumOfMeasurements;
+				AverageByYear = (years != 0) ? SumOfMeasurements / years : SumOfMeasurements;
+
+
+				// Sums by period
+				SumByDay = SumOfMeasurements; 
+				SumByWeek = SumOfMeasurements; 
+				SumByMonth = SumOfMeasurements; 
+				SumByYear = SumOfMeasurements; 
+
+				// Max by period
+				MaxByDay = MaxOfMeasurements; 
+				MaxByWeek = MaxOfMeasurements; 
+				MaxByMonth = MaxOfMeasurements; 
+				MaxByYear = MaxOfMeasurements; 
+
+				// Min by period
+				MinByDay = MinOfMeasurements; 
+				MinByWeek = MinOfMeasurements; 
+				MinByMonth = MinOfMeasurements; 
+				MinByYear = MinOfMeasurements; 
+
 				return true;
 			}
-
 		}
 
 		private Dictionary<MeasurementUnit, List<MeasurementUnit>> InitializeMappingDictionary()

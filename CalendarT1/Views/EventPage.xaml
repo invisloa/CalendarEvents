@@ -43,10 +43,9 @@
 
         <!--User Event Types Custom Control-->
             <customControls:EventTypesCustomControl/>
-        
-        
+            <customControls:AddNewTypeCC/>
 
-        <Editor Placeholder="...DESCRIPTION..."
+            <Editor Placeholder="...DESCRIPTION..."
                 x:Name="DescriptionEditor"  HorizontalTextAlignment="Center"
                 Text="{Binding Description, Mode=TwoWay}"
                 Margin="0, 10, 0, 0" />

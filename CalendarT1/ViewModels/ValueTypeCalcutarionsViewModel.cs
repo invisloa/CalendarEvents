@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
+using CalendarT1.Models.EventTypesModels;
+using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels
 {
@@ -69,6 +71,8 @@ namespace CalendarT1.ViewModels
 
 		public ValueTypeCalcutarionsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList().Where(x => x.MainEventType == MainEventTypes.Value).ToList());
+			
 			_eventRepository = eventRepository;
 			InitializeCommon();
 		}

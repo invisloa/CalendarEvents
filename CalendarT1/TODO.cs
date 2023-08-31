@@ -2,6 +2,12 @@
 
 
 #region Current
+// this cant use (List<Quantity>		public bool DoValueTypesCalculations(List<Quantity> allUserEvents, DateTime from, DateTime to)
+// it has to perform complex calculattions and needs to know about each events dates and values
+
+
+
+
 // valuepage to set dates at start 		public void SetFilterDatesValues()
 
 
