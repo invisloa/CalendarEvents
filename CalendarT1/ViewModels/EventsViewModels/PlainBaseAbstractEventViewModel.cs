@@ -38,6 +38,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnOnEventsToShowListUpdated();
 			}
 		}
+
 		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
 		{
 			get => _allEventTypesOC;

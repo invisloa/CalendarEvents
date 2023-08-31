@@ -2,6 +2,11 @@
 
 
 #region Current
+// valuepage to set dates at start 		public void SetFilterDatesValues()
+
+
+
+
 // EDIT VALUE TYPE PAGE TO ADD NEW CONTROLS
 
 // AllEventPpage filtering with main events and user events

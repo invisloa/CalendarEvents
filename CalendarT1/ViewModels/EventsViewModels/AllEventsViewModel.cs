@@ -3,6 +3,7 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.HelperClass;
+using CalendarT1.ViewModels.HelperClass.ExtensionsMethods;
 using CalendarT1.Views.CustomControls.CCHelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
@@ -15,7 +16,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-    public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
+    public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC, IFilterableByDate
 	{
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
@@ -158,13 +159,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private void InitializeCommon(IEventRepository eventRepository)
+		private void InitializeCommon(IEventRepository eventRepository) 
 		{
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
 			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
 			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
-			SetFilterDatesValues();
+			this.SetFilterDatesValues(); // using extension method
 		}
 
 		#endregion
@@ -214,20 +215,5 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		#endregion
 
-		public void SetFilterDatesValues()
-		{
-			if (AllEventsListOC.Count != 0)
-			{
-				FilterDateFrom = AllEventsListOC
-					.OrderBy(e => e.StartDateTime)
-					.FirstOrDefault()
-					.StartDateTime;
-			}
-            else
-            {
-				FilterDateFrom = DateTime.Today;
-            }
-            FilterDateTo = DateTime.Today;
-		}
 	}
 }
