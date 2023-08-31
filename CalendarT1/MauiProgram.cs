@@ -30,7 +30,7 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
-		// Interfaces DI
+		// Interfaces DI Dependency Injection for events repository
 		builder.Services.AddSingleton<IEventRepository, LocalMachineEventRepository>();			// events repository DI
 		builder.Services.AddScoped<IShareEvents, ShareEventsJson>();
 		Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddTransient<AddNewTypePageViewModel>(builder.Services);
@@ -44,6 +44,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<WeeklyEventsViewModel>();
 		builder.Services.AddTransient<DailyEventsViewModel>();
 		builder.Services.AddTransient<AllEventsViewModel>();
+		builder.Services.AddTransient<ValueTypeCalcutarionsViewModel>();
 
 
 		// add event dictionary factories DI

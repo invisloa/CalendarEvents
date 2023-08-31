@@ -14,10 +14,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	public abstract class AbstractEventViewModel : PlainBaseAbstractEventViewModel
 	{
 		#region Fields
-		private RelayCommand<DateTime> _datePickerDateSelectedCommand;
 		private RelayCommand _goToAddEventPageCommand;
 		private DateTime _currentSelectedDate = DateTime.Now;
 		private RelayCommand _goToAddNewTypePageCommand;
+		public RelayCommand<DateTime> GoToSelectedDateCommand { get; set; }
 
 		#endregion
 
@@ -45,6 +45,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public AbstractEventViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
+
+			GoToSelectedDateCommand = new RelayCommand<DateTime>(GoToSelectedDatePage);
 		}
 
 		#endregion
@@ -52,10 +54,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Commands
 		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
 		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
-
-		public RelayCommand<DateTime> DatePickerDateSelectedCommand =>
-			_datePickerDateSelectedCommand ?? (_datePickerDateSelectedCommand = new RelayCommand<DateTime>(DatePickerDateSelected));
-
 		#endregion
 
 		#region Private Methods
@@ -64,38 +62,21 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository, _currentSelectedDate));
 		}
-
-
-		private void DatePickerDateSelected(DateTime newDate)
-		{
-			CurrentSelectedDate = newDate;
-			BindDataToScheduleList();
-		}
 		private void GoToAddNewTypePage()
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
 		}
-
+		private void GoToSelectedDatePage(DateTime selectedDate)
+		{
+			var _dailyEventsPage = new ViewDailyEvents();
+			var _dailyEventsPageBindingContext = _dailyEventsPage.BindingContext as DailyEventsViewModel;
+			_dailyEventsPageBindingContext.CurrentSelectedDate = selectedDate;
+			Application.Current.MainPage.Navigation.PushAsync(_dailyEventsPage);
+		}
 		#endregion
 
 		#region Protected Methods
 
-		protected virtual void ApplyEventsDatesFilter(DateTime startDate, DateTime endDate)
-			{
-
-				var selectedToFilterEventTypes = AllEventTypesOC
-				.Where(x => x.IsSelectedToFilter)
-				.Select(x => x.EventTypeName)
-				.ToHashSet();
-
-				List<IGeneralEventModel> filteredEvents = AllEventsListOC
-					.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
-								x.StartDateTime.Date.Day >= startDate.Day &&
-								x.EndDateTime.Date.Day <= endDate.Day)
-					.ToList();
-
-				EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
-			}
 
 
 		#endregion

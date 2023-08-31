@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-    internal class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
+    public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
 	{
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation

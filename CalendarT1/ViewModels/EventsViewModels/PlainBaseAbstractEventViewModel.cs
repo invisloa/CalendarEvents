@@ -61,7 +61,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		public RelayCommand<UserEventTypeModel> SelectUserEventTypeCommand => _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<UserEventTypeModel>(OnUserEventTypeSelected));
 		public RelayCommand<IGeneralEventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
-		public RelayCommand<DateTime> GoToSelectedDateCommand { get; set; }
 
 
 		#endregion
@@ -72,7 +71,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			_eventRepository = eventRepository;
 			_allEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			_allEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
-			GoToSelectedDateCommand = new RelayCommand<DateTime>(GoToSelectedDatePage);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
 		}
@@ -113,19 +111,29 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 			BindDataToScheduleList();
 		}
-		private void GoToSelectedDatePage(DateTime selectedDate)
-		{
-			var _dailyEventsPage = new ViewDailyEvents();
-			var _dailyEventsPageBindingContext = _dailyEventsPage.BindingContext as DailyEventsViewModel;
-			_dailyEventsPageBindingContext.CurrentSelectedDate = selectedDate;
-			Application.Current.MainPage.Navigation.PushAsync(_dailyEventsPage);
-		}
+
 		private void SelectEvent(IGeneralEventModel selectedEvent)
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, selectedEvent));
 		}
 
 		#endregion
+		protected virtual void ApplyEventsDatesFilter(DateTime startDate, DateTime endDate)
+		{
+
+			var selectedToFilterEventTypes = AllEventTypesOC
+			.Where(x => x.IsSelectedToFilter)
+			.Select(x => x.EventTypeName)
+			.ToHashSet();
+
+			List<IGeneralEventModel> filteredEvents = AllEventsListOC
+				.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
+							x.StartDateTime.Date >= startDate.Date &&
+							x.EndDateTime.Date <= endDate.Date)
+				.ToList();
+
+			EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+		}
 
 		#region Events
 		public event Action OnEventsToShowListUpdated;
