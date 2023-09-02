@@ -10,6 +10,8 @@ using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 using CalendarT1.Models.EventTypesModels;
 using System.Collections.ObjectModel;
+using CalendarT1.ViewModels.HelperClass;
+using CalendarT1.Models.EventModels;
 
 namespace CalendarT1.ViewModels
 {
@@ -19,6 +21,9 @@ namespace CalendarT1.ViewModels
 		private IFilterDatesCCHelperClass _filterDatesCCHelper = Factory.CreateFilterDatesCCHelperClass();
 
 
+
+		// TODO change the below to factory and interface LATER
+		private MeasurementOperationsHelperClass _measurementOperationsHelperClass = new MeasurementOperationsHelperClass();
 
 		public string TextFilterDateFrom { get; set; } = "FILTER FROM:";
 		public string TextFilterDateTo { get; set; } = "FILTER UP TO:";
@@ -50,7 +55,7 @@ namespace CalendarT1.ViewModels
 				BindDataToScheduleList();
 			}
 		}
-
+		
 		public override void BindDataToScheduleList()
 		{
 			ApplyEventsDatesFilter(FilterDateFrom, FilterDateTo);
@@ -67,14 +72,19 @@ namespace CalendarT1.ViewModels
 		}
 		#endregion
 
-		IEventRepository _eventRepository;
+		public string CalculationsText { get; set; } = "Calculations:";
+		public RelayCommand DoCalculationsCommand { get; set; }
 
 		public ValueTypeCalcutarionsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList().Where(x => x.MainEventType == MainEventTypes.Value).ToList());
-			
-			_eventRepository = eventRepository;
+			DoCalculationsCommand = new RelayCommand(OnDoCalculations);
 			InitializeCommon();
+		}
+		private void OnDoCalculations()
+		{
+			_measurementOperationsHelperClass.DoValueTypesCalculations(new List<IGeneralEventModel>(AllEventsListOC), FilterDateFrom, FilterDateTo);
+			CalculationsText = _measurementOperationsHelperClass.MaxByDay.ToString();
 		}
 		private void InitializeCommon()
 		{

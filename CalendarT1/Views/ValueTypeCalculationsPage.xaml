@@ -12,31 +12,12 @@
         <!--All User Types CustomControl-->
         <customControls:EventTypesCustomControl/>
 
+        <Button Text="DO CALCULATIONS" Command="{Binding DoCalculationsCommand}"/>
 
-        <Label Text="SOME EXTRA CALCULATIONS XD" FontSize="30" HorizontalOptions="Center" Margin="0, 150, 0, 0"/>
+        <Label Text="{Binding CalculationsText}" FontSize="30" HorizontalOptions="Center" Margin="0, 150, 0, 0"/>
 
         <ScrollView HeightRequest="300">
             <StackLayout>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
                 <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
                 <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
                 <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
