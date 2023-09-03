@@ -23,7 +23,7 @@ namespace CalendarT1.ViewModels
 
 
 		// TODO change the below to factory and interface LATER
-		private MeasurementOperationsHelperClass _measurementOperationsHelperClass = new MeasurementOperationsHelperClass();
+		private MeasurementOperationsHelperClass _measurementOperationsHelperClass;
 
 		public string TextFilterDateFrom { get; set; } = "FILTER FROM:";
 		public string TextFilterDateTo { get; set; } = "FILTER UP TO:";
@@ -78,12 +78,13 @@ namespace CalendarT1.ViewModels
 		public ValueTypeCalcutarionsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList().Where(x => x.MainEventType == MainEventTypes.Value).ToList());
+			_measurementOperationsHelperClass = new MeasurementOperationsHelperClass(new List<IGeneralEventModel>(AllEventsListOC));
 			DoCalculationsCommand = new RelayCommand(OnDoCalculations);
 			InitializeCommon();
 		}
 		private void OnDoCalculations()
 		{
-			_measurementOperationsHelperClass.DoValueTypesCalculations(new List<IGeneralEventModel>(AllEventsListOC), FilterDateFrom, FilterDateTo);
+			_measurementOperationsHelperClass.DoValueTypesBasicCalculations(FilterDateFrom, FilterDateTo);
 			CalculationsText = _measurementOperationsHelperClass.MaxByDay.ToString();
 		}
 		private void InitializeCommon()

@@ -2,6 +2,13 @@
 
 
 #region Current
+
+// consider strategy pattrern for calculations
+
+// TODO mapping is not considered in calculations for now!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
 // this cant use (List<Quantity>		public bool DoValueTypesCalculations(List<Quantity> allUserEvents, DateTime from, DateTime to)
 // it has to perform complex calculattions and needs to know about each events dates and values
 

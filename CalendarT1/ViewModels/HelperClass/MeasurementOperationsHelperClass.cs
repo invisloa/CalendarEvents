@@ -38,17 +38,20 @@ namespace CalendarT1.ViewModels.HelperClass
 		public List<(int, int)> MinByWeekInfoList { get; set; }
 		public decimal MinByMonth { get; set; }
 		public decimal MinByYear { get; set; }
+
+
 		private List<MeasurementUnit> MoneyTypeMeasurements { get; set; }
 		private List<MeasurementUnit> WeightTypeMeasurements { get; set; }
 		private List<MeasurementUnit> VolumeTypeMeasurements { get; set; }
 		private List<MeasurementUnit> DistanceTypeMeasurements { get; set; }
 		private List<MeasurementUnit> TimeTypeMeasurements { get; set; }
 		private List<MeasurementUnit> TemperatureTypeMeasurements { get; set; }
+		private List<IGeneralEventModel> _eventsOrderedByDateList { get; set; }
 
 		Dictionary<MeasurementUnit, List<MeasurementUnit>> measurementTypeMap;
 
-
-		public MeasurementOperationsHelperClass()
+		// CTOR
+		public MeasurementOperationsHelperClass(List<IGeneralEventModel> allUserEventsList)
 		{
 			MoneyTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Money };
 			WeightTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Gram, MeasurementUnit.Kilogram, MeasurementUnit.Milligram };
@@ -56,27 +59,60 @@ namespace CalendarT1.ViewModels.HelperClass
 			DistanceTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Centimeter, MeasurementUnit.Kilometer, MeasurementUnit.Meter, MeasurementUnit.Millimeter };
 			TimeTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Week, MeasurementUnit.Day, MeasurementUnit.Hour, MeasurementUnit.Minute, MeasurementUnit.Second };
 			TemperatureTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Celsius, MeasurementUnit.Fahrenheit, MeasurementUnit.Kelvin };
-
 			measurementTypeMap = InitializeMappingDictionary();
+			_eventsOrderedByDateList = allUserEventsList.OrderBy(x => x.StartDateTime).ToList();
+
 		}
-		public bool DoValueTypesCalculations(List<IGeneralEventModel> allUserEvents, DateTime from, DateTime to)
+
+
+		// Basic Calculations
+		public bool DoValueTypesBasicCalculations(DateTime from, DateTime to)
 		{
-			if (allUserEvents.Count == 0)
+			if (CheckIfEventsAreSameType())
+			{
+				// Perform operations if all events are the same type
+				SumOfMeasurements = _eventsOrderedByDateList.Sum(x => x.QuantityAmount.Value);
+				AverageOfMeasurements = _eventsOrderedByDateList.Average(x => x.QuantityAmount.Value);
+				MaxOfMeasurements = _eventsOrderedByDateList.Max(x => x.QuantityAmount.Value);
+				MinOfMeasurements = _eventsOrderedByDateList.Min(x => x.QuantityAmount.Value);
+
+
+				// Calculate by Period (using the DateTime parameters)
+				int days = (to - from).Days;
+				int weeks = days / 7; // Simplified, consider using a more accurate method
+				int months = days / 30; // Simplified
+				int years = days / 365; // Simplified
+
+				//if not full period time return amount by itself
+				// TO DO TODO Change the below to better calculate the amount by period
+				AverageByDay = (days != 0) ? SumOfMeasurements / days : SumOfMeasurements;
+				AverageByWeek = (weeks != 0) ? SumOfMeasurements / weeks : SumOfMeasurements;
+				AverageByMonth = (months != 0) ? SumOfMeasurements / months : SumOfMeasurements;
+				AverageByYear = (years != 0) ? SumOfMeasurements / years : SumOfMeasurements;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+
+		}
+		private bool CheckIfEventsAreSameType()
+		{
+			if (_eventsOrderedByDateList.Count == 0)
 			{
 				throw new Exception("The list of events is empty.");
 			}
 			else
 			{
-				var firstEvent = allUserEvents[0];
+				var firstEvent = _eventsOrderedByDateList[0];
 				var firstEventUnit = firstEvent.QuantityAmount.Unit;
-
 				if (!measurementTypeMap.ContainsKey(firstEventUnit))
-				{
-					throw new Exception("Unsupported measurement unit.");
-				}
-
+			{
+				throw new Exception("Unsupported measurement unit.");
+			}
 				var measurementTypeList = measurementTypeMap[firstEventUnit];
-				foreach (var item in allUserEvents)
+			foreach (var item in _eventsOrderedByDateList)
 				{
 					if (!measurementTypeList.Contains(item.QuantityAmount.Unit))
 					{
@@ -85,45 +121,11 @@ namespace CalendarT1.ViewModels.HelperClass
 						return false;
 					}
 				}
-
-				// Perform operations if all events are the same type
-				SumOfMeasurements = allUserEvents.Sum(x => x.QuantityAmount.Value);
-				AverageOfMeasurements = allUserEvents.Average(x => x.QuantityAmount.Value);
-				MaxOfMeasurements = allUserEvents.Max(x => x.QuantityAmount.Value);
-				MinOfMeasurements = allUserEvents.Min(x => x.QuantityAmount.Value);
-
-				// Median
-				var sortedEvents = allUserEvents.Select(x => x.QuantityAmount.Value).OrderBy(x => x).ToList();
-				var count = sortedEvents.Count;
-				if (count % 2 == 0)
-				{
-					MedianOfMeasurements = (sortedEvents[count / 2 - 1] + sortedEvents[count / 2]) / 2;
-				}
-				else
-				{
-					MedianOfMeasurements = sortedEvents[count / 2];
-				}
-
-				// Calculate by Period (using the DateTime parameters)
-				int days = (to - from).Days;
-				int weeks = days / 7; // Simplified, consider using a more accurate method
-				int months = days / 30; // Simplified
-				int years = days / 365; // Simplified
-
-				//if not full time return amount by itself
-				// TO DO TODO Change the below to better calculate the amount by period
-				AverageByDay = (days != 0) ? SumOfMeasurements / days : SumOfMeasurements;
-				AverageByWeek = (weeks != 0) ? SumOfMeasurements / weeks : SumOfMeasurements;
-				AverageByMonth = (months != 0) ? SumOfMeasurements / months : SumOfMeasurements;
-				AverageByYear = (years != 0) ? SumOfMeasurements / years : SumOfMeasurements;
-
-
-				// Max by period
-				MaxByDayCalculation(allUserEvents);
 				return true;
 			}
 		}
 
+		// TODO mapping is not considered in calculations for now!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 		private Dictionary<MeasurementUnit, List<MeasurementUnit>> InitializeMappingDictionary()
 		{
 			return new Dictionary<MeasurementUnit, List<MeasurementUnit>>
@@ -148,211 +150,164 @@ namespace CalendarT1.ViewModels.HelperClass
 					{ MeasurementUnit.Kelvin, TemperatureTypeMeasurements }
 				};
 		}
-		#region MeasurementMethods
+
+
+
+		// ADVANCED MEASUREMENT METHODS
+		#region AdvancedMeasurementMethods
 		// TODO 
-		// Avarage by day of occurrence
-		private void MaxByDayCalculation(List<IGeneralEventModel> allEventsList)
+		// Avarage by day of occurrence (if it appears what is the average of its occurence)?- how many tickets on a day of service (average)
+		// Define a delegate for the update action
+
+
+
+		// Using custom delegate- action does not support ref parameters
+		private delegate void UpdateByDayDelegate(ref decimal currentDaySum, ref decimal currentByDay, DateTime date, List<DateTime> daysWithValuesList);
+
+		private MeasurementCalculationsOutcome CalculateByDay(UpdateByDayDelegate updateDelegate, decimal initialByDayValue)
 		{
-			if (allEventsList == null || !allEventsList.Any())
+			if (_eventsOrderedByDateList == null || !_eventsOrderedByDateList.Any())
 			{
-				return;
+				throw new Exception("The list of events is empty.");
 			}
 
 			decimal currentDaySum = 0;
-			decimal currentMaxByDay = 0;
-			var eventsOrderedByDateList = allEventsList.OrderBy(x => x.StartDateTime).ToList();
-			var tempForDayWithMaxValueCheck = eventsOrderedByDateList[0].StartDateTime.Date;
-			var daysWithMaxValuesList = new List<DateTime>() { tempForDayWithMaxValueCheck };
+			decimal currentByDay = initialByDayValue;
+			var currentDateForDayWithExtremeValue = _eventsOrderedByDateList[0].StartDateTime.Date;
+			var daysWithExtremeValuesList = new List<DateTime>() { currentDateForDayWithExtremeValue };
 
-			foreach (var item in eventsOrderedByDateList)
+			foreach (var item in _eventsOrderedByDateList)
 			{
 				if (item.QuantityAmount?.Value == null)
 				{
-					throw new Exception(); // Skip this iteration if QuantityAmount is null
+					throw new Exception(); // Exception if QuantityAmount is null
 				}
 
-				if (item.StartDateTime.Date != tempForDayWithMaxValueCheck)
+				if (item.StartDateTime.Date != currentDateForDayWithExtremeValue)
 				{
-					UpdateMaxByDay(ref currentDaySum, ref currentMaxByDay, tempForDayWithMaxValueCheck, daysWithMaxValuesList);
+					updateDelegate(ref currentDaySum, ref currentByDay, currentDateForDayWithExtremeValue, daysWithExtremeValuesList);
 					currentDaySum = 0;
-					tempForDayWithMaxValueCheck = item.StartDateTime.Date;
+					currentDateForDayWithExtremeValue = item.StartDateTime.Date;
 				}
 
 				currentDaySum += item.QuantityAmount.Value;
 			}
 
-			UpdateMaxByDay(ref currentDaySum, ref currentMaxByDay, tempForDayWithMaxValueCheck, daysWithMaxValuesList);
+			updateDelegate(ref currentDaySum, ref currentByDay, currentDateForDayWithExtremeValue, daysWithExtremeValuesList);
 
-			MaxByDay = currentMaxByDay;
-			MaxByDayDatesList = daysWithMaxValuesList;
+			return new MeasurementCalculationsOutcome(currentByDay, daysWithExtremeValuesList);
 		}
 
-		private void UpdateMaxByDay(ref decimal currentDaySum, ref decimal currentMaxByDay, DateTime date, List<DateTime> daysWithMaxValuesList)
+
+
+		// Common update method
+		private void UpdateByDay(ref decimal currentDaySum, ref decimal currentByDay, DateTime date, List<DateTime> daysWithValuesList, Func<decimal, decimal, bool> comparison)
 		{
-			if (currentDaySum > currentMaxByDay)
+			if (comparison(currentDaySum, currentByDay))
 			{
-				currentMaxByDay = currentDaySum;
-				daysWithMaxValuesList.Clear();
-				daysWithMaxValuesList.Add(date);
+				currentByDay = currentDaySum;
+				daysWithValuesList.Clear();
+				daysWithValuesList.Add(date);
 			}
-			else if (currentDaySum == currentMaxByDay)
+			else if (currentDaySum == currentByDay)
 			{
-				daysWithMaxValuesList.Add(date);
+				daysWithValuesList.Add(date);
 			}
 		}
-
-		private void MinByDayCalculation(List<IGeneralEventModel> allEventsList)
+		// Max comparison
+		private bool MaxComparison(decimal currentDaySum, decimal currentMaxByDay)
 		{
-			if (allEventsList == null || !allEventsList.Any())
-			{
-				return;
-			}
-
-			decimal currentDaySum = 0;
-			decimal currentMinByDay = decimal.MaxValue;  // Initialize to maximum decimal value
-			var eventsOrderedByDateList = allEventsList.OrderBy(x => x.StartDateTime).ToList();
-			var tempForDayWithMinValueCheck = eventsOrderedByDateList[0].StartDateTime.Date;
-			var daysWithMinValuesList = new List<DateTime>();
-
-			foreach (var item in eventsOrderedByDateList)
-			{
-				if (item.QuantityAmount?.Value == null)
-				{
-					throw new Exception(); // Skip this iteration if QuantityAmount is null
-				}
-
-				if (item.StartDateTime.Date != tempForDayWithMinValueCheck)
-				{
-					UpdateMinByDay(ref currentDaySum, ref currentMinByDay, tempForDayWithMinValueCheck, daysWithMinValuesList);
-					currentDaySum = 0;
-					tempForDayWithMinValueCheck = item.StartDateTime.Date;
-				}
-
-				currentDaySum += item.QuantityAmount.Value;
-			}
-
-			UpdateMinByDay(ref currentDaySum, ref currentMinByDay, tempForDayWithMinValueCheck, daysWithMinValuesList);
-
-			MinByDay = currentMinByDay; 
-			MinByDayDatesList = daysWithMinValuesList; 
+			return currentDaySum > currentMaxByDay;
 		}
 
-		private void UpdateMinByDay(ref decimal currentDaySum, ref decimal currentMinByDay, DateTime date, List<DateTime> daysWithMinValuesList)
+		// Min comparison
+		private bool MinComparison(decimal currentDaySum, decimal currentMinByDay)
 		{
-			if (currentDaySum < currentMinByDay)
-			{
-				currentMinByDay = currentDaySum;
-				daysWithMinValuesList.Clear();
-				daysWithMinValuesList.Add(date);
-			}
-			else if (currentDaySum == currentMinByDay)
-			{
-				daysWithMinValuesList.Add(date);
-			}
+			return currentDaySum < currentMinByDay;
 		}
-		private void MaxByWeekCalculation(List<IGeneralEventModel> allEventsList)
+
+		// Methods to call
+		public MeasurementCalculationsOutcome MaxByDayCalculation()
 		{
-			if (allEventsList == null || !allEventsList.Any())
+			return CalculateByDay((ref decimal sum, ref decimal byDay, DateTime date, List<DateTime> list) =>
+			UpdateByDay(ref sum, ref byDay, date, list, MaxComparison), 0);
+		}
+		public MeasurementCalculationsOutcome MinByDayCalculation()
+		{
+			return CalculateByDay((ref decimal sum, ref decimal byDay, DateTime date, List<DateTime> list) =>
+			UpdateByDay(ref sum, ref byDay, date, list, MinComparison), decimal.MaxValue);
+		}
+
+		private MeasurementCalculationsOutcome MaxByWeekCalculation()
+		{
+			if (_eventsOrderedByDateList == null || !_eventsOrderedByDateList.Any())
 			{
-				return;
+				throw new Exception(); // Exception if _eventsOrderedByDateList is null
 			}
 			decimal currentWeekSum = 0;
 			decimal currentMaxByWeek = 0;
-			var eventsOrderedByDateList = allEventsList.OrderBy(x => x.StartDateTime).ToList();
-			var currentWeekInfo = GetWeekInfo(eventsOrderedByDateList[0].StartDateTime);
-			var weeksWithMaxValuesList = new List<(int weekOfYear, int year)>();
-			foreach (var item in eventsOrderedByDateList)
+			var calendar = CultureInfo.CurrentCulture.Calendar;
+
+			var currentWeekDate = _eventsOrderedByDateList[0].StartDateTime.Date;
+			var maxValueWeekDate = _eventsOrderedByDateList[0].StartDateTime.Date;
+			var lastWeekNumber = calendar.GetWeekOfYear(maxValueWeekDate, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+			var weeksWithMaxValuesList = new List<DateTime>(); // any date from a week will work with my ViewWeeklyEvents page
+			foreach (var item in _eventsOrderedByDateList)
 			{
 				if (item.QuantityAmount?.Value == null)
 				{
-					throw new Exception(); // Skip this iteration if QuantityAmount is null
+					throw new Exception(); // Exception if QuantityAmount is null
 				}
-				var thisWeekInfo = GetWeekInfo(item.StartDateTime);
-				if (thisWeekInfo != currentWeekInfo)
+				currentWeekDate = item.StartDateTime.Date;
+				var itemWeekNumber = calendar.GetWeekOfYear(item.StartDateTime.Date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+				if (itemWeekNumber != lastWeekNumber)
 				{
-					UpdateMaxByWeek(ref currentWeekSum, ref currentMaxByWeek, currentWeekInfo, weeksWithMaxValuesList);
+					UpdateMaxByWeek(ref currentWeekSum, ref currentMaxByWeek, currentWeekDate, ref maxValueWeekDate, weeksWithMaxValuesList);
 					currentWeekSum = 0;
-					currentWeekInfo = thisWeekInfo;
+					lastWeekNumber = itemWeekNumber;
 				}
 				currentWeekSum += item.QuantityAmount.Value;
 			}
 
-			UpdateMaxByWeek(ref currentWeekSum, ref currentMaxByWeek, currentWeekInfo, weeksWithMaxValuesList);
-			MaxByWeek = currentMaxByWeek; 
-			MaxByWeekInfoList = weeksWithMaxValuesList; 
+			UpdateMaxByWeek(ref currentWeekSum, ref currentMaxByWeek, currentWeekDate, ref maxValueWeekDate, weeksWithMaxValuesList);
+			return new MeasurementCalculationsOutcome(currentMaxByWeek, weeksWithMaxValuesList);
 		}
 
-		private (int weekOfYear, int year) GetWeekInfo(DateTime date)
-		{
-			var calendar = CultureInfo.CurrentCulture.Calendar;
-			var weekOfYear = calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday);
-			var year = date.Year;
-			return (weekOfYear, year);
-		}
 
-		private void UpdateMaxByWeek(ref decimal currentWeekSum, ref decimal currentMaxByWeek, (int weekOfYear, int year) weekInfo, List<(int weekOfYear, int year)> weeksWithMaxValuesList)
+		private void UpdateMaxByWeek(ref decimal currentWeekSum, ref decimal currentMaxByWeek, DateTime currentWeekDate, ref DateTime maxValueWeekDate, List<DateTime> weeksWithMaxValuesList)
 		{
 			if (currentWeekSum > currentMaxByWeek)
 			{
 				currentMaxByWeek = currentWeekSum;
 				weeksWithMaxValuesList.Clear();
-				weeksWithMaxValuesList.Add(weekInfo);
+				weeksWithMaxValuesList.Add(maxValueWeekDate);
+				maxValueWeekDate = currentWeekDate;
 			}
 			else if (currentWeekSum == currentMaxByWeek)
 			{
-				weeksWithMaxValuesList.Add(weekInfo);
+				weeksWithMaxValuesList.Add(maxValueWeekDate);
+				maxValueWeekDate = currentWeekDate;
 			}
 		}
-		private void MinByWeekCalculation(List<IGeneralEventModel> allEventsList)
-		{
-			if (allEventsList == null || !allEventsList.Any())
-			{
-				return;
-			}
 
-			decimal currentWeekSum = 0;
-			decimal currentMinByWeek = decimal.MaxValue;  // Initialize to maximum decimal value
-			var eventsOrderedByDateList = allEventsList.OrderBy(x => x.StartDateTime).ToList();
-			var currentWeekInfo = GetWeekInfo(eventsOrderedByDateList[0].StartDateTime);
-			var weeksWithMinValuesList = new List<(int weekOfYear, int year)>();
-
-			foreach (var item in eventsOrderedByDateList)
-			{
-				if (item.QuantityAmount?.Value == null)
-				{
-					throw new Exception(); // Skip this iteration if QuantityAmount is null
-				}
-
-				var thisWeekInfo = GetWeekInfo(item.StartDateTime);
-				if (thisWeekInfo != currentWeekInfo)
-				{
-					UpdateMinByWeek(ref currentWeekSum, ref currentMinByWeek, currentWeekInfo, weeksWithMinValuesList);
-					currentWeekSum = 0;
-					currentWeekInfo = thisWeekInfo;
-				}
-
-				currentWeekSum += item.QuantityAmount.Value;
-			}
-
-			UpdateMinByWeek(ref currentWeekSum, ref currentMinByWeek, currentWeekInfo, weeksWithMinValuesList);
-
-			MinByWeek = currentMinByWeek; 
-			MinByWeekInfoList = weeksWithMinValuesList;  
-		}
-
-		private void UpdateMinByWeek(ref decimal currentWeekSum, ref decimal currentMinByWeek, (int weekOfYear, int year) weekInfo, List<(int weekOfYear, int year)> weeksWithMinValuesList)
-		{
-			if (currentWeekSum < currentMinByWeek)
-			{
-				currentMinByWeek = currentWeekSum;
-				weeksWithMinValuesList.Clear();
-				weeksWithMinValuesList.Add(weekInfo);
-			}
-			else if (currentWeekSum == currentMinByWeek)
-			{
-				weeksWithMinValuesList.Add(weekInfo);
-			}
-		}
 		#endregion
 	}
+
+
+
+
+	#region HelperClass TO MOVE TO SEPARATE FILE
+
+	public class MeasurementCalculationsOutcome
+	{
+		public MeasurementCalculationsOutcome(decimal measurementValueOutcome, List<DateTime> measurementsEventsOutcome)
+		{
+			MeasurementValueOutcome = measurementValueOutcome;
+			MeasurementDatesListOutcome = measurementsEventsOutcome;
+		}
+
+		public decimal MeasurementValueOutcome { get; set; }
+		public List<DateTime> MeasurementDatesListOutcome { get; set; }
+	}
+	#endregion
 }
