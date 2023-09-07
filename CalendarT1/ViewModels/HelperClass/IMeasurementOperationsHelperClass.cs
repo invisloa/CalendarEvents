@@ -11,6 +11,6 @@ namespace CalendarT1.ViewModels.HelperClass
 		decimal MinOfMeasurements { get; set; }
 		decimal SumOfMeasurements { get; set; }
 
-		bool DoValueTypesBasicCalculations(List<IGeneralEventModel> allUserEvents, DateTime from, DateTime to);
+		bool DoValueTypesBasicCalculations(DateTime from, DateTime to);
 	}
 }

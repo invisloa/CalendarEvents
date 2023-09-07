@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
+using CalendarT1.Services.DataOperations.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -51,7 +52,7 @@ namespace CalendarT1.ViewModels.HelperClass
 		Dictionary<MeasurementUnit, List<MeasurementUnit>> measurementTypeMap;
 
 		// CTOR
-		public MeasurementOperationsHelperClass(List<IGeneralEventModel> allUserEventsList)
+		public MeasurementOperationsHelperClass(IEventRepository eventRepository)
 		{
 			MoneyTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Money };
 			WeightTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Gram, MeasurementUnit.Kilogram, MeasurementUnit.Milligram };
@@ -60,8 +61,8 @@ namespace CalendarT1.ViewModels.HelperClass
 			TimeTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Week, MeasurementUnit.Day, MeasurementUnit.Hour, MeasurementUnit.Minute, MeasurementUnit.Second };
 			TemperatureTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Celsius, MeasurementUnit.Fahrenheit, MeasurementUnit.Kelvin };
 			measurementTypeMap = InitializeMappingDictionary();
+			var allUserEventsList = eventRepository.AllEventsList;
 			_eventsOrderedByDateList = allUserEventsList.OrderBy(x => x.StartDateTime).ToList();
-
 		}
 
 
@@ -116,8 +117,7 @@ namespace CalendarT1.ViewModels.HelperClass
 				{
 					if (!measurementTypeList.Contains(item.QuantityAmount.Unit))
 					{
-						// if any event has a different measurement type, return false
-						// and do not perform any calculations
+						// if any event has a different measurement type => false => dont do calculations
 						return false;
 					}
 				}
@@ -151,15 +151,10 @@ namespace CalendarT1.ViewModels.HelperClass
 				};
 		}
 
-
-
 		// ADVANCED MEASUREMENT METHODS
+		// It is ok to return only datelist, because if i go to any date in the list i will still get to a propper events list
+		// week => gotoweekpage, month => gotomonthpage
 		#region AdvancedMeasurementMethods
-		// TODO 
-		// Avarage by day of occurrence (if it appears what is the average of its occurence)?- how many tickets on a day of service (average)
-		// Define a delegate for the update action
-
-
 
 		// Define your delegate and comparison types
 		public delegate void UpdateByDayDelegate(ref decimal currentPeriodSum, ref decimal currentByPeriod, DateTime currentPeriodDate, List<DateTime> daysWithExtremeValuesList, ComparisonDelegate comparison);
@@ -180,7 +175,7 @@ namespace CalendarT1.ViewModels.HelperClass
 			decimal currentPeriodSum = 0;
 			decimal currentByPeriod = initialByDayValue;
 			var currentPeriodDate = _eventsOrderedByDateList[0].StartDateTime.Date;
-			var daysWithExtremeValuesList = new List<DateTime>() { currentPeriodDate };
+			var datesWithExtremeValuesList = new List<DateTime>() { currentPeriodDate };
 			var lastPeriodNumber = getPeriodNumber(_eventsOrderedByDateList[0].StartDateTime.Date);
 
 			foreach (var item in _eventsOrderedByDateList)
@@ -193,7 +188,7 @@ namespace CalendarT1.ViewModels.HelperClass
 				var itemPeriodNumber = getPeriodNumber(item.StartDateTime.Date);
 				if (itemPeriodNumber != lastPeriodNumber)
 				{
-					updateDelegate(ref currentPeriodSum, ref currentByPeriod, currentPeriodDate, daysWithExtremeValuesList, comparison);
+					updateDelegate(ref currentPeriodSum, ref currentByPeriod, currentPeriodDate, datesWithExtremeValuesList, comparison);
 					currentPeriodSum = 0;
 					lastPeriodNumber = itemPeriodNumber;
 					currentPeriodDate = item.StartDateTime.Date;
@@ -202,9 +197,9 @@ namespace CalendarT1.ViewModels.HelperClass
 				currentPeriodSum += item.QuantityAmount.Value;
 			}
 
-			updateDelegate(ref currentPeriodSum, ref currentByPeriod, currentPeriodDate, daysWithExtremeValuesList, comparison);
+			updateDelegate(ref currentPeriodSum, ref currentByPeriod, currentPeriodDate, datesWithExtremeValuesList, comparison);
 
-			return new MeasurementCalculationsOutcome(currentByPeriod, daysWithExtremeValuesList);
+			return new MeasurementCalculationsOutcome(currentByPeriod, datesWithExtremeValuesList);
 		}
 
 		// Method to get week number
@@ -213,19 +208,23 @@ namespace CalendarT1.ViewModels.HelperClass
 			var calendar = CultureInfo.CurrentCulture.Calendar;
 			return calendar.GetWeekOfYear(date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
 		}
-
+		// Method to get month number
+		private int GetMonthNumber(DateTime date)
+		{
+			return date.Month;
+		}
 		// Generalized update method
-		private void UpdateByPeriod(ref decimal currentPeriodSum, ref decimal currentByPeriod, DateTime currentPeriodDate, List<DateTime> daysWithValuesList, ComparisonDelegate comparison)
+		private void UpdateByPeriod(ref decimal currentPeriodSum, ref decimal currentByPeriod, DateTime currentPeriodDate, List<DateTime> datesWithExtremeValuesList, ComparisonDelegate comparison)
 		{
 			if (comparison(currentPeriodSum, currentByPeriod))
 			{
 				currentByPeriod = currentPeriodSum;
-				daysWithValuesList.Clear();
-				daysWithValuesList.Add(currentPeriodDate);
+				datesWithExtremeValuesList.Clear();
+				datesWithExtremeValuesList.Add(currentPeriodDate);
 			}
 			else if (currentPeriodSum == currentByPeriod)
 			{
-				daysWithValuesList.Add(currentPeriodDate);
+				datesWithExtremeValuesList.Add(currentPeriodDate);
 			}
 		}
 
@@ -260,6 +259,15 @@ namespace CalendarT1.ViewModels.HelperClass
 		public MeasurementCalculationsOutcome MinByWeekCalculation()
 		{
 			return CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, GetWeekNumber);
+		}
+		public MeasurementCalculationsOutcome MaxByMonthCalculation()
+		{
+			return CalculateByPeriod(UpdateByPeriod, MaxComparison, 0, GetMonthNumber);
+		}
+
+		public MeasurementCalculationsOutcome MinByMonthCalculation()
+		{
+			return CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, GetMonthNumber);
 		}
 		#endregion
 	}
