@@ -13,8 +13,9 @@
         <customControls:EventTypesCustomControl/>
 
         <Button Text="DO BASIC CALCULATIONS" Command="{Binding DoBasicCalculationsCommand}"/>
+        <Button Text="DO ADVANCED CALCULATIONS" Command="{Binding DoAdvancedCalculationsCommand}"/>
 
-        <StackLayout>
+        <StackLayout IsVisible="{Binding BasicOperationsVisibility}">
             <Label Text="{Binding TotalOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding TotalOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding AverageOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
@@ -23,6 +24,13 @@
             <Label Text="{Binding MaxOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding MinOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding MinOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
+        </StackLayout>
+
+        <!--ADVANCED MEASUREMENT OPERATIONS-->
+        <StackLayout IsVisible="{Binding AdvancedOperationsVisibility}">
+            <Label Text="{Binding MaxByWeekCalculationText}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding MeasurementCalculationOutcome.MeasurementValueOutcome}" FontSize="30" HorizontalOptions="Center" />
+            <Button Text="MAX VALUES WEEK" Command="{Binding GoToWeeksPageCommand}"/>
         </StackLayout>
         
 

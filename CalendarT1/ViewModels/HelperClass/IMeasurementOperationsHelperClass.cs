@@ -12,5 +12,7 @@ namespace CalendarT1.ViewModels.HelperClass
 		decimal TotalOfMeasurements { get; set; }
 
 		bool DoBasicCalculations(DateTime from, DateTime to);
+		MeasurementCalculationsOutcome MinByWeekCalculation();
+		MeasurementCalculationsOutcome MaxByWeekCalculation();
 	}
 }

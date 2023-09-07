@@ -45,7 +45,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public AbstractEventViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
-
 			GoToSelectedDateCommand = new RelayCommand<DateTime>(GoToSelectedDatePage);
 		}
 

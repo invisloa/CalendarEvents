@@ -6,15 +6,20 @@ namespace CalendarT1.Views
 {
 	public partial class ViewWeeklyEvents : ContentPage
 	{
+		WeeklyEventsViewModel viewModel = ServiceHelper.GetService<WeeklyEventsViewModel>();
+
 		public ViewWeeklyEvents()
 		{
 			InitializeComponent();
-			var viewModel = ServiceHelper.GetService<WeeklyEventsViewModel>();
 			BindingContext = viewModel;
 			viewModel.OnEventsToShowListUpdated += () =>
 			{
 				weeklyEventsControl.GenerateGrid();
 			};
+		}
+		public ViewWeeklyEvents(DateTime goToDate) : this()
+		{
+			viewModel.CurrentSelectedDate = goToDate;
 		}
 		protected override void OnDisappearing()
 		{
