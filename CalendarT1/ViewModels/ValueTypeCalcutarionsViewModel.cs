@@ -38,7 +38,7 @@ namespace CalendarT1.ViewModels
 				}
 				_filterDatesCCHelper.FilterDateFrom = value;
 				OnPropertyChanged();
-				BindDataToScheduleList();
+				BindDataToScheduleList();	// Datepicker does not support commands, so we have to do it here
 			}
 		}
 		public DateTime FilterDateTo
@@ -52,7 +52,7 @@ namespace CalendarT1.ViewModels
 				}
 				_filterDatesCCHelper.FilterDateTo = value;
 				OnPropertyChanged();
-				BindDataToScheduleList();
+				BindDataToScheduleList();   // Datepicker does not support commands, so we have to do it here
 			}
 		}
 		
@@ -72,27 +72,166 @@ namespace CalendarT1.ViewModels
 		}
 		#endregion
 
-		public string CalculationsText { get; set; } = "Calculations:";
-		public RelayCommand DoCalculationsCommand { get; set; }
+		// CONTROLS PROPERTIES
+		#region Controls properties
+		private bool _basicOperationsVisibility = true;
+		public bool BasicOperationsVisibility
+		{
+			get { return _basicOperationsVisibility; }
+			set
+			{
+				if (_basicOperationsVisibility != value)
+				{
+					_basicOperationsVisibility = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 
+		private List<bool> _listOfControlsVisibility;
+		private string _totalOfMeasurementsTextAbove = "Total of measurements:";
+		private string _totalOfMeasurements = "0";
+		private string _averageOfMeasurementsTextAbove = "Average of measurements:";
+		private string _averageOfMeasurements = "0";
+		private string _maxOfMeasurementsTextAbove = "Max of measurements:";
+		private string _maxOfMeasurements = "0";
+		private string _minOfMeasurementsTextAbove = "Min of measurements:";
+		private string _minOfMeasurements = "0";
+
+		public string TotalOfMeasurementsTextAbove
+		{
+			get { return _totalOfMeasurementsTextAbove; }
+			set
+			{
+				if (_totalOfMeasurementsTextAbove != value)
+				{
+					_totalOfMeasurementsTextAbove = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public string TotalOfMeasurements
+		{
+			get { return _totalOfMeasurements; }
+			set
+			{
+				if (_totalOfMeasurements != value)
+				{
+					_totalOfMeasurements = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public string AverageOfMeasurementsTextAbove
+		{
+			get { return _averageOfMeasurementsTextAbove; }
+			set
+			{
+				if (_averageOfMeasurementsTextAbove != value)
+				{
+					_averageOfMeasurementsTextAbove = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public string AverageOfMeasurements
+		{
+			get { return _averageOfMeasurements; }
+			set
+			{
+				if (_averageOfMeasurements != value)
+				{
+					_averageOfMeasurements = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public string MaxOfMeasurementsTextAbove
+		{
+			get { return _maxOfMeasurementsTextAbove; }
+			set
+			{
+				if (_maxOfMeasurementsTextAbove != value)
+				{
+					_maxOfMeasurementsTextAbove = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public string MaxOfMeasurements
+		{
+			get { return _maxOfMeasurements; }
+			set
+			{
+				if (_maxOfMeasurements != value)
+				{
+					_maxOfMeasurements = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public string MinOfMeasurementsTextAbove
+		{
+			get { return _minOfMeasurementsTextAbove; }
+			set
+			{
+				if (_minOfMeasurementsTextAbove != value)
+				{
+					_minOfMeasurementsTextAbove = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public string MinOfMeasurements
+		{
+			get { return _minOfMeasurements; }
+			set
+			{
+				if (_minOfMeasurements != value)
+				{
+					_minOfMeasurements = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+		#endregion
+		public RelayCommand DoBasicCalculationsCommand { get; set; }
+
+		// CONSTRUCTOR
 		public ValueTypeCalcutarionsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
+			_listOfControlsVisibility = new List<bool>() { BasicOperationsVisibility };
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList().Where(x => x.MainEventType == MainEventTypes.Value).ToList());
 			_measurementOperationsHelperClass = Factory.CreateMeasurementOperationsHelperClass(eventRepository);
-			DoCalculationsCommand = new RelayCommand(OnDoCalculations);
+			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand);
 			InitializeCommon();
 		}
-		private void OnDoCalculations()
+		private void OnDoBasicCalculationsCommand()
 		{
-			_measurementOperationsHelperClass.DoValueTypesBasicCalculations(FilterDateFrom, FilterDateTo);
-			CalculationsText = _measurementOperationsHelperClass.MaxByDay.ToString();
+			_measurementOperationsHelperClass.DoBasicCalculations(FilterDateFrom, FilterDateTo);
+			TotalOfMeasurements = _measurementOperationsHelperClass.TotalOfMeasurements.ToString();
+			AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString();
+			MaxOfMeasurements = _measurementOperationsHelperClass.MaxOfMeasurements.ToString();
+			MinOfMeasurements = _measurementOperationsHelperClass.MinOfMeasurements.ToString();
+
+		}
+		private void SetCalculationsControlsVisibility(bool controlToSetVisible)
+		{
+
 		}
 		private void InitializeCommon()
 		{
-			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
-			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
+			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged; // for future controls use like (last 90 days, last 30 days, etc.)
+			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged; // for future controls use like (last 90 days, last 30 days, etc.)
 
-			this.SetFilterDatesValues(); // using extension method
+			this.SetFilterDatesValues(); // using extension method (last event date and today)
 		}
 
 	}

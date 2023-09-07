@@ -12,9 +12,19 @@
         <!--All User Types CustomControl-->
         <customControls:EventTypesCustomControl/>
 
-        <Button Text="DO CALCULATIONS" Command="{Binding DoCalculationsCommand}"/>
+        <Button Text="DO BASIC CALCULATIONS" Command="{Binding DoBasicCalculationsCommand}"/>
 
-        <Label Text="{Binding CalculationsText}" FontSize="30" HorizontalOptions="Center" Margin="0, 150, 0, 0"/>
+        <StackLayout>
+            <Label Text="{Binding TotalOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding TotalOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding AverageOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding AverageOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding MaxOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding MaxOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding MinOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding MinOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
+        </StackLayout>
+        
 
         <ScrollView HeightRequest="300">
             <StackLayout>

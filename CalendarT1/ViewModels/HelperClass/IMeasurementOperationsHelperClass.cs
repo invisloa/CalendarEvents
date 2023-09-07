@@ -9,8 +9,8 @@ namespace CalendarT1.ViewModels.HelperClass
 		decimal MaxOfMeasurements { get; set; }
 		decimal MedianOfMeasurements { get; set; }
 		decimal MinOfMeasurements { get; set; }
-		decimal SumOfMeasurements { get; set; }
+		decimal TotalOfMeasurements { get; set; }
 
-		bool DoValueTypesBasicCalculations(DateTime from, DateTime to);
+		bool DoBasicCalculations(DateTime from, DateTime to);
 	}
 }

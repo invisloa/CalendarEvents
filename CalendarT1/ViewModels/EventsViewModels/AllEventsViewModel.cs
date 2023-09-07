@@ -21,8 +21,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region MainEventTypesCC implementation
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
 		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
-		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass = Factory.CreateMeasurementOperationsHelperClass();
-
 		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
 
 		public MainEventTypes SelectedMainEventType
@@ -139,7 +137,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public AllEventsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
 			InitializeCommon(eventRepository);
-
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);

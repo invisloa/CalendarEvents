@@ -13,7 +13,7 @@ namespace CalendarT1.ViewModels.HelperClass
 {
 	public class MeasurementOperationsHelperClass : IMeasurementOperationsHelperClass
 	{
-		public decimal SumOfMeasurements { get; set; }
+		public decimal TotalOfMeasurements { get; set; }
 		public decimal AverageOfMeasurements { get; set; }
 		public decimal MaxOfMeasurements { get; set; }
 		public decimal MinOfMeasurements { get; set; }
@@ -67,12 +67,12 @@ namespace CalendarT1.ViewModels.HelperClass
 
 
 		// Basic Calculations
-		public bool DoValueTypesBasicCalculations(DateTime from, DateTime to)
+		public bool DoBasicCalculations(DateTime from, DateTime to)
 		{
 			if (CheckIfEventsAreSameType())
 			{
 				// Perform operations if all events are the same type
-				SumOfMeasurements = _eventsOrderedByDateList.Sum(x => x.QuantityAmount.Value);
+				TotalOfMeasurements = _eventsOrderedByDateList.Sum(x => x.QuantityAmount.Value);
 				AverageOfMeasurements = _eventsOrderedByDateList.Average(x => x.QuantityAmount.Value);
 				MaxOfMeasurements = _eventsOrderedByDateList.Max(x => x.QuantityAmount.Value);
 				MinOfMeasurements = _eventsOrderedByDateList.Min(x => x.QuantityAmount.Value);
@@ -86,10 +86,10 @@ namespace CalendarT1.ViewModels.HelperClass
 
 				//if not full period time return amount by itself
 				// TO DO TODO Change the below to better calculate the amount by period
-				AverageByDay = (days != 0) ? SumOfMeasurements / days : SumOfMeasurements;
-				AverageByWeek = (weeks != 0) ? SumOfMeasurements / weeks : SumOfMeasurements;
-				AverageByMonth = (months != 0) ? SumOfMeasurements / months : SumOfMeasurements;
-				AverageByYear = (years != 0) ? SumOfMeasurements / years : SumOfMeasurements;
+				AverageByDay = (days != 0) ? TotalOfMeasurements / days : TotalOfMeasurements;
+				AverageByWeek = (weeks != 0) ? TotalOfMeasurements / weeks : TotalOfMeasurements;
+				AverageByMonth = (months != 0) ? TotalOfMeasurements / months : TotalOfMeasurements;
+				AverageByYear = (years != 0) ? TotalOfMeasurements / years : TotalOfMeasurements;
 				return true;
 			}
 			else
