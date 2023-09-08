@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             x:Name="ValueTypeCalculationsP"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CalendarT1.Views.ValueTypeCalculationsPage"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
@@ -29,8 +30,18 @@
         <StackLayout IsVisible="{Binding MaxByWeekOperationsVisibility}">
             <Label Text="{Binding MaxByWeekCalculationText}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding MeasurementCalculationOutcome.MeasurementValueOutcome}" FontSize="30" HorizontalOptions="Center" />
+            <CollectionView ItemsSource="{Binding MeasurementCalculationOutcome.MeasurementDatesListOutcome}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Text="{Binding}" Command="{Binding BindingContext.GoToWeeksPageCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                     CommandParameter="{Binding .}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
             <Button Text="MAX VALUES WEEK" Command="{Binding GoToWeeksPageCommand}"/>
         </StackLayout>
+        
+        
         <Button Text="MIN BY WEEK" Command="{Binding MinByWeekCalculationsCommand}"/>
         <StackLayout IsVisible="{Binding MinByWeekOperationsVisibility}">
             <Label Text="{Binding MinByWeekCalculationText}" FontSize="30" HorizontalOptions="Center" />

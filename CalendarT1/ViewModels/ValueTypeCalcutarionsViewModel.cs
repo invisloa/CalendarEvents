@@ -257,7 +257,7 @@ namespace CalendarT1.ViewModels
 		}
 		#endregion
 		public RelayCommand DoBasicCalculationsCommand { get; set; }
-		public RelayCommand GoToWeeksPageCommand { get; set; }
+		public RelayCommand<DateTime> GoToWeeksPageCommand { get; set; }
 		public RelayCommand MaxByWeekCalculationsCommand { get; set; }
 		public RelayCommand MinByWeekCalculationsCommand { get; set; }
 
@@ -269,7 +269,7 @@ namespace CalendarT1.ViewModels
 			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand);
 			MaxByWeekCalculationsCommand = new RelayCommand(OnMaxByWeekCalculationsCommand);
 			MinByWeekCalculationsCommand = new RelayCommand(OnMinByWeekCalculationsCommand);
-			GoToWeeksPageCommand = new RelayCommand(GoToWeeksPage);
+			GoToWeeksPageCommand = new RelayCommand<DateTime>(GoToWeeksPage);
 			InitializeCommon();
 		}
 
@@ -284,11 +284,12 @@ namespace CalendarT1.ViewModels
 			SetAllCalculationsControlsVisibilityOFF();
 			MaxByWeekOperationsVisibility = true;
 			MeasurementCalculationOutcome = _measurementOperationsHelperClass.MaxByWeekCalculation();
+			
 		}
-		private void GoToWeeksPage()
+		private void GoToWeeksPage(DateTime weeksDate)
 		{
 			// TODO TO CHANGE THE WAY OF NAVIGATING TO WEEKS PAGE
-			Application.Current.MainPage.Navigation.PushAsync(new ViewWeeklyEvents(MeasurementCalculationOutcome.MeasurementDatesListOutcome[0].Date));
+			Application.Current.MainPage.Navigation.PushAsync(new ViewWeeklyEvents(weeksDate));
 
 		}
 		private void OnDoBasicCalculationsCommand()
@@ -312,7 +313,7 @@ namespace CalendarT1.ViewModels
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged; // for future controls use like (last 90 days, last 30 days, etc.)
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged; // for future controls use like (last 90 days, last 30 days, etc.)
 
-			this.SetFilterDatesValues(); // using extension method (last event date and today)
+			this.SetFilterDatesValues(); // using extension from IFilterDatesCC method (last event date and today)
 		}
 
 	}
