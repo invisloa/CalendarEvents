@@ -88,22 +88,36 @@ namespace CalendarT1.ViewModels
 				}
 			}
 		}
-		private bool _advancedOperationsVisibility = true;
-		public bool AdvancedOperationsVisibility
+		//ADVANCED CALCULATIONS VISIBILITY PROPERTIES
+		#region AdvancedCalculationsVISIBILITYProperties
+		private bool _maxByWeekOperationsVisibility = true;
+		public bool MaxByWeekOperationsVisibility
 		{
-			get { return _advancedOperationsVisibility; }
+			get { return _maxByWeekOperationsVisibility; }
 			set
 			{
-				if (_advancedOperationsVisibility != value)
+				if (_maxByWeekOperationsVisibility != value)
 				{
-					_advancedOperationsVisibility = value;
+					_maxByWeekOperationsVisibility = value;
 					OnPropertyChanged();
 				}
 			}
 		}
-		
+		private bool _minByWeekOperationsVisibility = true;
+		public bool MinByWeekOperationsVisibility
+		{
+			get { return _minByWeekOperationsVisibility; }
+			set
+			{
+				if (_minByWeekOperationsVisibility != value)
+				{
+					_minByWeekOperationsVisibility = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+		#endregion
 
-		private List<bool> _listOfControlsVisibility;
 		private string _totalOfMeasurementsTextAbove = "Total of measurements:";
 		private string _totalOfMeasurements = "0";
 		private string _averageOfMeasurementsTextAbove = "Average of measurements:";
@@ -243,32 +257,39 @@ namespace CalendarT1.ViewModels
 		}
 		#endregion
 		public RelayCommand DoBasicCalculationsCommand { get; set; }
-		public RelayCommand DoAdvancedCalculationsCommand { get; set; }
 		public RelayCommand GoToWeeksPageCommand { get; set; }
-		
+		public RelayCommand MaxByWeekCalculationsCommand { get; set; }
+		public RelayCommand MinByWeekCalculationsCommand { get; set; }
 
 		// CONSTRUCTOR
 		public ValueTypeCalcutarionsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
-			_listOfControlsVisibility = new List<bool>() { BasicOperationsVisibility };
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList().Where(x => x.MainEventType == MainEventTypes.Value).ToList());
 			_measurementOperationsHelperClass = Factory.CreateMeasurementOperationsHelperClass(eventRepository);
 			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand);
-			DoAdvancedCalculationsCommand = new RelayCommand(OnAdvancedCalculationsCommand);
+			MaxByWeekCalculationsCommand = new RelayCommand(OnMaxByWeekCalculationsCommand);
+			MinByWeekCalculationsCommand = new RelayCommand(OnMinByWeekCalculationsCommand);
 			GoToWeeksPageCommand = new RelayCommand(GoToWeeksPage);
 			InitializeCommon();
+		}
+
+		private void OnMinByWeekCalculationsCommand()
+		{
+			SetAllCalculationsControlsVisibilityOFF();
+			MinByWeekOperationsVisibility = true;
+			MeasurementCalculationOutcome = _measurementOperationsHelperClass.MinByWeekCalculation();
+		}
+		private void OnMaxByWeekCalculationsCommand()
+		{
+			SetAllCalculationsControlsVisibilityOFF();
+			MaxByWeekOperationsVisibility = true;
+			MeasurementCalculationOutcome = _measurementOperationsHelperClass.MaxByWeekCalculation();
 		}
 		private void GoToWeeksPage()
 		{
 			// TODO TO CHANGE THE WAY OF NAVIGATING TO WEEKS PAGE
 			Application.Current.MainPage.Navigation.PushAsync(new ViewWeeklyEvents(MeasurementCalculationOutcome.MeasurementDatesListOutcome[0].Date));
 
-		}
-		private void OnAdvancedCalculationsCommand()
-		{
-			SetAllCalculationsControlsVisibilityOFF();
-			AdvancedOperationsVisibility = true;
-			MeasurementCalculationOutcome = _measurementOperationsHelperClass.MaxByWeekCalculation();
 		}
 		private void OnDoBasicCalculationsCommand()
 		{
@@ -284,7 +305,7 @@ namespace CalendarT1.ViewModels
 		private void SetAllCalculationsControlsVisibilityOFF()
 		{
 			BasicOperationsVisibility = false;
-			AdvancedOperationsVisibility = false;
+			MaxByWeekOperationsVisibility = false;
 		}
 		private void InitializeCommon()
 		{

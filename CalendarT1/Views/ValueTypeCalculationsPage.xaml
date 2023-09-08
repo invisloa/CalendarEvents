@@ -13,7 +13,6 @@
         <customControls:EventTypesCustomControl/>
 
         <Button Text="DO BASIC CALCULATIONS" Command="{Binding DoBasicCalculationsCommand}"/>
-        <Button Text="DO ADVANCED CALCULATIONS" Command="{Binding DoAdvancedCalculationsCommand}"/>
 
         <StackLayout IsVisible="{Binding BasicOperationsVisibility}">
             <Label Text="{Binding TotalOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
@@ -25,14 +24,20 @@
             <Label Text="{Binding MinOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding MinOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
         </StackLayout>
-
         <!--ADVANCED MEASUREMENT OPERATIONS-->
-        <StackLayout IsVisible="{Binding AdvancedOperationsVisibility}">
+        <Button Text="MAX BY WEEK" Command="{Binding MaxByWeekCalculationsCommand}"/>
+        <StackLayout IsVisible="{Binding MaxByWeekOperationsVisibility}">
             <Label Text="{Binding MaxByWeekCalculationText}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding MeasurementCalculationOutcome.MeasurementValueOutcome}" FontSize="30" HorizontalOptions="Center" />
             <Button Text="MAX VALUES WEEK" Command="{Binding GoToWeeksPageCommand}"/>
         </StackLayout>
-        
+        <Button Text="MIN BY WEEK" Command="{Binding MinByWeekCalculationsCommand}"/>
+        <StackLayout IsVisible="{Binding MinByWeekOperationsVisibility}">
+            <Label Text="{Binding MinByWeekCalculationText}" FontSize="30" HorizontalOptions="Center" />
+            <Label Text="{Binding MeasurementCalculationOutcome.MeasurementValueOutcome}" FontSize="30" HorizontalOptions="Center" />
+            <Button Text="MIN VALUES WEEKS" Command="{Binding GoToWeeksPageCommand}"/>
+        </StackLayout>
+
 
         <ScrollView HeightRequest="300">
             <StackLayout>
