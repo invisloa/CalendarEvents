@@ -25,7 +25,7 @@
             <Label Text="{Binding MinOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding MinOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
         </StackLayout>
-        <!--ADVANCED MEASUREMENT OPERATIONS-->
+        <!--MAX BY WEEK -->
         <Button Text="MAX BY WEEK" Command="{Binding MaxByWeekCalculationsCommand}"/>
         <StackLayout IsVisible="{Binding MaxByWeekOperationsVisibility}">
             <Label Text="{Binding MaxByWeekCalculationText}" FontSize="30" HorizontalOptions="Center" />
@@ -33,32 +33,27 @@
             <CollectionView ItemsSource="{Binding MeasurementCalculationOutcome.MeasurementDatesListOutcome}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Button Text="{Binding}" Command="{Binding BindingContext.GoToWeeksPageCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                        <Button Text="{Binding ., StringFormat='{0:dd-MM-yyyy}'}" Command="{Binding BindingContext.GoToWeeksPageCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                                      CommandParameter="{Binding .}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <Button Text="MAX VALUES WEEK" Command="{Binding GoToWeeksPageCommand}"/>
         </StackLayout>
         
-        
+        <!--MIN BY WEEK-->
         <Button Text="MIN BY WEEK" Command="{Binding MinByWeekCalculationsCommand}"/>
         <StackLayout IsVisible="{Binding MinByWeekOperationsVisibility}">
             <Label Text="{Binding MinByWeekCalculationText}" FontSize="30" HorizontalOptions="Center" />
             <Label Text="{Binding MeasurementCalculationOutcome.MeasurementValueOutcome}" FontSize="30" HorizontalOptions="Center" />
-            <Button Text="MIN VALUES WEEKS" Command="{Binding GoToWeeksPageCommand}"/>
+            <CollectionView ItemsSource="{Binding MeasurementCalculationOutcome.MeasurementDatesListOutcome}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Button Text="{Binding ., StringFormat='{0:dd-MM-yyyy}'}" Command="{Binding BindingContext.GoToWeeksPageCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                     CommandParameter="{Binding .}"/>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
-
-
-        <ScrollView HeightRequest="300">
-            <StackLayout>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-                <Label Text="Event1" Margin="15" HorizontalOptions="Center"/>
-            </StackLayout>
-        </ScrollView>
 
 
     </VerticalStackLayout>

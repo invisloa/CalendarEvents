@@ -3,7 +3,8 @@
 
 #region Current
 
-// consider strategy pattrern for calculations
+// valuetype calculations advanced calculations adding
+//                         <Button Text="{Binding}" Command="{Binding BindingContext.GoToWeeksPageCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
 
 // TODO mapping is not considered in calculations for now!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 

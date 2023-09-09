@@ -38,6 +38,7 @@ namespace CalendarT1.ViewModels
 					return;
 				}
 				_filterDatesCCHelper.FilterDateFrom = value;
+				_measurementOperationsHelperClass.DateFrom = value;
 				OnPropertyChanged();
 				BindDataToScheduleList();	// Datepicker does not support commands, so we have to do it here
 			}
@@ -51,6 +52,7 @@ namespace CalendarT1.ViewModels
 				{
 					return;
 				}
+				_measurementOperationsHelperClass.DateTo = value;
 				_filterDatesCCHelper.FilterDateTo = value;
 				OnPropertyChanged();
 				BindDataToScheduleList();   // Datepicker does not support commands, so we have to do it here
@@ -75,7 +77,7 @@ namespace CalendarT1.ViewModels
 
 		// CONTROLS PROPERTIES
 		#region Controls properties
-		private bool _basicOperationsVisibility = true;
+		private bool _basicOperationsVisibility = false;
 		public bool BasicOperationsVisibility
 		{
 			get { return _basicOperationsVisibility; }
@@ -90,7 +92,7 @@ namespace CalendarT1.ViewModels
 		}
 		//ADVANCED CALCULATIONS VISIBILITY PROPERTIES
 		#region AdvancedCalculationsVISIBILITYProperties
-		private bool _maxByWeekOperationsVisibility = true;
+		private bool _maxByWeekOperationsVisibility = false;
 		public bool MaxByWeekOperationsVisibility
 		{
 			get { return _maxByWeekOperationsVisibility; }
@@ -103,7 +105,7 @@ namespace CalendarT1.ViewModels
 				}
 			}
 		}
-		private bool _minByWeekOperationsVisibility = true;
+		private bool _minByWeekOperationsVisibility = false;
 		public bool MinByWeekOperationsVisibility
 		{
 			get { return _minByWeekOperationsVisibility; }
@@ -126,7 +128,6 @@ namespace CalendarT1.ViewModels
 		private string _maxOfMeasurements = "0";
 		private string _minOfMeasurementsTextAbove = "Min of measurements:";
 		private string _minOfMeasurements = "0";
-		private string _maxByWeekCalculationText = "Max by week:";
 		private MeasurementCalculationsOutcome _measurementCalulationOutcome;
 		public MeasurementCalculationsOutcome MeasurementCalculationOutcome
 		{
@@ -136,18 +137,6 @@ namespace CalendarT1.ViewModels
 				if (_measurementCalulationOutcome != value)
 				{
 					_measurementCalulationOutcome = value;
-					OnPropertyChanged();
-				}
-			}
-		}
-		public string MaxByWeekCalculationText
-		{
-			get { return _maxByWeekCalculationText; }
-			set
-			{
-				if (_maxByWeekCalculationText != value)
-				{
-					_maxByWeekCalculationText = value;
 					OnPropertyChanged();
 				}
 			}
@@ -296,7 +285,7 @@ namespace CalendarT1.ViewModels
 		{
 			SetAllCalculationsControlsVisibilityOFF();
 			BasicOperationsVisibility = true;
-			_measurementOperationsHelperClass.DoBasicCalculations(FilterDateFrom, FilterDateTo);
+			_measurementOperationsHelperClass.DoBasicCalculations();
 			TotalOfMeasurements = _measurementOperationsHelperClass.TotalOfMeasurements.ToString();
 			AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString();
 			MaxOfMeasurements = _measurementOperationsHelperClass.MaxOfMeasurements.ToString();
@@ -307,6 +296,7 @@ namespace CalendarT1.ViewModels
 		{
 			BasicOperationsVisibility = false;
 			MaxByWeekOperationsVisibility = false;
+			MinByWeekOperationsVisibility = false;
 		}
 		private void InitializeCommon()
 		{

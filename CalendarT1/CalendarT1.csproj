@@ -137,8 +137,4 @@
 	  </EmbeddedResource>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="ViewModels\HelperClass\ExtensionsMethods\" />
-	</ItemGroup>
-
 </Project>

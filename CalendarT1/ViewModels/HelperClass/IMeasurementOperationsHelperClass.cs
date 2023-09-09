@@ -10,8 +10,10 @@ namespace CalendarT1.ViewModels.HelperClass
 		decimal MedianOfMeasurements { get; set; }
 		decimal MinOfMeasurements { get; set; }
 		decimal TotalOfMeasurements { get; set; }
+		DateTime DateTo { get; set; }
+		DateTime DateFrom { get; set; }
 
-		bool DoBasicCalculations(DateTime from, DateTime to);
+		bool DoBasicCalculations();
 		MeasurementCalculationsOutcome MinByWeekCalculation();
 		MeasurementCalculationsOutcome MaxByWeekCalculation();
 	}

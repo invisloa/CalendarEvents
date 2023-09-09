@@ -1,6 +1,7 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.ViewModels.HelperClass.ExtensionsMethods;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,7 +40,8 @@ namespace CalendarT1.ViewModels.HelperClass
 		public List<(int, int)> MinByWeekInfoList { get; set; }
 		public decimal MinByMonth { get; set; }
 		public decimal MinByYear { get; set; }
-
+		public DateTime DateTo { get; set; }
+		public DateTime DateFrom { get; set; }
 
 		private List<MeasurementUnit> MoneyTypeMeasurements { get; set; }
 		private List<MeasurementUnit> WeightTypeMeasurements { get; set; }
@@ -67,7 +69,7 @@ namespace CalendarT1.ViewModels.HelperClass
 
 
 		// Basic Calculations
-		public bool DoBasicCalculations(DateTime from, DateTime to)
+		public bool DoBasicCalculations()
 		{
 			if (CheckIfEventsAreSameType())
 			{
@@ -79,7 +81,7 @@ namespace CalendarT1.ViewModels.HelperClass
 
 
 				// Calculate by Period (using the DateTime parameters)
-				int days = (to - from).Days;
+				int days = (DateTo - DateFrom).Days;
 				int weeks = days / 7; // Simplified, consider using a more accurate method
 				int months = days / 30; // Simplified
 				int years = days / 365; // Simplified
@@ -258,8 +260,65 @@ namespace CalendarT1.ViewModels.HelperClass
 
 		public MeasurementCalculationsOutcome MinByWeekCalculation()
 		{
-			return CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, GetWeekNumber);
+			var result = CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, GetWeekNumber);
+			if (result.MeasurementValueOutcome >= 0) // If the result is positive, check if there are any empty weeks
+			{
+				// Start iterating from DateFrom
+				DateTime currentWeekStart = DateFrom;
+
+				while (currentWeekStart < DateTo)
+				{
+					DateTime nextWeekStart = currentWeekStart.NextMonday(); // using my DatetimeExtensions method
+
+					bool hasEventsThisWeek = _eventsOrderedByDateList
+						.Any(e => e.StartDateTime.Date >= currentWeekStart && e.StartDateTime.Date < nextWeekStart);
+
+					if (!hasEventsThisWeek) // If no event for this week
+					{
+						if (result.MeasurementValueOutcome > 0) // If the result is positive clear the list
+						{
+							result.MeasurementDatesListOutcome.Clear();
+						}
+						result.MeasurementValueOutcome = 0;
+						result.MeasurementDatesListOutcome.Add(currentWeekStart);
+					}
+
+					currentWeekStart = nextWeekStart; // Move to next week
+				}
+			}
+			return result;
 		}
+		public MeasurementCalculationsOutcome MinByMonthCalculation()
+		{
+			var result = CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, GetMonthNumber);
+			if (result.MeasurementValueOutcome >= 0) // If the result is positive, check if there are any empty months
+			{
+				// Start iterating from DateFrom
+				DateTime currentMonthStart = new DateTime(DateFrom.Year, DateFrom.Month, 1);
+
+				while (currentMonthStart < DateTo)
+				{
+					DateTime nextMonthStart = currentMonthStart.AddMonths(1); // Get the first day of the next month
+
+					bool hasEventsThisMonth = _eventsOrderedByDateList
+						.Any(e => e.StartDateTime.Date >= currentMonthStart && e.StartDateTime.Date < nextMonthStart);
+
+					if (!hasEventsThisMonth) // If no event for this month
+					{
+						if (result.MeasurementValueOutcome > 0) // If the result is positive clear the list
+						{
+							result.MeasurementDatesListOutcome.Clear();
+						}
+						result.MeasurementValueOutcome = 0;
+						result.MeasurementDatesListOutcome.Add(currentMonthStart);
+					}
+
+					currentMonthStart = nextMonthStart; // Move to next month
+				}
+			}
+			return result;
+		}
+
 		public MeasurementCalculationsOutcome MaxByMonthCalculation()
 		{
 			return CalculateByPeriod(UpdateByPeriod, MaxComparison, 0, GetMonthNumber);
@@ -272,9 +331,6 @@ namespace CalendarT1.ViewModels.HelperClass
 		#endregion
 	}
 
-
-
-
 	#region HelperClass TO MOVE TO SEPARATE FILE
 
 	public class MeasurementCalculationsOutcome
@@ -284,7 +340,7 @@ namespace CalendarT1.ViewModels.HelperClass
 			MeasurementValueOutcome = measurementValueOutcome;
 			MeasurementDatesListOutcome = measurementsEventsOutcome;
 		}
-
+		
 		public decimal MeasurementValueOutcome { get; set; }
 		public List<DateTime> MeasurementDatesListOutcome { get; set; }
 	}
