@@ -2,7 +2,7 @@
 
 
 #region Current
-
+// consider adding canexecute to calcutations commands with check if same values types are selected
 // valuetype calculations advanced calculations adding
 //                         <Button Text="{Binding}" Command="{Binding BindingContext.GoToWeeksPageCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
 

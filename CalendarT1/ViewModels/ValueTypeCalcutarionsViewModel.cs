@@ -285,12 +285,17 @@ namespace CalendarT1.ViewModels
 		{
 			SetAllCalculationsControlsVisibilityOFF();
 			BasicOperationsVisibility = true;
-			_measurementOperationsHelperClass.DoBasicCalculations();
-			TotalOfMeasurements = _measurementOperationsHelperClass.TotalOfMeasurements.ToString();
-			AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString();
-			MaxOfMeasurements = _measurementOperationsHelperClass.MaxOfMeasurements.ToString();
-			MinOfMeasurements = _measurementOperationsHelperClass.MinOfMeasurements.ToString();
-
+			if (_measurementOperationsHelperClass.DoBasicCalculations())
+			{
+				TotalOfMeasurements = _measurementOperationsHelperClass.TotalOfMeasurements.ToString();
+				AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString();
+				MaxOfMeasurements = _measurementOperationsHelperClass.MaxOfMeasurements.ToString();
+				MinOfMeasurements = _measurementOperationsHelperClass.MinOfMeasurements.ToString();
+			}
+			else
+			{
+				// TODO Display different type of values message/error
+			}
 		}
 		private void SetAllCalculationsControlsVisibilityOFF()
 		{
