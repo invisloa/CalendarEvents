@@ -213,7 +213,7 @@ namespace CalendarT1.ViewModels.HelperClass
 		// Method to get month number
 		private int GetMonthNumber(DateTime date)
 		{
-			return date.Month;
+			return date.Month; //lambda: date => date.Month;
 		}
 		// Generalized update method
 		private void UpdateByPeriod(ref decimal currentPeriodSum, ref decimal currentByPeriod, DateTime currentPeriodDate, List<DateTime> datesWithExtremeValuesList, ComparisonDelegate comparison)
@@ -258,75 +258,51 @@ namespace CalendarT1.ViewModels.HelperClass
 			return CalculateByPeriod(UpdateByPeriod, MaxComparison, 0, GetWeekNumber);
 		}
 
-		public MeasurementCalculationsOutcome MinByWeekCalculation()
+		public MeasurementCalculationsOutcome MinByPeriodCalculation(
+			Func<DateTime, int> periodNumberGetter,
+			Func<DateTime, DateTime> nextPeriodStartGetter,
+			DateTime initialDate)
 		{
-			var result = CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, GetWeekNumber);
-			if (result.MeasurementValueOutcome >= 0) // If the result is positive, check if there are any empty weeks
+			var result = CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, periodNumberGetter);
+			if (result.MeasurementValueOutcome >= 0)
 			{
-				// Start iterating from DateFrom
-				DateTime currentWeekStart = DateFrom;
-
-				while (currentWeekStart < DateTo)
+				DateTime currentPeriodStart = initialDate;
+				while (currentPeriodStart < DateTo)
 				{
-					DateTime nextWeekStart = currentWeekStart.NextMonday(); // using my DatetimeExtensions method
+					DateTime nextPeriodStart = nextPeriodStartGetter(currentPeriodStart);
 
-					bool hasEventsThisWeek = _eventsOrderedByDateList
-						.Any(e => e.StartDateTime.Date >= currentWeekStart && e.StartDateTime.Date < nextWeekStart);
+					bool hasEventsThisPeriod = _eventsOrderedByDateList
+						.Any(e => e.StartDateTime.Date >= currentPeriodStart && e.StartDateTime.Date < nextPeriodStart);
 
-					if (!hasEventsThisWeek) // If no event for this week
+					if (!hasEventsThisPeriod)
 					{
-						if (result.MeasurementValueOutcome > 0) // If the result is positive clear the list
+						if (result.MeasurementValueOutcome > 0)
 						{
 							result.MeasurementDatesListOutcome.Clear();
 						}
 						result.MeasurementValueOutcome = 0;
-						result.MeasurementDatesListOutcome.Add(currentWeekStart);
+						result.MeasurementDatesListOutcome.Add(currentPeriodStart);
 					}
 
-					currentWeekStart = nextWeekStart; // Move to next week
+					currentPeriodStart = nextPeriodStart;
 				}
 			}
 			return result;
 		}
+
+		public MeasurementCalculationsOutcome MinByWeekCalculation()
+		{
+			return MinByPeriodCalculation(GetWeekNumber, date => date.NextMonday(), DateFrom);
+		}
+
 		public MeasurementCalculationsOutcome MinByMonthCalculation()
 		{
-			var result = CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, GetMonthNumber);
-			if (result.MeasurementValueOutcome >= 0) // If the result is positive, check if there are any empty months
-			{
-				// Start iterating from DateFrom
-				DateTime currentMonthStart = new DateTime(DateFrom.Year, DateFrom.Month, 1);
-
-				while (currentMonthStart < DateTo)
-				{
-					DateTime nextMonthStart = currentMonthStart.AddMonths(1); // Get the first day of the next month
-
-					bool hasEventsThisMonth = _eventsOrderedByDateList
-						.Any(e => e.StartDateTime.Date >= currentMonthStart && e.StartDateTime.Date < nextMonthStart);
-
-					if (!hasEventsThisMonth) // If no event for this month
-					{
-						if (result.MeasurementValueOutcome > 0) // If the result is positive clear the list
-						{
-							result.MeasurementDatesListOutcome.Clear();
-						}
-						result.MeasurementValueOutcome = 0;
-						result.MeasurementDatesListOutcome.Add(currentMonthStart);
-					}
-
-					currentMonthStart = nextMonthStart; // Move to next month
-				}
-			}
-			return result;
+			return MinByPeriodCalculation(GetMonthNumber, date => date.AddMonths(1), new DateTime(DateFrom.Year, DateFrom.Month, 1));
 		}
 
 		public MeasurementCalculationsOutcome MaxByMonthCalculation()
 		{
 			return CalculateByPeriod(UpdateByPeriod, MaxComparison, 0, GetMonthNumber);
-		}
-
-		public MeasurementCalculationsOutcome MinByMonthCalculation()
-		{
-			return CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, GetMonthNumber);
 		}
 		#endregion
 	}
