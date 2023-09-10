@@ -159,49 +159,49 @@ namespace CalendarT1.ViewModels.HelperClass
 		#region AdvancedMeasurementMethods
 
 		// Define your delegate and comparison types
-		public delegate void UpdateByDayDelegate(ref decimal currentPeriodSum, ref decimal currentByPeriod, DateTime currentPeriodDate, List<DateTime> daysWithExtremeValuesList, ComparisonDelegate comparison);
+		public delegate void UpdateBySpecifiedTimeFrameDelegate(ref decimal currentPeriodTotal, ref decimal extremeValueForPeriod, DateTime currentPeriodDate, List<DateTime> daysWithExtremeValuesList, ComparisonDelegate comparison);
 		public delegate bool ComparisonDelegate(decimal value1, decimal value2);
 
 		// Generalized function to calculate by day or by week
 		private MeasurementCalculationsOutcome CalculateByPeriod(
-			UpdateByDayDelegate updateDelegate,
+			UpdateBySpecifiedTimeFrameDelegate updateDelegate,
 			ComparisonDelegate comparison,
 			decimal initialByDayValue,
-			Func<DateTime, int> getPeriodNumber)
+			Func<DateTime, int> getSpecifiedPeriodNumber)
 		{
 			if (_eventsOrderedByDateList == null || !_eventsOrderedByDateList.Any())
 			{
 				throw new Exception("The list of events is empty.");
 			}
 
-			decimal currentPeriodSum = 0;
-			decimal currentByPeriod = initialByDayValue;
+			decimal currentPeriodTotal = 0;
+			decimal extremeValueForPeriod = initialByDayValue;
 			var currentPeriodDate = _eventsOrderedByDateList[0].StartDateTime.Date;
 			var datesWithExtremeValuesList = new List<DateTime>() { currentPeriodDate };
-			var lastPeriodNumber = getPeriodNumber(_eventsOrderedByDateList[0].StartDateTime.Date);
+			var lastPeriodNumber = getSpecifiedPeriodNumber(_eventsOrderedByDateList[0].StartDateTime.Date);
 
 			foreach (var item in _eventsOrderedByDateList)
 			{
 				if (item.QuantityAmount?.Value == null)
 				{
-					throw new Exception(); // Skip this iteration if QuantityAmount is null
+					throw new Exception(); // this should not happen
 				}
 
-				var itemPeriodNumber = getPeriodNumber(item.StartDateTime.Date);
-				if (itemPeriodNumber != lastPeriodNumber)
+				var itemSpecifiedPeriodNumber = getSpecifiedPeriodNumber(item.StartDateTime.Date);
+				if (itemSpecifiedPeriodNumber != lastPeriodNumber)
 				{
-					updateDelegate(ref currentPeriodSum, ref currentByPeriod, currentPeriodDate, datesWithExtremeValuesList, comparison);
-					currentPeriodSum = 0;
-					lastPeriodNumber = itemPeriodNumber;
+					updateDelegate(ref currentPeriodTotal, ref extremeValueForPeriod, currentPeriodDate, datesWithExtremeValuesList, comparison);
+					currentPeriodTotal = 0;
+					lastPeriodNumber = itemSpecifiedPeriodNumber;
 					currentPeriodDate = item.StartDateTime.Date;
 				}
 
-				currentPeriodSum += item.QuantityAmount.Value;
+				currentPeriodTotal += item.QuantityAmount.Value;
 			}
 
-			updateDelegate(ref currentPeriodSum, ref currentByPeriod, currentPeriodDate, datesWithExtremeValuesList, comparison);
+			updateDelegate(ref currentPeriodTotal, ref extremeValueForPeriod, currentPeriodDate, datesWithExtremeValuesList, comparison);
 
-			return new MeasurementCalculationsOutcome(currentByPeriod, datesWithExtremeValuesList);
+			return new MeasurementCalculationsOutcome(extremeValueForPeriod, datesWithExtremeValuesList);
 		}
 
 		// Method to get week number
