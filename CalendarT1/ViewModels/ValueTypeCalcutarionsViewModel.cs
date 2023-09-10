@@ -20,9 +20,10 @@ namespace CalendarT1.ViewModels
 	{
 		#region IFilterDatesCC implementation
 		private IFilterDatesCCHelperClass _filterDatesCCHelper = Factory.CreateFilterDatesCCHelperClass();
-
-
-
+		private bool _canExecuteCalculationsCommands()
+		{
+			return _measurementOperationsHelperClass.CheckIfEventsAreSameType();
+		}
 		// TODO change the below to factory and interface LATER
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
 
@@ -249,19 +250,32 @@ namespace CalendarT1.ViewModels
 		public RelayCommand<DateTime> GoToWeeksPageCommand { get; set; }
 		public RelayCommand MaxByWeekCalculationsCommand { get; set; }
 		public RelayCommand MinByWeekCalculationsCommand { get; set; }
+		protected override void OnUserEventTypeSelected(IUserEventTypeModel eventSubType)
+		{
+			base.OnUserEventTypeSelected(eventSubType);  // Call to the base class method
+
+			CanExecuteChangedCalculationsCommandsNotifier();
+		}
+
 
 		// CONSTRUCTOR
 		public ValueTypeCalcutarionsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList().Where(x => x.MainEventType == MainEventTypes.Value).ToList());
-			_measurementOperationsHelperClass = Factory.CreateMeasurementOperationsHelperClass(eventRepository);
-			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand);
-			MaxByWeekCalculationsCommand = new RelayCommand(OnMaxByWeekCalculationsCommand);
-			MinByWeekCalculationsCommand = new RelayCommand(OnMinByWeekCalculationsCommand);
+			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand, _canExecuteCalculationsCommands);
+			MaxByWeekCalculationsCommand = new RelayCommand(OnMaxByWeekCalculationsCommand, _canExecuteCalculationsCommands);
+			MinByWeekCalculationsCommand = new RelayCommand(OnMinByWeekCalculationsCommand, _canExecuteCalculationsCommands);
 			GoToWeeksPageCommand = new RelayCommand<DateTime>(GoToWeeksPage);
+			_measurementOperationsHelperClass = Factory.CreateMeasurementOperationsHelperClass(EventsToShowList);
 			InitializeCommon();
 		}
 
+		private void CanExecuteChangedCalculationsCommandsNotifier()
+		{
+			DoBasicCalculationsCommand.NotifyCanExecuteChanged();
+			MaxByWeekCalculationsCommand.NotifyCanExecuteChanged();
+			MinByWeekCalculationsCommand.NotifyCanExecuteChanged();
+		}
 		private void OnMinByWeekCalculationsCommand()
 		{
 			SetAllCalculationsControlsVisibilityOFF();
@@ -285,17 +299,11 @@ namespace CalendarT1.ViewModels
 		{
 			SetAllCalculationsControlsVisibilityOFF();
 			BasicOperationsVisibility = true;
-			if (_measurementOperationsHelperClass.DoBasicCalculations())
-			{
-				TotalOfMeasurements = _measurementOperationsHelperClass.TotalOfMeasurements.ToString();
-				AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString();
-				MaxOfMeasurements = _measurementOperationsHelperClass.MaxOfMeasurements.ToString();
-				MinOfMeasurements = _measurementOperationsHelperClass.MinOfMeasurements.ToString();
-			}
-			else
-			{
-				// TODO Display different type of values message/error
-			}
+			_measurementOperationsHelperClass.DoBasicCalculations();
+			TotalOfMeasurements = _measurementOperationsHelperClass.TotalOfMeasurements.ToString();
+			AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString();
+			MaxOfMeasurements = _measurementOperationsHelperClass.MaxOfMeasurements.ToString();
+			MinOfMeasurements = _measurementOperationsHelperClass.MinOfMeasurements.ToString();
 		}
 		private void SetAllCalculationsControlsVisibilityOFF()
 		{

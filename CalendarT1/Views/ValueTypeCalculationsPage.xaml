@@ -34,7 +34,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Button Text="{Binding ., StringFormat='{0:dd-MM-yyyy}'}" Command="{Binding BindingContext.GoToWeeksPageCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                     CommandParameter="{Binding .}"/>
+                              CommandParameter="{Binding .}"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

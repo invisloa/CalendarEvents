@@ -49,12 +49,19 @@ namespace CalendarT1.ViewModels.HelperClass
 		private List<MeasurementUnit> DistanceTypeMeasurements { get; set; }
 		private List<MeasurementUnit> TimeTypeMeasurements { get; set; }
 		private List<MeasurementUnit> TemperatureTypeMeasurements { get; set; }
-		private List<IGeneralEventModel> _eventsOrderedByDateList { get; set; }
+		private ObservableCollection<IGeneralEventModel> _eventsToShowOC { get; set; }
+		private List<IGeneralEventModel> _eventsOrderedByDateList
+		{
+			get
+			{
+				return _eventsToShowOC.OrderBy(e => e.StartDateTime).ToList();
+			}
+		}
 
 		Dictionary<MeasurementUnit, List<MeasurementUnit>> measurementTypeMap;
 
 		// CTOR
-		public MeasurementOperationsHelperClass(IEventRepository eventRepository)
+		public MeasurementOperationsHelperClass(ObservableCollection<IGeneralEventModel> eventsToCalculateList)
 		{
 			MoneyTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Money };
 			WeightTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Gram, MeasurementUnit.Kilogram, MeasurementUnit.Milligram };
@@ -63,16 +70,14 @@ namespace CalendarT1.ViewModels.HelperClass
 			TimeTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Week, MeasurementUnit.Day, MeasurementUnit.Hour, MeasurementUnit.Minute, MeasurementUnit.Second };
 			TemperatureTypeMeasurements = new List<MeasurementUnit> { MeasurementUnit.Celsius, MeasurementUnit.Fahrenheit, MeasurementUnit.Kelvin };
 			measurementTypeMap = InitializeMappingDictionary();
-			var allUserEventsList = eventRepository.AllEventsList;
-			_eventsOrderedByDateList = allUserEventsList.OrderBy(x => x.StartDateTime).ToList();
+			_eventsToShowOC = eventsToCalculateList;
 		}
 
 
 		// Basic Calculations
-		public bool DoBasicCalculations()
+		public void DoBasicCalculations()
 		{
-			if (CheckIfEventsAreSameType())
-			{
+
 				// Perform operations if all events are the same type
 				TotalOfMeasurements = _eventsOrderedByDateList.Sum(x => x.QuantityAmount.Value);
 				AverageOfMeasurements = _eventsOrderedByDateList.Average(x => x.QuantityAmount.Value);
@@ -92,19 +97,13 @@ namespace CalendarT1.ViewModels.HelperClass
 				AverageByWeek = (weeks != 0) ? TotalOfMeasurements / weeks : TotalOfMeasurements;
 				AverageByMonth = (months != 0) ? TotalOfMeasurements / months : TotalOfMeasurements;
 				AverageByYear = (years != 0) ? TotalOfMeasurements / years : TotalOfMeasurements;
-				return true;
-			}
-			else
-			{
-				return false;
-			}
 
 		}
-		private bool CheckIfEventsAreSameType()
+		public bool CheckIfEventsAreSameType()
 		{
 			if (_eventsOrderedByDateList.Count == 0)
 			{
-				throw new Exception("The list of events is empty.");
+				return false;
 			}
 			else
 			{

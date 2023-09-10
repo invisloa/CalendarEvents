@@ -44,7 +44,7 @@ public class RelayCommand : ICommand
 
 	#region Helper Methods
 
-	public void RaiseCanExecuteChanged()
+	public void NotifyCanExecuteChanged()
 	{
 		canExecuteChanged?.Invoke(this, EventArgs.Empty);
 	}

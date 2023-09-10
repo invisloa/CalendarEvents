@@ -32,9 +32,9 @@ namespace CalendarT1.Services
 		{
 			return new MeasurementSelectorCCHelperClass();
 		}
-		public static IMeasurementOperationsHelperClass CreateMeasurementOperationsHelperClass(IEventRepository eventRepository)
+		public static IMeasurementOperationsHelperClass CreateMeasurementOperationsHelperClass(ObservableCollection<IGeneralEventModel> eventsToCalculateList)
 		{
-			return new MeasurementOperationsHelperClass(eventRepository);
+			return new MeasurementOperationsHelperClass(eventsToCalculateList);
 		}
 		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{

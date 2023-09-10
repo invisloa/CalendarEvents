@@ -153,7 +153,7 @@ namespace CalendarT1.ViewModels
 			InitializeColorButtons();
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
-			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitCommand);
+			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
@@ -172,7 +172,7 @@ namespace CalendarT1.ViewModels
 
 
 		#region Methods
-		private bool CanExecuteSubmitCommand() => !string.IsNullOrEmpty(TypeName);
+		private bool CanExecuteSubmitTypeCommand() => !string.IsNullOrEmpty(TypeName);
 		private async Task DeleteSelectedEventType()
 		{
 			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.EventType.EventTypeName == _currentType.EventTypeName);

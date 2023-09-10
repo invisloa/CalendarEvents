@@ -194,18 +194,25 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public override void BindDataToScheduleList()
 		{
 
-			if (_eventType == null)
+			if (_eventType == null) // all events mode
 			{
 				ApplyEventsDatesFilter(FilterDateFrom, FilterDateTo);
 			}
-			else 
+			else // single event type mode
 			{
 				// TODO Change to also visually select proper event type
 				List<IGeneralEventModel> filteredEvents = AllEventsListOC
 					.Where(x => x.EventType.EventTypeName == _eventType.EventTypeName)
 					.ToList();
 
-				EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+				// Clear existing items in the EventsToShowList
+				EventsToShowList.Clear();
+
+				// Add filtered items to the EventsToShowList
+				foreach (var eventItem in filteredEvents)
+				{
+					EventsToShowList.Add(eventItem);
+				}
 			}
 
 		}

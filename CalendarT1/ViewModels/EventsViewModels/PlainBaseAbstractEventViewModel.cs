@@ -63,7 +63,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public RelayCommand<UserEventTypeModel> SelectUserEventTypeCommand => _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<UserEventTypeModel>(OnUserEventTypeSelected));
 		public RelayCommand<IGeneralEventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
 
-
 		#endregion
 
 		#region Constructor
@@ -123,9 +122,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 
 			var selectedToFilterEventTypes = AllEventTypesOC
-			.Where(x => x.IsSelectedToFilter)
-			.Select(x => x.EventTypeName)
-			.ToHashSet();
+				.Where(x => x.IsSelectedToFilter)
+				.Select(x => x.EventTypeName)
+				.ToHashSet();
 
 			List<IGeneralEventModel> filteredEvents = AllEventsListOC
 				.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
@@ -133,7 +132,15 @@ namespace CalendarT1.ViewModels.EventsViewModels
 							x.EndDateTime.Date <= endDate.Date)
 				.ToList();
 
-			EventsToShowList = new ObservableCollection<IGeneralEventModel>(filteredEvents);
+			// Clear existing items in the EventsToShowList
+			EventsToShowList.Clear();
+
+			// Add filtered items to the EventsToShowList
+			foreach (var eventItem in filteredEvents)
+			{
+				EventsToShowList.Add(eventItem);
+			}
+
 		}
 
 		#region Events

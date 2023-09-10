@@ -12,8 +12,8 @@ namespace CalendarT1.ViewModels.HelperClass
 		decimal TotalOfMeasurements { get; set; }
 		DateTime DateTo { get; set; }
 		DateTime DateFrom { get; set; }
-
-		bool DoBasicCalculations();
+		public bool CheckIfEventsAreSameType();
+		void DoBasicCalculations();
 		MeasurementCalculationsOutcome MinByWeekCalculation();
 		MeasurementCalculationsOutcome MaxByWeekCalculation();
 	}
