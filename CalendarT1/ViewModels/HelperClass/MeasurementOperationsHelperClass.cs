@@ -258,12 +258,20 @@ namespace CalendarT1.ViewModels.HelperClass
 			return CalculateByPeriod(UpdateByPeriod, MaxComparison, 0, GetWeekNumber);
 		}
 
-		public MeasurementCalculationsOutcome MinByPeriodCalculation(
+		public MeasurementCalculationsOutcome MinByPeriodCalculationWithEventsOnly(
+			Func<DateTime, int> periodNumberGetter,
+			Func<DateTime, DateTime> nextPeriodStartGetter,
+			DateTime initialDate)
+		{
+			return CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, periodNumberGetter);
+		}
+		private MeasurementCalculationsOutcome MinByPeriodCalculationWithEmptyDates(
 			Func<DateTime, int> periodNumberGetter,
 			Func<DateTime, DateTime> nextPeriodStartGetter,
 			DateTime initialDate)
 		{
 			var result = CalculateByPeriod(UpdateByPeriod, MinComparison, decimal.MaxValue, periodNumberGetter);
+
 			if (result.MeasurementValueOutcome >= 0)
 			{
 				DateTime currentPeriodStart = initialDate;
@@ -289,15 +297,26 @@ namespace CalendarT1.ViewModels.HelperClass
 			}
 			return result;
 		}
-
+		public MeasurementCalculationsOutcome MinByDayCalculationWithEmptyDates()
+		{
+			return MinByPeriodCalculationWithEmptyDates(date => date.Day, date => date.AddDays(1), DateFrom);
+		}
+		public MeasurementCalculationsOutcome MinByWeekCalculationWithEmptyDates()
+		{
+			return MinByPeriodCalculationWithEmptyDates(GetWeekNumber, date => date.NextMonday(), DateFrom);
+		}
+		public MeasurementCalculationsOutcome MinByMonthCalculationWithEmptyDates()
+		{
+			return MinByPeriodCalculationWithEmptyDates(GetMonthNumber, date => date.AddMonths(1), new DateTime(DateFrom.Year, DateFrom.Month, 1));
+		}
 		public MeasurementCalculationsOutcome MinByWeekCalculation()
 		{
-			return MinByPeriodCalculation(GetWeekNumber, date => date.NextMonday(), DateFrom);
+			return MinByPeriodCalculationWithEventsOnly(GetWeekNumber, date => date.NextMonday(), DateFrom);
 		}
 
 		public MeasurementCalculationsOutcome MinByMonthCalculation()
 		{
-			return MinByPeriodCalculation(GetMonthNumber, date => date.AddMonths(1), new DateTime(DateFrom.Year, DateFrom.Month, 1));
+			return MinByPeriodCalculationWithEventsOnly(GetMonthNumber, date => date.AddMonths(1), new DateTime(DateFrom.Year, DateFrom.Month, 1));
 		}
 
 		public MeasurementCalculationsOutcome MaxByMonthCalculation()
