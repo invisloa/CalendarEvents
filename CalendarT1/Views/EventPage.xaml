@@ -55,12 +55,12 @@
 
             <Button Text="ShareEvent"
                 Command="{Binding ShareEventCommand}"
-                IsVisible="{Binding IsEdit}"/>
+                IsVisible="{Binding EditModeVisibility}"/>
         <Button Text="Temporary Delete Button"
                 Command="{Binding DeleteEventCommand}"
-                IsVisible="{Binding IsEdit}"/>
+                IsVisible="{Binding EditModeVisibility}"/>
         <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
-                  IsVisible="{Binding IsEdit}"/>
+                  IsVisible="{Binding EditModeVisibility}"/>
     </VerticalStackLayout>
 
     </ScrollView>

@@ -2,6 +2,9 @@
 
 
 #region Current
+// problem with weekly events page, if i delete new OC page is not showing any events, if i dont, calculations dont update as intended maybe make it create new instance every time it runs??
+// WEEKLY PAGE if only 1 event show its name
+//_eventsOrderedByDateList does not update when adding new event
 // consider adding canexecute to calcutations commands with check if same values types are selected
 // valuetype calculations advanced calculations adding
 //                         <Button Text="{Binding}" Command="{Binding BindingContext.GoToWeeksPageCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
