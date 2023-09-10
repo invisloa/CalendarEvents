@@ -178,6 +178,7 @@ namespace CalendarT1.ViewModels.HelperClass
 			var currentPeriodDate = _eventsOrderedByDateList[0].StartDateTime.Date;
 			var datesWithExtremeValuesList = new List<DateTime>() { currentPeriodDate };
 			var lastPeriodNumber = getSpecifiedPeriodNumber(_eventsOrderedByDateList[0].StartDateTime.Date);
+			MeasurementUnit measurementUnit = _eventsOrderedByDateList[0].QuantityAmount.Unit;
 
 			foreach (var item in _eventsOrderedByDateList)
 			{
@@ -200,7 +201,7 @@ namespace CalendarT1.ViewModels.HelperClass
 
 			updateDelegate(ref currentPeriodTotal, ref extremeValueForPeriod, currentPeriodDate, datesWithExtremeValuesList, comparison);
 
-			return new MeasurementCalculationsOutcome(extremeValueForPeriod, datesWithExtremeValuesList);
+			return new MeasurementCalculationsOutcome(extremeValueForPeriod, datesWithExtremeValuesList, measurementUnit);
 		}
 
 		// Method to get week number
@@ -329,12 +330,13 @@ namespace CalendarT1.ViewModels.HelperClass
 
 	public class MeasurementCalculationsOutcome
 	{
-		public MeasurementCalculationsOutcome(decimal measurementValueOutcome, List<DateTime> measurementsEventsOutcome)
+		public MeasurementCalculationsOutcome(decimal measurementValueOutcome, List<DateTime> measurementsEventsOutcome, MeasurementUnit measurementUnitValue)
 		{
 			MeasurementValueOutcome = measurementValueOutcome;
 			MeasurementDatesListOutcome = measurementsEventsOutcome;
+			MeasurementUnitValue = new MeasurementUnitItem(measurementUnitValue);
 		}
-		
+		public MeasurementUnitItem MeasurementUnitValue { get; set; }
 		public decimal MeasurementValueOutcome { get; set; }
 		public List<DateTime> MeasurementDatesListOutcome { get; set; }
 	}
