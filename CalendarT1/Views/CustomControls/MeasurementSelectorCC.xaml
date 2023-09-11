@@ -30,7 +30,7 @@
                     />
         </StackLayout >
         <Label Text= "{Binding QuantityValueText}" />
-        <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}"  HorizontalTextAlignment="End" FontSize="{Binding FontSize}" FontAttributes="Bold">
+        <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}"  HorizontalTextAlignment="End" FontAttributes="Bold">
             <Entry.Behaviors>
                 <toolkit:NumericValidationBehavior 
                 InvalidStyle="{StaticResource InvalidEntryStyle}"

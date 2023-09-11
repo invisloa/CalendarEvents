@@ -114,6 +114,7 @@ namespace CalendarT1.ViewModels.HelperClass
 				throw new Exception("Unsupported measurement unit.");
 			}
 				var measurementTypeList = measurementTypeMap[firstEventUnit];
+
 			foreach (var item in _eventsOrderedByDateList)
 				{
 					if (!measurementTypeList.Contains(item.QuantityAmount.Unit))

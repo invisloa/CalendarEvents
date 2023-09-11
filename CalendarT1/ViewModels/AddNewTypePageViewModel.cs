@@ -199,7 +199,9 @@ namespace CalendarT1.ViewModels
 				return;
 			}
 			await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
-			await Shell.Current.GoToAsync("..");
+			await Shell.Current.Navigation.PopAsync();
+
+			//await Shell.Current.GoToAsync($"{nameof(AllTypesPage)}");
 		}
 		public void DisableVisualsForAllMainEventTypes()
 		{
@@ -256,7 +258,7 @@ namespace CalendarT1.ViewModels
 		}
 		private void GoToAllTypesPage()
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new AllTypesPage(_eventRepository));
+			Application.Current.MainPage.Navigation.PushAsync(new AllTypesPage());
 		}
 		private void InitializeColorButtons()		// also to extract as a separate custom control
 		{

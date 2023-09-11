@@ -16,13 +16,18 @@ using CalendarT1.Views;
 
 namespace CalendarT1.ViewModels
 {
-	public class ValueTypeCalcutarionsViewModel : PlainBaseAbstractEventViewModel, IFilterDatesCC
+	public class ValueTypeCalculationsViewModel : PlainBaseAbstractEventViewModel, IFilterDatesCC
 	{
 		#region IFilterDatesCC implementation
 		private IFilterDatesCCHelperClass _filterDatesCCHelper = Factory.CreateFilterDatesCCHelperClass();
 		private bool _canExecuteCalculationsCommands()
 		{
-			return _measurementOperationsHelperClass.CheckIfEventsAreSameType();
+			bool canExecute = _measurementOperationsHelperClass.CheckIfEventsAreSameType();
+			if(!canExecute)
+			{
+				SetAllCalculationsControlsVisibilityOFF();
+			}
+			return canExecute;
 		}
 		// TODO change the below to factory and interface LATER
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
@@ -261,7 +266,7 @@ namespace CalendarT1.ViewModels
 
 
 		// CONSTRUCTOR
-		public ValueTypeCalcutarionsViewModel(IEventRepository eventRepository) : base(eventRepository)
+		public ValueTypeCalculationsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList().Where(x => x.MainEventType == MainEventTypes.Value).ToList());
 			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand, _canExecuteCalculationsCommands);
@@ -321,5 +326,9 @@ namespace CalendarT1.ViewModels
 			this.SetFilterDatesValues(); // using extension from IFilterDatesCC method (oldest event date and today)
 		}
 
+		internal void OnAppearing()
+		{
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC.Where(x => x.MainEventType == MainEventTypes.Value).ToList());
+		}
 	}
 }

@@ -44,7 +44,7 @@ public static class MauiProgram
 		builder.Services.AddTransient<WeeklyEventsViewModel>();
 		builder.Services.AddTransient<DailyEventsViewModel>();
 		builder.Services.AddTransient<AllEventsViewModel>();
-		builder.Services.AddTransient<ValueTypeCalcutarionsViewModel>();
+		builder.Services.AddTransient<ValueTypeCalculationsViewModel>();
 
 
 		// add event dictionary factories DI

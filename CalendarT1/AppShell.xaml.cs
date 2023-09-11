@@ -12,6 +12,7 @@ public partial class AppShell : Shell
 
 		// REGISTER ROUTING
 		Routing.RegisterRoute(nameof(AddNewTypePage), typeof(AddNewTypePage));
+		Routing.RegisterRoute(nameof(AllTypesPage), typeof(AllTypesPage));
 
 
 		// Change the first day of the week to Monday
