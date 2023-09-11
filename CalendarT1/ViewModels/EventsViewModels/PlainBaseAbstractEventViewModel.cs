@@ -20,6 +20,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
 		private RelayCommand<UserEventTypeModel> _selectUserEventTypeCommand;
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
+		private RelayCommand _goToAddNewTypePageCommand;
+
 		private Color _deselectedUserEventTypeColor = Color.FromHex("#FFC0C0C0");
 		#endregion
 
@@ -61,6 +63,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 		public RelayCommand<UserEventTypeModel> SelectUserEventTypeCommand => _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<UserEventTypeModel>(OnUserEventTypeSelected));
+		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
+
 		public RelayCommand<IGeneralEventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));
 
 		#endregion
@@ -141,6 +145,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				EventsToShowList.Add(eventItem);
 			}
 
+		}
+		private void GoToAddNewTypePage()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
 		}
 
 		#region Events

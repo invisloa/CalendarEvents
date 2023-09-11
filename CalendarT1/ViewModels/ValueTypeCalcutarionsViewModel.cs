@@ -78,6 +78,8 @@ namespace CalendarT1.ViewModels
 
 		// CONTROLS PROPERTIES
 		#region Controls properties
+		public string MinByWeekCalculationText { get; set; } = "MIN WEEKS VALUE";
+		public string MaxByWeekCalculationText { get; set; } = " WEEKS VALUE";
 		private bool _basicOperationsVisibility = false;
 		public bool BasicOperationsVisibility
 		{
@@ -301,7 +303,7 @@ namespace CalendarT1.ViewModels
 			BasicOperationsVisibility = true;
 			_measurementOperationsHelperClass.DoBasicCalculations();
 			TotalOfMeasurements = _measurementOperationsHelperClass.TotalOfMeasurements.ToString();
-			AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString();
+			AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString("F2");
 			MaxOfMeasurements = _measurementOperationsHelperClass.MaxOfMeasurements.ToString();
 			MinOfMeasurements = _measurementOperationsHelperClass.MinOfMeasurements.ToString();
 		}
@@ -316,7 +318,7 @@ namespace CalendarT1.ViewModels
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged; // for future controls use like (last 90 days, last 30 days, etc.)
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged; // for future controls use like (last 90 days, last 30 days, etc.)
 
-			this.SetFilterDatesValues(); // using extension from IFilterDatesCC method (last event date and today)
+			this.SetFilterDatesValues(); // using extension from IFilterDatesCC method (oldest event date and today)
 		}
 
 	}

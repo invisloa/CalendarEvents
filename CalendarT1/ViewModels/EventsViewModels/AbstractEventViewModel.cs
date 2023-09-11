@@ -16,7 +16,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Fields
 		private RelayCommand _goToAddEventPageCommand;
 		private DateTime _currentSelectedDate = DateTime.Now;
-		private RelayCommand _goToAddNewTypePageCommand;
 		public RelayCommand<DateTime> GoToSelectedDateCommand { get; set; }
 
 		#endregion
@@ -52,7 +51,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Commands
 		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
-		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
 		#endregion
 
 		#region Private Methods
@@ -61,10 +59,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository, _currentSelectedDate));
 		}
-		private void GoToAddNewTypePage()
-		{
-			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
-		}
+
 		private void GoToSelectedDatePage(DateTime selectedDate)
 		{
 			var _dailyEventsPage = new ViewDailyEvents();
