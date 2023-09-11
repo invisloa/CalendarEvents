@@ -6,13 +6,14 @@
              x:Name="AddNewTypePageName">
     <ScrollView>
         <StackLayout>
-
+            <Button Text="ALL TYPES PAGE" Command="{Binding GoToAllTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
+                    WidthRequest="150" HorizontalOptions="End" BorderColor="CadetBlue" BorderWidth="3" Margin="10"/>
             <!-- Textbox for new type name -->
-            <StackLayout Orientation="Horizontal" Margin="20" Padding="5">
-                <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" HorizontalOptions="CenterAndExpand" BackgroundColor="Azure" TextColor="Black"/>
-            </StackLayout>
-            <Button Text="XXX" Command="{Binding GoToAllTypesPageCommand}"/>
-            <Button Text="TempClearALL" Command="{Binding TempRemoveAllUserTypesCommand}"/>
+            <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" Margin="30" 
+                       HorizontalTextAlignment="Center" BackgroundColor="Azure" TextColor="Black" VerticalOptions="Fill"/>
+
+            <!--<Button Text="TempClearALL" Command="{Binding TempRemoveAllUserTypesCommand}"/>-->
+            
             <!--Main Event Types Custom Control -->
             <StackLayout>
                 <CustomControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>

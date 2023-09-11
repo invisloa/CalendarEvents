@@ -38,7 +38,6 @@
         <!-- EventTypesCustomControl collection -->
         <StackLayout Grid.Row="1"  >
             <customControls:EventTypesCustomControl/>
-            <customControls:AddNewTypeCC/>
         </StackLayout>
 
 

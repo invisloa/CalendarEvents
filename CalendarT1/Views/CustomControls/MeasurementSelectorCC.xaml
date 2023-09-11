@@ -29,16 +29,17 @@
                         IsEnabled="{Binding IsValueTypeSelectionEnabled}"
                     />
         </StackLayout >
-        <Label Text= "{Binding QuantityValueText}" />
-        <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}"  HorizontalTextAlignment="End" FontAttributes="Bold">
-            <Entry.Behaviors>
-                <toolkit:NumericValidationBehavior 
+        <StackLayout Orientation="Horizontal">
+            <Label Text= "{Binding QuantityValueText}" VerticalOptions="Center" Margin="10"/>
+            <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}"  HorizontalTextAlignment="End" FontAttributes="Bold" MinimumWidthRequest="150" HorizontalOptions="FillAndExpand">
+                <Entry.Behaviors>
+                    <toolkit:NumericValidationBehavior 
                 InvalidStyle="{StaticResource InvalidEntryStyle}"
                 ValidStyle="{StaticResource ValidEntryStyle}"
                 Flags="ValidateOnValueChanged"
-                MaximumDecimalPlaces="10"/>
-            </Entry.Behaviors>
-
-        </Entry>
+                MaximumDecimalPlaces="4"/>
+                </Entry.Behaviors>
+            </Entry>
+        </StackLayout>
     </StackLayout>
 </ContentView>

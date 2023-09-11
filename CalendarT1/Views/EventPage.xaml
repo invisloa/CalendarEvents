@@ -43,7 +43,6 @@
 
         <!--User Event Types Custom Control-->
             <customControls:EventTypesCustomControl/>
-            <customControls:AddNewTypeCC/>
 
             <Editor Placeholder="...DESCRIPTION..."
                 x:Name="DescriptionEditor"  HorizontalTextAlignment="Center"

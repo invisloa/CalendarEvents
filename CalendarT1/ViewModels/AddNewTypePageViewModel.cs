@@ -43,7 +43,6 @@ namespace CalendarT1.ViewModels
 			_measurementSelectorHelperClass.SelectPropperMeasurementData(userEventTypeModel);
 		}
 
-		public string QuantityValueText { get => _measurementSelectorHelperClass.QuantityValueText; set => _measurementSelectorHelperClass.QuantityValueText = value; }
 		public decimal QuantityValue { get => _measurementSelectorHelperClass.QuantityValue; set => _measurementSelectorHelperClass.QuantityValue = value; }
 
 		public MeasurementUnitItem SelectedMeasurementUnit
@@ -80,6 +79,7 @@ namespace CalendarT1.ViewModels
 		#endregion
 
 		#region Properties
+		public string QuantityValueText { get; set; } = "DEFAULT VALUE";
 		public string PageTitle => IsEdit ? "EDIT TYPE" : "ADD NEW TYPE";
 		public string PlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {TypeName}" : "ENTER NEW TYPE NAME";
 		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
@@ -260,44 +260,66 @@ namespace CalendarT1.ViewModels
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AllTypesPage());
 		}
-		private void InitializeColorButtons()		// also to extract as a separate custom control
+		private void InitializeColorButtons() // also to extract as a separate custom control
 		{
 			ButtonsColors = new ObservableCollection<ButtonProperties>
 			{
+				// Green shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(102, 205, 170), ButtonBorder = BorderSize}, // MediumAquamarine
+				new ButtonProperties { ButtonColor = Color.FromRgb(127, 255, 212), ButtonBorder = BorderSize}, // Aquamarine
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 250, 154), ButtonBorder = BorderSize}, // MediumSpringGreen
+				new ButtonProperties { ButtonColor = Color.FromRgb(152, 251, 152), ButtonBorder = BorderSize}, // PaleGreen
+				new ButtonProperties { ButtonColor = Color.FromRgb(130, 255, 154), ButtonBorder = BorderSize}, // LightGreen
 
-				new ButtonProperties { ButtonColor = Color.FromRgb(144, 238, 144), ButtonBorder = BorderSize}, // LightGreen
+				// Lively Green shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 255, 127), ButtonBorder = BorderSize}, // SpringGreen
 				new ButtonProperties { ButtonColor = Color.FromRgb(60, 179, 113), ButtonBorder = BorderSize}, // MediumSeaGreen
-				new ButtonProperties { ButtonColor = Color.FromRgb(34, 139, 34), ButtonBorder = BorderSize}, // ForestGreen
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 255, 0), ButtonBorder = BorderSize}, // Lime
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 100, 0), ButtonBorder = BorderSize}, // DarkGreen
-    
+				new ButtonProperties { ButtonColor = Color.FromRgb(50, 205, 50), ButtonBorder = BorderSize}, // LimeGreen
+				new ButtonProperties { ButtonColor = Color.FromRgb(124, 252, 0), ButtonBorder = BorderSize}, // LawnGreen
+				new ButtonProperties { ButtonColor = Color.FromRgb(107, 142, 35), ButtonBorder = BorderSize}, // OliveDrab
+
 				// Blue shades
-				new ButtonProperties { ButtonColor = Color.FromRgb(135, 206, 235), ButtonBorder = BorderSize}, // SkyBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(173, 216, 230), ButtonBorder = BorderSize}, // LightBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(176, 224, 230), ButtonBorder = BorderSize}, // PowderBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(135, 206, 250), ButtonBorder = BorderSize}, // LightSkyBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(100, 149, 237), ButtonBorder = BorderSize}, // CornflowerBlue
 				new ButtonProperties { ButtonColor = Color.FromRgb(70, 130, 180), ButtonBorder = BorderSize}, // SteelBlue
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 255), ButtonBorder = BorderSize}, // Blue
+
+				// Vibrant Blue shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(30, 144, 255), ButtonBorder = BorderSize}, // DodgerBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(0, 191, 255), ButtonBorder = BorderSize}, // DeepSkyBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(65, 105, 225), ButtonBorder = BorderSize}, // RoyalBlue
+				new ButtonProperties { ButtonColor = Color.FromRgb(25, 25, 112), ButtonBorder = BorderSize}, // MidnightBlue
 				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 205), ButtonBorder = BorderSize}, // MediumBlue
-				new ButtonProperties { ButtonColor = Color.FromRgb(0, 0, 128), ButtonBorder = BorderSize}, // Navy
-    
-				// Red shades
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 99, 71), ButtonBorder = BorderSize}, // Tomato
-				new ButtonProperties { ButtonColor = Color.FromRgb(220, 20, 60), ButtonBorder = BorderSize}, // Crimson
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 0, 0), ButtonBorder = BorderSize}, // Red
-				new ButtonProperties { ButtonColor = Color.FromRgb(139, 0, 0), ButtonBorder = BorderSize}, // DarkRed
-				new ButtonProperties { ButtonColor = Color.FromRgb(128, 0, 0), ButtonBorder = BorderSize}, // Maroon
-    
-				// Violet shades
-				new ButtonProperties { ButtonColor = Color.FromRgb(238, 130, 238), ButtonBorder = BorderSize}, // Violet
-				new ButtonProperties { ButtonColor = Color.FromRgb(221, 160, 221), ButtonBorder = BorderSize}, // Plum
-				new ButtonProperties { ButtonColor = Color.FromRgb(138, 43, 226), ButtonBorder = BorderSize}, // BlueViolet
-				new ButtonProperties { ButtonColor = Color.FromRgb(153, 50, 204), ButtonBorder = BorderSize}, // DarkOrchid
-				new ButtonProperties { ButtonColor = Color.FromRgb(148, 0, 211), ButtonBorder = BorderSize}, // DarkViolet
-    
+
+				// Pink shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 182, 193), ButtonBorder = BorderSize}, // LightPink
+				new ButtonProperties { ButtonColor = Color.FromRgb(219, 112, 147), ButtonBorder = BorderSize}, // PaleVioletRed
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 105, 180), ButtonBorder = BorderSize}, // HotPink
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 20, 147), ButtonBorder = BorderSize}, // DeepPink
+				new ButtonProperties { ButtonColor = Color.FromRgb(199, 21, 133), ButtonBorder = BorderSize}, // MediumVioletRed
+
 				// Orange shades
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 160, 122), ButtonBorder = BorderSize},  // LightSalmon
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 160, 122), ButtonBorder = BorderSize}, // LightSalmon
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 165, 0), ButtonBorder = BorderSize}, // Orange
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 140, 0), ButtonBorder = BorderSize}, // DarkOrange
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 99, 71), ButtonBorder = BorderSize}, // Tomato
 				new ButtonProperties { ButtonColor = Color.FromRgb(255, 69, 0), ButtonBorder = BorderSize}, // OrangeRed
-				new ButtonProperties { ButtonColor = Color.FromRgb(255, 30, 0), ButtonBorder = BorderSize}, // OrangeRed
+
+				// Red shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(240, 128, 128), ButtonBorder = BorderSize}, // LightCoral
+				new ButtonProperties { ButtonColor = Color.FromRgb(205, 92, 92), ButtonBorder = BorderSize}, // IndianRed
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 0, 0), ButtonBorder = BorderSize}, // Red
+				new ButtonProperties { ButtonColor = Color.FromRgb(220, 20, 60), ButtonBorder = BorderSize}, // Crimson
+				new ButtonProperties { ButtonColor = Color.FromRgb(178, 34, 34), ButtonBorder = BorderSize}, // Firebrick
+
+				// Additional Red shades
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 85, 85), ButtonBorder = BorderSize}, // Valentine Red
+				new ButtonProperties { ButtonColor = Color.FromRgb(250, 52, 57), ButtonBorder = BorderSize}, // Ruby Red
+				new ButtonProperties { ButtonColor = Color.FromRgb(255, 40, 0), ButtonBorder = BorderSize}, // Strong Red
+				new ButtonProperties { ButtonColor = Color.FromRgb(205, 0, 0), ButtonBorder = BorderSize}, // Bright Red
+				new ButtonProperties { ButtonColor = Color.FromRgb(153, 0, 0), ButtonBorder = BorderSize}, // Rich Red
+
 			};
 		}
 	}
