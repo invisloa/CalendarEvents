@@ -272,11 +272,29 @@ namespace CalendarT1.ViewModels
 			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand, _canExecuteCalculationsCommands);
 			MaxByWeekCalculationsCommand = new RelayCommand(OnMaxByWeekCalculationsCommand, _canExecuteCalculationsCommands);
 			MinByWeekCalculationsCommand = new RelayCommand(OnMinByWeekCalculationsCommand, _canExecuteCalculationsCommands);
-			GoToWeeksPageCommand = new RelayCommand<DateTime>(GoToWeeksPage);
+			GoToWeeksPageCommand = new RelayCommand<DateTime>(GoToWeeksPageWithSelectedTypes);
 			_measurementOperationsHelperClass = Factory.CreateMeasurementOperationsHelperClass(EventsToShowList);
 			InitializeCommon();
 		}
+		private void GoToWeeksPageWithSelectedTypes(DateTime weeksDate)
+		{
+			// TODO TO CHANGE THE WAY OF NAVIGATING TO WEEKS PAGE
+			var selectedEventTypes = AllEventTypesOC.Where(x => x.IsSelectedToFilter == true).ToList();
+			foreach (var eventType in _eventRepository.AllUserEventTypesList)
+			{
+				eventType.IsSelectedToFilter = false;
+			}
+			foreach (var eventType in selectedEventTypes)
+			{
+				if (_eventRepository.AllUserEventTypesList.Contains(eventType))
+				{
+					_eventRepository.AllUserEventTypesList[_eventRepository.AllUserEventTypesList.IndexOf(eventType)].IsSelectedToFilter = true;
+				}
+			}
 
+			Application.Current.MainPage.Navigation.PushAsync(new ViewWeeklyEvents(weeksDate));
+			string x = "just to have breakpoint here";
+		}
 		private void CanExecuteChangedCalculationsCommandsNotifier()
 		{
 			DoBasicCalculationsCommand.NotifyCanExecuteChanged();
@@ -296,12 +314,7 @@ namespace CalendarT1.ViewModels
 			MeasurementCalculationOutcome = _measurementOperationsHelperClass.MaxByWeekCalculation();
 			
 		}
-		private void GoToWeeksPage(DateTime weeksDate)
-		{
-			// TODO TO CHANGE THE WAY OF NAVIGATING TO WEEKS PAGE
-			Application.Current.MainPage.Navigation.PushAsync(new ViewWeeklyEvents(weeksDate));
 
-		}
 		private void OnDoBasicCalculationsCommand()
 		{
 			SetAllCalculationsControlsVisibilityOFF();

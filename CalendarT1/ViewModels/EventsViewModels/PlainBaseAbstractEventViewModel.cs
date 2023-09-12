@@ -14,7 +14,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 	public abstract class PlainBaseAbstractEventViewModel : BaseViewModel
 	{
 		#region Fields
-		private IEventRepository _eventRepository;
+		protected IEventRepository _eventRepository;
 		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
 		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();

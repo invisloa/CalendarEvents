@@ -19,8 +19,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 			ApplyEventsDatesFilter(startOfWeek, endOfWeek);
 
-			// IDK IF this below is needed here??? TO CHECK
-			//OnOnEventsToShowListUpdated(); // invoke event to update customControl
+			// event that will fire generate grid in weeksView
+			OnOnEventsToShowListUpdated(); // invoke event to update customControl
 
 		}
 	}

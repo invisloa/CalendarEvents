@@ -106,5 +106,10 @@ namespace CalendarT1.Models.EventTypesModels
 		{
 			BackgroundColor = EventTypeColor;
 		}
+
+		public bool Equals(UserEventTypeModel other)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }
