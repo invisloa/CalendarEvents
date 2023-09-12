@@ -16,14 +16,27 @@
         <Button Text="DO BASIC CALCULATIONS" Command="{Binding DoBasicCalculationsCommand}"/>
 
         <StackLayout IsVisible="{Binding BasicOperationsVisibility}">
-            <Label Text="{Binding TotalOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
-            <Label Text="{Binding TotalOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
-            <Label Text="{Binding AverageOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
-            <Label Text="{Binding AverageOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
-            <Label Text="{Binding MaxOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
-            <Label Text="{Binding MaxOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
-            <Label Text="{Binding MinOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
-            <Label Text="{Binding MinOfMeasurements}" FontSize="30" HorizontalOptions="Center" />
+            <HorizontalStackLayout Margin="10">
+                <Label Text="{Binding TotalOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
+                <Label Text="{Binding TotalOfMeasurements}" FontSize="30" HorizontalOptions="Center"  Margin="10,0,10,0"/>
+                <Button Text="->" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Margin="10">
+                <Label Text="{Binding AverageOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
+                <Label Text="{Binding AverageOfMeasurements}" FontSize="30" HorizontalOptions="Center"  Margin="10,0,10,0" />
+                <Button Text="->" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Margin="10">
+                <Label Text="{Binding MaxOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
+                <Label Text="{Binding MaxOfMeasurements}" FontSize="30" HorizontalOptions="Center"  Margin="10,0,10,0"/>
+                <Button Text="->" />
+            </HorizontalStackLayout>
+            <HorizontalStackLayout Margin="10">
+                <Label Text="{Binding MinOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
+                <Label Text="{Binding MinOfMeasurements}" FontSize="30" HorizontalOptions="Center"  Margin="10,0,10,0"/>
+                <Button Text="->" />
+            </HorizontalStackLayout>
+
         </StackLayout>
         <!--MAX BY WEEK -->
         <Button Text="MAX BY WEEK" Command="{Binding MaxByWeekCalculationsCommand}"/>

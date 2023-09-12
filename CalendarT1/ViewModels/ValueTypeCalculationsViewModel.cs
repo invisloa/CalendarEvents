@@ -128,13 +128,13 @@ namespace CalendarT1.ViewModels
 		}
 		#endregion
 
-		private string _totalOfMeasurementsTextAbove = "Total of measurements:";
+		private string _totalOfMeasurementsTextAbove = "Total:";
 		private string _totalOfMeasurements = "0";
-		private string _averageOfMeasurementsTextAbove = "Average of measurements:";
-		private string _averageOfMeasurements = "0";
-		private string _maxOfMeasurementsTextAbove = "Max of measurements:";
+		private string _averageByDayTextAbove = "Average by day:";
+		private string _averageByDayMeasurements = "0";
+		private string _maxOfMeasurementsTextAbove = "Max value:";
 		private string _maxOfMeasurements = "0";
-		private string _minOfMeasurementsTextAbove = "Min of measurements:";
+		private string _minOfMeasurementsTextAbove = "Min value:";
 		private string _minOfMeasurements = "0";
 		private MeasurementCalculationsOutcome _measurementCalulationOutcome;
 		public MeasurementCalculationsOutcome MeasurementCalculationOutcome
@@ -175,27 +175,27 @@ namespace CalendarT1.ViewModels
 			}
 		}
 
-		public string AverageOfMeasurementsTextAbove
+		public string AverageByDayTextAbove
 		{
-			get { return _averageOfMeasurementsTextAbove; }
+			get { return _averageByDayTextAbove; }
 			set
 			{
-				if (_averageOfMeasurementsTextAbove != value)
+				if (_averageByDayTextAbove != value)
 				{
-					_averageOfMeasurementsTextAbove = value;
+					_averageByDayTextAbove = value;
 					OnPropertyChanged();
 				}
 			}
 		}
 
-		public string AverageOfMeasurements
+		public string AverageByDayMeasurements
 		{
-			get { return _averageOfMeasurements; }
+			get { return _averageByDayMeasurements; }
 			set
 			{
-				if (_averageOfMeasurements != value)
+				if (_averageByDayMeasurements != value)
 				{
-					_averageOfMeasurements = value;
+					_averageByDayMeasurements = value;
 					OnPropertyChanged();
 				}
 			}
@@ -278,22 +278,36 @@ namespace CalendarT1.ViewModels
 		}
 		private void GoToWeeksPageWithSelectedTypes(DateTime weeksDate)
 		{
-			// TODO TO CHANGE THE WAY OF NAVIGATING TO WEEKS PAGE
-			var selectedEventTypes = AllEventTypesOC.Where(x => x.IsSelectedToFilter == true).ToList();
+			SetIsSelectedAccordingToSelectedTypes();
+			Application.Current.MainPage.Navigation.PushAsync(new ViewWeeklyEvents(weeksDate));
+
+			string x = "just to have debuging breakpoint here"; 
+		}
+		private void SetIsSelectedAccordingToSelectedTypes()
+		{
+			// Extract the list of selected event types.
+			var selectedEventTypes = AllEventTypesOC.Where(x => x.IsSelectedToFilter).ToList();
+
+			// Create a HashSet for faster lookups.
+			HashSet<IUserEventTypeModel> selectedEventTypesSet = new HashSet<IUserEventTypeModel>(selectedEventTypes);
+
+			// Iterate through the AllUserEventTypesList once and set IsSelectedToFilter based on whether it exists in the HashSet.
 			foreach (var eventType in _eventRepository.AllUserEventTypesList)
 			{
-				eventType.IsSelectedToFilter = false;
-			}
-			foreach (var eventType in selectedEventTypes)
-			{
-				if (_eventRepository.AllUserEventTypesList.Contains(eventType))
+				//								O(1) operation
+				bool containsEvent = selectedEventTypesSet.Contains(eventType);
+				if (containsEvent)
 				{
-					_eventRepository.AllUserEventTypesList[_eventRepository.AllUserEventTypesList.IndexOf(eventType)].IsSelectedToFilter = true;
+					eventType.IsSelectedToFilter = true;
+					eventType.BackgroundColor = eventType.EventTypeColor;
+				}
+				else
+				{
+					eventType.IsSelectedToFilter = false;
+					eventType.BackgroundColor = _deselectedUserEventTypeColor;
 				}
 			}
 
-			Application.Current.MainPage.Navigation.PushAsync(new ViewWeeklyEvents(weeksDate));
-			string x = "just to have breakpoint here";
 		}
 		private void CanExecuteChangedCalculationsCommandsNotifier()
 		{
@@ -321,7 +335,7 @@ namespace CalendarT1.ViewModels
 			BasicOperationsVisibility = true;
 			_measurementOperationsHelperClass.DoBasicCalculations();
 			TotalOfMeasurements = _measurementOperationsHelperClass.TotalOfMeasurements.ToString();
-			AverageOfMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString("F2");
+			AverageByDayMeasurements = _measurementOperationsHelperClass.AverageOfMeasurements.ToString("F2");
 			MaxOfMeasurements = _measurementOperationsHelperClass.MaxOfMeasurements.ToString();
 			MinOfMeasurements = _measurementOperationsHelperClass.MinOfMeasurements.ToString();
 		}

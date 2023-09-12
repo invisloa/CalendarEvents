@@ -2,7 +2,7 @@
 
 namespace CalendarT1.Models.EventTypesModels
 {
-	public interface IUserEventTypeModel : IEquatable<IUserEventTypeModel>
+	public interface IUserEventTypeModel : IEquatable<object>
 	{
 		MainEventTypes MainEventType { get; set; }
 		Color EventTypeColor { get; set; }
@@ -12,29 +12,7 @@ namespace CalendarT1.Models.EventTypesModels
 		bool IsSelectedToFilter { get; set; }
 		Quantity QuantityAmount { get; set; }
 		string ToString();
-
-		// Default method implementations
-		bool IEquatable<IUserEventTypeModel>.Equals(IUserEventTypeModel other)
-		{
-			if (other == null)
-				return false;
-
-			return
-				MainEventType == other.MainEventType &&
-				EventTypeColorString == other.EventTypeColorString &&
-				EventTypeName == other.EventTypeName;
-		}
-
-		int GetHashCode()
-		{
-			unchecked
-			{
-				int hash = 17;
-				hash = hash * 23 + MainEventType.GetHashCode();
-				hash = hash * 23 + (EventTypeName?.GetHashCode() ?? 0);
-				hash = hash * 23 + (EventTypeColorString?.GetHashCode() ?? 0);
-				return hash;
-			}
-		}
+		bool Equals(object other);
+		int GetHashCode();
 	}
 }

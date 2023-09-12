@@ -92,8 +92,31 @@ namespace CalendarT1.Models.EventTypesModels
 			IsSelectedToFilter = isSelectedToFilter;
 			EventTypeName = eventTypeName;
 			EventTypeColor = eventTypeColor;
-			BackgroundColor = eventTypeColor; // Initialize BackgroundColor to EventTypeColor upon object creation
+			BackgroundColor = eventTypeColor; // Initialize BackgroundColor as EventTypeColor upon object creation
 			QuantityAmount = quantity;
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj is IUserEventTypeModel other)
+			{
+				return MainEventType == other.MainEventType &&
+					   EventTypeColorString == other.EventTypeColorString &&
+					   EventTypeName == other.EventTypeName;
+			}
+			return false;
+		}
+
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				int hash = 17;
+				hash = hash * 23 + MainEventType.GetHashCode();
+				hash = hash * 23 + (EventTypeName?.GetHashCode() ?? 0);
+				hash = hash * 23 + (EventTypeColorString?.GetHashCode() ?? 0);
+				return hash;
+			}
 		}
 
 		public override string ToString()
@@ -107,9 +130,5 @@ namespace CalendarT1.Models.EventTypesModels
 			BackgroundColor = EventTypeColor;
 		}
 
-		public bool Equals(UserEventTypeModel other)
-		{
-			throw new NotImplementedException();
-		}
 	}
 }

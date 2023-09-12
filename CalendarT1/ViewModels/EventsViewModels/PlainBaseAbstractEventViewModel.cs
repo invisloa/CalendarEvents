@@ -22,7 +22,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
 		private RelayCommand _goToAddNewTypePageCommand;
 
-		private Color _deselectedUserEventTypeColor = Color.FromHex("#FFC0C0C0");
+		protected Color _deselectedUserEventTypeColor = Color.FromHex("#FFC0C0C0");
 		#endregion
 
 		#region Properties
