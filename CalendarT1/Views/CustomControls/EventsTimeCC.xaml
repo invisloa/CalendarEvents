@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalendarT1.Views.CustomControls.EventsTimeCC">
+            <Grid Grid.Column="0" VerticalOptions="Center" >
+                <Grid Grid.Column="0" VerticalOptions="Center"  BackgroundColor="{Binding EventVisibleColor}">
+                    <Label Text="{Binding StartDateTime, StringFormat='{0:dd/MM}'}" FontSize="17" Margin="5, 5, 0, 0" FontAttributes="Bold"/>
+                    <Label Text="{Binding StartDateTime, StringFormat='{0:yyyy}'}" FontSize="17" Margin="10, 20, 0, 0" FontAttributes="Bold"/>
+                    <Label Text="{Binding StartDateTime, StringFormat='{0: hh }'}" 
+                                                               Margin="45, 5, 0, 0" 
+                                                               FontSize="25" 
+                                                               FontAttributes="Bold" 
+                                                               />
+                    <Label Text="{Binding StartDateTime, StringFormat='{0: mm}'}" 
+                                                               FontSize="20" 
+                                                               FontAttributes="Bold" 
+                                                               Margin="75, 0, 0, 0" 
+                                                               />
+                    <Label Text="{Binding StartDateTime, StringFormat='{0: tt}'}" 
+                                                               FontSize="10" 
+                                                               FontAttributes="Bold" 
+                                                               Margin="80, 20, 0, 0" 
+                                                               />
+                </Grid>
+            </Grid>
+</ContentView>

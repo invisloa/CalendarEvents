@@ -8,7 +8,7 @@
              x:DataType="local:MonthlyEventsViewModel"
              x:Class="CalendarT1.Views.ViewMonthlyEvents"
              Title="Monthly events list">
-    <Grid>
+    <Grid  BackgroundColor="Beige">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

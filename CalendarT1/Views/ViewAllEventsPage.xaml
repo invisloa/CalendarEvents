@@ -31,11 +31,14 @@
         <customControls:DateFilteringCC Grid.Row="1"/>
 
         <!-- Events list layout -->
-        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+        <StackLayout Grid.Row="2" Orientation="Vertical" HorizontalOptions="CenterAndExpand">
             <Label Text="{Binding AboveEventsListText}" FontSize="30" HorizontalTextAlignment="Center" />
-            <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
-            <Button Text="DELETE FIRST" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" />
-            <Button Text="DELETE ALL BELOW" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0" />
+            <StackLayout Orientation="Horizontal">
+
+                <Button  Text="DELETE FIRST" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" BackgroundColor="LightGreen" BorderWidth="1" BorderColor="Black"/>
+                <Button Text="DELETE ALL BELOW" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0" BackgroundColor="Red" BorderWidth="1" BorderColor="Black"/>
+            </StackLayout>
+
         </StackLayout>
 
         <!-- EventsToShowList collection -->
@@ -47,45 +50,25 @@
                             <RowDefinition Height="Auto"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="100"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        
-                        <Grid Grid.Column="0" VerticalOptions="Center">
-                            <Grid Grid.Column="0" VerticalOptions="Center"  BackgroundColor="{Binding EventVisibleColor}">
-                                <Label Text="{Binding StartDateTime, StringFormat='{0:dd/MM}'}" FontSize="15" Margin="10, 0, 0, 0" FontAttributes="Bold"/>
-                                <Label Text="{Binding StartDateTime, StringFormat='{0:yyyy}'}" FontSize="15" Margin="15, 15, 0, 0" FontAttributes="Bold"/>
-                                <Label Text="{Binding StartDateTime, StringFormat='{0: mm}'}" 
-                                   FontSize="20" 
-                                   FontAttributes="Bold" 
-                                   Margin="50, 35, 0, 0" 
-                                   />
-                                <Label Text="{Binding StartDateTime, StringFormat='{0: tt}'}" 
-                                   FontSize="10" 
-                                   FontAttributes="Bold" 
-                                   Margin="55, 55, 0, 0" 
-                                   />
-                                <Label Text="{Binding StartDateTime, StringFormat='{0: hh }'}" 
-                                   Margin="0, 40, 0, 0" 
-                                   FontSize="35" 
-                                   FontAttributes="Bold" 
-                                   />
 
-                            </Grid>
-                        </Grid>
+
                         <!--Consider changing this to normal color so it wont be blacked for ended events?? -->
                         <Frame BackgroundColor="{Binding EventVisibleColor}"
                                 Grid.Column="1"
-                                Grid.RowSpan="2" >
+                                Grid.RowSpan="2" Margin="25, 0, 25, 0" >
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                                      CommandParameter="{Binding .}"/>
                             </Frame.GestureRecognizers>
                             
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold"/>
-                                <Label Text="{Binding Description}" FontSize="15"/>
+                            <StackLayout Orientation="Horizontal">
+                                <Frame  BorderColor="Wheat" CornerRadius="2" Margin="0" Padding="2">
+                                    <customControls:EventsTimeCC/>
+                                </Frame>
+                                <StackLayout>
+                                    <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" Margin="20, 0, 0, 0"/>
+                                    <Label Text="{Binding Description}" FontSize="15" Margin="20, 0, 0, 0"/>
+                                </StackLayout>
                             </StackLayout>
                         </Frame>
                     </Grid>

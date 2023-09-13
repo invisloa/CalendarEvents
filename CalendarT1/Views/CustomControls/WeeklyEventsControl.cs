@@ -12,7 +12,7 @@
 		private readonly int _minimumDayOfWeekWidthRequest = 50;
 		private readonly int _minimumDayOfWeekHeightRequest = 25;
 		private readonly double _firstColumnForHoursWidth = 50;
-		private readonly int _displayEventsLimit = 0;  // Set a limit to how many items will be displayed
+		private readonly int _displayEventsLimit = 1;  // Set a limit to how many items will be displayed
 
 
 
@@ -101,6 +101,14 @@
 			RowDefinitions.Clear();
 			ColumnDefinitions.Clear();
 			Children.Clear();
+			for (int day = 0; day < 7; day++)
+			{
+				//	var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
+				var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - dayOfWeekNumber).ToString("dd")}" };
+				Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
+				Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
+				Children.Add(dayOfWeekLabel);
+			}
 
 			// Create rows for each hour + 2 extra rows for the day of the week and date label
 			for (int i = 0; i < 24 + 2; i++)
@@ -168,7 +176,7 @@
 							{
 								FontSize = 15,
 								FontAttributes = FontAttributes.Italic,
-								Text = $"... {dayEvents.Count - _displayEventsLimit} ...",
+								Text = $"... {dayEvents.Count} ...",
 								TextColor = Color.FromRgba(255, 255, 255, 255),
 								BackgroundColor = Color.FromRgba(0, 0, 0, 100)
 							};
@@ -188,14 +196,6 @@
 					Grid.SetRow(frame, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 					Grid.SetColumn(frame, dayOfWeek + 1);  // Adjust column index by 1 to make space for the hour indicator
 					Children.Add(frame);
-				}
-				for (int day = 0; day < 7; day++)
-				{
-					//	var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
-					var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - dayOfWeekNumber).ToString("dd")}" };
-					Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
-					Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
-					Children.Add(dayOfWeekLabel);
 				}
 
 			}

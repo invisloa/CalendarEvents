@@ -8,7 +8,7 @@
              x:DataType="local:WeeklyEventsViewModel"
              x:Class="CalendarT1.Views.ViewWeeklyEvents"
              Title="Weekly events list">
-    <Grid>
+    <Grid  BackgroundColor="Beige">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -35,11 +35,11 @@
         </Grid>
 
         <!-- EventTypesCustomControl collection -->
-        <customControls:EventTypesCustomControl Grid.Row="1"/>
+        <customControls:EventTypesCustomControl Grid.Row="1" />
 
 
-        <!--Events list layout--> 
-        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+        <!--Events list layout-->
+        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >
             <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
             <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
             <Button Text="+" FontAttributes="Bold"  Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0"/>
