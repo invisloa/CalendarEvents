@@ -66,10 +66,10 @@ public class LocalMachineEventRepository : IEventRepository
 	public async Task AddEventAsync(IGeneralEventModel eventToAdd)
 	{
 		AllEventsList.Add(eventToAdd);
+		AllEventsList = AllEventsList.OrderBy(e => e.StartDateTime).ToList();
 		await SaveEventsListAsync();
 		OnEventListChanged?.Invoke();
-
-	}
+ 	}
 
 	public async Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete)
 	{

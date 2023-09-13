@@ -22,8 +22,8 @@
                 <Button Text="->" />
             </HorizontalStackLayout>
             <HorizontalStackLayout Margin="10">
-                <Label Text="{Binding AverageOfMeasurementsTextAbove}" FontSize="30" HorizontalOptions="Center" />
-                <Label Text="{Binding AverageOfMeasurements}" FontSize="30" HorizontalOptions="Center"  Margin="10,0,10,0" />
+                <Label Text="{Binding AverageByDayTextAbove}" FontSize="30" HorizontalOptions="Center" />
+                <Label Text="{Binding AverageByDayMeasurements}" FontSize="30" HorizontalOptions="Center"  Margin="10,0,10,0" />
                 <Button Text="->" />
             </HorizontalStackLayout>
             <HorizontalStackLayout Margin="10">

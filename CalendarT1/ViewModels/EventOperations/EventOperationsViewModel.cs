@@ -140,12 +140,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			// Create a new Event based on the selected EventType
 			QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, QuantityAmount);
-
-			for (int i = 0; i < 50; i++)
-			{
-				await _eventRepository.AddEventAsync(Factory.CreatePropperEvent(Title + i.ToString(), null, DateTime.Now.AddHours(i), DateTime.Now.AddHours(i + 1), SelectedEventType, QuantityAmount));
-			}
 			await _eventRepository.AddEventAsync(_selectedCurrentEvent);
+
 			ClearFields();
 		}
 
