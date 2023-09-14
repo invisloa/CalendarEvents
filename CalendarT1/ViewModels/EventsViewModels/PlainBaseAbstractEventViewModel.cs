@@ -73,8 +73,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public PlainBaseAbstractEventViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			_allEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			_allEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
 		}

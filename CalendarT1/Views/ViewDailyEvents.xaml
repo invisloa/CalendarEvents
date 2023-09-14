@@ -9,7 +9,7 @@
              x:DataType="local:DailyEventsViewModel"
              x:Class="CalendarT1.Views.ViewDailyEvents"
              Title="Daily events list">
-    <Grid>
+    <Grid BackgroundColor="{DynamicResource MainBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

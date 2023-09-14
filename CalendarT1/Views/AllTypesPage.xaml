@@ -4,7 +4,7 @@
              xmlns:models="clr-namespace:CalendarT1.Models.EventTypesModels"
              x:Class="CalendarT1.Views.AllTypesPage"
              Title="AllTypesPage">
-    <VerticalStackLayout>
+    <VerticalStackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
         <CollectionView ItemsSource="{Binding AllEventTypesOC}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:IUserEventTypeModel">

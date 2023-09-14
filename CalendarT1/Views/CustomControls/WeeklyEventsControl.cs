@@ -101,10 +101,13 @@
 			RowDefinitions.Clear();
 			ColumnDefinitions.Clear();
 			Children.Clear();
+			int dayOfWeekNumber = (int)CurrentSelectedDate.DayOfWeek;
+
 			for (int day = 0; day < 7; day++)
 			{
 				//	var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
-				var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - dayOfWeekNumber).ToString("dd")}" };
+				var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold,
+									Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - dayOfWeekNumber).ToString("dd")}" };
 				Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
 				Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
 				Children.Add(dayOfWeekLabel);
@@ -124,7 +127,6 @@
 				else
 					ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 			}
-			int dayOfWeekNumber = (int)CurrentSelectedDate.DayOfWeek;
 
 			// Add cells for each event
 			for (int hour = 0; hour < 24; hour++)

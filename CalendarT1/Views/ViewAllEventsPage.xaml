@@ -4,7 +4,7 @@
              xmlns:models="clr-namespace:CalendarT1.Models.EventModels"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="ViewAllEventsPage">
-    <Grid>
+    <Grid  BackgroundColor="{DynamicResource MainBackgroundColor}">
         <Grid.RowDefinitions>
             <!-- for EventTypesCustomControl -->
             <RowDefinition Height="Auto"/>

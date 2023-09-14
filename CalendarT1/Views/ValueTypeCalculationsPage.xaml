@@ -5,7 +5,7 @@
              x:Class="CalendarT1.Views.ValueTypeCalculationsPage"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="ValueTypeCalculationsPage">
-    <VerticalStackLayout>
+    <VerticalStackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
         
         <!--Date Filtering CustomControl-->
         <customControls:DateFilteringCC/>

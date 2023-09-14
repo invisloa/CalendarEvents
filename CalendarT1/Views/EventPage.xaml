@@ -14,7 +14,7 @@
             <Setter Property="TextColor" Value="Green" />
         </Style>
     </ContentPage.Resources>
-    <ScrollView>
+    <ScrollView  BackgroundColor="{DynamicResource MainBackgroundColor}">
 
         <VerticalStackLayout >
         <Label 

@@ -8,7 +8,7 @@
              x:DataType="local:WeeklyEventsViewModel"
              x:Class="CalendarT1.Views.ViewWeeklyEvents"
              Title="Weekly events list">
-    <Grid  BackgroundColor="Beige">
+    <Grid  BackgroundColor="{DynamicResource MainBackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

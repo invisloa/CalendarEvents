@@ -12,7 +12,7 @@
                                                                FontAttributes="Bold" 
                                                                />
                     <Label Text="{Binding StartDateTime, StringFormat='{0: mm}'}" 
-                                                               FontSize="20" 
+                                                               FontSize="15" 
                                                                FontAttributes="Bold" 
                                                                Margin="75, 0, 0, 0" 
                                                                />

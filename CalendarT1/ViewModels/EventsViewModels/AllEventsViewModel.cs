@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-    public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
+	public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
 	{
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
@@ -155,7 +155,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		private void InitializeCommon(IEventRepository eventRepository) 
+		private void InitializeCommon(IEventRepository eventRepository)
 		{
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
@@ -180,10 +180,15 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public async Task DeleteAllEvents()
 		{
-			var eventsToNotDelete = AllEventsListOC.Where(x => EventsToShowList.Contains(x)).ToList();
-			foreach (var item in eventsToNotDelete)
+			try
 			{
-				await EventRepository.DeleteFromEventsListAsync(item);
+				_eventRepository.AllEventsList.RemoveAll(item => EventsToShowList.Contains(item));
+				AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+				await EventRepository.SaveEventsListAsync();
+			}
+			catch (Exception ex)
+			{
+				await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
 			}
 		}
 

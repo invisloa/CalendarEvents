@@ -4,7 +4,7 @@
              xmlns:CustomControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="AddNewTypePage"
              x:Name="AddNewTypePageName">
-    <ScrollView>
+    <ScrollView BackgroundColor="{DynamicResource MainBackgroundColor}">
         <StackLayout>
             <Button Text="ALL TYPES PAGE" Command="{Binding GoToAllTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
                     WidthRequest="150" HorizontalOptions="End" BorderColor="CadetBlue" BorderWidth="3" Margin="10"/>
@@ -41,7 +41,7 @@
 
             <!--Down of the screen buttons-->
             <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}" Margin="10"/>
-            <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" Margin="10"/>
+            <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" Margin="10" HorizontalOptions="Center"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>
