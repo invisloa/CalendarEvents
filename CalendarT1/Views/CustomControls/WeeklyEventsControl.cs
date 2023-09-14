@@ -13,6 +13,7 @@
 		private readonly int _minimumDayOfWeekHeightRequest = 25;
 		private readonly double _firstColumnForHoursWidth = 50;
 		private readonly int _displayEventsLimit = 1;  // Set a limit to how many items will be displayed
+		Color _buttonsBackgroundColor = (Color)App.Current.Resources["MainBackgroundColor"];
 
 
 
@@ -140,7 +141,7 @@
 				for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
 				{
 					// Create a frame for each cell
-					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5, MinimumWidthRequest = _minimumDayOfWeekWidthRequest, MinimumHeightRequest = _minimumDayOfWeekHeightRequest };
+					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5, BackgroundColor = _buttonsBackgroundColor, MinimumWidthRequest = _minimumDayOfWeekWidthRequest, MinimumHeightRequest = _minimumDayOfWeekHeightRequest };
 
 					var dayEvents = EventsToShowList
 						.Where(e => e.StartDateTime.Date == CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek).Date
@@ -148,6 +149,7 @@
 						.ToList(); // to Check
 					if (dayEvents != null && dayEvents.Count > 0)
 					{
+
 						var eventColor = dayEvents[0].EventVisibleColor;
 						frame.BackgroundColor = eventColor;
 						// Create a StackLayout for the events
