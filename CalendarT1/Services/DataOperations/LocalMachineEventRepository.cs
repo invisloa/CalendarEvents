@@ -66,7 +66,6 @@ public class LocalMachineEventRepository : IEventRepository
 	public async Task AddEventAsync(IGeneralEventModel eventToAdd)
 	{
 		AllEventsList.Add(eventToAdd);
-		AllEventsList = AllEventsList.OrderBy(e => e.StartDateTime).ToList();
 		await SaveEventsListAsync();
 		OnEventListChanged?.Invoke();
  	}
@@ -119,6 +118,10 @@ public class LocalMachineEventRepository : IEventRepository
 				Directory.CreateDirectory(directoryPath);
 			}
 			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+			if (AllEventsList.Count > 0)
+			{
+				AllEventsList = AllEventsList.OrderBy(e => e.StartDateTime).ToList();
+			}
 			var jsonString = JsonConvert.SerializeObject(AllEventsList, settings);
 			await File.WriteAllTextAsync(EventsFilePath, jsonString);
 		}
