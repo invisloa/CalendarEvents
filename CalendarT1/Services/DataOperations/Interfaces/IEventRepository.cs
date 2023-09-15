@@ -28,6 +28,10 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 		List<IGeneralEventModel> DeepCopyAllEventsList();
 		List<IUserEventTypeModel> DeepCopyUserEventTypesList();
 
+		Task SaveEventsAndTypesToFile();
+
+		Task LoadEventsAndTypesFromFile();
+
 	}
 }
 

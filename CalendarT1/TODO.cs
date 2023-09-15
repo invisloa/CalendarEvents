@@ -2,7 +2,8 @@
 
 
 #region Current
-
+// save events to some random file.
+// load events from some random file.
 // EventsToShowList in valuetypecalculations page
 // add other calculations to calculations page 
 // change the looks 

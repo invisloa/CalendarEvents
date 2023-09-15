@@ -2,6 +2,10 @@
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using Newtonsoft.Json;
+using Microsoft.Maui;
+using CommunityToolkit.Maui.Storage;
+using System.Text;
+using CommunityToolkit.Maui.Alerts;
 
 public class LocalMachineEventRepository : IEventRepository
 {
@@ -238,5 +242,106 @@ public class LocalMachineEventRepository : IEventRepository
 		var serialized = JsonConvert.SerializeObject(_allUserEventTypesList, settings);
 		return JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(serialized, settings);
 	}
+	#endregion
+
+	//FILE SAVE AND LOAD EVENTS AND TYPES
+	#region FILE SAVE AND LOAD
+	async Task SaveFile(CancellationToken cancellationToken)
+	{
+		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+		EventsAndTypesForJson eventsAndTypesToSave = new EventsAndTypesForJson()
+		{
+			Events = AllEventsList,
+			UserEventTypes = AllUserEventTypesList
+		};
+		var jsonString = JsonConvert.SerializeObject(eventsAndTypesToSave, settings);
+		using var stream = new MemoryStream(Encoding.Default.GetBytes(jsonString));
+
+		var fileSaverResult = await FileSaver.Default.SaveAsync("EventsList.cics", stream, cancellationToken);
+		if (fileSaverResult.IsSuccessful)
+		{
+			await Toast.Make($"The file was saved successfully to location: {fileSaverResult.FilePath}").Show(cancellationToken);
+		}
+		else
+		{
+			await Toast.Make($"The file was not saved successfully with error: {fileSaverResult.Exception.Message}").Show(cancellationToken);
+		}
+	}
+
+	async Task LoadDataFromFile(CancellationToken cancellationToken)
+	{
+		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+		var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+		{
+			{ DevicePlatform.UWP, new[] { ".cics" } },
+			{ DevicePlatform.Android, new[] { ".cics" } },
+			{ DevicePlatform.iOS, new[] { ".cics" } }
+		});
+		var pickOptions = new PickOptions
+		{
+			FileTypes = customFileType
+		};
+		try
+		{
+			// Prompt the user to select the file
+			var filePickerResult = await FilePicker.PickAsync(pickOptions);
+
+			if (filePickerResult != null)
+			{
+				using var stream = await filePickerResult.OpenReadAsync();
+				using var reader = new StreamReader(stream);
+				var jsonString = await reader.ReadToEndAsync();
+
+				// Deserialize the content of the file
+				var loadedData = JsonConvert.DeserializeObject<EventsAndTypesForJson>(jsonString, settings);
+
+
+				foreach (var eventItem in loadedData.Events)
+				{
+					if (!AllEventsList.Contains(eventItem))
+					{
+						AllEventsList.Add(eventItem);
+					}
+				}
+
+				foreach (var eventType in loadedData.UserEventTypes)
+				{
+					if (!AllUserEventTypesList.Contains(eventType))
+					{
+						AllUserEventTypesList.Add(eventType);
+					}
+				}
+
+				await Toast.Make($"Data loaded successfully from: {filePickerResult.FileName}").Show(cancellationToken);
+			}
+			else
+			{
+				await Toast.Make($"Failed to pick a file with error ???").Show(cancellationToken);
+			}
+		}
+		catch (Exception ex)
+		{
+			await Toast.Make($"An error occurred while loading the file: {ex.Message}").Show(cancellationToken);
+		}
+	}
+
+
+
+	public async Task SaveEventsAndTypesToFile()
+	{
+
+		await SaveFile(CancellationToken.None);
+	}
+	public async Task LoadEventsAndTypesFromFile()
+	{
+		LoadDataFromFile(CancellationToken.None);
+	}
+	private class EventsAndTypesForJson
+	{
+		public List<IGeneralEventModel> Events { get; set; }
+		public List<IUserEventTypeModel> UserEventTypes { get; set; }
+	}
+
+
 	#endregion
 }
