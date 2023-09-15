@@ -6,6 +6,7 @@ using Microsoft.Maui;
 using CommunityToolkit.Maui.Storage;
 using System.Text;
 using CommunityToolkit.Maui.Alerts;
+using CalendarT1;
 
 public class LocalMachineEventRepository : IEventRepository
 {
@@ -298,9 +299,37 @@ public class LocalMachineEventRepository : IEventRepository
 
 				foreach (var eventItem in loadedData.Events)
 				{
-					if (!AllEventsList.Contains(eventItem))
+					var isEventAlreadyAdded = AllEventsList.Any(e => e.Id == eventItem.Id);
+					if (!isEventAlreadyAdded)
 					{
 						AllEventsList.Add(eventItem);
+					}
+					else
+					{
+						// ask the user if he wants to overwrite the event
+						var action = await App.Current.MainPage.DisplayActionSheet($"Event {eventItem.Title} already exists", "Cancel", null, "Overwrite", "Duplicate", "Skip");
+						switch (action)
+						{
+							case "Overwrite":
+								var eventToUpdate = AllEventsList.FirstOrDefault(e => e.Id == eventItem.Id);
+								if (eventToUpdate != null)
+								{
+									AllEventsList.Remove(eventToUpdate);
+									AllEventsList.Add(eventItem);
+								}
+								break;
+							case "Duplicate":
+								eventItem.Id = Guid.NewGuid();
+								eventItem.Title += " (.)";
+								AllEventsList.Add(eventItem);
+								break;
+							case "Skip":
+								// Do nothing, just skip.
+								break;
+							default:
+								// Cancel was selected or back button was pressed.
+								break;
+						}
 					}
 				}
 
@@ -313,6 +342,8 @@ public class LocalMachineEventRepository : IEventRepository
 				}
 
 				await Toast.Make($"Data loaded successfully from: {filePickerResult.FileName}").Show(cancellationToken);
+				await SaveEventsListAsync();
+				await SaveUserEventTypesListAsync();
 			}
 			else
 			{
