@@ -56,6 +56,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			set
 			{
 				_measurementSelectorHelperClass.SelectedMeasurementUnit = value;
+				OnPropertyChanged();
 			}
 		}
 		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC => _measurementSelectorHelperClass.MeasurementUnitsOC;
@@ -365,21 +366,26 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		protected virtual void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
 		{
-			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
-			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-			if(SelectedMainEventType == MainEventTypes.Value)
+			if (SelectedMainEventType.ToString() != selectedMainEventType.ToString())
 			{
-				IsValueTypeSelected = true;
+				((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
+				SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
+				if (SelectedMainEventType == MainEventTypes.Value)
+				{
+					IsValueTypeSelected = true;
+				}
+				else
+				{
+					IsValueTypeSelected = false;
+				}
+
+				FilterAllEventTypesOCByMainEventType(SelectedMainEventType);
 			}
-			else
-			{
-				IsValueTypeSelected = false;
-			}
-			FilterAllEventTypesOCByMainEventType(SelectedMainEventType);
 			if(AllEventTypesOC.Count > 0)
 			{
 				OnUserEventTypeSelected(AllEventTypesOC[0]);
 			}
+
 		}
 		public void DisableVisualsForAllMainEventTypes()
 		{

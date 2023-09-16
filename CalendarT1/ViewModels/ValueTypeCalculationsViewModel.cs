@@ -280,8 +280,6 @@ namespace CalendarT1.ViewModels
 		{
 			SetIsSelectedAccordingToSelectedTypes();
 			Application.Current.MainPage.Navigation.PushAsync(new ViewWeeklyEvents(weeksDate));
-
-			string x = "just to have debuging breakpoint here"; 
 		}
 		private void SetIsSelectedAccordingToSelectedTypes()
 		{
