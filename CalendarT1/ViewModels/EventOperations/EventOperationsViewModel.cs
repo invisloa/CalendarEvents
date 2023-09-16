@@ -22,7 +22,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		#region Properties
 		public string PageTitle => IsEditMode ? "Edit Event" : "Add Event";
-		public string HeaderText => IsEditMode ? $"Edit event of Title: {Title}" : "Add New Event";
+		public string HeaderText => IsEditMode ? $"EDIT EVENT OF TITLE: {Title}" : "ADD NEW EVENT";
 		protected override bool IsEditMode
 		{
 			get

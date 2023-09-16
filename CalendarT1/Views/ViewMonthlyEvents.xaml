@@ -16,23 +16,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!-- Date layout -->
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <customControls:TodayAndSelectedDateCC Grid.Row="0"/>
 
-            <StackLayout Grid.Column="0">
-                <Label Text="Current date:"/>
-                <Label Text="{Binding CurrentDate, StringFormat='{0:dd MM yyyy}'}" FontSize="Large" FontAttributes="Bold"/>
-            </StackLayout>
-
-
-            <StackLayout Grid.Column="1" HorizontalOptions="End" >
-                <Label Text="Selected date:"/>
-                <DatePicker Date="{Binding CurrentSelectedDate, Mode=TwoWay}" Format="dd MM yyyy" FontAttributes="Bold" FontSize="30" />
-            </StackLayout>
-        </Grid>
 
         <!-- EventPriorities collection -->
         <customControls:EventTypesCustomControl Grid.Row="1"/>

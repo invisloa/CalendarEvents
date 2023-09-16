@@ -3,6 +3,7 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
 using CalendarT1.Views.CustomControls.CCHelperClass;
+using CalendarT1.Views.CustomControls.CCInterfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Collections.ObjectModel;
@@ -11,12 +12,11 @@ using System.Linq;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-	public abstract class AbstractEventViewModel : PlainBaseAbstractEventViewModel
+	public abstract class AbstractEventViewModel : PlainBaseAbstractEventViewModel, ITodayAndSelectedDateCC
 	{
 		#region Fields
 		private RelayCommand _goToAddEventPageCommand;
 		private DateTime _currentSelectedDate = DateTime.Now;
-		public RelayCommand<DateTime> GoToSelectedDateCommand { get; set; }
 
 		#endregion
 
@@ -45,12 +45,15 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public AbstractEventViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
 			GoToSelectedDateCommand = new RelayCommand<DateTime>(GoToSelectedDatePage);
+			SelectTodayDateCommand = new RelayCommand(() => CurrentSelectedDate = CurrentDate);
 		}
 
 		#endregion
 
 		#region Commands
 		public RelayCommand GoToAddEventPageCommand => _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
+		public RelayCommand<DateTime> GoToSelectedDateCommand { get; set; }
+		public RelayCommand SelectTodayDateCommand { get; set; }
 		#endregion
 
 		#region Private Methods

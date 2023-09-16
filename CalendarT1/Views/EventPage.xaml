@@ -11,7 +11,7 @@
             <Setter Property="TextColor" Value="Red" />
         </Style>
         <Style x:Key="ValidEntryStyle" TargetType="Entry">
-            <Setter Property="TextColor" Value="Green" />
+            <Setter Property="TextColor" Value="DarkGreen" />
         </Style>
     </ContentPage.Resources>
     <ScrollView  BackgroundColor="{DynamicResource MainBackgroundColor}">
@@ -21,20 +21,44 @@
             Text="{Binding HeaderText}"
             VerticalOptions="StartAndExpand" 
             HorizontalOptions="CenterAndExpand" />
-        <Entry Placeholder="Title"
+
+            <Entry Placeholder="...EVENT TITLE..." PlaceholderColor="Black"
                x:Name="TitleEntry" 
-               Text="{Binding Title}"/>
-        <DatePicker x:Name="StartDatePicker"
-                    Date="{Binding StartDateTime}"
-                    />
-        <TimePicker x:Name="StartTimePicker" Format="HH:mm"
-                    Time="{Binding StartExactTime}"/>
-        <DatePicker x:Name="EndDatePicker"
-                    Date="{Binding EndDateTime}"
-                    />
-        <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
-                    Time="{Binding EndExactTime}"/>
-            
+               HorizontalTextAlignment="Center"
+               HorizontalOptions="Center"
+               MinimumWidthRequest="300"
+               Text="{Binding Title}"
+               BackgroundColor="Azure"
+               TextColor="Black"
+               />
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainBackgroundColor}" Margin="10">
+                    <StackLayout>
+                        <Label Text="STARTS AT" Margin="10" HorizontalOptions="Center"/>
+
+                        <DatePicker x:Name="StartDatePicker" Date="{Binding StartDateTime}"
+                    HorizontalOptions="Center"
+                            />
+                        <TimePicker x:Name="StartTimePicker" Format="HH:mm"
+                    Time="{Binding StartExactTime}"
+                    HorizontalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainBackgroundColor}" Margin="10">
+                    <StackLayout>
+                        <Label Text="ENDS AT" Margin="10" HorizontalOptions="Center"/>
+
+                        <DatePicker x:Name="EndDatePicker"
+                        Date="{Binding EndDateTime}"
+                        HorizontalOptions="Center"/>
+
+                        <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
+                        Time="{Binding EndExactTime}"
+                        HorizontalOptions="Center"/>
+                    </StackLayout>
+                </Frame>
+                </StackLayout>
+
         <!--Main Event Types Custom Control-->
             <customControls:MainEventTypesCustomControl/>
 
@@ -45,12 +69,13 @@
             <customControls:EventTypesCustomControl/>
 
             <Editor Placeholder="...DESCRIPTION..."
-                x:Name="DescriptionEditor"  HorizontalTextAlignment="Center"
+                x:Name="DescriptionEditor"  HorizontalTextAlignment="Center" HorizontalOptions="Center" MinimumWidthRequest="300"
                 Text="{Binding Description, Mode=TwoWay}"
                 Margin="0, 10, 0, 0" />
         <Button Text="{Binding SubmitButtonText}"
-                Command="{Binding SubmitEventCommand}"      
-               Padding="15"/>
+                Command="{Binding SubmitEventCommand}"   
+                HorizontalOptions="Center"
+               Margin="15"/>
 
             <Button Text="ShareEvent"
                 Command="{Binding ShareEventCommand}"

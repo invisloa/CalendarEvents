@@ -9,7 +9,7 @@
             <Setter Property="TextColor" Value="Red" />
         </Style>
         <Style x:Key="ValidEntryStyle" TargetType="Entry">
-            <Setter Property="TextColor" Value="Green" />
+            <Setter Property="TextColor" Value="DarkGreen" />
         </Style>
     </ContentView.Resources>
     <!--Selection for measurment types-->
@@ -30,8 +30,8 @@
                     />
         </StackLayout >
         <StackLayout Orientation="Horizontal">
-            <Label Text= "{Binding QuantityValueText}" VerticalOptions="Center" Margin="10"/>
-            <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}"  HorizontalTextAlignment="End" FontAttributes="Bold" MinimumWidthRequest="150" HorizontalOptions="FillAndExpand">
+            <Label Text= "{Binding QuantityValueText}" VerticalOptions="Center" Margin="15"/>
+            <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}" FontSize="Large" HorizontalTextAlignment="End" FontAttributes="Bold" MinimumWidthRequest="150" HorizontalOptions="FillAndExpand">
                 <Entry.Behaviors>
                     <toolkit:NumericValidationBehavior 
                 InvalidStyle="{StaticResource InvalidEntryStyle}"
