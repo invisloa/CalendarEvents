@@ -4,6 +4,8 @@
              xmlns:models="clr-namespace:CalendarT1.Models.EventModels"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="ViewAllEventsPage">
+    <ScrollView>
+        
     <Grid  BackgroundColor="{DynamicResource MainBackgroundColor}">
         <Grid.RowDefinitions>
             <!-- for EventTypesCustomControl -->
@@ -32,14 +34,16 @@
 
         <!-- Events list layout -->
         <StackLayout Grid.Row="2" Orientation="Vertical" HorizontalOptions="Center">
-            <customControls:AddNewEventAndTypeCC/>
+            <!--<customControls:AddNewEventAndTypeCC/>-->
 
-            <StackLayout Orientation="Horizontal">
-                <Button/>
-                <Button/>
-                <Button  Text="DELETE FIRST" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" BackgroundColor="#00ad09" BorderWidth="1" BorderColor="Black"/>
-                <Button Text="DELETE ALL BELOW" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0" BackgroundColor="Red" BorderWidth="1" BorderColor="Black"/>
+            <StackLayout Orientation="Horizontal" Spacing="15">
+                <Button Text="SAVE BELOW" Command="{Binding SaveBelowEventsToFileCommand}"/>
+                <Button Text="SAVE ALL" Command="{Binding SaveAllEventsToFileCommand}" />
+                <Button Text="LOAD EVENTS" Command="{Binding LoadEventsFromFileCommand}"/>
 
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="20">
+                <Button Text="DELETE BELOW" Command="{Binding DeleteBelowEventsCommand}" BackgroundColor="Red" BorderWidth="1" BorderColor="Black"/>
             </StackLayout>
 
         </StackLayout>
@@ -80,4 +84,6 @@
         </CollectionView>
 
     </Grid>
+    </ScrollView>
+
 </ContentPage>

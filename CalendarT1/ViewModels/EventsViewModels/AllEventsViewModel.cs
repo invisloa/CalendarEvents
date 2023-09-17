@@ -114,10 +114,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#endregion
 
 		#region Properties
-
-
-		public AsyncRelayCommand DeleteAllEventsCommand { get; set; } // for testing purposes
-		public AsyncRelayCommand DeleteOneEventCommand { get; set; }  // for testing purposes
+		public AsyncRelayCommand DeleteBelowEventsCommand { get; set; }
+		public AsyncRelayCommand SaveBelowEventsToFileCommand { get; set; }
+		public AsyncRelayCommand SaveAllEventsToFileCommand { get; set; }
+		public AsyncRelayCommand LoadEventsFromFileCommand { get; set; }
 		public string AboveEventsListText
 		{
 			get
@@ -159,8 +159,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
-			DeleteOneEventCommand = new AsyncRelayCommand(DeleteOneEvent);
-			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
+			DeleteBelowEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
+			SaveBelowEventsToFileCommand = new AsyncRelayCommand(OnSaveSelectedEventsAndTypesCommand);
+			SaveAllEventsToFileCommand = new AsyncRelayCommand(OnSaveEventsAndTypesCommand);
+			LoadEventsFromFileCommand = new AsyncRelayCommand(OnLoadEventsAndTypesCommand);
 			this.SetFilterDatesValues(); // using extension method
 		}
 
@@ -198,6 +200,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private async Task OnSaveEventsAndTypesCommand()
 		{
 			await _eventRepository.SaveEventsAndTypesToFile();
+		}
+		private async Task OnSaveSelectedEventsAndTypesCommand()
+		{
+			await _eventRepository.SaveEventsAndTypesToFile(new List<IGeneralEventModel>(EventsToShowList));
 		}
 		public AsyncRelayCommand TestButtonCommand2 { get; set; }
 
