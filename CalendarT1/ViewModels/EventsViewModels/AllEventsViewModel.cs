@@ -159,7 +159,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
-			DeleteBelowEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
+			DeleteBelowEventsCommand = new AsyncRelayCommand(DeleteBelowEvents);
 			SaveBelowEventsToFileCommand = new AsyncRelayCommand(OnSaveSelectedEventsAndTypesCommand);
 			SaveAllEventsToFileCommand = new AsyncRelayCommand(OnSaveEventsAndTypesCommand);
 			LoadEventsFromFileCommand = new AsyncRelayCommand(OnLoadEventsAndTypesCommand);
@@ -180,13 +180,26 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			await EventRepository.DeleteFromEventsListAsync(firstEvent);
 		}
 
-		public async Task DeleteAllEvents()
+		public async Task DeleteBelowEvents()
 		{
 			try
 			{
-				_eventRepository.AllEventsList.RemoveAll(item => EventsToShowList.Contains(item));
-				AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-				await EventRepository.SaveEventsListAsync();
+				var action2 = await App.Current.MainPage.DisplayAlert("DELETE BELOW EVENTS", "ARE YOU SURE YOU WANT TO DELETE ALL BELOW EVENTS??",  "DELETE", "CANCEL" );
+				var action = await App.Current.MainPage.DisplayActionSheet("ARE YOU SURE YOU WANT TO DELETE ALL BELOW EVENTS??", "Cancel", null, "DELETE BELOW EVENTS");
+				switch (action)
+				{
+					case "DELETE BELOW EVENTS":
+						_eventRepository.AllEventsList.RemoveAll(item => EventsToShowList.Contains(item));
+						AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+						await EventRepository.SaveEventsListAsync();
+						break;
+
+					default:
+						// Cancel was selected or back button was pressed.
+						break;
+				}
+				return;
+
 			}
 			catch (Exception ex)
 			{
