@@ -78,6 +78,12 @@
 	  <MauiXaml Update="Views\AllTypesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CustomControls\AddNewEventAndTypeCC.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\CustomControls\AddNewEventCC.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CustomControls\AddNewTypeCC.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -12,8 +12,6 @@
             <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" Margin="30" 
                        HorizontalTextAlignment="Center" BackgroundColor="Azure" TextColor="Black" VerticalOptions="Fill"/>
 
-            <!--<Button Text="TempClearALL" Command="{Binding TempRemoveAllUserTypesCommand}"/>-->
-            
             <!--Main Event Types Custom Control -->
             <StackLayout>
                 <CustomControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
@@ -21,7 +19,7 @@
             </StackLayout>
 
             <!--Possible Colors of events to choose-->
-            <Label Text="TYPE COLOR:" HorizontalOptions="CenterAndExpand" Margin="0, 0, 0, 20"/>
+            <Label Text="TYPE COLOR:" HorizontalOptions="CenterAndExpand" Margin="30"/>
             <CollectionView ItemsSource="{Binding ButtonsColors}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"

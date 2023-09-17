@@ -30,8 +30,8 @@
                     />
         </StackLayout >
         <StackLayout Orientation="Horizontal">
-            <Label Text= "{Binding QuantityValueText}" VerticalOptions="Center" Margin="15"/>
-            <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}" FontSize="Large" HorizontalTextAlignment="End" FontAttributes="Bold" MinimumWidthRequest="150" HorizontalOptions="FillAndExpand">
+            <Label Text= "{Binding QuantityValueText}" VerticalOptions="Center" Margin="5"/>
+            <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}" FontSize="Large" HorizontalTextAlignment="End" FontAttributes="Bold" MinimumWidthRequest="150" HorizontalOptions="FillAndExpand" Margin="5">
                 <Entry.Behaviors>
                     <toolkit:NumericValidationBehavior 
                 InvalidStyle="{StaticResource InvalidEntryStyle}"

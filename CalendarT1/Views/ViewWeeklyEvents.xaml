@@ -23,12 +23,8 @@
 
 
         <!--Events list layout-->
-        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="CenterAndExpand" >
-            <Label Text="Events List" FontSize="30" HorizontalTextAlignment="Center" />
-            <BoxView HeightRequest="10" Color="LightCyan" Margin="0,0,10,0"/>
-            <Button Text="+" FontAttributes="Bold"  Command="{Binding GoToAddEventPageCommand}" Margin="0,0,10,0"/>
-            <Button Text="Generate Grid" Command="{Binding GenerateGridCommand, Source={x:Reference weeklyEventsControl}}" />
-        </StackLayout>
+        <customControls:AddNewEventAndTypeCC Grid.Row="2"/>
+
         <ScrollView Grid.Row="3" Orientation="Vertical">
 
             <ScrollView Grid.Row="3" Orientation="Horizontal">

@@ -12,10 +12,10 @@ using System.Collections.ObjectModel;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-    /// <summary>
-    /// Contains only must know data for events
-    /// </summary>
-    public abstract class EventOperationsBaseViewModel : BaseViewModel , IMainEventTypesCC, IMeasurementSelectorCC
+	/// <summary>
+	/// Contains only must know data for events
+	/// </summary>
+	public abstract class EventOperationsBaseViewModel : BaseViewModel, IMainEventTypesCC, IMeasurementSelectorCC
 	{
 		//MeasurementCC implementation
 		#region MeasurementCC implementation
@@ -80,10 +80,9 @@ namespace CalendarT1.ViewModels.EventOperations
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 		}
 
-
 		//Fields
 		#region Fields
-				// Language
+		// Language
 		private int _fontSize = 20;
 		protected string _submitButtonText;
 
@@ -110,6 +109,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		protected IUserEventTypeModel _selectedEventType;
 		private RelayCommand _goToAddNewTypePageCommand;
+		private RelayCommand _goToAddEventPageCommand;
 
 
 		#endregion
@@ -120,6 +120,13 @@ namespace CalendarT1.ViewModels.EventOperations
 		public abstract string SubmitButtonText { get; set; }
 
 		public string EventTypePickerText { get => "Select event Type"; }
+		public RelayCommand GoToAddEventPageCommand
+		{
+			get
+			{
+				return _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
+			}
+		}
 
 
 
@@ -313,6 +320,12 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			return Decimal.TryParse(value, out _);
 		}
+
+		private void GoToAddEventPage()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, DateTime.Today));
+		}
+
 
 		protected void ClearFields()
 		{

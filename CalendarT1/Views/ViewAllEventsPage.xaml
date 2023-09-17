@@ -31,12 +31,15 @@
         <customControls:DateFilteringCC Grid.Row="1"/>
 
         <!-- Events list layout -->
-        <StackLayout Grid.Row="2" Orientation="Vertical" HorizontalOptions="CenterAndExpand">
-            <Label Text="{Binding AboveEventsListText}" FontSize="30" HorizontalTextAlignment="Center" />
-            <StackLayout Orientation="Horizontal">
+        <StackLayout Grid.Row="2" Orientation="Vertical" HorizontalOptions="Center">
+            <customControls:AddNewEventAndTypeCC/>
 
+            <StackLayout Orientation="Horizontal">
+                <Button/>
+                <Button/>
                 <Button  Text="DELETE FIRST" Command="{Binding DeleteOneEventCommand}" Margin="0,0,10,0" BackgroundColor="#00ad09" BorderWidth="1" BorderColor="Black"/>
                 <Button Text="DELETE ALL BELOW" Command="{Binding DeleteAllEventsCommand}" Margin="0,0,10,0" BackgroundColor="Red" BorderWidth="1" BorderColor="Black"/>
+
             </StackLayout>
 
         </StackLayout>

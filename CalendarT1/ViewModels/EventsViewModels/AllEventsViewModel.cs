@@ -194,6 +194,19 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#endregion
 
+		#region Private Methods
+		private async Task OnSaveEventsAndTypesCommand()
+		{
+			await _eventRepository.SaveEventsAndTypesToFile();
+		}
+		public AsyncRelayCommand TestButtonCommand2 { get; set; }
+
+		private async Task OnLoadEventsAndTypesCommand()
+		{
+			await _eventRepository.LoadEventsAndTypesFromFile();
+		}
+		#endregion
+
 		#region Override Methods
 
 		public override void BindDataToScheduleList()

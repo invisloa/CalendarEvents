@@ -22,8 +22,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		public DailyEventsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
-			TestButtonCommand = new AsyncRelayCommand(TestMethod);
-			TestButtonCommand2 = new AsyncRelayCommand(TestMethod2);
+
 		}
 
 		public DailyEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
@@ -36,18 +35,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 
 
-		public AsyncRelayCommand TestButtonCommand { get; set; }
 
-		private async Task TestMethod()
-		{
-			await _eventRepository.SaveEventsAndTypesToFile();
-		}
-		public AsyncRelayCommand TestButtonCommand2 { get; set; }
 
-		private async Task TestMethod2()
-		{
-			await _eventRepository.LoadEventsAndTypesFromFile();
-		}
 
 	}
 }

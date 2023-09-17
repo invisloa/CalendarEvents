@@ -16,11 +16,10 @@
     </ContentPage.Resources>
     <ScrollView  BackgroundColor="{DynamicResource MainBackgroundColor}">
 
-        <VerticalStackLayout >
-        <Label 
-            Text="{Binding HeaderText}"
-            VerticalOptions="StartAndExpand" 
-            HorizontalOptions="CenterAndExpand" />
+        <StackLayout >
+            <Label 
+                Text="{Binding HeaderText}"
+                HorizontalOptions="Center" />
 
             <Entry Placeholder="...EVENT TITLE..." PlaceholderColor="Black"
                x:Name="TitleEntry" 
@@ -63,7 +62,7 @@
             <customControls:MainEventTypesCustomControl/>
 
         <!--Measurement selector Custom Control-->
-            <customControls:MeasurementSelectorCC/>
+            <customControls:MeasurementSelectorCC Margin="10"/>
 
         <!--User Event Types Custom Control-->
             <customControls:EventTypesCustomControl/>
@@ -85,7 +84,7 @@
                 IsVisible="{Binding EditModeVisibility}"/>
         <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
                   IsVisible="{Binding EditModeVisibility}"/>
-    </VerticalStackLayout>
+    </StackLayout>
 
     </ScrollView>
 

@@ -143,6 +143,8 @@
 
 
 #region High Priority
+//if (!typesToSaveFromSpecifiedEvents.Contains(eventItem.EventType))		// consider passing userEventTypesList as parameter
+
 // ADD SEARCH OPTION TO ALL EVENTS PAGE
 // Check for data Operations thread safety!!!
 // divide dailyeventsPage into two pages one for events and one for all eventslist for types

@@ -103,7 +103,7 @@ public class LocalMachineEventRepository : IEventRepository
 		if (File.Exists(EventsFilePath))
 		{
 			var jsonString = await File.ReadAllTextAsync(EventsFilePath);
-			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+			var settings = JsonSerializerSettings_Auto;
 			AllEventsList = JsonConvert.DeserializeObject<List<IGeneralEventModel>>(jsonString, settings);
 		}
 		else
@@ -122,7 +122,7 @@ public class LocalMachineEventRepository : IEventRepository
 			{
 				Directory.CreateDirectory(directoryPath);
 			}
-			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+			var settings = JsonSerializerSettings_Auto;
 			if (AllEventsList.Count > 0)
 			{
 				AllEventsList = AllEventsList.OrderBy(e => e.StartDateTime).ToList();
@@ -185,7 +185,7 @@ public class LocalMachineEventRepository : IEventRepository
 		if (File.Exists(UserTypesFilePath))
 		{
 			var jsonString = await File.ReadAllTextAsync(UserTypesFilePath);
-			var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+			var settings = JsonSerializerSettings_Auto;
 			AllUserEventTypesList = JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(jsonString, settings);
 		}
 		else
@@ -202,7 +202,7 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			Directory.CreateDirectory(directoryPath);
 		}
-		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
+		var settings = JsonSerializerSettings_Auto;
 		var jsonString = JsonConvert.SerializeObject(AllUserEventTypesList, settings);
 		await File.WriteAllTextAsync(UserTypesFilePath, jsonString);
 		OnUserTypeListChanged?.Invoke();
@@ -233,13 +233,13 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public List<IGeneralEventModel> DeepCopyAllEventsList()
 	{
-		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+		var settings = JsonSerializerSettings_Auto;
 		var serialized = JsonConvert.SerializeObject(_allEventsList, settings);
 		return JsonConvert.DeserializeObject<List<IGeneralEventModel>>(serialized, settings);
 	}
 	public List<IUserEventTypeModel> DeepCopyUserEventTypesList()
 	{
-		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+		var settings = JsonSerializerSettings_Auto;
 		var serialized = JsonConvert.SerializeObject(_allUserEventTypesList, settings);
 		return JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(serialized, settings);
 	}
@@ -247,14 +247,35 @@ public class LocalMachineEventRepository : IEventRepository
 
 	//FILE SAVE AND LOAD EVENTS AND TYPES
 	#region FILE SAVE AND LOAD
-	async Task SaveFile(CancellationToken cancellationToken)
+	async Task SaveEventsAndTypesToFile(CancellationToken cancellationToken, List<IGeneralEventModel> eventsToSaveList = null)
 	{
-		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto, Formatting = Formatting.Indented };
-		EventsAndTypesForJson eventsAndTypesToSave = new EventsAndTypesForJson()
+		var settings = JsonSerializerSettings_All;
+		EventsAndTypesForJson eventsAndTypesToSave;
+		if (eventsToSaveList == null)
 		{
-			Events = AllEventsList,
-			UserEventTypes = AllUserEventTypesList
-		};
+			eventsAndTypesToSave = new EventsAndTypesForJson()
+			{
+
+				Events = AllEventsList,
+				UserEventTypes = AllUserEventTypesList
+			};
+		}
+		else
+		{
+			var typesToSaveFromSpecifiedEvents = new List<IUserEventTypeModel>();	
+			foreach (var eventItem in eventsToSaveList)
+			{
+				if (!typesToSaveFromSpecifiedEvents.Contains(eventItem.EventType))		// consider passing userEventTypesList as parameter
+				{
+					typesToSaveFromSpecifiedEvents.Add(eventItem.EventType);
+				}
+			}
+			eventsAndTypesToSave = new EventsAndTypesForJson()
+			{
+				Events = eventsToSaveList,
+				UserEventTypes = typesToSaveFromSpecifiedEvents
+			};
+		}
 		var jsonString = JsonConvert.SerializeObject(eventsAndTypesToSave, settings);
 		using var stream = new MemoryStream(Encoding.Default.GetBytes(jsonString));
 
@@ -269,9 +290,9 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 	}
 
-	async Task LoadDataFromFile(CancellationToken cancellationToken)
+	async Task LoadEventsAndTypesFromFile(CancellationToken cancellationToken)
 	{
-		var settings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
+		var settings = JsonSerializerSettings_All;
 		var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
 		{
 			{ DevicePlatform.UWP, new[] { ".cics" } },
@@ -356,16 +377,23 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 	}
 
+	private static readonly JsonSerializerSettings JsonSerializerSettings_Auto = new JsonSerializerSettings
+	{
+		TypeNameHandling = TypeNameHandling.Auto
+	};
+	private static readonly JsonSerializerSettings JsonSerializerSettings_All = new JsonSerializerSettings
+	{
+		TypeNameHandling = TypeNameHandling.All
+	};
 
-
-	public async Task SaveEventsAndTypesToFile()
+	public async Task SaveEventsAndTypesToFile(List<IGeneralEventModel> eventsToSaveList = null)
 	{
 
-		await SaveFile(CancellationToken.None);
+		await SaveEventsAndTypesToFile(CancellationToken.None, eventsToSaveList);
 	}
 	public async Task LoadEventsAndTypesFromFile()
 	{
-		LoadDataFromFile(CancellationToken.None);
+		LoadEventsAndTypesFromFile(CancellationToken.None);
 	}
 	private class EventsAndTypesForJson
 	{
