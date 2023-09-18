@@ -6,9 +6,11 @@
              Title="ViewAllEventsPage">
     <ScrollView>
         
-    <StackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
-        
-        <!--Main Event Types Custom Control-->
+        <StackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
+            <Button Text="TestONE" Command="{Binding TestOneButtonClick}"/>
+            <Button Text="TestTwo" Command="{Binding TestTwoButtonClick}"/>
+
+            <!--Main Event Types Custom Control-->
         <customControls:MainEventTypesCustomControl/>
         <!--All Events Types collection--> 
         <customControls:EventTypesCustomControl/>

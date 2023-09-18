@@ -2,6 +2,8 @@
 
 
 #region Current
+//All Events Page EventsToShowList and userEventTypesList
+
 // remove the below code and decouple IHelperclass from ICC and make it a separate interfaces
 // 		public event Action<MainEventTypes> MainEventTypeChanged;
 

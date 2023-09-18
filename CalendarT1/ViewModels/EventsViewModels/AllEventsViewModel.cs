@@ -36,8 +36,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
 		{
 			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
-			OnPropertyChanged(nameof(AllEventTypesOC));
+			AllEventTypesOC.Clear();
+			foreach (var tempEvent in tempFilteredEventTypes)
+			{
+				AllEventTypesOC.Add(tempEvent);
+			}
+			//AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			//OnPropertyChanged(nameof(AllEventTypesOC));
 		}
 		private List<IUserEventTypeModel> FilterUserTypesForVisuals(MainEventTypes value)
 		{
@@ -136,7 +141,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Constructors
 
 		// All Events MODE
-		public AllEventsViewModel(IEventRepository eventRepository) : base(eventRepository)
+		public AllEventsViewModel(IEventRepository eventRepository) :base(eventRepository)
 		{
 			InitializeCommon(eventRepository);
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
@@ -144,7 +149,65 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 			_mainEventTypesCCHelper.MainEventTypeChanged += OnMainEventTypeChanged;
+
+			_eventRepository = eventRepository;
+			AllEventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "Some Type Event", Color.FromHex("#FFC0C0C0")));
+
+			AllEventsListOC.Add(new EventModel("someEvent", "", DateTime.MinValue, DateTime.MinValue, AllEventTypesOC[0]));
+			TestOneButtonClick = new RelayCommand(OnTestOneButtonClick);
+			TestTwoButtonClick = new RelayCommand(OnTestTwoButtonClick);
+			GoToSelectedDateCommand = new RelayCommand<DateTime>(GoToSelectedDatePage);
+			SelectTodayDateCommand = new RelayCommand(() => CurrentSelectedDate = CurrentDate);
+
 		}
+
+
+		public RelayCommand TestOneButtonClick { get; set; }
+		public RelayCommand TestTwoButtonClick { get; set; }
+
+		private void OnTestOneButtonClick()
+		{
+			AllEventTypesOC.Clear();
+			OnPropertyChanged(nameof(AllEventTypesOC));
+		}
+		private void OnTestTwoButtonClick()
+		{
+			AllEventsListOC.Clear();
+			OnPropertyChanged(nameof(AllEventsListOC));
+
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		// Single Event Type MODE
 		public AllEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)

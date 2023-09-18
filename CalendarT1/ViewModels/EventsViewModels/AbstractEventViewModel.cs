@@ -63,7 +63,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository, _currentSelectedDate));
 		}
 
-		private void GoToSelectedDatePage(DateTime selectedDate)
+		protected void GoToSelectedDatePage(DateTime selectedDate)
 		{
 			var _dailyEventsPage = new ViewDailyEvents();
 			var _dailyEventsPageBindingContext = _dailyEventsPage.BindingContext as DailyEventsViewModel;
