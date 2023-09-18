@@ -20,14 +20,14 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
-		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
 		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
-
+		private MainEventTypes _selectedMainEventType;
 		public MainEventTypes SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
 			set
 			{
+
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
 				FilterAllEventTypesOCByMainEventType(value);
 				OnPropertyChanged();
@@ -118,6 +118,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public AsyncRelayCommand SaveBelowEventsToFileCommand { get; set; }
 		public AsyncRelayCommand SaveAllEventsToFileCommand { get; set; }
 		public AsyncRelayCommand LoadEventsFromFileCommand { get; set; }
+		public event Action<MainEventTypes> MainEventTypeChanged;
+
 		public string AboveEventsListText
 		{
 			get
@@ -141,6 +143,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
+			_mainEventTypesCCHelper.MainEventTypeChanged += OnMainEventTypeChanged;
 		}
 
 		// Single Event Type MODE
@@ -224,6 +227,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			await _eventRepository.LoadEventsAndTypesFromFile();
 		}
+		private void OnMainEventTypeChanged(MainEventTypes mainEventType)
+		{
+			SelectedMainEventType = mainEventType;
+		}	
 		#endregion
 
 		#region Override Methods

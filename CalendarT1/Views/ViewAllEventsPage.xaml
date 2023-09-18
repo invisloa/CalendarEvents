@@ -6,34 +6,17 @@
              Title="ViewAllEventsPage">
     <ScrollView>
         
-    <Grid  BackgroundColor="{DynamicResource MainBackgroundColor}">
-        <Grid.RowDefinitions>
-            <!-- for EventTypesCustomControl -->
-            <RowDefinition Height="Auto"/>
-            <!-- for Date Filtering -->
-            <RowDefinition Height="Auto"/>
-            <!-- for the horizontal StackLayout -->
-            <RowDefinition Height="Auto"/>
-            <!-- for CollectionView -->
-            <RowDefinition Height="*"/>
-
-        </Grid.RowDefinitions>
-            <!--TODO ADD SEARCH OPTIONS-->
-
-        <StackLayout>
-            <!--Main Event Types Custom Control-->
-            <customControls:MainEventTypesCustomControl/>
-            <!-- All Events Types collection -->
-            <customControls:EventTypesCustomControl/>
-
-        </StackLayout>
-
-
+    <StackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
+        
+        <!--Main Event Types Custom Control-->
+        <customControls:MainEventTypesCustomControl/>
+        <!--All Events Types collection--> 
+        <customControls:EventTypesCustomControl/>
         <!--Date Filters-->
-        <customControls:DateFilteringCC Grid.Row="1"/>
+        <customControls:DateFilteringCC />
 
         <!-- Events list layout -->
-        <StackLayout Grid.Row="2" Orientation="Vertical" HorizontalOptions="Center">
+        <StackLayout  Orientation="Vertical" HorizontalOptions="Center">
             <!--<customControls:AddNewEventAndTypeCC/>-->
 
             <StackLayout Orientation="Horizontal" Spacing="15">
@@ -49,7 +32,7 @@
         </StackLayout>
 
         <!-- EventsToShowList collection -->
-        <CollectionView ItemsSource="{Binding EventsToShowList}" Grid.Row="3">
+        <CollectionView ItemsSource="{Binding EventsToShowList}" >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:EventModel">
                     <Grid Margin="0,5,0,5">
@@ -83,7 +66,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-    </Grid>
+    </StackLayout>
     </ScrollView>
 
 </ContentPage>

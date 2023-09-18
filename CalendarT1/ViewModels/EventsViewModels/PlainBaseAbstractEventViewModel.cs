@@ -18,7 +18,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
 		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
-		private RelayCommand<UserEventTypeModel> _selectUserEventTypeCommand;
+		private RelayCommand<IUserEventTypeModel> _selectUserEventTypeCommand;
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
 		private RelayCommand _goToAddNewTypePageCommand;
 
@@ -62,7 +62,19 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-		public RelayCommand<UserEventTypeModel> SelectUserEventTypeCommand => _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<UserEventTypeModel>(OnUserEventTypeSelected));
+		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand
+		{
+			get
+			{
+				return _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected));
+			}
+			set
+			{
+				if (_selectUserEventTypeCommand == value) return;
+				_selectUserEventTypeCommand = value;
+				OnPropertyChanged();
+			}
+		}
 		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
 
 		public RelayCommand<IGeneralEventModel> SelectEventCommand => _selectEventCommand ?? (_selectEventCommand = new RelayCommand<IGeneralEventModel>(SelectEvent));

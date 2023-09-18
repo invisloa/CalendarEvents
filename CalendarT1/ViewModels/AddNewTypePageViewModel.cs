@@ -66,6 +66,7 @@ namespace CalendarT1.ViewModels
 		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
 		#endregion
 
+		public event Action<MainEventTypes> MainEventTypeChanged;
 
 
 		#region Fields

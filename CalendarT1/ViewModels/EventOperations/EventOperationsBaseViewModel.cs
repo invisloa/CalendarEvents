@@ -110,6 +110,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected IUserEventTypeModel _selectedEventType;
 		private RelayCommand _goToAddNewTypePageCommand;
 		private RelayCommand _goToAddEventPageCommand;
+		public event Action<MainEventTypes> MainEventTypeChanged;
 
 
 		#endregion

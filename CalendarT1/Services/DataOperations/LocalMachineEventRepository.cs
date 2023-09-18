@@ -92,7 +92,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public async Task ClearAllUserTypesAsync()
 	{
-		ClearEventsListAsync();
+		await ClearEventsListAsync();
 		AllUserEventTypesList.Clear();
 		await SaveUserEventTypesListAsync();
 		OnUserTypeListChanged?.Invoke();
@@ -295,7 +295,7 @@ public class LocalMachineEventRepository : IEventRepository
 		var settings = JsonSerializerSettings_All;
 		var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
 		{
-			{ DevicePlatform.UWP, new[] { ".cics" } },
+			{ DevicePlatform.WinUI, new[] { ".cics" } },
 			{ DevicePlatform.Android, new[] { ".cics" } },
 			{ DevicePlatform.iOS, new[] { ".cics" } }
 		});
@@ -393,7 +393,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public async Task LoadEventsAndTypesFromFile()
 	{
-		LoadEventsAndTypesFromFile(CancellationToken.None);
+		await LoadEventsAndTypesFromFile(CancellationToken.None);
 	}
 	private class EventsAndTypesForJson
 	{

@@ -24,16 +24,25 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
         private IUserEventTypeModel _currentType;
         private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
         private string _typeName;
-        public MainEventTypes SelectedMainEventType
+
+		public event Action<MainEventTypes> MainEventTypeChanged;
+
+		public MainEventTypes SelectedMainEventType
         {
             get => _selectedMainEventType;
             set
             {
+                if (_selectedMainEventType == value)
+                {
+					return;
+				}
                 _selectedMainEventType = value;
                 // set visuals for selected event type
                 SetSelectedMainEventType(_selectedMainEventType);       // TO CHECK IF COMMENTING THIS LINE IS OK
-            }
-        }
+				MainEventTypeChanged?.Invoke(_selectedMainEventType); // Fire the event
+
+			}
+		}
         // Properties
         public ObservableCollection<MainEventVisualDetails> MainEventTypesOC { get; set; }
 
@@ -65,8 +74,8 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
             _eventVisualDetails[mainEventType].Opacity = FullOpacity;
             _eventVisualDetails[mainEventType].Border = NoBorderSize;
 
-            // OC updates automatically
-            //MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>(_eventVisualDetails.Values);
+            //OC updates automatically
+           //MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>(_eventVisualDetails.Values);
         }
         public void DisableVisualsForAllMainEventTypes()
         {
