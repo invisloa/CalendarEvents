@@ -16,59 +16,8 @@ using System.Threading.Tasks;
 namespace CalendarT1.ViewModels.EventsViewModels
 {
 
-	public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
+	public class AllEventsViewModel : AbstractEventViewModel, IFilterDatesCC
 	{
-		//MainEventTypesCC implementation
-		#region MainEventTypesCC implementation
-		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
-		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
-		private MainEventTypes _selectedMainEventType;
-		public MainEventTypes SelectedMainEventType
-		{
-			get => _mainEventTypesCCHelper.SelectedMainEventType;
-			set
-			{
-
-				_mainEventTypesCCHelper.SelectedMainEventType = value;
-				FilterAllEventTypesOCByMainEventType(value);
-				OnPropertyChanged();
-			}
-		}
-		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
-		{
-			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
-			AllEventTypesOC.Clear();
-			foreach (var tempEvent in tempFilteredEventTypes)
-			{
-				AllEventTypesOC.Add(tempEvent);
-			}
-			//AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
-			//OnPropertyChanged(nameof(AllEventTypesOC));
-		}
-		private List<IUserEventTypeModel> FilterUserTypesForVisuals(MainEventTypes value)
-		{
-			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
-		}
-		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC
-		{
-			get => _mainEventTypesCCHelper.MainEventTypesOC;
-			set => _mainEventTypesCCHelper.MainEventTypesOC = value;
-		}
-		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
-		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 153); // Defeault color is blue
-		public void DisableVisualsForAllMainEventTypes()
-		{
-			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
-		}
-		protected void OnMainEventTypeSelected(MainEventVisualDetails eventType)
-		{
-			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
-			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-			//OnUserEventTypeSelected(AllEventTypesOC[0]);
-		}
-
-		#endregion
-
 		//IFilterDatesCC implementation
 		#region IFilterDatesCC implementation
 		private IFilterDatesCCHelperClass _filterDatesCCHelper = Factory.CreateFilterDatesCCHelperClass();
@@ -145,15 +94,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public AllEventsViewModel(IEventRepository eventRepository) :base(eventRepository)
 		{
 			InitializeCommon(eventRepository);
-			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
-			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
-			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
-			_mainEventTypesCCHelper.MainEventTypeChanged += OnMainEventTypeChanged;
-
 			_eventRepository = eventRepository;
-			AllEventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "Some Type Event", Color.FromHex("#FFC0C0C0")));
-
+			AllEventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "Some Type Event", Color.FromArgb("#FFC0C0C0")));
 			AllEventsListOC.Add(new EventModel("someEvent", "", DateTime.MinValue, DateTime.MinValue, AllEventTypesOC[0]));
 			TestOneButtonClick = new RelayCommand(OnTestOneButtonClick);
 			TestTwoButtonClick = new RelayCommand(OnTestTwoButtonClick);
@@ -177,38 +120,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			OnPropertyChanged(nameof(AllEventsListOC));
 
 		}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 		// Single Event Type MODE
 		public AllEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
@@ -291,10 +202,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			await _eventRepository.LoadEventsAndTypesFromFile();
 		}
-		private void OnMainEventTypeChanged(MainEventTypes mainEventType)
-		{
-			SelectedMainEventType = mainEventType;
-		}	
 		#endregion
 
 		#region Override Methods
