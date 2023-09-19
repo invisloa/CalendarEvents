@@ -13,7 +13,8 @@
 		private readonly int _minimumDayOfWeekHeightRequest = 25;
 		private readonly double _firstColumnForHoursWidth = 50;
 		private readonly int _displayEventsLimit = 1;  // Set a limit to how many items will be displayed
-		Color _buttonsBackgroundColor = (Color)App.Current.Resources["MainBackgroundColor"];
+
+		Color _buttonsBackgroundColor = (Color)Application.Current.Resources["MainBackgroundColor"];
 
 
 
@@ -164,7 +165,7 @@
 								Text = dayEvents[i].Title,
 								BackgroundColor = dayEvents[i].EventVisibleColor
 							};
-							if (dayEvents.Count == 1)
+							if (i < _displayEventsLimit - 1 || dayEvents.Count == 1)
 							{
 								var tapGestureRecognizer = new TapGestureRecognizer();
 								tapGestureRecognizer.Command = EventSelectedCommand;

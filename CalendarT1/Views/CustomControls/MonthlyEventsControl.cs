@@ -10,11 +10,11 @@
 
     public class MonthlyEventsControl : MauiGrid
 	{
-		private int _displayEventsLimit = 2;
+		private int _displayEventsLimit = 1;
 		private int _watermarkDateTextFontSize = 20;
 		private int _eventNamesFontSize = 15;
 		private int _dayNamesFontSize = 15;
-
+		Color _emptyLabelColor = (Color)Application.Current.Resources["MainBackgroundColor"];
 		
 		private Color _watermarkDateColor = Color.FromArgb("#FFFFFF");	//gray color
 
@@ -140,7 +140,8 @@
 				int gridRow = (firstDayOfWeek + day - 1) / 7 + 1;
 				int gridColumn = (firstDayOfWeek + day - 1) % 7;
 
-				var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5, MinimumWidthRequest = 100, MinimumHeightRequest = 50 };
+				var frame = new Frame { BorderColor = Color.FromRgba(0, 0, 255, 255), Padding = 5, MinimumWidthRequest = 100, MinimumHeightRequest = 50, 
+										BackgroundColor = _emptyLabelColor };
 				frame.AutomationId = new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, day).ToString("yyyy-MM-dd");
 
 
@@ -151,7 +152,7 @@
 					FontAttributes = FontAttributes.Bold,
 					TextColor = _watermarkDateColor,
 					VerticalOptions = LayoutOptions.Start,
-					HorizontalOptions = LayoutOptions.End
+					HorizontalOptions = LayoutOptions.End,
 				};
 				stackLayoutForFrame.Children.Add(dayLabel);
 
@@ -168,15 +169,17 @@
 					// Set a limit to how many items will be displayed
 					for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
 					{
-						var label = new Label
+						if (i < _displayEventsLimit - 1 || dayEvents.Count ==1)
 						{
-							FontSize = _eventNamesFontSize,
-							FontAttributes = FontAttributes.Bold,
-							Text = dayEvents[i].Title,
-							BackgroundColor = dayEvents[i].EventVisibleColor
-						};
-
-						stackLayoutForFrame.Children.Add(label);
+							var label = new Label
+							{
+								FontSize = _eventNamesFontSize,
+								FontAttributes = FontAttributes.Bold,
+								Text = dayEvents[i].Title,
+								BackgroundColor = dayEvents[i].EventVisibleColor
+							};
+							stackLayoutForFrame.Children.Add(label);
+						}
 					}
 					// If there are more items than the limit, add a 'See more' label
 					if (dayEvents.Count > _displayEventsLimit)
@@ -185,7 +188,7 @@
 						{
 							FontSize = _eventNamesFontSize,
 							FontAttributes = FontAttributes.Italic,
-							Text = $"... {dayEvents.Count - _displayEventsLimit} MORE ...",
+							Text = $"... {dayEvents.Count - _displayEventsLimit} ...",
 							HorizontalTextAlignment = TextAlignment.Center,
 							TextColor = Color.FromRgba(255, 255, 255, 255),
 							BackgroundColor = Color.FromRgba(0, 0, 0, 100)

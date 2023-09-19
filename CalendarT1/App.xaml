@@ -45,6 +45,8 @@
             <Color x:Key="MainTextColor">#fff</Color>
             <Color x:Key="MainBackgroundColor">#3b78d4</Color>
             <Color x:Key="MainButtonBackgroundColor">#062e9c</Color>
+            <Color x:Key="MainFrameBackgroundColor">#2a4ebd</Color>
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>

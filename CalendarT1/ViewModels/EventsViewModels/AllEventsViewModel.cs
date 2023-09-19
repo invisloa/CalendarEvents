@@ -15,14 +15,61 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-
-	public class AllEventsViewModel : AbstractEventViewModel, IFilterDatesCC
+	public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
 	{
+		public event Action<MainEventTypes> MainEventTypeChanged;
+
+		//MainEventTypesCC implementation
+		#region MainEventTypesCC implementation
+		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
+		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
+		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
+
+		public MainEventTypes SelectedMainEventType
+		{
+			get => _mainEventTypesCCHelper.SelectedMainEventType;
+			set
+			{
+				_mainEventTypesCCHelper.SelectedMainEventType = value;
+				FilterAllEventTypesOCByMainEventType(value);
+				OnPropertyChanged();
+			}
+		}
+		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
+		{
+			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			OnPropertyChanged(nameof(AllEventTypesOC));
+		}
+		private List<IUserEventTypeModel> FilterUserTypesForVisuals(MainEventTypes value)
+		{
+			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
+		}
+		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC
+		{
+			get => _mainEventTypesCCHelper.MainEventTypesOC;
+			set => _mainEventTypesCCHelper.MainEventTypesOC = value;
+		}
+		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
+		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 153); // Defeault color is blue
+		public void DisableVisualsForAllMainEventTypes()
+		{
+			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
+		}
+		protected void OnMainEventTypeSelected(MainEventVisualDetails eventType)
+		{
+			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
+			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
+			//OnUserEventTypeSelected(AllEventTypesOC[0]);
+		}
+
+		#endregion
+
 		//IFilterDatesCC implementation
 		#region IFilterDatesCC implementation
 		private IFilterDatesCCHelperClass _filterDatesCCHelper = Factory.CreateFilterDatesCCHelperClass();
-		public string TextFilterDateFrom { get; set; } = "FILTER FROM:";
-		public string TextFilterDateTo { get; set; } = "FILTER UP TO:";
+		public string TextFilterDateFrom { get; set; } = "FROM:";
+		public string TextFilterDateTo { get; set; } = "TO:";
 		public DateTime FilterDateFrom
 		{
 			get => _filterDatesCCHelper.FilterDateFrom;
@@ -73,8 +120,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public AsyncRelayCommand SaveBelowEventsToFileCommand { get; set; }
 		public AsyncRelayCommand SaveAllEventsToFileCommand { get; set; }
 		public AsyncRelayCommand LoadEventsFromFileCommand { get; set; }
-		public event Action<MainEventTypes> MainEventTypeChanged;
-
 		public string AboveEventsListText
 		{
 			get
@@ -91,34 +136,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Constructors
 
 		// All Events MODE
-		public AllEventsViewModel(IEventRepository eventRepository) :base(eventRepository)
+		public AllEventsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
 			InitializeCommon(eventRepository);
+			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
-			_eventRepository = eventRepository;
-			AllEventTypesOC.Add(new UserEventTypeModel(MainEventTypes.Event, "Some Type Event", Color.FromArgb("#FFC0C0C0")));
-			AllEventsListOC.Add(new EventModel("someEvent", "", DateTime.MinValue, DateTime.MinValue, AllEventTypesOC[0]));
-			TestOneButtonClick = new RelayCommand(OnTestOneButtonClick);
-			TestTwoButtonClick = new RelayCommand(OnTestTwoButtonClick);
-			GoToSelectedDateCommand = new RelayCommand<DateTime>(GoToSelectedDatePage);
-			SelectTodayDateCommand = new RelayCommand(() => CurrentSelectedDate = CurrentDate);
-
-		}
-
-
-		public RelayCommand TestOneButtonClick { get; set; }
-		public RelayCommand TestTwoButtonClick { get; set; }
-
-		private void OnTestOneButtonClick()
-		{
-			AllEventTypesOC.Clear();
-			OnPropertyChanged(nameof(AllEventTypesOC));
-		}
-		private void OnTestTwoButtonClick()
-		{
-			AllEventsListOC.Clear();
-			OnPropertyChanged(nameof(AllEventsListOC));
-
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
+			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
 
 		// Single Event Type MODE
@@ -137,7 +161,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
-			DeleteBelowEventsCommand = new AsyncRelayCommand(DeleteBelowEvents);
+			DeleteBelowEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
 			SaveBelowEventsToFileCommand = new AsyncRelayCommand(OnSaveSelectedEventsAndTypesCommand);
 			SaveAllEventsToFileCommand = new AsyncRelayCommand(OnSaveEventsAndTypesCommand);
 			LoadEventsFromFileCommand = new AsyncRelayCommand(OnLoadEventsAndTypesCommand);
@@ -158,26 +182,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			await EventRepository.DeleteFromEventsListAsync(firstEvent);
 		}
 
-		public async Task DeleteBelowEvents()
+		public async Task DeleteAllEvents()
 		{
 			try
 			{
-				var action2 = await App.Current.MainPage.DisplayAlert("DELETE BELOW EVENTS", "ARE YOU SURE YOU WANT TO DELETE ALL BELOW EVENTS??",  "DELETE", "CANCEL" );
-				var action = await App.Current.MainPage.DisplayActionSheet("ARE YOU SURE YOU WANT TO DELETE ALL BELOW EVENTS??", "Cancel", null, "DELETE BELOW EVENTS");
-				switch (action)
-				{
-					case "DELETE BELOW EVENTS":
-						_eventRepository.AllEventsList.RemoveAll(item => EventsToShowList.Contains(item));
-						AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-						await EventRepository.SaveEventsListAsync();
-						break;
-
-					default:
-						// Cancel was selected or back button was pressed.
-						break;
-				}
-				return;
-
+				_eventRepository.AllEventsList.RemoveAll(item => EventsToShowList.Contains(item));
+				AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+				await EventRepository.SaveEventsListAsync();
 			}
 			catch (Exception ex)
 			{

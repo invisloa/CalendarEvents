@@ -28,9 +28,32 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		public DailyEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
 		{
 		}
+		protected override void ApplyEventsDatesFilter(DateTime startDate, DateTime endDate)
+		{
+
+			var selectedToFilterEventTypes = AllEventTypesOC
+				.Where(x => x.IsSelectedToFilter)
+				.Select(x => x.EventTypeName)
+				.ToHashSet();
+
+			List<IGeneralEventModel> filteredEvents = AllEventsListOC
+				.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
+							x.StartDateTime.Date == startDate.Date &&
+							x.EndDateTime.Date <= endDate.Date)
+				.ToList();
+
+			// Clear existing items in the EventsToShowList
+			EventsToShowList.Clear();
+
+			// Add filtered items to the EventsToShowList
+			foreach (var eventItem in filteredEvents)
+			{
+				EventsToShowList.Add(eventItem);
+			}
+		}
 		public override void BindDataToScheduleList()
 		{
-				 ApplyEventsDatesFilter(CurrentSelectedDate.Date, CurrentSelectedDate.AddDays(0));
+				 ApplyEventsDatesFilter(CurrentSelectedDate.Date, DateTime.MaxValue);
 		}
 
 

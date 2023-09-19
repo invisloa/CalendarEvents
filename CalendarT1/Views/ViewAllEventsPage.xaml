@@ -4,37 +4,41 @@
              xmlns:models="clr-namespace:CalendarT1.Models.EventModels"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="ViewAllEventsPage">
-    <ScrollView>
-        
-        <StackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
-            <Button Text="TestONE" Command="{Binding TestOneButtonClick}"/>
-            <Button Text="TestTwo" Command="{Binding TestTwoButtonClick}"/>
 
-            <!--Main Event Types Custom Control-->
-        <customControls:MainEventTypesCustomControl/>
-        <!--All Events Types collection--> 
-        <customControls:EventTypesCustomControl/>
-        <!--Date Filters-->
-        <customControls:DateFilteringCC />
+    <Grid BackgroundColor="{DynamicResource MainBackgroundColor}">
+
+        <!-- Defining rows for the Grid -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Row for TestONE button -->
+            <RowDefinition Height="Auto"/>
+            <!-- Row for TestTwo button -->
+            <RowDefinition Height="Auto"/>
+            <!-- Row for MainEventTypesCustomControl -->
+            <RowDefinition Height="Auto"/>
+            <!-- Row for EventTypesCustomControl -->
+            <RowDefinition Height="250"/>
+            <!-- Row for DateFilteringCC -->
+            <RowDefinition Height="Auto"/>
+            <!-- Row for Events list layout -->
+        </Grid.RowDefinitions>
+
+
+        <customControls:MainEventTypesCustomControl Grid.Row="0"/>
+        <customControls:EventTypesCustomControl Grid.Row="1"/>
+        <customControls:DateFilteringCC Grid.Row="2"/>
 
         <!-- Events list layout -->
-        <StackLayout  Orientation="Vertical" HorizontalOptions="Center">
-            <!--<customControls:AddNewEventAndTypeCC/>-->
-
+        <StackLayout Grid.Row="3" Orientation="Vertical" HorizontalOptions="Center">
             <StackLayout Orientation="Horizontal" Spacing="15">
                 <Button Text="SAVE BELOW" Command="{Binding SaveBelowEventsToFileCommand}"/>
                 <Button Text="SAVE ALL" Command="{Binding SaveAllEventsToFileCommand}" />
                 <Button Text="LOAD EVENTS" Command="{Binding LoadEventsFromFileCommand}"/>
-
             </StackLayout>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="20">
-                <Button Text="DELETE BELOW" Command="{Binding DeleteBelowEventsCommand}" BackgroundColor="Red" BorderWidth="1" BorderColor="Black"/>
-            </StackLayout>
-
         </StackLayout>
 
         <!-- EventsToShowList collection -->
-        <CollectionView ItemsSource="{Binding EventsToShowList}" >
+        <CollectionView Grid.Row="4" ItemsSource="{Binding EventsToShowList}" HorizontalScrollBarVisibility="Default">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:EventModel">
                     <Grid Margin="0,5,0,5">
@@ -46,13 +50,13 @@
 
                         <!--Consider changing this to normal color so it wont be blacked for ended events?? -->
                         <Frame BackgroundColor="{Binding EventVisibleColor}"
-                                Grid.Column="1"
-                                Grid.RowSpan="2" Margin="25, 0, 25, 0" >
+                                    Grid.Column="1"
+                                    Grid.RowSpan="2" Margin="25, 0, 25, 0" >
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                     CommandParameter="{Binding .}"/>
+                                                         CommandParameter="{Binding .}"/>
                             </Frame.GestureRecognizers>
-                            
+
                             <StackLayout Orientation="Horizontal">
                                 <Frame  BorderColor="Wheat" CornerRadius="2" Margin="0" Padding="2">
                                     <customControls:EventsTimeCC/>
@@ -67,8 +71,10 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-    </StackLayout>
-    </ScrollView>
-
+        <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="Center" Margin="20">
+            <Button Text="DELETE ABOVE EVENTS" Command="{Binding DeleteBelowEventsCommand}" BackgroundColor="Red" BorderWidth="1" BorderColor="Black"/>
+        </StackLayout>
+    </Grid>
 </ContentPage>
+
+

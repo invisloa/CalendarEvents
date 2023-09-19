@@ -26,8 +26,7 @@
         <customControls:AddNewEventAndTypeCC Grid.Row="2"/>
 
         <!--Events Grid-->
-        <ScrollView Grid.Row="3" Orientation="Vertical">
-            <ScrollView Grid.Row="3" Orientation="Horizontal">
+        <ScrollView Grid.Row="3" Orientation="Vertical" HeightRequest="400">
                 <customControls:MonthlyEventsControl 
                 x:Name="monthlyEventsControl"
                 AllEventsList="{Binding AllEventsListOC}" 
@@ -36,7 +35,6 @@
                 EventsToShowList="{Binding EventsToShowList, Mode=TwoWay}"
                 GoToSelectedDateCommand="{Binding GoToSelectedDateCommand}"    
                 />
-            </ScrollView>
         </ScrollView>
 
     </Grid>

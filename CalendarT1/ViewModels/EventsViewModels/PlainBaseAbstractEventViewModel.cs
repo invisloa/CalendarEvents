@@ -156,7 +156,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			{
 				EventsToShowList.Add(eventItem);
 			}
-
 		}
 		private void GoToAddNewTypePage()
 		{

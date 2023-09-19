@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CalendarT1.Views.CustomControls.MainEventTypesCustomControl">
     <VerticalStackLayout>
-        <CollectionView ItemsSource="{Binding MainEventTypesOC}" HorizontalOptions="FillAndExpand" Margin="20">
+        <CollectionView ItemsSource="{Binding MainEventTypesOC}" HorizontalOptions="FillAndExpand" Margin="10">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical"
                          Span="3" />
