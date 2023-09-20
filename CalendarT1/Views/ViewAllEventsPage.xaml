@@ -17,7 +17,7 @@
             <!-- Row for MainEventTypesCustomControl -->
             <RowDefinition Height="Auto"/>
             <!-- Row for EventTypesCustomControl -->
-            <RowDefinition Height="250"/>
+            <RowDefinition Height="300"/>
             <!-- Row for DateFilteringCC -->
             <RowDefinition Height="Auto"/>
             <!-- Row for Events list layout -->
@@ -38,42 +38,48 @@
         </StackLayout>
 
         <!-- EventsToShowList collection -->
-        <CollectionView Grid.Row="4" ItemsSource="{Binding EventsToShowList}" HorizontalScrollBarVisibility="Default">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:EventModel">
-                    <Grid Margin="0,5,0,5">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+
+        <Frame Grid.Row="4" BackgroundColor="{DynamicResource MainBackgroundColor}" Padding="0" Margin="10,5 ,10 ,5" BorderColor="{DynamicResource MainButtonBackgroundColor}">
+
+            <CollectionView  ItemsSource="{Binding EventsToShowList}" HorizontalScrollBarVisibility="Always" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:EventModel">
+                        <Grid Margin="0,5,0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
 
-                        <!--Consider changing this to normal color so it wont be blacked for ended events?? -->
-                        <Frame BackgroundColor="{Binding EventVisibleColor}"
-                                    Grid.Column="1"
-                                    Grid.RowSpan="2" Margin="25, 0, 25, 0" >
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                         CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
+                            <!--Consider changing this to normal color so it wont be blacked for ended events?? -->
+                            <Frame BackgroundColor="{Binding EventVisibleColor}"
+                                        Grid.Column="1"
+                                        Grid.RowSpan="2" Margin="25, 0, 25, 0" >
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                             CommandParameter="{Binding .}"/>
+                                </Frame.GestureRecognizers>
 
-                            <StackLayout Orientation="Horizontal">
-                                <Frame  BorderColor="Wheat" CornerRadius="2" Margin="0" Padding="2">
-                                    <customControls:EventsTimeCC/>
-                                </Frame>
-                                <StackLayout>
-                                    <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" Margin="20, 0, 0, 0"/>
-                                    <Label Text="{Binding Description}" FontSize="15" Margin="20, 0, 0, 0"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Frame  BorderColor="Wheat" CornerRadius="2" Margin="0" Padding="2">
+                                        <customControls:EventsTimeCC/>
+                                    </Frame>
+                                    <StackLayout>
+                                        <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" Margin="20, 0, 0, 0"/>
+                                        <Label Text="{Binding Description}" FontSize="15" Margin="20, 0, 0, 0"/>
+                                    </StackLayout>
                                 </StackLayout>
-                            </StackLayout>
-                        </Frame>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-        <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="Center" Margin="20">
-            <Button Text="DELETE ABOVE EVENTS" Command="{Binding DeleteBelowEventsCommand}" BackgroundColor="Red" BorderWidth="1" BorderColor="Black"/>
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Frame>
+
+        <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="Center" Margin="10">
+            <Button Text="DELETE ABOVE EVENTS" Command="{Binding DeleteBelowEventsCommand}" BackgroundColor="Purple" BorderWidth="1" BorderColor="Black"/>
         </StackLayout>
+
     </Grid>
 </ContentPage>
 

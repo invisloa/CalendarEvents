@@ -165,7 +165,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			SaveBelowEventsToFileCommand = new AsyncRelayCommand(OnSaveSelectedEventsAndTypesCommand);
 			SaveAllEventsToFileCommand = new AsyncRelayCommand(OnSaveEventsAndTypesCommand);
 			LoadEventsFromFileCommand = new AsyncRelayCommand(OnLoadEventsAndTypesCommand);
-			this.SetFilterDatesValues(); // using extension method
+			this.SetFilterDatesValues(false); // using extension method
 		}
 
 		#endregion
