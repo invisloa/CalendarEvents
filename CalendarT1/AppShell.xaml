@@ -15,9 +15,13 @@
         <Tab Title="Daily events list">
 
             <ShellContent
+                Title="Welcome Page"
+                ContentTemplate="{DataTemplate local:WelcomePage}"
+                Route="WelcomePage" />
+            <ShellContent
                 Title="Weekly"
                 ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
-                Route="MainPage" />
+                Route="ViewWeeklyEvents" />
             <ShellContent
                 Title="Daily"
                 ContentTemplate="{DataTemplate local:ViewDailyEvents}"

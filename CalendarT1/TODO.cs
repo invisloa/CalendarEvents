@@ -2,6 +2,11 @@
 
 
 #region Current
+// do not let to change events type to change main event type
+// update events color after editing 
+
+
+
 //All Events Page EventsToShowList and userEventTypesList
 
 // remove the below code and decouple IHelperclass from ICC and make it a separate interfaces

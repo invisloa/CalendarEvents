@@ -112,6 +112,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = _selectedCurrentEvent.IsCompleted;
 			SelectedMainEventType = _selectedCurrentEvent.EventType.MainEventType;
 			SelectedEventType = _selectedCurrentEvent.EventType;
+			FilterAllEventTypesOCByMainEventType(SelectedMainEventType);	// CANNOT CHANGE MAIN EVENT TYPE
 			if (_selectedCurrentEvent.QuantityAmount != null)
 			{
 				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
@@ -148,20 +149,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		private async Task EditEvent()
 		{
 			QuantityValueText = "SET VALUE:";
-
-			if (_selectedCurrentEvent.EventType.MainEventType == MainEventTypes.Value)
-			{
-				//if(!IsNumeric(EntryText))
-				//{
-				////TODO: Add error message
-				//MessageProcessingHandler.ReferenceEquals("Quantity Amount must be a number", "Error");
-				//return;
-				//}
-				//else
-				//{
-				//	//_selectedCurrentEvent.QuantityAmount = new Quantity((decimal)EntryText, SelectedMeasurementUnit.TypeOfMeasurementUnit);
-				//}
-			}
 			_selectedCurrentEvent.Title = Title;
 			_selectedCurrentEvent.Description = Description;
 			_selectedCurrentEvent.EventType = SelectedEventType;
@@ -173,7 +160,12 @@ namespace CalendarT1.ViewModels.EventOperations
 			await _eventRepository.UpdateEventsAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");
 		}
-
+		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
+		{
+			var tempFilteredEventTypes = AllEventTypesOC.ToList().FindAll(x => x.MainEventType == value);
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			OnPropertyChanged(nameof(AllEventTypesOC));
+		}
 		private async Task DeleteSelectedEvent()
 		{
 			await _eventRepository.DeleteFromEventsListAsync(_selectedCurrentEvent);

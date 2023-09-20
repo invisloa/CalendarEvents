@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalendarT1.Views.WelcomePage"
+             Title="WelcomePage">
+        <VerticalStackLayout>
+            <Label 
+            Text="TODAY"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Label 
+            Text="IS"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Label 
+            Text="GOING"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Label 
+            Text="TO"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Label 
+            Text="BE"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Label 
+            Text="A"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Label 
+            Text="GOOD"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Label 
+            Text="DAY"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Label 
+            Text="XD"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+</ContentPage>
