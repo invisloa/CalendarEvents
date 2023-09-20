@@ -240,9 +240,14 @@ namespace CalendarT1.ViewModels.EventsViewModels
 					EventsToShowList.Add(eventItem);
 				}
 			}
+			EventsToShowList = new ObservableCollection<IGeneralEventModel>(EventsToShowList);
+
 
 		}
 		#endregion
-
+		public void OnAppearing()
+		{ 
+			BindDataToScheduleList();
+		}
 	}
 }

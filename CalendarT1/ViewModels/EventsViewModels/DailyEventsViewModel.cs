@@ -56,7 +56,11 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				 ApplyEventsDatesFilter(CurrentSelectedDate.Date, DateTime.MaxValue);
 		}
 
-
+		public void OnAppearing()
+		{
+			BindDataToScheduleList();
+			EventsToShowList = new ObservableCollection<IGeneralEventModel>(EventsToShowList);
+		}
 
 
 

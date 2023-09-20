@@ -9,13 +9,13 @@
             <Setter Property="TextColor" Value="Red" />
         </Style>
         <Style x:Key="ValidEntryStyle" TargetType="Entry">
-            <Setter Property="TextColor" Value="DarkGreen" />
+            <Setter Property="TextColor" Value="{DynamicResource MainTextColor}" />
         </Style>
     </ContentView.Resources>
     <!--Selection for measurment types-->
     <StackLayout
-            VerticalOptions="CenterAndExpand" 
-            HorizontalOptions="CenterAndExpand"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
             IsVisible="{Binding IsValueTypeSelected}">
 
         <StackLayout Orientation="Horizontal" >
@@ -23,14 +23,12 @@
             <Picker ItemsSource="{Binding MeasurementUnitsOC}" 
                         ItemDisplayBinding="{Binding DisplayName}"
                         SelectedItem="{Binding SelectedMeasurementUnit, Mode=TwoWay}" 
-                        Margin="5" 
-                        MinimumWidthRequest="200" 
-                        HorizontalTextAlignment="Center"
+                        MinimumWidthRequest="200" BackgroundColor="{DynamicResource MainButtonBackgroundColor}"
+                        HorizontalTextAlignment="Center" TextColor="{DynamicResource MainTextColor}"
                         IsEnabled="{Binding IsValueTypeSelectionEnabled}"
                     />
         </StackLayout >
         <StackLayout Orientation="Horizontal">
-            <Label Text= "{Binding QuantityValueText}" VerticalOptions="Center" Margin="5"/>
             <Entry Keyboard="Numeric" Text="{Binding QuantityValue, Mode=TwoWay}" FontSize="Large" HorizontalTextAlignment="End" FontAttributes="Bold" MinimumWidthRequest="150" HorizontalOptions="FillAndExpand" Margin="5">
                 <Entry.Behaviors>
                     <toolkit:NumericValidationBehavior 

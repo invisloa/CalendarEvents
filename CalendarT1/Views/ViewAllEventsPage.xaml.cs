@@ -43,6 +43,6 @@ public partial class ViewAllEventsPage : ContentPage
 	{
 		var viewModel = BindingContext as AllEventsViewModel;
 		base.OnAppearing();
-		viewModel.BindDataToScheduleList();
+		viewModel.OnAppearing();
 	}
 }

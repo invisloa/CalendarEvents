@@ -39,9 +39,7 @@
 
         <!-- EventsToShowList collection -->
 
-        <Frame Grid.Row="4" BackgroundColor="{DynamicResource MainBackgroundColor}" Padding="0" Margin="10,5 ,10 ,5" BorderColor="{DynamicResource MainButtonBackgroundColor}">
-
-            <CollectionView  ItemsSource="{Binding EventsToShowList}" HorizontalScrollBarVisibility="Always" >
+            <CollectionView Grid.Row="4" ItemsSource="{Binding EventsToShowList}" HorizontalScrollBarVisibility="Always" >
                 <CollectionView.ItemTemplate>
                     <DataTemplate x:DataType="models:EventModel">
                         <Grid Margin="0,5,0,5">
@@ -74,8 +72,6 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </Frame>
-
         <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="Center" Margin="10">
             <Button Text="DELETE ABOVE EVENTS" Command="{Binding DeleteBelowEventsCommand}" BackgroundColor="Purple" BorderWidth="1" BorderColor="Black"/>
         </StackLayout>

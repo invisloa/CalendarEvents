@@ -30,7 +30,7 @@ public partial class ViewDailyEvents : ContentPage
 	protected override async void OnAppearing()
 	{
 		base.OnAppearing();
-		(BindingContext as DailyEventsViewModel).BindDataToScheduleList();
+		(BindingContext as DailyEventsViewModel).OnAppearing();
 	}
 
 }

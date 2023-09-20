@@ -21,5 +21,6 @@ namespace CalendarT1.Views
 			BindingContext = new EventOperationsViewModel(eventRepository, eventToEdit: eventModel);
 			InitializeComponent();
 		}
+
 	}
 }
