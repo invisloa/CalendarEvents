@@ -22,7 +22,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
 		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
-		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
 		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
 
 		public MainEventTypes SelectedMainEventType
@@ -117,6 +116,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Properties
 		public AsyncRelayCommand DeleteBelowEventsCommand { get; set; }
+		public AsyncRelayCommand DeleteAllEventsCommand { get; set; }
+		public AsyncRelayCommand DeleteAllUserTypesCommand { get; set; }
 		public AsyncRelayCommand SaveBelowEventsToFileCommand { get; set; }
 		public AsyncRelayCommand SaveAllEventsToFileCommand { get; set; }
 		public AsyncRelayCommand LoadEventsFromFileCommand { get; set; }
@@ -161,7 +162,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
-			DeleteBelowEventsCommand = new AsyncRelayCommand(DeleteAllEvents);
+			DeleteBelowEventsCommand = new AsyncRelayCommand(DeleteShownEvents);
+			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteShownEvents);
+			DeleteAllUserTypesCommand = new AsyncRelayCommand(DeleteAllUserTypes);
 			SaveBelowEventsToFileCommand = new AsyncRelayCommand(OnSaveSelectedEventsAndTypesCommand);
 			SaveAllEventsToFileCommand = new AsyncRelayCommand(OnSaveEventsAndTypesCommand);
 			LoadEventsFromFileCommand = new AsyncRelayCommand(OnLoadEventsAndTypesCommand);
@@ -182,13 +185,41 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			await EventRepository.DeleteFromEventsListAsync(firstEvent);
 		}
 
-		public async Task DeleteAllEvents()
+		public async Task DeleteShownEvents()
 		{
 			try
 			{
 				_eventRepository.AllEventsList.RemoveAll(item => EventsToShowList.Contains(item));
 				AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 				await EventRepository.SaveEventsListAsync();
+			}
+			catch (Exception ex)
+			{
+				await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+			}
+		}
+		public async Task DeleteAllEvents()
+		{
+			try
+			{
+				_eventRepository.AllEventsList.Clear();
+				AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+				await EventRepository.SaveEventsListAsync();
+
+			}
+			catch (Exception ex)
+			{
+				await App.Current.MainPage.DisplayAlert("Error", ex.Message, "OK");
+			}
+		}
+
+		public async Task DeleteAllUserTypes()
+		{
+			try
+			{
+				_eventRepository.AllUserEventTypesList.Clear();
+				AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+				await EventRepository.SaveUserEventTypesListAsync();
 			}
 			catch (Exception ex)
 			{

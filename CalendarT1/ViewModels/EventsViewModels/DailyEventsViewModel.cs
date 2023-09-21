@@ -58,6 +58,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public void OnAppearing()
 		{
+
 			BindDataToScheduleList();
 			EventsToShowList = new ObservableCollection<IGeneralEventModel>(EventsToShowList);
 		}

@@ -377,6 +377,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x.EventTypeName == _selectedEventType.EventTypeName);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC);
 		}
 		protected virtual void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
 		{

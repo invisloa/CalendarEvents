@@ -5,6 +5,7 @@
              xmlns:models="clr-namespace:CalendarT1.Models.EventModels"
              xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
              xmlns:local="clr-namespace:CalendarT1.ViewModels.EventsViewModels"
+             xmlns:type_models="clr-namespace:CalendarT1.Models.EventTypesModels;assembly=CalendarT1"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              x:DataType="local:DailyEventsViewModel"
              x:Class="CalendarT1.Views.ViewDailyEvents"
@@ -23,7 +24,6 @@
         <StackLayout Grid.Row="1"  >
             <customControls:EventTypesCustomControl/>
         </StackLayout>
-
 
         <!-- Events list layout -->
         <customControls:AddNewEventAndTypeCC Grid.Row="2"/>
