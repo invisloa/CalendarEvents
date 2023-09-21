@@ -21,7 +21,7 @@ namespace CalendarT1.Models.EventTypesModels
 
 			set
 			{
-				_eventTypeColor = Color.FromHex(value);
+				_eventTypeColor = Color.FromArgb(value);
 			}
 		}
 

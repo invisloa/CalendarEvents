@@ -2,6 +2,10 @@
 
 
 #region Current
+// daily events release
+
+
+
 // do not let to change events type to change main event type
 // update events color after editing 
 

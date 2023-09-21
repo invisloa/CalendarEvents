@@ -23,7 +23,6 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
         private MainEventTypes _selectedMainEventType = MainEventTypes.Event;
         private IUserEventTypeModel _currentType;
         private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
-        private string _typeName;
 
 		public event Action<MainEventTypes> MainEventTypeChanged;
 

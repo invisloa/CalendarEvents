@@ -39,7 +39,7 @@ public partial class ViewAllEventsPage : ContentPage
 		(BindingContext as AllEventsViewModel).OnEventsToShowListUpdated -= (BindingContext as AllEventsViewModel).BindDataToScheduleList;
 	}
 
-	protected override async void OnAppearing()
+	protected override  void OnAppearing()
 	{
 		var viewModel = BindingContext as AllEventsViewModel;
 		base.OnAppearing();

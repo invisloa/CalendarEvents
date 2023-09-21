@@ -22,10 +22,10 @@ public partial class ViewMonthlyEvents : ContentPage
 		base.OnDisappearing();
 		(BindingContext as MonthlyEventsViewModel).OnEventsToShowListUpdated -= monthlyEventsControl.GenerateGrid;
 	}
-	protected override async void OnAppearing()
+	protected override  void OnAppearing()
 	{
 		base.OnAppearing();
-		(BindingContext as MonthlyEventsViewModel).BindDataToScheduleList();
+		 (BindingContext as MonthlyEventsViewModel).BindDataToScheduleList();
 	}
 }
 

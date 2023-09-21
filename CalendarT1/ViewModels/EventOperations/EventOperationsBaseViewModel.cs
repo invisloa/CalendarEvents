@@ -96,7 +96,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected bool _isCompleted;
 		protected string _title;
 		protected string _description;
-		private decimal _entryText = 0;
 		protected Quantity _quantityAmount;
 		protected DateTime _startDateTime = DateTime.Today;
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;

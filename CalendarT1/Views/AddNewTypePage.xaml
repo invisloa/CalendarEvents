@@ -14,7 +14,7 @@
 
             <!--Main Event Types Custom Control -->
             <StackLayout>
-                <!--<CustomControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>-->
+                <CustomControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
                 <CustomControls:MeasurementSelectorCC/>
             </StackLayout>
 
@@ -27,16 +27,13 @@
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <!--<Button 
+                        <Button 
                               BackgroundColor="{Binding ButtonColor}"
                               BorderWidth="{Binding ButtonBorder}"
                               Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewTypePageName}}"
                               CommandParameter="{Binding .}"
-                              IsVisible="True" Margin="1"/>-->
-                        <Button 
-                              BackgroundColor="{Binding ButtonColor}"
-                              BorderWidth="{Binding ButtonBorder}"
                               IsVisible="True" Margin="1"/>
+
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

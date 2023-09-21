@@ -26,7 +26,7 @@ namespace CalendarT1.Views
 			base.OnDisappearing();
 			(BindingContext as WeeklyEventsViewModel).OnEventsToShowListUpdated -= weeklyEventsControl.GenerateGrid;
 		}
-		protected override async void OnAppearing()
+		protected override  void OnAppearing()
 		{
 			base.OnAppearing();
 			(BindingContext as WeeklyEventsViewModel).BindDataToScheduleList();
