@@ -22,7 +22,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
 		private RelayCommand _goToAddNewTypePageCommand;
 
-		protected Color _deselectedUserEventTypeColor = Color.FromArgb("#ffe580ff");
+		protected Color _deselectedUserEventTypeColor;
 		#endregion
 
 		#region Properties
@@ -89,6 +89,18 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
+			if (Application.Current.Resources.TryGetValue("MainTextColor", out var retrievedColor))
+			{
+				_deselectedUserEventTypeColor = (Color)retrievedColor;
+			}
+			else
+			{
+				// Optionally handle if the resource is not found
+				// write Color.FromArgb black color value
+
+				_deselectedUserEventTypeColor = Color.FromArgb("#ff949494");
+			}
+
 		}
 		#endregion
 
