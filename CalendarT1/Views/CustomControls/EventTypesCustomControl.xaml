@@ -11,7 +11,7 @@
                  <!--Modify the Span to adjust number of items in a row--> 
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="type_models:UserEventTypeModel">
+                <DataTemplate x:DataType="type_models:IUserEventTypeModel">
                     <Button Text="{Binding EventTypeName}"
                             TextColor="White"
                             BackgroundColor="{Binding BackgroundColor}"

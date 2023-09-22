@@ -13,6 +13,7 @@ namespace CalendarT1.ViewModels.EventOperations
 {
 	class EventOperationsViewModel : EventOperationsBaseViewModel
 	{
+		//			QuantityValueText = "SET DEFAULT VALUE:"; ???????
 
 		#region Fields
 		private IShareEvents _shareEvents;
@@ -136,7 +137,6 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task AddEventAsync()
 		{
-			QuantityValueText = "SET DEFAULT VALUE:";
 
 			// Create a new Event based on the selected EventType
 			QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);

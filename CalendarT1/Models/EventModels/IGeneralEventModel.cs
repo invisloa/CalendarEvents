@@ -5,7 +5,6 @@ namespace CalendarT1.Models.EventModels
     public interface IGeneralEventModel
     {
         string Description { get; set; }
-        DateTime EndDateTime { get; set; }
         IUserEventTypeModel EventType { get; set; }
         Color EventVisibleColor { get; }
         Guid Id { get; set; }
@@ -13,7 +12,9 @@ namespace CalendarT1.Models.EventModels
         List<DateTime> PostponeHistory { get; set; }
         TimeSpan ReminderTime { get; set; }
         DateTime StartDateTime { get; set; }
-        string Title { get; set; }
+		DateTime EndDateTime { get; set; }
+
+		string Title { get; set; }
         bool WasShown { get; set; }
         public Quantity QuantityAmount { get; set; }
     }

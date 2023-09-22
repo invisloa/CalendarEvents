@@ -218,8 +218,8 @@ public class LocalMachineEventRepository : IEventRepository
 	public async Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
 	{
 		AllUserEventTypesList.Add(eventTypeToAdd);
-		await SaveUserEventTypesListAsync();
 		OnUserTypeListChanged?.Invoke();
+		await SaveUserEventTypesListAsync();
 	}
 	public async Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate)
 	{

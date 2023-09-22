@@ -31,7 +31,7 @@
         <!-- EventsToShowList collection -->
         <CollectionView ItemsSource="{Binding EventsToShowList}" Grid.Row="3">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="models:EventModel">
+                <DataTemplate x:DataType="models:IGeneralEventModel">
                     <Grid Margin="0,5,0,5">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>

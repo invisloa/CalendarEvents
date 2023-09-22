@@ -2,6 +2,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CalendarT1.Views.ViewAllEventsPage"
              xmlns:models="clr-namespace:CalendarT1.Models.EventModels"
+             xmlns:i="clr-namespace:System.Windows.Input;assembly=System.ObjectModel"
+             xmlns:local="clr-namespace:CalendarT1.ViewModels.EventsViewModels"
+             xmlns:type_models="clr-namespace:CalendarT1.Models.EventTypesModels;assembly=CalendarT1"
+             x:DataType="local:AllEventsViewModel"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="ViewAllEventsPage">
 
@@ -39,39 +43,39 @@
 
         <!-- EventsToShowList collection -->
 
-            <ListView Grid.Row="4" ItemsSource="{Binding EventsToShowList}" HorizontalScrollBarVisibility="Always" >
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="models:EventModel">
-                        <Grid Margin="0,5,0,5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
+            <CollectionView Grid.Row="4" ItemsSource="{Binding EventsToShowList}" HorizontalScrollBarVisibility="Always" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="models:IGeneralEventModel">
+                            <Grid Margin="0,5,0,5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
 
 
-                            <!--Consider changing this to normal color so it wont be blacked for ended events?? -->
-                            <Frame BackgroundColor="{Binding EventVisibleColor}"
-                                        Grid.Column="1"
-                                        Grid.RowSpan="2" Margin="25, 0, 25, 0" >
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
-                                                             CommandParameter="{Binding .}"/>
-                                </Frame.GestureRecognizers>
+                                <!--Consider changing this to normal color so it wont be blacked for ended events??--> 
+                                <Frame BackgroundColor="{Binding EventVisibleColor}"
+                                            Grid.Column="1"
+                                            Grid.RowSpan="2" Margin="25, 0, 25, 0" >
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding BindingContext.SelectEventCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                                 CommandParameter="{Binding .}"/>
+                                    </Frame.GestureRecognizers>
 
-                                <StackLayout Orientation="Horizontal">
-                                    <Frame  BorderColor="Wheat" CornerRadius="2" Margin="0" Padding="2">
-                                        <customControls:EventsTimeCC/>
-                                    </Frame>
-                                    <StackLayout>
-                                        <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" Margin="20, 0, 0, 0"/>
-                                        <Label Text="{Binding Description}" FontSize="15" Margin="20, 0, 0, 0"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Frame  BorderColor="Wheat" CornerRadius="2" Margin="0" Padding="2">
+                                            <customControls:EventsTimeCC/>
+                                        </Frame>
+                                        <StackLayout>
+                                            <Label Text="{Binding Title}" FontSize="20" FontAttributes="Bold" Margin="20, 0, 0, 0"/>
+                                            <Label Text="{Binding Description}" FontSize="15" Margin="20, 0, 0, 0"/>
+                                        </StackLayout>
                                     </StackLayout>
-                                </StackLayout>
-                            </Frame>
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                </Frame>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
         <StackLayout Grid.Row="5" HorizontalOptions="Center" Margin="10">
             <Button Text="DELETE ABOVE EVENTS" Command="{Binding DeleteBelowEventsCommand}" BackgroundColor="Purple" BorderWidth="1" BorderColor="Black"/>
             <Button Text="DELETE ALL EVENTS" Command="{Binding DeleteAllEventsCommand}" BackgroundColor="Purple" BorderWidth="1" BorderColor="Black"/>

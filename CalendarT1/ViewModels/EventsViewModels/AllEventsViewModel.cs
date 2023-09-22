@@ -139,6 +139,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		// All Events MODE
 		public AllEventsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
+			//DeleteAllEvents();
+			//DeleteAllUserTypes();
 			InitializeCommon(eventRepository);
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
@@ -268,7 +270,15 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				// Add filtered items to the EventsToShowList
 				foreach (var eventItem in filteredEvents)
 				{
-					EventsToShowList.Add(eventItem);
+					try
+					{
+						EventsToShowList.Add(eventItem);
+
+					}
+					catch (Exception ex)
+					{
+						int x = 5;
+					}
 				}
 			}
 			EventsToShowList = new ObservableCollection<IGeneralEventModel>(EventsToShowList);

@@ -31,27 +31,31 @@
                    TextColor="Black"
                    />
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" Margin="10" Padding="0">
+                    
+                    <!--STARTS AT TIME-->
+                <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" Margin="10" Padding="0"  MinimumWidthRequest="120">
                         <StackLayout>
-                            <Label Text="STARTS AT" Margin="10" HorizontalOptions="Center"/>
+                        <Label Text="STARTS AT" Margin="10" HorizontalOptions="Center" TextColor="{DynamicResource MainTextColor}"/>
 
-                            <DatePicker x:Name="StartDatePicker" Date="{Binding StartDateTime}"
+                        <DatePicker x:Name="StartDatePicker" Date="{Binding StartDateTime}" TextColor="{DynamicResource MainTextColor}"
                         HorizontalOptions="Center"
                                 />
-                            <TimePicker x:Name="StartTimePicker" Format="HH:mm"
-                        Time="{Binding StartExactTime}"
+                            <TimePicker x:Name="StartTimePicker" Format="HH:mm" 
+                        Time="{Binding StartExactTime}"  TextColor="{DynamicResource MainTextColor}"
                         HorizontalOptions="Center"/>
                         </StackLayout>
                     </Frame>
-                    <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" Margin="10" Padding="0">
-                        <StackLayout>
-                            <Label Text="ENDS AT" Margin="10" HorizontalOptions="Center"/>
 
-                            <DatePicker x:Name="EndDatePicker"
+                <!--ENDS AT TIME-->
+                <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" Margin="10" Padding="0" MinimumWidthRequest="120">
+                        <StackLayout>
+                            <Label Text="ENDS AT" Margin="10" HorizontalOptions="Center" TextColor="{DynamicResource MainTextColor}"/>
+
+                        <DatePicker x:Name="EndDatePicker" TextColor="{DynamicResource MainTextColor}"
                             Date="{Binding EndDateTime}"
                             HorizontalOptions="Center"/>
 
-                            <TimePicker x:Name="EndTimePicker"  Format="HH:mm"
+                        <TimePicker x:Name="EndTimePicker"  Format="HH:mm" TextColor="{DynamicResource MainTextColor}"
                             Time="{Binding EndExactTime}"
                             HorizontalOptions="Center"/>
                         </StackLayout>

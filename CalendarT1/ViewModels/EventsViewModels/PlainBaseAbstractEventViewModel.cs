@@ -22,7 +22,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
 		private RelayCommand _goToAddNewTypePageCommand;
 
-		protected Color _deselectedUserEventTypeColor = Color.FromArgb("#FFC0C0C0");
+		protected Color _deselectedUserEventTypeColor = Color.FromArgb("#ffe580ff");
 		#endregion
 
 		#region Properties
@@ -136,26 +136,33 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#endregion
 		protected virtual void ApplyEventsDatesFilter(DateTime startDate, DateTime endDate)
 		{
+				var selectedToFilterEventTypes = AllEventTypesOC
+					.Where(x => x.IsSelectedToFilter)
+					.Select(x => x.EventTypeName)
+					.ToHashSet();
 
-			var selectedToFilterEventTypes = AllEventTypesOC
-				.Where(x => x.IsSelectedToFilter)
-				.Select(x => x.EventTypeName)
-				.ToHashSet();
+				List<IGeneralEventModel> filteredEvents = AllEventsListOC
+					.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
+								x.StartDateTime.Date >= startDate.Date &&
+								x.EndDateTime.Date <= endDate.Date)
+					.ToList();
 
-			List<IGeneralEventModel> filteredEvents = AllEventsListOC
-				.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
-							x.StartDateTime.Date >= startDate.Date &&
-							x.EndDateTime.Date <= endDate.Date)
-				.ToList();
+				// Clear existing items in the EventsToShowList
+				EventsToShowList.Clear();
 
-			// Clear existing items in the EventsToShowList
-			EventsToShowList.Clear();
+				// Add filtered items to the EventsToShowList
+				foreach (var eventItem in filteredEvents)
+				{
 
-			// Add filtered items to the EventsToShowList
-			foreach (var eventItem in filteredEvents)
-			{
-				EventsToShowList.Add(eventItem);
-			}
+					try
+					{
+						EventsToShowList.Add(eventItem);
+					}
+					catch (Exception ex)
+					{
+						string error = ex.Message;
+					}
+				}
 		}
 		private void GoToAddNewTypePage()
 		{

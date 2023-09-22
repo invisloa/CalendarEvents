@@ -16,7 +16,7 @@
 		private int _dayNamesFontSize = 15;
 		Color _emptyLabelColor = (Color)Application.Current.Resources["MainBackgroundColor"];
 		
-		private Color _watermarkDateColor = Color.FromArgb("#FFFFFF");	//gray color
+		private Color _watermarkDateColor = Color.FromArgb("#ffe580ff");	//gray color
 
 
 		public static readonly BindableProperty CurrentSelectedDateProperty =

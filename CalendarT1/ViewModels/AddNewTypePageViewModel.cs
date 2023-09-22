@@ -221,10 +221,16 @@ namespace CalendarT1.ViewModels
 			}
 			else
 			{
-				QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
-				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, QuantityAmount);
-				await _eventRepository.AddUserEventTypeAsync(newUserType);			
-				await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
+				Quantity? quantityAmount = null;
+				if (SelectedMainEventType == MainEventTypes.Value)
+				{
+					quantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
+				}
+				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, quantityAmount);
+				await _eventRepository.AddUserEventTypeAsync(newUserType);
+
+
+				await Shell.Current.GoToAsync("..");    // TODO CHANGE NOT WORKING!!!
 			}
 		}
 
