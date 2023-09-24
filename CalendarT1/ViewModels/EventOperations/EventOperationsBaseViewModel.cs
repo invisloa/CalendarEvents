@@ -9,6 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
+using System.Runtime.CompilerServices;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
@@ -258,7 +259,11 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_startExactTime = value;
 				OnPropertyChanged();
-				if (_startDateTime.Date == _endDateTime.Date && _startExactTime > _endExactTime)
+				if(SelectedEventType != null)
+				{
+					SetEndExactTimeAccordingToEventType();
+				}
+				else if (_startDateTime.Date == _endDateTime.Date && _startExactTime > _endExactTime)
 				{
 					_endExactTime = _startExactTime;
 					OnPropertyChanged(nameof(EndExactTime));
@@ -272,8 +277,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				if (_startDateTime > value)
 				{
-					_startDateTime = value;
-					_endDateTime = _startDateTime;
+					_endDateTime =_startDateTime = value;
 					OnPropertyChanged(nameof(StartDateTime));
 				}
 				else
@@ -288,19 +292,22 @@ namespace CalendarT1.ViewModels.EventOperations
 			get => _endExactTime;
 			set
 			{
+				if (_endExactTime == value) return; // Avoid unnecessary setting and triggering.
+
 				if (_startDateTime.Date == _endDateTime.Date && value < _startExactTime)
 				{
 					_startExactTime = value;
-					_endExactTime = _startExactTime;
 					OnPropertyChanged(nameof(StartExactTime));
+				}
+				LogCallerInformation();
 
-				}
-				else
-				{
-					_endExactTime = value;
-				}
+				_endExactTime = value;
 				OnPropertyChanged();
 			}
+		}
+		private void LogCallerInformation([CallerMemberName] string memberName = "", [CallerFilePath] string sourceFilePath = "", [CallerLineNumber] int sourceLineNumber = 0)
+		{
+			Console.WriteLine($"EndExactTime is set by {memberName} in {sourceFilePath} at {sourceLineNumber}");
 		}
 
 
@@ -331,25 +338,19 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			Title = "";
 			Description = "";
-			if (AllEventTypesOC != null && AllEventTypesOC.Count > 0)
-			{
-				SelectedEventType = AllEventTypesOC[0];
-			}
-			StartDateTime = DateTime.Today;
-			EndDateTime = DateTime.Today;
-			StartExactTime = DateTime.Now.TimeOfDay;
-			EndExactTime = DateTime.Now.TimeOfDay;
 			IsCompleted = false;
 			if(SelectedEventType.MainEventType == MainEventTypes.Value)
 			{
 				QuantityValue = 0; 
 			}
+			// TODO Show POPUP ???
 		}
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
 		{
 			var lastSelectedTypedefaultValue = SelectedEventType?.QuantityAmount?.Value ?? 0;
 			SelectedEventType = selectedEvent;
 			SelectedMainEventType = SelectedEventType.MainEventType;
+
 			if (SelectedMainEventType == MainEventTypes.Value)
 			{
 				IsValueTypeSelected = true;
@@ -364,7 +365,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				IsValueTypeSelected = false;
 			}
-
+			SetEndExactTimeAccordingToEventType();
 			//((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute( ); // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
 			SetVisualsForSelectedUserType();
 		}
@@ -399,8 +400,31 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				OnUserEventTypeSelected(AllEventTypesOC[0]);
 			}
-
 		}
+		private void SetEndExactTimeAccordingToEventType()
+		{
+			try
+			{
+				var timeSpanAdded = StartExactTime.Add(SelectedEventType.DefaultEventTimeSpan);
+
+				// Calculate the number of whole days within the TimeSpan
+				int days = (int)timeSpanAdded.TotalDays;
+
+				// Calculate the remaining hours, minutes, and seconds after removing whole days
+				TimeSpan remainingTime = timeSpanAdded - TimeSpan.FromDays(days);
+
+				// Set EndDateTime by adding whole days
+				EndDateTime = StartDateTime.AddDays(days);
+
+				// Set EndExactTime to the remaining hours, minutes, and seconds
+				EndExactTime = remainingTime;
+			}
+			catch
+			{
+				EndExactTime = StartExactTime;
+			}
+		}
+
 		public void DisableVisualsForAllMainEventTypes()
 		{
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();

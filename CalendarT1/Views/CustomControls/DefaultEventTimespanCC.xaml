@@ -13,7 +13,6 @@
                     <x:String>Days</x:String>
                     <x:String>Hours</x:String>
                     <x:String>Minutes</x:String>
-                    <x:String>Seconds</x:String>
                 </Picker.Items>
             </Picker>
             <!-- Entry for numeric input -->

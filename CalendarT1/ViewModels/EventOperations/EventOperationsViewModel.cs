@@ -13,8 +13,6 @@ namespace CalendarT1.ViewModels.EventOperations
 {
 	class EventOperationsViewModel : EventOperationsBaseViewModel
 	{
-		//			QuantityValueText = "SET DEFAULT VALUE:"; ???????
-
 		#region Fields
 		private IShareEvents _shareEvents;
 		private AsyncRelayCommand _deleteEventCommand;
@@ -96,7 +94,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{           
 			// value measurementType cannot be changed 
 			IsValueTypeSelectionEnabled = false;
-			_submitEventCommand = new AsyncRelayCommand(EditEvent, CanExecuteSubmitCommand);
+			_submitEventCommand = new AsyncRelayCommand(EditEventAsync, CanExecuteSubmitCommand);
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed
 			ShareEventCommand = new AsyncRelayCommand(ShareEvent);
@@ -146,7 +144,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			ClearFields();
 		}
 
-		private async Task EditEvent()
+		private async Task EditEventAsync()
 		{
 			QuantityValueText = "SET VALUE:";
 			_selectedCurrentEvent.Title = Title;

@@ -40,7 +40,7 @@
 //			// Implementation to postpone the event by 24 hours
 //		}
 
-//		private void EditEvent()
+//		private void EditEventAsync()
 //		{
 //			// Implementation to navigate to the event editing page
 //		}
