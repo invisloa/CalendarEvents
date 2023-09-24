@@ -52,9 +52,9 @@ namespace CalendarT1.Services
 			}
 		}
 
-		public static IUserEventTypeModel CreateNewEventType(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, Quantity quantity)
+		public static IUserEventTypeModel CreateNewEventType(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity)
 		{
-			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, quantity);
+			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, defaultEventTime, quantity);
 		}
 
 		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass()
@@ -65,6 +65,11 @@ namespace CalendarT1.Services
 		public static IFilterDatesCCHelperClass CreateFilterDatesCCHelperClass()
 		{
 			return new FilterDatesCCHelperClass();
+		}
+
+		internal static DefaultEventTimespanCCHelperClass CreateNewDefaultEventTimespanCCHelperClass()
+		{
+			return new DefaultEventTimespanCCHelperClass();
 		}
 	}
 }

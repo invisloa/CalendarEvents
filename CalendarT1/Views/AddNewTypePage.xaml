@@ -17,7 +17,7 @@
                 <CustomControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
                 <CustomControls:MeasurementSelectorCC/>
             </StackLayout>
-
+            <CustomControls:DefaultEventTimespanCC/>
             <!--Possible Colors of events to choose-->
             <Label Text="TYPE COLOR:" HorizontalOptions="CenterAndExpand" Margin="30"/>
             <CollectionView ItemsSource="{Binding ButtonsColors}">

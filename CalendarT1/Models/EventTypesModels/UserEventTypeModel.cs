@@ -10,6 +10,7 @@ namespace CalendarT1.Models.EventTypesModels
 		public MainEventTypes MainEventType { get; set; }
 		public string EventTypeName { get; set; }
 		private Color _eventTypeColor;
+		private TimeSpan _defaultEventTime;
 
 		// Store color as string due to serialization issues
 		public string EventTypeColorString
@@ -22,6 +23,20 @@ namespace CalendarT1.Models.EventTypesModels
 			set
 			{
 				_eventTypeColor = Color.FromArgb(value);
+			}
+		}
+		public TimeSpan DefaultEventTimeSpan
+		{
+			get
+			{
+				return _defaultEventTime;
+			}
+			set
+			{
+				if (_defaultEventTime != value)
+				{
+					_defaultEventTime = value;
+				}
 			}
 		}
 
@@ -86,10 +101,11 @@ namespace CalendarT1.Models.EventTypesModels
 			}
 		}
 
-		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, Quantity quantity = null, bool isSelectedToFilter = true)
+		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity = null, bool isSelectedToFilter = true)
 		{
 			MainEventType = mainEventType;
 			IsSelectedToFilter = isSelectedToFilter;
+			DefaultEventTimeSpan = defaultEventTime;
 			EventTypeName = eventTypeName;
 			EventTypeColor = eventTypeColor;
 			BackgroundColor = eventTypeColor; // Initialize BackgroundColor as EventTypeColor upon object creation

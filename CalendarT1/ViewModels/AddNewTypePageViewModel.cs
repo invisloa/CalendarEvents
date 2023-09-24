@@ -66,6 +66,8 @@ namespace CalendarT1.ViewModels
 		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
 		#endregion
 
+		public DefaultEventTimespanCCHelperClass DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
+
 		public event Action<MainEventTypes> MainEventTypeChanged;
 
 
@@ -73,6 +75,7 @@ namespace CalendarT1.ViewModels
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 10;
 
+		private TimeSpan _defaultEventTime;
 		private IUserEventTypeModel _currentType;   // if null => add new type, else => edit type
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 		private string _typeName;
@@ -86,6 +89,15 @@ namespace CalendarT1.ViewModels
 		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
 		public bool IsEdit => _currentType != null;
 		public bool IsNotEdit => !IsEdit;
+		public TimeSpan DefaultEventTimeSpan
+		{
+			get => _defaultEventTime;
+			set
+			{
+				if (_defaultEventTime == value) return;
+				_defaultEventTime = value;
+			}
+		}
 		public MainEventTypes SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
@@ -115,7 +127,6 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		public string TypeName
 		{
 			get => _typeName;
@@ -152,6 +163,8 @@ namespace CalendarT1.ViewModels
 		{
 			_eventRepository = eventRepository;
 			InitializeColorButtons();
+			DefaultEventTimespanCCHelper.DurationValue = 30;
+			DefaultEventTimespanCCHelper.SelectedUnitIndex = 2;
 			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
@@ -167,6 +180,7 @@ namespace CalendarT1.ViewModels
 			CurrentType = currentType;
 			MainEventTypeButtonsColor = currentType.EventTypeColor;
 			TypeName = currentType.EventTypeName;
+			DefaultEventTimeSpan = currentType.DefaultEventTimeSpan;
 			// set proper visuals for an edited event type
 		}
 		#endregion
@@ -215,6 +229,7 @@ namespace CalendarT1.ViewModels
 				// cannot change main event type => may lead to some future errors???
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = MainEventTypeButtonsColor;
+				_currentType.DefaultEventTimeSpan = DefaultEventTimespanCCHelper.GetDefaultDuration();
 				await _eventRepository.UpdateEventTypeAsync(_currentType);
 				await Shell.Current.GoToAsync("..");								// TODO CHANGE NOT WORKING!!!
 				
@@ -226,10 +241,9 @@ namespace CalendarT1.ViewModels
 				{
 					quantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 				}
-				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, quantityAmount);
+				var def = DefaultEventTimespanCCHelper.GetDefaultDuration();
+				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, DefaultEventTimespanCCHelper.GetDefaultDuration(), quantityAmount);
 				await _eventRepository.AddUserEventTypeAsync(newUserType);
-
-
 				await Shell.Current.GoToAsync("..");    // TODO CHANGE NOT WORKING!!!
 			}
 		}
@@ -329,6 +343,7 @@ namespace CalendarT1.ViewModels
 
 			};
 		}
+
 	}
 	#endregion
 

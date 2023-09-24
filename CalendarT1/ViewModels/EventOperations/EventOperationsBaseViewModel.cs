@@ -342,12 +342,12 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = false;
 			if(SelectedEventType.MainEventType == MainEventTypes.Value)
 			{
-				QuantityValue = 0;
+				QuantityValue = 0; 
 			}
 		}
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
 		{
-			var lastSelectedTypedefaultValue = SelectedEventType?.QuantityAmount.Value ?? 0m;
+			var lastSelectedTypedefaultValue = SelectedEventType?.QuantityAmount?.Value ?? 0;
 			SelectedEventType = selectedEvent;
 			SelectedMainEventType = SelectedEventType.MainEventType;
 			if (SelectedMainEventType == MainEventTypes.Value)

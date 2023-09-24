@@ -2,6 +2,11 @@
 
 
 #region Current
+// test release
+// is completed property for events
+// searchbox, iscomplete filtering
+
+
 // daily events release
 
 

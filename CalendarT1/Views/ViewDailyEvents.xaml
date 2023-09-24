@@ -18,6 +18,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!-- Date layout -->
+
         <customControls:TodayAndSelectedDateCC Grid.Row="0"/>
 
         <!-- EventTypesCustomControl collection -->
