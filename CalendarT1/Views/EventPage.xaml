@@ -11,29 +11,32 @@
             <Setter Property="TextColor" Value="Red" />
         </Style>
         <Style x:Key="ValidEntryStyle" TargetType="Entry">
-            <Setter Property="TextColor" Value="DarkGreen" />
+            <Setter Property="TextColor" Value="{DynamicResource MainTextColor}" />
         </Style>
     </ContentPage.Resources>
         <StackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
 
             <StackLayout >
-                <Label 
+            <Label 
                     Text="{Binding HeaderText}"
                     HorizontalOptions="Center" />
-
-                <Entry Placeholder="...EVENT TITLE..." PlaceholderColor="Black"
+            <Entry Placeholder="...EVENT TITLE..." 
                    x:Name="TitleEntry" 
                    HorizontalTextAlignment="Center"
                    HorizontalOptions="Center"
                    MinimumWidthRequest="300"
                    Text="{Binding Title}"
-                   BackgroundColor="Azure"
-                   TextColor="Black"
+                   TextColor="{DynamicResource MainTextColor}"
+                   PlaceholderColor="{DynamicResource MainTextColor}"
+                   BackgroundColor="{DynamicResource MainTextboxesBackgroundColor}"
                    />
             <Editor Placeholder="...DESCRIPTION..."
                         AutoSize="TextChanges"
                         x:Name="DescriptionEditor"  HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
                         Text="{Binding Description, Mode=TwoWay}"
+                        TextColor="{DynamicResource MainTextColor}"
+                        PlaceholderColor="{DynamicResource MainTextColor}"
+                        BackgroundColor="{DynamicResource MainTextboxesBackgroundColor}"
                         MaximumHeightRequest="100"
                         Margin="0, 10, 0, 0" />
             <!--Main Event Types Custom Control-->
@@ -68,28 +71,33 @@
                         <DatePicker x:Name="EndDatePicker" TextColor="{DynamicResource MainTextColor}"
                             Date="{Binding EndDateTime, Mode=TwoWay}"
                             HorizontalOptions="Center"/>
-
-                        <TimePicker x:Name="EndTimePicker"  Format="HH:mm" TextColor="{DynamicResource MainTextColor}"
+                            <TimePicker x:Name="EndTimePicker"  Format="HH:mm" TextColor="{DynamicResource MainTextColor}" 
                             Time="{Binding EndExactTime, Mode=TwoWay}"
                             HorizontalOptions="Center"/>
                     </StackLayout>
                 </Frame>
             </StackLayout>
+                <Frame BackgroundColor="{DynamicResource MainBackgroundColor}" HorizontalOptions="Center" Padding="5" IsVisible="{Binding EditModeVisibility}">
+                        <StackLayout Orientation="Horizontal">
 
+                            <Label Text="IS COMPLETED" VerticalOptions="Center"/>
+                            <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
+                                  />
+                        </StackLayout>
+                </Frame>
+                
 
                 <Button Text="{Binding SubmitButtonText}"
                         Command="{Binding SubmitEventCommand}"   
                         HorizontalOptions="Center"
-                       Margin="15"/>
+                        Margin="15"/>
 
-                    <Button Text="ShareEvent"
+                <Button Text="ShareEvent"
                         Command="{Binding ShareEventCommand}"
                         IsVisible="{Binding EditModeVisibility}"/>
                 <Button Text="Temporary Delete Button"
                         Command="{Binding DeleteEventCommand}"
                         IsVisible="{Binding EditModeVisibility}"/>
-                <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
-                          IsVisible="{Binding EditModeVisibility}"/>
             </StackLayout>
 
         </StackLayout>
