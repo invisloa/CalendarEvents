@@ -2,8 +2,10 @@
 
 
 #region Current
-// EndExactTime
-// is completed property for events
+
+// remake weekly view?? too slow??
+// weekly not showing events
+// TimeFrame for daily events page
 // searchbox, iscomplete filtering
 
 

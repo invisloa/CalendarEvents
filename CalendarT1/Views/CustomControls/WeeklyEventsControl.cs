@@ -9,8 +9,8 @@
 
     public class WeeklyEventsControl : MauiGrid
 	{
-		private readonly int _minimumDayOfWeekWidthRequest = 50;
-		private readonly int _minimumDayOfWeekHeightRequest = 25;
+		private readonly int _minimumDayOfWeekWidthRequest = 45;
+		private readonly int _minimumDayOfWeekHeightRequest = 55;
 		private readonly double _firstColumnForHoursWidth = 50;
 		private readonly int _displayEventsLimit = 1;  // Set a limit to how many items will be displayed
 
@@ -134,7 +134,8 @@
 			for (int hour = 0; hour < 24; hour++)
 			{
 				// Add hour indicator
-				var hourLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{hour}:00" };
+				var hourLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{hour:D2}" };
+				hourLabel.WidthRequest = _firstColumnForHoursWidth;
 				Grid.SetRow(hourLabel, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
 				Grid.SetColumn(hourLabel, 0);  // Place the hour indicator in the first column
 				Children.Add(hourLabel);
