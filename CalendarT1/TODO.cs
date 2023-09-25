@@ -2,7 +2,7 @@
 
 
 #region Current
-// test release
+// EndExactTime
 // is completed property for events
 // searchbox, iscomplete filtering
 

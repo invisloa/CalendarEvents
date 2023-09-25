@@ -238,6 +238,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 		// Start Date/Time
+		bool _isChangingEndTimes = false;
 		public DateTime StartDateTime
 		{
 			get => _startDateTime;
@@ -245,10 +246,45 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_startDateTime = value;
 				OnPropertyChanged();
-				if (_startDateTime > _endDateTime)
+				if (SelectedEventType != null && !_isChangingEndTimes)
+				{
+					SetEndExactTimeAccordingToEventType();
+				}
+                else if (_startDateTime > _endDateTime)
 				{
 					_endDateTime = _startDateTime;
 					OnPropertyChanged(nameof(EndDateTime));
+				}
+			}
+		}
+		public DateTime EndDateTime
+		{
+			get => _endDateTime;
+			set
+			{
+				try
+				{
+					_isChangingEndTimes = true;
+					if (_startDateTime > value)
+					{
+						_endDateTime = _startDateTime = value;
+						OnPropertyChanged(nameof(StartDateTime));
+					}
+					else
+					{
+						_endDateTime = value;
+					}
+					OnPropertyChanged();
+					_isChangingEndTimes = false;
+				}
+				catch
+				{
+					_endDateTime = _startDateTime;
+					OnPropertyChanged(nameof(EndDateTime));
+				}
+				finally
+				{
+					_isChangingEndTimes = false;
 				}
 			}
 		}
@@ -259,7 +295,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_startExactTime = value;
 				OnPropertyChanged();
-				if(SelectedEventType != null)
+				if(SelectedEventType != null && !_isChangingEndTimes)
 				{
 					SetEndExactTimeAccordingToEventType();
 				}
@@ -270,45 +306,36 @@ namespace CalendarT1.ViewModels.EventOperations
 				}
 			}
 		}
-		public DateTime EndDateTime
-		{
-			get => _endDateTime;
-			set
-			{
-				if (_startDateTime > value)
-				{
-					_endDateTime =_startDateTime = value;
-					OnPropertyChanged(nameof(StartDateTime));
-				}
-				else
-				{
-					_endDateTime = value;
-				}
-				OnPropertyChanged();
-			}
-		}
+
 		public TimeSpan EndExactTime
 		{
 			get => _endExactTime;
 			set
 			{
-				if (_endExactTime == value) return; // Avoid unnecessary setting and triggering.
-
-				if (_startDateTime.Date == _endDateTime.Date && value < _startExactTime)
+				try
 				{
-					_startExactTime = value;
-					OnPropertyChanged(nameof(StartExactTime));
+					_isChangingEndTimes = true;
+					if (_endExactTime == value) return; // Avoid unnecessary setting and triggering.
+					_endExactTime = value;
+					if (_startDateTime.Date == _endDateTime.Date && value < _startExactTime)
+					{
+						_startExactTime = value;
+						OnPropertyChanged(nameof(StartExactTime));
+					}
+					OnPropertyChanged();
 				}
-				LogCallerInformation();
-
-				_endExactTime = value;
-				OnPropertyChanged();
+				catch
+				{
+					_endExactTime = _startExactTime;
+					OnPropertyChanged(nameof(EndExactTime));
+				}
+				finally
+				{
+					_isChangingEndTimes = false;
+				}
 			}
 		}
-		private void LogCallerInformation([CallerMemberName] string memberName = "", [CallerFilePath] string sourceFilePath = "", [CallerLineNumber] int sourceLineNumber = 0)
-		{
-			Console.WriteLine($"EndExactTime is set by {memberName} in {sourceFilePath} at {sourceLineNumber}");
-		}
+
 
 
 		#endregion
@@ -411,7 +438,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				int days = (int)timeSpanAdded.TotalDays;
 
 				// Calculate the remaining hours, minutes, and seconds after removing whole days
-				TimeSpan remainingTime = timeSpanAdded - TimeSpan.FromDays(days);
+				TimeSpan remainingTime = TimeSpan.FromHours(timeSpanAdded.Hours).Add(TimeSpan.FromMinutes(timeSpanAdded.Minutes)).Add(TimeSpan.FromSeconds(timeSpanAdded.Seconds));
 
 				// Set EndDateTime by adding whole days
 				EndDateTime = StartDateTime.AddDays(days);
