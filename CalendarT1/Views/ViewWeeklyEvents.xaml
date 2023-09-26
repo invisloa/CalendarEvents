@@ -27,7 +27,6 @@
 
         <ScrollView Grid.Row="3" Orientation="Vertical">
 
-            <ScrollView Grid.Row="3" Orientation="Horizontal">
                 <customControls:WeeklyEventsControl 
                 x:Name="weeklyEventsControl"
                 AllEventsList="{Binding AllEventsListOC}" 
@@ -36,7 +35,6 @@
                 EventsToShowList="{Binding EventsToShowList, Mode=TwoWay}"
                 GoToSelectedDateCommand="{Binding GoToSelectedDateCommand}"    />
             </ScrollView>
-        </ScrollView>
 
     </Grid>
 </ContentPage>

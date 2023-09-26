@@ -10,15 +10,12 @@
 
     public class MonthlyEventsControl : MauiGrid
 	{
-		private int _displayEventsLimit = 1;
+		private int _displayEventsLimit;
 		private int _watermarkDateTextFontSize = 20;
 		private int _eventNamesFontSize = 15;
 		private int _dayNamesFontSize = 15;
 		Color _emptyLabelColor = (Color)Application.Current.Resources["MainBackgroundColor"];
-		
 		private Color _watermarkDateColor = (Color)Application.Current.Resources["MainTextColor"];
-
-
 		public static readonly BindableProperty CurrentSelectedDateProperty =
 			BindableProperty.Create(
 				nameof(CurrentSelectedDate),
@@ -67,19 +64,6 @@
 			set => SetValue(EventSelectedCommandProperty, value);
 		}
 
-		public static readonly BindableProperty GenerateGridCommandProperty = BindableProperty.Create(
-			nameof(GenerateGridCommand),
-			typeof(RelayCommand),
-			typeof(MonthlyEventsControl),
-			defaultValue: null,
-			defaultBindingMode: BindingMode.OneWay,
-			propertyChanged: null);
-
-		public RelayCommand GenerateGridCommand
-		{
-			get => (RelayCommand)GetValue(GenerateGridCommandProperty);
-			set => SetValue(GenerateGridCommandProperty, value);
-		}
 
 		public static readonly BindableProperty GoToSelectedDateCommandProperty =
 			BindableProperty.Create(
@@ -91,12 +75,6 @@
 		{
 			get => (RelayCommand<DateTime>)GetValue(GoToSelectedDateCommandProperty);
 			set => SetValue(GoToSelectedDateCommandProperty, value);
-		}
-
-		// add to constructor or initialization method
-		public MonthlyEventsControl()
-		{
-			GenerateGridCommand = new RelayCommand(GenerateGrid);
 		}
 		public void GenerateGrid()
 		{
@@ -221,3 +199,26 @@
 		}
 	}
 }
+
+
+
+
+
+/*private void setDisplayLimit(int phoneLimit, int desktopLimit)
+{
+	var deviceInfo = DeviceInfo.Idiom;
+	if (deviceInfo == DeviceIdiom.Desktop)
+	{
+		_displayEventsLimit = desktopLimit;
+	}
+	else if (deviceInfo == DeviceIdiom.Phone)
+	{
+		_displayEventsLimit = phoneLimit;
+	}
+	else
+	{
+		_displayEventsLimit = phoneLimit; // Default value for other idioms
+	}
+}
+
+*/

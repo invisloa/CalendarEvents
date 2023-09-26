@@ -11,7 +11,7 @@
 	{
 		private readonly int _minimumDayOfWeekWidthRequest = 45;
 		private readonly int _minimumDayOfWeekHeightRequest = 55;
-		private readonly double _firstColumnForHoursWidth = 50;
+		private readonly double _firstColumnForHoursWidth = 35;
 		private readonly int _displayEventsLimit = 1;  // Set a limit to how many items will be displayed
 
 		Color _buttonsBackgroundColor = (Color)Application.Current.Resources["MainBackgroundColor"];
@@ -79,24 +79,6 @@
 			set => SetValue(GoToSelectedDateCommandProperty, value);
 		}
 
-		public static readonly BindableProperty GenerateGridCommandProperty = BindableProperty.Create(
-			nameof(GenerateGridCommand),
-			typeof(RelayCommand),
-			typeof(WeeklyEventsControl),
-			defaultValue: null,
-			defaultBindingMode: BindingMode.OneWay,
-			propertyChanged: null);
-		public RelayCommand GenerateGridCommand
-		{
-			get => (RelayCommand)GetValue(GenerateGridCommandProperty);
-			set => SetValue(GenerateGridCommandProperty, value);
-		}
-
-		// add to constructor or initialization method
-		public WeeklyEventsControl()
-		{
-			GenerateGridCommand = new RelayCommand(GenerateGrid);
-		}
 		public void GenerateGrid()
 		{
 			// Clear the existing rows and columns
@@ -151,9 +133,7 @@
 						.ToList(); // to Check
 					if (dayEvents != null && dayEvents.Count > 0)
 					{
-
-						var eventColor = dayEvents[0].EventVisibleColor;
-						frame.BackgroundColor = eventColor;
+						frame.BackgroundColor = dayEvents[0].EventVisibleColor;
 						// Create a StackLayout for the events
 						var stackLayout = new StackLayout();
 
