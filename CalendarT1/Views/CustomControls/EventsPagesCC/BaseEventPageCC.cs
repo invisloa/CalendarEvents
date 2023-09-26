@@ -8,10 +8,17 @@ namespace CalendarT1.Views.CustomControls
 	using System.Linq;
 	using MauiGrid = Microsoft.Maui.Controls.Grid;
 
-	public class BaseEventPageCC : MauiGrid
+	public abstract class BaseEventPageCC : MauiGrid
 	{
+		protected int _displayEventsLimit;  // Set a limit to how many items will be displayed
 
-		public static readonly BindableProperty CurrentSelectedDateProperty =
+        public BaseEventPageCC()
+        {
+			setDisplayLimit(1, 4);
+
+		}
+
+        public static readonly BindableProperty CurrentSelectedDateProperty =
 			 BindableProperty.Create(
 				 nameof(CurrentSelectedDate),
 				 typeof(DateTime),
@@ -69,6 +76,22 @@ namespace CalendarT1.Views.CustomControls
 		{
 			get => (RelayCommand<DateTime>)GetValue(GoToSelectedDateCommandProperty);
 			set => SetValue(GoToSelectedDateCommandProperty, value);
+		}
+		private void setDisplayLimit(int phoneLimit, int desktopLimit)
+		{
+			var deviceInfo = DeviceInfo.Idiom;
+			if (deviceInfo == DeviceIdiom.Desktop)
+			{
+				_displayEventsLimit = desktopLimit;
+			}
+			else if (deviceInfo == DeviceIdiom.Phone)
+			{
+				_displayEventsLimit = phoneLimit;
+			}
+			else
+			{
+				_displayEventsLimit = phoneLimit; // Default value for other idioms
+			}
 		}
 	}
 }

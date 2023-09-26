@@ -3,7 +3,7 @@
 
 #region Current
 
-// remake weekly view?? too slow??
+// add tapgesturerecognizer to weekly page same as monthly
 // weekly not showing events
 // TimeFrame for daily events page
 // searchbox, iscomplete filtering
