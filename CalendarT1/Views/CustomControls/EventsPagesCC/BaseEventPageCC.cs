@@ -11,8 +11,13 @@ namespace CalendarT1.Views.CustomControls
 	public abstract class BaseEventPageCC : MauiGrid
 	{
 		protected int _displayEventsLimit;  // Set a limit to how many items will be displayed
-
-        public BaseEventPageCC()
+		protected int _eventNamesFontSize = 15;
+		protected int _dayNamesFontSize = 15;
+		protected Color _eventTextColor = (Color)Application.Current.Resources["MainTextColor"];
+		protected Color _emptyLabelColor = (Color)Application.Current.Resources["MainBackgroundColor"];
+		protected Color _frameBorderColor = Color.FromRgba(255, 255, 255, 255);
+		protected Color _moreEventsLabelColor = Color.FromRgba(0, 0, 0, 100);
+		public BaseEventPageCC()
         {
 			setDisplayLimit(1, 4);
 

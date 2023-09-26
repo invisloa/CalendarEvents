@@ -13,7 +13,6 @@
 		private readonly int _minimumDayOfWeekHeightRequest = 55;
 		private readonly double _firstColumnForHoursWidth = 35;
 
-		Color _buttonsBackgroundColor = (Color)Application.Current.Resources["MainBackgroundColor"];
 		public void GenerateGrid()
 		{
 			// Clear the existing rows and columns
@@ -25,7 +24,7 @@
 			for (int day = 0; day < 7; day++)
 			{
 				//	var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
-				var dayOfWeekLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold,
+				var dayOfWeekLabel = new Label { FontSize = _dayNamesFontSize, FontAttributes = FontAttributes.Bold,
 									Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - dayOfWeekNumber).ToString("dd")}" };
 				Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
 				Grid.SetColumn(dayOfWeekLabel, day + 1);  // Adjust column index by 1 to make space for the hour indicator
@@ -60,11 +59,11 @@
 				for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
 				{
 					// Create a frame for each cell
-					var frame = new Frame { BorderColor = Color.FromRgba(255, 255, 255, 255), Padding = 5, BackgroundColor = _buttonsBackgroundColor, MinimumWidthRequest = _minimumDayOfWeekWidthRequest, MinimumHeightRequest = _minimumDayOfWeekHeightRequest };
+					var frame = new Frame { BorderColor = _frameBorderColor, Padding = 5, BackgroundColor = _emptyLabelColor, MinimumWidthRequest = _minimumDayOfWeekWidthRequest, MinimumHeightRequest = _minimumDayOfWeekHeightRequest };
 
 					var dayEvents = EventsToShowList
 						.Where(e => e.StartDateTime.Date == CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek).Date
-									&& e.StartDateTime.Hour <= hour && e.EndDateTime.Hour >= hour)
+									&& e.StartDateTime.Hour == hour)
 						.ToList(); // to Check
 					if (dayEvents != null && dayEvents.Count > 0)
 					{
@@ -72,24 +71,6 @@
 						// Create a StackLayout for the events
 						var stackLayout = new StackLayout();
 
-						for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
-						{
-							var label = new Label
-							{
-								FontSize = 10,
-								FontAttributes = FontAttributes.Bold,
-								Text = dayEvents[i].Title,
-								BackgroundColor = dayEvents[i].EventVisibleColor
-							};
-							if (i < _displayEventsLimit - 1 || dayEvents.Count == 1)
-							{
-								var tapGestureRecognizer = new TapGestureRecognizer();
-								tapGestureRecognizer.Command = EventSelectedCommand;
-								tapGestureRecognizer.CommandParameter = dayEvents[i];
-								label.GestureRecognizers.Add(tapGestureRecognizer);
-								stackLayout.Children.Add(label);
-							}
-						}
 						// If there are more items than the limit, add a 'See more' label
 						if (dayEvents.Count > _displayEventsLimit)
 						{
@@ -98,18 +79,38 @@
 								FontSize = 15,
 								FontAttributes = FontAttributes.Italic,
 								Text = $"... {dayEvents.Count} ...",
-								TextColor = Color.FromRgba(255, 255, 255, 255),
-								BackgroundColor = Color.FromRgba(0, 0, 0, 100)
+								TextColor = _eventTextColor,
+								BackgroundColor = _moreEventsLabelColor
 							};
 							var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer();
 							tapGestureRecognizerForMoreEvents.Command = GoToSelectedDateCommand;
 							tapGestureRecognizerForMoreEvents.CommandParameter = CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek);
-
-
 							frame.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 							moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 							stackLayout.Children.Add(moreLabel);
 						}
+						else
+						{
+							for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
+							{
+								var label = new Label
+								{
+									FontSize = _eventNamesFontSize,
+									FontAttributes = FontAttributes.Bold,
+									Text = dayEvents[i].Title,
+									BackgroundColor = dayEvents[i].EventVisibleColor
+								};
+								if (i < _displayEventsLimit - 1 || dayEvents.Count == 1)
+								{
+									var tapGestureRecognizer = new TapGestureRecognizer();
+									tapGestureRecognizer.Command = EventSelectedCommand;
+									tapGestureRecognizer.CommandParameter = dayEvents[i];
+									label.GestureRecognizers.Add(tapGestureRecognizer);
+									stackLayout.Children.Add(label);
+								}
+							}
+						}
+
 
 						frame.Content = stackLayout;
 					}

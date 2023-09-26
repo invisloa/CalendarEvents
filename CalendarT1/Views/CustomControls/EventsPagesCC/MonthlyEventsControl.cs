@@ -11,9 +11,6 @@
     public class MonthlyEventsControl : BaseEventPageCC
 	{
 		private int _watermarkDateTextFontSize = 20;
-		private int _eventNamesFontSize = 15;
-		private int _dayNamesFontSize = 15;
-		Color _emptyLabelColor = (Color)Application.Current.Resources["MainBackgroundColor"];
 		private Color _watermarkDateColor = (Color)Application.Current.Resources["MainTextColor"];
 
         public MonthlyEventsControl() : base()
@@ -88,21 +85,6 @@
 					var eventColor = dayEvents[0].EventVisibleColor;
 					frame.BackgroundColor = eventColor;
 
-					// Set a limit to how many items will be displayed
-					for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
-					{
-						if (i < _displayEventsLimit - 1 || dayEvents.Count ==1)
-						{
-							var label = new Label
-							{
-								FontSize = _eventNamesFontSize,
-								FontAttributes = FontAttributes.Bold,
-								Text = dayEvents[i].Title,
-								BackgroundColor = dayEvents[i].EventVisibleColor
-							};
-							stackLayoutForFrame.Children.Add(label);
-						}
-					}
 					// If there are more items than the limit, add a 'See more' label
 					if (dayEvents.Count > _displayEventsLimit)
 					{
@@ -110,14 +92,33 @@
 						{
 							FontSize = _eventNamesFontSize,
 							FontAttributes = FontAttributes.Italic,
-							Text = $"... {dayEvents.Count - _displayEventsLimit} ...",
+							Text = $"... {dayEvents.Count} ...",
 							HorizontalTextAlignment = TextAlignment.Center,
-							TextColor = Color.FromRgba(255, 255, 255, 255),
-							BackgroundColor = Color.FromRgba(0, 0, 0, 100)
+							TextColor = _eventTextColor,
+							BackgroundColor = _moreEventsLabelColor
 						};
 
 						stackLayoutForFrame.Children.Add(moreLabel);
 					}
+					else
+					{
+						// Set a limit to how many items will be displayed
+						for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
+						{
+							if (i <= _displayEventsLimit - 1 || dayEvents.Count == 1)
+							{
+								var label = new Label
+								{
+									FontSize = _eventNamesFontSize,
+									FontAttributes = FontAttributes.Bold,
+									Text = dayEvents[i].Title,
+									BackgroundColor = dayEvents[i].EventVisibleColor
+								};
+								stackLayoutForFrame.Children.Add(label);
+							}
+						}
+					}
+
 
 					// one tap if there are any events
 					var oneTapGestureRecognizerForMoreEvents = new TapGestureRecognizer();
