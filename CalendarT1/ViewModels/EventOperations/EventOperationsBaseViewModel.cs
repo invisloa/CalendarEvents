@@ -185,6 +185,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			get => _selectedEventType;
 			set
 			{
+				if(_selectedEventType == value) return;
 				_selectedEventType = value;
 				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
 				_submitEventCommand.NotifyCanExecuteChanged();
@@ -244,6 +245,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			get => _startDateTime;
 			set
 			{
+				if(_startDateTime == value) return;
 				_startDateTime = value;
 				OnPropertyChanged();
 				if (SelectedEventType != null && !_isChangingEndTimes)
@@ -264,6 +266,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				try
 				{
+					if(_endDateTime == value) return;
 					_isChangingEndTimes = true;
 					if (_startDateTime > value)
 					{
@@ -293,6 +296,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			get => _startExactTime;
 			set
 			{
+				if (_startExactTime == value) return; // Avoid unnecessary setting and triggering.
 				_startExactTime = value;
 				OnPropertyChanged();
 				if(SelectedEventType != null && !_isChangingEndTimes)
@@ -314,8 +318,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				try
 				{
-					_isChangingEndTimes = true;
 					if (_endExactTime == value) return; // Avoid unnecessary setting and triggering.
+					_isChangingEndTimes = true;
 					_endExactTime = value;
 					if (_startDateTime.Date == _endDateTime.Date && value < _startExactTime)
 					{

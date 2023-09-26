@@ -3,6 +3,7 @@
 
 #region Current
 
+// consider changing weekpage gotoevent change to gotoday instead- check on phone if labels are not too small
 // add tapgesturerecognizer to weekly page same as monthly
 // weekly not showing events
 // TimeFrame for daily events page
@@ -10,13 +11,6 @@
 
 
 // daily events release
-
-
-
-// do not let to change events type to change main event type
-// update events color after editing 
-
-
 
 //All Events Page EventsToShowList and userEventTypesList
 

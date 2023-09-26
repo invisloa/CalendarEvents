@@ -14,30 +14,28 @@
         </Grid.ColumnDefinitions>
 
             <!-- StackLayout for the left side -->
-        <Frame Grid.Column="0" HorizontalOptions="Start" Margin="10, 10, 0, 10" BackgroundColor="{DynamicResource MainFrameBackgroundColor}" Padding="0">
+        <Frame Grid.Column="0" HorizontalOptions="Start" Margin="10, 0, 0, 10" BackgroundColor="{DynamicResource MainFrameBackgroundColor}" Padding="0">
               <StackLayout Orientation="Horizontal">
                 <DatePicker Date="{Binding FilterDateFrom}" HorizontalOptions="Center" TextColor="{DynamicResource MainTextColor}"/>
             </StackLayout>
         </Frame>
         <StackLayout Grid.Column="1"  HorizontalOptions="Start" VerticalOptions="Center">
-            <Label  Text="&lt;-" TextColor="{DynamicResource MainTextColor}"/>
+            <Label  Text="&lt;-" TextColor="{DynamicResource MainTextColor}" />
 
         </StackLayout>
 
-        <StackLayout Grid.Column="2"  HorizontalOptions="Center" VerticalOptions="Center">
+        <StackLayout Grid.Column="2"  HorizontalOptions="Center" VerticalOptions="Center" >
             <Label  Text="DATE FILTERS" TextColor="{DynamicResource MainTextColor}"/>
-
         </StackLayout>
         <StackLayout Grid.Column="3"  HorizontalOptions="End" VerticalOptions="Center">
             <Label  Text="-&gt;" TextColor="{DynamicResource MainTextColor}"/>
 
         </StackLayout>
         <!-- StackLayout for the right side -->
-        <Frame Grid.Column="4" HorizontalOptions="End" Margin="0, 10, 10, 10" BackgroundColor="{DynamicResource MainFrameBackgroundColor}" Padding="0">
+        <Frame Grid.Column="4" HorizontalOptions="End" Margin="0, 0, 10, 10" BackgroundColor="{DynamicResource MainFrameBackgroundColor}" Padding="0">
             <StackLayout Orientation="Horizontal">
                 <DatePicker Date="{Binding FilterDateTo}" HorizontalOptions="Center" TextColor="{DynamicResource MainTextColor}"/>
             </StackLayout>
-
         </Frame>
         
     </Grid>

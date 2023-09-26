@@ -156,7 +156,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				List<IGeneralEventModel> filteredEvents = AllEventsListOC
 					.Where(x => selectedToFilterEventTypes.Contains(x.EventType.ToString()) &&
 								x.StartDateTime.Date >= startDate.Date &&
-								x.EndDateTime.Date <= endDate.Date)
+								x.StartDateTime.Date <= endDate.Date)
 					.ToList();
 
 				// Clear existing items in the EventsToShowList

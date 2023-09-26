@@ -18,7 +18,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private AsyncRelayCommand _deleteEventCommand;
 		private AsyncRelayCommand _shareEventCommand;
 		#endregion
-
+		public bool isPageLoadingStatus;
 		#region Properties
 		public string PageTitle => IsEditMode ? "Edit Event" : "Add Event";
 		public string HeaderText => IsEditMode ? $"EDIT EVENT" : "ADD NEW EVENT";
@@ -81,12 +81,6 @@ namespace CalendarT1.ViewModels.EventOperations
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
 
-			// do not select any events by default
-			//if(AllEventTypesOC != null && AllEventTypesOC.Count > 0)
-			//{
-			//	SelectedEventType = AllEventTypesOC[0];
-			//	OnUserEventTypeSelected(SelectedEventType);
-			//}
 		}
 		// ctor for editing events edit mode
 		public EventOperationsViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
@@ -106,11 +100,12 @@ namespace CalendarT1.ViewModels.EventOperations
 			Description = _selectedCurrentEvent.Description;
 			StartDateTime = _selectedCurrentEvent.StartDateTime.Date;
 			EndDateTime = _selectedCurrentEvent.EndDateTime.Date;
+			SelectedMainEventType = _selectedCurrentEvent.EventType.MainEventType;
+			SelectedEventType = _selectedCurrentEvent.EventType;
 			StartExactTime = _selectedCurrentEvent.StartDateTime.TimeOfDay;
 			EndExactTime = _selectedCurrentEvent.EndDateTime.TimeOfDay;
 			IsCompleted = _selectedCurrentEvent.IsCompleted;
-			SelectedMainEventType = _selectedCurrentEvent.EventType.MainEventType;
-			SelectedEventType = _selectedCurrentEvent.EventType;
+
 			FilterAllEventTypesOCByMainEventType(SelectedMainEventType);	// CANNOT CHANGE MAIN EVENT TYPE
 			if (_selectedCurrentEvent.QuantityAmount != null)
 			{
@@ -118,7 +113,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
 			}
 			MainEventTypeSelectedCommand = null;
-			
+			isPageLoadingStatus = true;
 		}
 		#endregion
 

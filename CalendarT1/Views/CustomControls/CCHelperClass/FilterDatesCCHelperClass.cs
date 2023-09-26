@@ -14,6 +14,7 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
     {
         public class FilterDatesCCHelperClass : IFilterDatesCC, IFilterDatesCCHelperClass
 		{
+			// there is no SEARCHBOX here because it is not worth to add all logic for it
 			private DateTime _filterDateFrom;
 			private DateTime _filterDateTo;
 
