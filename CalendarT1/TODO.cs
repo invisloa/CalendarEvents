@@ -2,6 +2,7 @@
 
 
 #region Current
+// consider??? weekly add days horizontally so there could be columnspan for time the event takes
 //DeleteEventCommand are you sure... popup
 
 //click on iscompleted frame checks the checkbox

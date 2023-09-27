@@ -15,4 +15,10 @@ namespace CalendarT1.Models.EventModels
         public TaskModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false) : base(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown)
         { }
     }
+    public class SubTasks
+    {
+        string Title { get; set; }
+        string Description { get; set; }
+        bool IsCompleted { get; set; }
+    }
 }
