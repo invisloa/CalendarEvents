@@ -18,7 +18,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		private AsyncRelayCommand _deleteEventCommand;
 		private AsyncRelayCommand _shareEventCommand;
 		#endregion
-		public bool isPageLoadingStatus;
 		#region Properties
 		public string PageTitle => IsEditMode ? "Edit Event" : "Add Event";
 		public string HeaderText => IsEditMode ? $"EDIT EVENT" : "ADD NEW EVENT";
@@ -113,7 +112,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
 			}
 			MainEventTypeSelectedCommand = null;
-			isPageLoadingStatus = true;
 		}
 		#endregion
 

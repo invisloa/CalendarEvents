@@ -22,9 +22,7 @@ namespace CalendarT1.Views
 			InitializeComponent();
 
 			BindingContext = new EventOperationsViewModel(eventRepository, eventToEdit: eventModel);
-			var xxx = BindingContext as EventOperationsViewModel;
-			xxx.isPageLoadingStatus = false;
-			var x  = xxx.EndExactTime;
+
 		}
 
 	}
