@@ -106,7 +106,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = _selectedCurrentEvent.IsCompleted;
 
 			FilterAllEventTypesOCByMainEventType(SelectedMainEventType);	// CANNOT CHANGE MAIN EVENT TYPE
-			if (_selectedCurrentEvent.QuantityAmount != null)
+			if (_selectedCurrentEvent.EventType.MainEventType == MainEventTypes.Value)
 			{
 				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
 				QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
@@ -157,15 +157,29 @@ namespace CalendarT1.ViewModels.EventOperations
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
 			OnPropertyChanged(nameof(AllEventTypesOC));
 		}
+
 		private async Task DeleteSelectedEvent()
 		{
-			await _eventRepository.DeleteFromEventsListAsync(_selectedCurrentEvent);
-			await Shell.Current.GoToAsync("..");
+				var action = await App.Current.MainPage.DisplayActionSheet($"Delete event {_selectedCurrentEvent.Title}", "Cancel", null, "Delete");
+				switch (action)
+				{
+					case "Delete":
+						await _eventRepository.DeleteFromEventsListAsync(_selectedCurrentEvent);
+						await Shell.Current.GoToAsync("..");
+					break;
+					default:
+						// Cancel was selected or back button was pressed.
+						break;
+				}
+				return;
+
 		}
 
 		private async Task ShareEvent()
 		{
-			await _shareEvents.ShareEventAsync(_selectedCurrentEvent);
+			var action = await App.Current.MainPage.DisplayActionSheet("Not working for now!!!", "Cancel", null, "XXXX");
+
+			/// await _shareEvents.ShareEventAsync(_selectedCurrentEvent);
 		}
 
 		#endregion

@@ -17,27 +17,68 @@
         <StackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
 
             <StackLayout >
-            <Label 
-                    Text="{Binding HeaderText}"
-                    HorizontalOptions="Center" />
-            <Entry Placeholder="...EVENT TITLE..." 
-                   x:Name="TitleEntry" 
-                   HorizontalTextAlignment="Center"
-                   HorizontalOptions="Center"
-                   MinimumWidthRequest="300"
-                   Text="{Binding Title}"
-                   TextColor="{DynamicResource MainTextColor}"
-                   PlaceholderColor="{DynamicResource MainTextColor}"
-                   BackgroundColor="{DynamicResource MainTextboxesBackgroundColor}"
-                   />
+            <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Border Stroke="{DynamicResource MainTextboxesBackgroundColor}" Grid.Column="1"
+                        StrokeThickness="2 ">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="20" />
+                    </Border.StrokeShape>
+
+                    <Entry 
+                       Placeholder="...EVENT TITLE..." 
+                       x:Name="TitleEntry" 
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="CenterAndExpand"
+                       MinimumWidthRequest="200"
+                       Text="{Binding Title}"
+                       TextColor="{DynamicResource MainTextColor}"
+                       FontSize="{DynamicResource EventTitleFontSize}"
+                       PlaceholderColor="{DynamicResource MainTextColor}"
+                       Background="{DynamicResource MainTextboxesBackgroundColor}" />
+                </Border>
+
+                <StackLayout Orientation="Horizontal" Grid.Column="2"
+                             HorizontalOptions="End" 
+                             VerticalOptions="Center" >
+                    <ImageButton 
+                             CornerRadius="10"
+                             Source="share_icon_small.png"
+                             WidthRequest="40" 
+                             HeightRequest="40"
+                             Margin="10"
+                             Background="{DynamicResource MainButtonBackgroundColor}"
+                             Command="{Binding ShareEventCommand}" 
+                             IsVisible="{Binding EditModeVisibility}" />
+                    <ImageButton 
+                    Source="remove_icon_small.png"
+                        CornerRadius="10"
+                        WidthRequest="40" 
+                        HeightRequest="40"
+                        Margin="10"
+                        Background="{DynamicResource MainButtonBackgroundColor}"
+                        Command="{Binding DeleteEventCommand}" 
+                        IsVisible="{Binding EditModeVisibility}" />
+
+                </StackLayout>
+
+            </Grid>
+
             <Editor Placeholder="...DESCRIPTION..."
                         AutoSize="TextChanges"
                         x:Name="DescriptionEditor"  HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
                         Text="{Binding Description, Mode=TwoWay}"
                         TextColor="{DynamicResource MainTextColor}"
                         PlaceholderColor="{DynamicResource MainTextColor}"
-                        BackgroundColor="{DynamicResource MainTextboxesBackgroundColor}"
+                        Background="{DynamicResource MainTextboxesBackgroundColor}"
+                        VerticalTextAlignment="Center"
                         MaximumHeightRequest="100"
+                        MinimumWidthRequest="350"
                         Margin="0, 10, 0, 0" />
             <!--Main Event Types Custom Control-->
                 <customControls:MainEventTypesCustomControl/>
@@ -52,25 +93,27 @@
                 <!--STARTS AT TIME-->
                 <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" Margin="10" Padding="0"  MinimumWidthRequest="120">
                     <StackLayout>
-                        <Label Text="STARTS AT" Margin="10" HorizontalOptions="Center" TextColor="{DynamicResource MainTextColor}"/>
+                        <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                            <Label Text="STARTS AT" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource MainTextColor}" Margin="10" />
+                            <DatePicker x:Name="StartDatePicker" HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource MainTextColor}" Date="{Binding StartDateTime, Mode=TwoWay}" />
+                        </StackLayout>
 
-                        <DatePicker x:Name="StartDatePicker" Date="{Binding StartDateTime, Mode=TwoWay}" TextColor="{DynamicResource MainTextColor}"
-                        HorizontalOptions="Center"
-                                />
+
                         <TimePicker x:Name="StartTimePicker" Format="HH:mm" 
                         Time="{Binding StartExactTime, Mode=TwoWay}"  TextColor="{DynamicResource MainTextColor}"
-                        HorizontalOptions="Center"/>
+                            HorizontalOptions="Center"/>
                     </StackLayout>
                 </Frame>
 
                 <!--ENDS AT TIME-->
                 <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" Margin="10" Padding="0" MinimumWidthRequest="120">
                     <StackLayout>
-                        <Label Text="ENDS AT" Margin="10" HorizontalOptions="Center" TextColor="{DynamicResource MainTextColor}"/>
+                        <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                            <Label Text="ENDS AT" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource MainTextColor}" Margin="10" />
+                            <DatePicker x:Name="EndDatePicker" HorizontalOptions="CenterAndExpand" TextColor="{DynamicResource MainTextColor}" Date="{Binding EndDateTime, Mode=TwoWay}" />
+                        </StackLayout>
 
-                        <DatePicker x:Name="EndDatePicker" TextColor="{DynamicResource MainTextColor}"
-                            Date="{Binding EndDateTime, Mode=TwoWay}"
-                            HorizontalOptions="Center"/>
+
                             <TimePicker x:Name="EndTimePicker"  Format="HH:mm" TextColor="{DynamicResource MainTextColor}" 
                             Time="{Binding EndExactTime, Mode=TwoWay}"
                             HorizontalOptions="Center"/>
@@ -85,19 +128,17 @@
                                   />
                         </StackLayout>
                 </Frame>
-                
 
+
+            <StackLayout Orientation="Horizontal">
+                
+            </StackLayout>
                 <Button Text="{Binding SubmitButtonText}"
                         Command="{Binding SubmitEventCommand}"   
                         HorizontalOptions="Center"
                         Margin="15"/>
 
-                <Button Text="ShareEvent"
-                        Command="{Binding ShareEventCommand}"
-                        IsVisible="{Binding EditModeVisibility}"/>
-                <Button Text="Temporary Delete Button"
-                        Command="{Binding DeleteEventCommand}"
-                        IsVisible="{Binding EditModeVisibility}"/>
+
             </StackLayout>
 
         </StackLayout>

@@ -2,16 +2,13 @@
 
 
 #region Current
+//DeleteEventCommand are you sure... popup
 
+//click on iscompleted frame checks the checkbox
 // consider changing weekpage gotoevent change to gotoday instead- check on phone if labels are not too small
-// add tapgesturerecognizer to weekly page same as monthly
-// weekly not showing events
-// TimeFrame for daily events page
+// add tapgesturerecognizer to weekly page same as monthly to go to expty frame date
 // searchbox, iscomplete filtering
-
-
-// daily events release
-
+// consider text color picker for user settings
 //All Events Page EventsToShowList and userEventTypesList
 
 // remove the below code and decouple IHelperclass from ICC and make it a separate interfaces
