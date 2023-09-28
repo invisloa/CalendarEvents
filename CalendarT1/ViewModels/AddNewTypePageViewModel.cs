@@ -241,7 +241,6 @@ namespace CalendarT1.ViewModels
 				{
 					quantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 				}
-				var def = DefaultEventTimespanCCHelper.GetDefaultDuration();
 				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, DefaultEventTimespanCCHelper.GetDefaultDuration(), quantityAmount);
 				await _eventRepository.AddUserEventTypeAsync(newUserType);
 				await Shell.Current.GoToAsync("..");    // TODO CHANGE NOT WORKING!!!
