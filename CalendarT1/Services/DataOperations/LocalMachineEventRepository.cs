@@ -7,16 +7,20 @@ using CommunityToolkit.Maui.Storage;
 using System.Text;
 using CommunityToolkit.Maui.Alerts;
 using CalendarT1;
+using CalendarT1.Services;
+using System.Security.Cryptography;
 
 public class LocalMachineEventRepository : IEventRepository
 {
-	public event Action OnEventListChanged;
-	public event Action OnUserTypeListChanged;
+	AdvancedEncryptionStandardService _aesService;
+
+
 
 	#region File Paths generation code
 	private static string _eventsFilePath = null;
 	private static string _userTypesFilePath = null;
-
+	public event Action OnEventListChanged;
+	public event Action OnUserTypeListChanged;
 	private static string EventsFilePath
 	{
 		get
@@ -51,11 +55,18 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	#endregion
 
-	public LocalMachineEventRepository() { }
+	public LocalMachineEventRepository()
+	{
+		string keyBase64 = Convert.ToBase64String(new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F });
+		string ivBase64 = "MojeSuperHasloXD";
+
+
+		_aesService = new AdvancedEncryptionStandardService(keyBase64, ivBase64);
+	}
 
 	#region Events Repository
 	private List<IGeneralEventModel> _allEventsList = new List<IGeneralEventModel>();
-	public List<IGeneralEventModel> AllEventsList			
+	public List<IGeneralEventModel> AllEventsList
 	{
 		get
 		{
@@ -73,7 +84,7 @@ public class LocalMachineEventRepository : IEventRepository
 		AllEventsList.Add(eventToAdd);
 		await SaveEventsListAsync();
 		OnEventListChanged?.Invoke();
- 	}
+	}
 
 	public async Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete)
 	{
@@ -137,7 +148,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 
 
-	public async Task UpdateEventsAsync(IGeneralEventModel eventToUpdate)	// cos nie tak	???
+	public async Task UpdateEventsAsync(IGeneralEventModel eventToUpdate)   // cos nie tak	???
 	{
 		var eventToUpdateInList = AllEventsList.FirstOrDefault(e => e.Id == eventToUpdate.Id);
 		if (eventToUpdateInList != null)
@@ -228,7 +239,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public Task GetUserEventTypeAsync(IUserEventTypeModel eventTypeToSelect)
 	{
-		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName);		// TO CHANGE
+		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName);      // TO CHANGE
 		return Task.FromResult(selectedEventType);
 	}
 	public List<IGeneralEventModel> DeepCopyAllEventsList()
@@ -251,21 +262,21 @@ public class LocalMachineEventRepository : IEventRepository
 	{
 		var settings = JsonSerializerSettings_All;
 		EventsAndTypesForJson eventsAndTypesToSave;
+		// if eventsToSaveList is null, save all events and types
 		if (eventsToSaveList == null)
 		{
 			eventsAndTypesToSave = new EventsAndTypesForJson()
 			{
-
 				Events = AllEventsList,
 				UserEventTypes = AllUserEventTypesList
 			};
 		}
 		else
 		{
-			var typesToSaveFromSpecifiedEvents = new List<IUserEventTypeModel>();	
+			var typesToSaveFromSpecifiedEvents = new List<IUserEventTypeModel>();
 			foreach (var eventItem in eventsToSaveList)
 			{
-				if (!typesToSaveFromSpecifiedEvents.Contains(eventItem.EventType))		// consider passing userEventTypesList as parameter
+				if (!typesToSaveFromSpecifiedEvents.Contains(eventItem.EventType))
 				{
 					typesToSaveFromSpecifiedEvents.Add(eventItem.EventType);
 				}
@@ -276,29 +287,39 @@ public class LocalMachineEventRepository : IEventRepository
 				UserEventTypes = typesToSaveFromSpecifiedEvents
 			};
 		}
-		var jsonString = JsonConvert.SerializeObject(eventsAndTypesToSave, settings);
-		using var stream = new MemoryStream(Encoding.Default.GetBytes(jsonString));
 
-		var fileSaverResult = await FileSaver.Default.SaveAsync("EventsList.cics", stream, cancellationToken);
-		if (fileSaverResult.IsSuccessful)
+		try
 		{
-			await Toast.Make($"The file was saved successfully to location: {fileSaverResult.FilePath}").Show(cancellationToken);
+			var jsonString = JsonConvert.SerializeObject(eventsAndTypesToSave, settings);
+			var encryptedString = _aesService.EncryptString(jsonString); // Encrypt the jsonString
+			using var stream = new MemoryStream(Encoding.UTF8.GetBytes(encryptedString)); // Use UTF8 or another Encoding as needed.
+
+			var fileSaverResult = await FileSaver.Default.SaveAsync("EventsList.cics", stream, cancellationToken);
+			if (fileSaverResult.IsSuccessful)
+			{
+				await Toast.Make($"The file was saved successfully to location: {fileSaverResult.FilePath}").Show(cancellationToken);
+			}
+			else
+			{
+				await Toast.Make($"The file was not saved successfully with error: {fileSaverResult.Exception.Message}").Show(cancellationToken);
+			}
 		}
-		else
+		catch (Exception ex)
 		{
-			await Toast.Make($"The file was not saved successfully with error: {fileSaverResult.Exception.Message}").Show(cancellationToken);
+			await Toast.Make($"The file was not saved successfully with error: {ex.Message}").Show(cancellationToken);
 		}
 	}
+
 
 	async Task LoadEventsAndTypesFromFile(CancellationToken cancellationToken)
 	{
 		var settings = JsonSerializerSettings_All;
 		var customFileType = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-		{
-			{ DevicePlatform.WinUI, new[] { ".cics" } },
-			{ DevicePlatform.Android, new[] { ".cics" } },
-			{ DevicePlatform.iOS, new[] { ".cics" } }
-		});
+	{
+		{ DevicePlatform.WinUI, new[] { ".cics" } },
+		{ DevicePlatform.Android, new[] { ".cics" } },
+		{ DevicePlatform.iOS, new[] { ".cics" } }
+	});
 		var pickOptions = new PickOptions
 		{
 			FileTypes = customFileType
@@ -311,8 +332,9 @@ public class LocalMachineEventRepository : IEventRepository
 			if (filePickerResult != null)
 			{
 				using var stream = await filePickerResult.OpenReadAsync();
-				using var reader = new StreamReader(stream);
-				var jsonString = await reader.ReadToEndAsync();
+				using var reader = new StreamReader(stream, Encoding.Default); // Use consistent encoding
+				var encryptedString = await reader.ReadToEndAsync();
+				var jsonString = _aesService.DecryptString(encryptedString); // Decrypt the string
 
 				// Deserialize the content of the file
 				var loadedData = JsonConvert.DeserializeObject<EventsAndTypesForJson>(jsonString, settings);
@@ -368,7 +390,7 @@ public class LocalMachineEventRepository : IEventRepository
 			}
 			else
 			{
-				await Toast.Make($"Failed to pick a file with error ???").Show(cancellationToken);
+				await Toast.Make($"Failed to pick a file: User canceled file picking").Show(cancellationToken);
 			}
 		}
 		catch (Exception ex)

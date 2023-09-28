@@ -8,9 +8,12 @@ public partial class App : Application
 
 	public App(IEventRepository repository)
 	{
-		InitializeComponent();
 		_repository = repository;
+		//repository.ClearAllUserTypesAsync();
+		//repository.ClearEventsListAsync();
+		InitializeComponent();
 		MainPage = new AppShell();
+
 	}
 	protected override async void OnStart()
 	{
