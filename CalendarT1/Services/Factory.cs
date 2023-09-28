@@ -36,7 +36,7 @@ namespace CalendarT1.Services
 		{
 			return new MeasurementOperationsHelperClass(eventsToCalculateList);
 		}
-		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
+		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, List<SubTask> subTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
 			if (eventTypeModel.MainEventType == MainEventTypes.Event)
 			{
@@ -44,7 +44,7 @@ namespace CalendarT1.Services
 			}
 			else if (eventTypeModel.MainEventType == MainEventTypes.Task)
 			{
-				return new TaskModel(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
+				return new TaskModel(title, description, startTime, endTime, eventTypeModel, subTasks, isCompleted, postponeTime, wasShown);
 			}
 			else	// Value type event
 			{

@@ -85,7 +85,7 @@ namespace CalendarT1.ViewModels
 		#region Properties
 		public string QuantityValueText { get; set; } = "DEFAULT VALUE:";
 		public string PageTitle => IsEdit ? "EDIT TYPE" : "ADD NEW TYPE";
-		public string PlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {TypeName}" : "ENTER NEW TYPE NAME";
+		public string PlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {TypeName}" : "...NEW TYPE NAME...";
 		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
 		public bool IsEdit => _currentType != null;
 		public bool IsNotEdit => !IsEdit;

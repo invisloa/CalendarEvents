@@ -83,13 +83,14 @@
             <!--Main Event Types Custom Control-->
                 <customControls:MainEventTypesCustomControl/>
 
-            <!--Measurement selector Custom Control-->
-                <customControls:MeasurementSelectorCC />
-
             <!--User Event Types Custom Control-->
                 <customControls:EventTypesCustomControl/>
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
 
+            <!--Measurement selector Custom Control-->
+            <customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>
+            
+            <!--Start/End Date and time-->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                 <!--STARTS AT TIME-->
                 <Frame BorderColor="Azure" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" Margin="10" Padding="0"  MinimumWidthRequest="120">
                     <StackLayout>

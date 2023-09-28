@@ -2,6 +2,8 @@
 
 
 #region Current
+// calculations page max by week 0 value bug (two same dates shown if the value is 0)
+// change color picker
 // consider??? weekly add days horizontally so there could be columnspan for time the event takes
 //DeleteEventCommand are you sure... popup
 

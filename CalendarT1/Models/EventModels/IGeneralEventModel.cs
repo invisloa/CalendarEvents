@@ -13,9 +13,9 @@ namespace CalendarT1.Models.EventModels
         TimeSpan ReminderTime { get; set; }
         DateTime StartDateTime { get; set; }
 		DateTime EndDateTime { get; set; }
-
-		string Title { get; set; }
+        string Title { get; set; }
         bool WasShown { get; set; }
         public Quantity QuantityAmount { get; set; }
+        public List<SubTask> SubTasksList { get; set; }
     }
 }

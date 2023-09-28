@@ -37,6 +37,20 @@ namespace CalendarT1.ViewModels.EventOperations
 				}
 			}
 		}
+
+		private bool _isTaskTypeSelected;
+		public bool IsTaskTypeSelected
+		{
+			get => _isTaskTypeSelected;
+			set
+			{
+				if (_isTaskTypeSelected != value)
+				{
+					_isTaskTypeSelected = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 		public void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel)
 		{
 			_measurementSelectorHelperClass.SelectPropperMeasurementData(userEventTypeModel);
@@ -382,20 +396,25 @@ namespace CalendarT1.ViewModels.EventOperations
 			SelectedEventType = selectedEvent;
 			SelectedMainEventType = SelectedEventType.MainEventType;
 
-			if (SelectedMainEventType == MainEventTypes.Value)
+			switch (SelectedMainEventType)
 			{
-				IsValueTypeSelected = true;
-				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
-				if (!IsEditMode && (QuantityValue == 0 || QuantityValue == lastSelectedTypedefaultValue))
-				{	//Set default values when createMode
-					QuantityValue = SelectedEventType.QuantityAmount.Value;
-				}
-				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
+				case MainEventTypes.Event:
+					EventTypeSelected_True();              
+					break;
+				case MainEventTypes.Task:
+					TaskTypeSelected_True();
+					break;
+				case MainEventTypes.Value:
+					ValueTypeSelected_True();
+					_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
+					if (!IsEditMode && (QuantityValue == 0 || QuantityValue == lastSelectedTypedefaultValue))
+					{   //Set default values when createMode
+						QuantityValue = SelectedEventType.QuantityAmount.Value;
+					}
+					SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
+					break;
 			}
-			else
-			{
-				IsValueTypeSelected = false;
-			}
+
 			SetEndExactTimeAccordingToEventType();
 			//((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute( ); // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
 			SetVisualsForSelectedUserType();
@@ -416,13 +435,17 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 				SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-				if (SelectedMainEventType == MainEventTypes.Value)
+				switch(SelectedMainEventType)
 				{
-					IsValueTypeSelected = true;
-				}
-				else
-				{
-					IsValueTypeSelected = false;
+					case MainEventTypes.Event:
+						EventTypeSelected_True();
+						break;
+					case MainEventTypes.Task:
+						TaskTypeSelected_True();
+						break;
+					case MainEventTypes.Value:
+						ValueTypeSelected_True();
+						break;
 				}
 
 				FilterAllEventTypesOCByMainEventType(SelectedMainEventType);
@@ -455,7 +478,21 @@ namespace CalendarT1.ViewModels.EventOperations
 				EndExactTime = StartExactTime;
 			}
 		}
-
+		private void ValueTypeSelected_True()
+		{
+			IsValueTypeSelected = true;
+			IsTaskTypeSelected = false;
+		}
+		private void TaskTypeSelected_True()
+		{
+			IsValueTypeSelected = false;
+			IsTaskTypeSelected = true;
+		}
+		private void EventTypeSelected_True()
+		{
+			IsValueTypeSelected = false;
+			IsTaskTypeSelected = false;
+		}
 		public void DisableVisualsForAllMainEventTypes()
 		{
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();

@@ -15,8 +15,7 @@
     <!--Selection for measurment types-->
     <StackLayout
             VerticalOptions="Center" 
-            HorizontalOptions="Center"
-            IsVisible="{Binding IsValueTypeSelected}">
+            HorizontalOptions="Center">
 
         <StackLayout Orientation="Horizontal" >
             <Label Text="TYPE OF VALUE:"  VerticalOptions="Center" Margin="10"/>
