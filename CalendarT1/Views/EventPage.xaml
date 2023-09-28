@@ -121,14 +121,15 @@
                     </StackLayout>
                 </Frame>
             </StackLayout>
-                <Frame BackgroundColor="{DynamicResource MainBackgroundColor}" HorizontalOptions="Center" Padding="5" IsVisible="{Binding EditModeVisibility}">
-                        <StackLayout Orientation="Horizontal">
-
-                            <Label Text="IS COMPLETED" VerticalOptions="Center"/>
-                            <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}"
-                                  />
-                        </StackLayout>
-                </Frame>
+            <Frame BackgroundColor="Transparent" HorizontalOptions="Center" Padding="5">
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding IsCompleteFrameCommand}"/>
+                </Frame.GestureRecognizers>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="IS COMPLETED" VerticalOptions="Center" InputTransparent="True"/>
+                    <CheckBox IsChecked="{Binding IsCompleted, Mode=TwoWay}" InputTransparent="True"/>
+                </StackLayout>
+            </Frame>
 
 
             <StackLayout Orientation="Horizontal">
