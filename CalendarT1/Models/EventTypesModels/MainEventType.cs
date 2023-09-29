@@ -34,5 +34,10 @@ namespace CalendarT1.Models.EventTypesModels
 			Title = title;
 			MainEventTypeBorderColor = mainEventTypeBorderColor;
 		}
+
+		public bool Equals(IMainEventType obj)
+		{
+			return Title == obj.Title;
+		}
 	}
 }

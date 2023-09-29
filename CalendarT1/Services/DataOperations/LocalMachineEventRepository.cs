@@ -114,7 +114,33 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public async Task AddMainEventTypeAsync(IMainEventType mainEventTypeToAdd)
 	{
-		AllMainEventTypesList.Add(mainEventTypeToAdd);
+		if (AllMainEventTypesList.Contains(mainEventTypeToAdd))
+		{
+			var action = await App.Current.MainPage.DisplayActionSheet($"Event {mainEventTypeToAdd.Title} already exists", "Cancel", null, "Overwrite", "Duplicate");
+			switch (action)
+			{
+				case "Overwrite":
+					var eventItem = AllMainEventTypesList.FirstOrDefault(e => e.Title == mainEventTypeToAdd.Title);
+					if (eventItem != null)
+					{
+						AllMainEventTypesList.Remove(eventItem);
+						AllMainEventTypesList.Add(eventItem);
+					}
+					break;
+				case "Duplicate":
+					mainEventTypeToAdd.Title += " (.)";
+					AllMainEventTypesList.Add(mainEventTypeToAdd);
+					break;
+
+				default:
+					// Cancel was selected or back button was pressed.
+					return;
+			}
+		}
+		else
+		{
+			AllMainEventTypesList.Add(mainEventTypeToAdd);
+		}
 		OnMainEventTypesListChanged?.Invoke();
 		await SaveMainEventTypesListAsync();
 	}
@@ -320,7 +346,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public Task<IUserEventTypeModel> GetSubEventTypeAsync(IUserEventTypeModel eventTypeToSelect)
 	{
-		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName);      // TO CHANGE ???
+		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName && e.MainEventType == eventTypeToSelect.MainEventType);      // TO CHANGE ???
 		return Task.FromResult(selectedEventType);
 	}
 	public Task<IMainEventType> GetMainEventTypeAsync(IMainEventType eventTypeToSelect)

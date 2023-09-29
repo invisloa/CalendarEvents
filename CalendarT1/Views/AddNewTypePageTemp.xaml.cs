@@ -16,8 +16,7 @@ public partial class AddNewTypePageTemp : ContentPage
 	private void Button_Clicked(object sender, EventArgs e)
 	{
 		IMainEventType userEventTypeModel = new MainEventType("test1", Color.FromArgb("#FF0000"));
-		IMainEventType userEventTypeModel2 = new MainEventType("test2", Color.FromArgb("#FF5500"));
 		_eventRepository.AddMainEventTypeAsync(userEventTypeModel);
-		_eventRepository.AddMainEventTypeAsync(userEventTypeModel2);
-    }
+
+	}
 }
