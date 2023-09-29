@@ -39,5 +39,15 @@ namespace CalendarT1.Models.EventTypesModels
 		{
 			return Title == obj.Title;
 		}
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				int hash = 17;
+				hash = hash * 23 + Title.GetHashCode();
+				return hash;
+			}
+		}
+
 	}
 }
