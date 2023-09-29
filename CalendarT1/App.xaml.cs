@@ -1,4 +1,5 @@
 ﻿using CalendarT1.Services.DataOperations.Interfaces;
+using System.Globalization;
 
 namespace CalendarT1;
 
@@ -9,8 +10,11 @@ public partial class App : Application
 	public App(IEventRepository repository)
 	{
 		_repository = repository;
-		//repository.ClearAllUserTypesAsync();
-		//repository.ClearEventsListAsync();
+		//_repository.ClearAllMainEventTypesAsync();
+		//_repository.ClearEventsListAsync();
+		//_repository.ClearAllSubEventTypesAsync();
+
+
 		InitializeComponent();
 		MainPage = new AppShell();
 
@@ -19,6 +23,7 @@ public partial class App : Application
 	{
 		// Call base method 
 		base.OnStart();
+
 
 		// Check or request StorageRead permission
 		var statusStorageRead = await Permissions.CheckStatusAsync<Permissions.StorageRead>();
@@ -34,5 +39,17 @@ public partial class App : Application
 
 		// load repository data OnStart of the app
 		await _repository.InitializeAsync();
-	}
+
+
+
+		// TODO IF THERE ARE NO ITEMS IN THE REPOSITORY, ADD SOME DEFAULT ITEMS
+/*		if (_repository.AllMainEventTypesList.Count == 0)
+		{
+			_repository.AddEventAsync;
+		}
+		if (_repository.AllEventsList.Count == 0)
+		{
+			_repository.LoadEventsAndTypesFromFile();
+		}
+*/	}
 }

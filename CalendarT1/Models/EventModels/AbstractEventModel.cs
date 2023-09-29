@@ -19,7 +19,7 @@ namespace CalendarT1.Models.EventModels
         public TimeSpan DefaultPostponeTime { get; set; }
         public TimeSpan ReminderTime { get; set; }
         public Quantity QuantityAmount { get; set; }
-		public List<SubTask> SubTasksList { get; set; }
+		public List<MultiTask> MultiTasksList { get; set; }
 
 		[JsonIgnore]
         public Color EventVisibleColor
@@ -38,7 +38,7 @@ namespace CalendarT1.Models.EventModels
         }
 
 		// TO Consider postpone time and maybe some other extra options for advanced event adding mode??
-		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, Quantity quantityAmount = null, List<SubTask> subTasksList = null)
+		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, Quantity quantityAmount = null, List<MultiTask> multiTasksList = null)
 		{
 			//... rest of the code
 
@@ -55,7 +55,7 @@ namespace CalendarT1.Models.EventModels
             IsCompleted = isCompleted;
             WasShown = wasShown;
 			QuantityAmount = quantityAmount;
-			SubTasksList = subTasksList;
+			MultiTasksList = multiTasksList;
 			PostponeHistory = new List<DateTime>(); // default new list 
         }
         private Color IsCompleteColorAdapt(Color color)

@@ -9,23 +9,8 @@ namespace CalendarT1.Models.EventModels
 {
     public class EventModel : AbstractEventModel
     {
-        public override bool IsCompleted
-        {
-            get
-            {
-                if (EndDateTime < DateTime.Now)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        }
-        public EventModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel EventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false) : base(title, description, startTime, endTime, EventType, isCompleted, postponeTime, wasShown)
+        public EventModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel EventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, Quantity quantityAmount = null, List<MultiTask> multiTasksList = null) : base(title, description, startTime, endTime, EventType, isCompleted, postponeTime, wasShown, quantityAmount, multiTasksList)
         {
         }
-
-    }
+	}
 }

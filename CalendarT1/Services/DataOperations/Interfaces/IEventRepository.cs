@@ -6,31 +6,42 @@ namespace CalendarT1.Services.DataOperations.Interfaces
     public interface IEventRepository
 	{
 		public event Action OnEventListChanged;
-		public event Action OnUserTypeListChanged;
+		public event Action OnUserEventTypeListChanged;
 
-		public List<IGeneralEventModel> AllEventsList { get;}
-		public List<IUserEventTypeModel> AllUserEventTypesList { get;}
-		Task<List<IGeneralEventModel>> GetEventsListAsync();
-		Task SaveEventsListAsync();
-		Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete);
 		Task AddEventAsync(IGeneralEventModel eventToAdd);
-		Task ClearEventsListAsync();
-		Task UpdateEventsAsync(IGeneralEventModel eventToUpdate);
+		Task AddSubEventTypeAsync(IUserEventTypeModel eventTypeToAdd);
+		Task AddMainEventTypeAsync(IMainEventType eventTypeToAdd);
+		Task SaveEventsListAsync();
+		Task SaveSubEventTypesListAsync();
+		Task SaveMainEventTypesListAsync();
+		Task UpdateEventAsync(IGeneralEventModel eventToUpdate);
+		Task UpdateSubEventTypeAsync(IUserEventTypeModel eventTypeToUpdate);
+		Task UpdateMainEventTypeAsync(IMainEventType eventTypeToUpdate);
+		Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete);
+		Task DeleteFromSubEventTypesListAsync(IUserEventTypeModel eventTypeToDelete);
+		Task DeleteFromMainEventTypesListAsync(IMainEventType eventTypeToDelete);
+
 		Task<IGeneralEventModel> GetEventByIdAsync(Guid eventId);
-		Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync();
-		Task SaveUserEventTypesListAsync();
-		Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete);
-		Task ClearAllUserTypesAsync();
-		Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd);
-		Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate);
-		Task GetUserEventTypeAsync (IUserEventTypeModel eventTypeToSelect);
-		Task InitializeAsync();
+
+		Task<IUserEventTypeModel> GetSubEventTypeAsync(IUserEventTypeModel eventTypeToSelect);
+		Task<IMainEventType> GetMainEventTypeAsync(IMainEventType eventTypeToSelect);
+
+		Task ClearEventsListAsync();
+		Task ClearAllSubEventTypesAsync();
+		Task ClearAllMainEventTypesAsync();
+
+		List<IGeneralEventModel> AllEventsList { get; }
+		List<IUserEventTypeModel> AllUserEventTypesList { get; }
+		List<IMainEventType> AllMainEventTypesList { get; }
 		List<IGeneralEventModel> DeepCopyAllEventsList();
-		List<IUserEventTypeModel> DeepCopyUserEventTypesList();
-
+		List<IUserEventTypeModel> DeepCopySubEventTypesList();
+		List<IMainEventType> DeepCopyMainEventTypesList();
+		Task<List<IGeneralEventModel>> GetEventsListAsync();
+		Task<List<IUserEventTypeModel>> GetSubEventTypesListAsync();
+		Task<List<IMainEventType>> GetMainEventTypesListAsync();
 		Task SaveEventsAndTypesToFile(List<IGeneralEventModel> eventsToSave = null);
-
 		Task LoadEventsAndTypesFromFile();
+		Task InitializeAsync();
 
 	}
 }

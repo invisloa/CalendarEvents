@@ -7,10 +7,15 @@ namespace CalendarT1.Models.EventTypesModels
 {
 	public class UserEventTypeModel : BaseViewModel, IUserEventTypeModel
 	{
-		public MainEventTypes MainEventType { get; set; }
+		public IMainEventType MainEventType { get; set; }
 		public string EventTypeName { get; set; }
 		private Color _eventTypeColor;
 		private TimeSpan _defaultEventTime;
+		private bool _isSelectedToFilter;
+
+		private bool _isValueType;
+		private bool _isMultiTaskType;
+		private Quantity _quantityAmount;
 
 		// Store color as string due to serialization issues
 		public string EventTypeColorString
@@ -73,8 +78,30 @@ namespace CalendarT1.Models.EventTypesModels
 				}
 			}
 		}
-
-		private bool _isSelectedToFilter;
+		public bool IsValueType
+		{
+			get => _isValueType;
+			set
+			{
+				if (_isValueType != value)
+				{
+					_isValueType = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+		public bool IsMultiTaskType
+		{
+			get => _isMultiTaskType;
+			set
+			{
+				if (_isMultiTaskType != value)
+				{
+					_isMultiTaskType = value;
+					OnPropertyChanged();
+				}
+			}
+		}
 		public bool IsSelectedToFilter
 		{
 			get => _isSelectedToFilter;
@@ -87,7 +114,6 @@ namespace CalendarT1.Models.EventTypesModels
 				}
 			}
 		}
-		Quantity _quantityAmount;
 		public Quantity QuantityAmount
 		{
 			get => _quantityAmount;
@@ -101,7 +127,7 @@ namespace CalendarT1.Models.EventTypesModels
 			}
 		}
 
-		public UserEventTypeModel(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity = null, bool isSelectedToFilter = true)
+		public UserEventTypeModel(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity = null, bool isSelectedToFilter = true)
 		{
 			MainEventType = mainEventType;
 			IsSelectedToFilter = isSelectedToFilter;
@@ -112,7 +138,7 @@ namespace CalendarT1.Models.EventTypesModels
 			QuantityAmount = quantity;
 		}
 
-		public override bool Equals(object obj)
+		public bool Equals(IUserEventTypeModel obj)
 		{
 			if (obj is IUserEventTypeModel other)
 			{

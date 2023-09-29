@@ -268,7 +268,7 @@ namespace CalendarT1.ViewModels
 		// CONSTRUCTOR
 		public ValueTypeCalculationsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList().Where(x => x.MainEventType == MainEventTypes.Value).ToList());
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList().Where(x => x.IsValueType).ToList());
 			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand, _canExecuteCalculationsCommands);
 			MaxByWeekCalculationsCommand = new RelayCommand(OnMaxByWeekCalculationsCommand, _canExecuteCalculationsCommands);
 			MinByWeekCalculationsCommand = new RelayCommand(OnMinByWeekCalculationsCommand, _canExecuteCalculationsCommands);
@@ -353,7 +353,7 @@ namespace CalendarT1.ViewModels
 
 		internal void OnAppearing()
 		{
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC.Where(x => x.MainEventType == MainEventTypes.Value).ToList());
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC.Where(x => x.IsValueType).ToList());
 		}
 	}
 }

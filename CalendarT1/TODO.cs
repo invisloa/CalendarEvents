@@ -1,7 +1,39 @@
 ﻿
+/*		MAIN EVENT TYPES CHANGE
+ * 
+ * 
+ * public event Action OnMainEventTypesListChanged;    // TODO - implement
+ * 
+ * in add new type change this for edit mode !!!!
+ * DefaultEventTimespanCCHelper.DurationValue = 30;
+DefaultEventTimespanCCHelper.SelectedUnitIndex = 2;
+
+ 
+check what happens if removed		// REGISTER ROUTING
+		Routing.RegisterRoute(nameof(AddNewTypePage), typeof(AddNewTypePage));
+		Routing.RegisterRoute(nameof(AllTypesPage), typeof(AllTypesPage));
+
+
+
+		// Change the first day of the week to Monday
+		CultureInfo.CurrentCulture = new CultureInfo("pl-PL", false);
+		CultureInfo.CurrentUICulture = new CultureInfo("pl-PL", false);
+		CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek = DayOfWeek.Monday;
+
+ */
 
 
 #region Current
+// check if event title exists before adding new main event
+
+// change this so it deserialize from file path instead of serializing and deserializing...
+/*public List<IUserEventTypeModel> DeepCopyMainEventTypesList()
+{
+	var settings = JsonSerializerSettings_Auto;
+	var serialized = JsonConvert.SerializeObject(_allMainEventTypesList, settings);
+	return JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(serialized, settings);
+}*/
+
 // calculations page max by week 0 value bug (two same dates shown if the value is 0)
 // change color picker
 // consider??? weekly add days horizontally so there could be columnspan for time the event takes

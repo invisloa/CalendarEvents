@@ -106,11 +106,14 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = _selectedCurrentEvent.IsCompleted;
 
 			FilterAllEventTypesOCByMainEventType(SelectedMainEventType);	// CANNOT CHANGE MAIN EVENT TYPE
-			if (_selectedCurrentEvent.EventType.MainEventType == MainEventTypes.Value)
+			if (_selectedCurrentEvent.EventType.IsValueType)
 			{
 				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
 				QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
 			}
+			// TODO ADD EVENT TYPE multiTasks
+
+
 			MainEventTypeSelectedCommand = null;
 		}
 		#endregion
@@ -148,10 +151,10 @@ namespace CalendarT1.ViewModels.EventOperations
 			_selectedCurrentEvent.IsCompleted = IsCompleted;
 			QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 			_selectedCurrentEvent.QuantityAmount = QuantityAmount;
-			await _eventRepository.UpdateEventsAsync(_selectedCurrentEvent);
+			await _eventRepository.UpdateEventAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");
 		}
-		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
+		private void FilterAllEventTypesOCByMainEventType(IMainEventType value)
 		{
 			var tempFilteredEventTypes = AllEventTypesOC.ToList().FindAll(x => x.MainEventType == value);
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
@@ -179,7 +182,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			var action = await App.Current.MainPage.DisplayActionSheet("Not working for now!!!", "Cancel", null, "XXXX");
 
-			/// await _shareEvents.ShareEventAsync(_selectedCurrentEvent);
+			// await _shareEvents.ShareEventAsync(_selectedCurrentEvent);
 		}
 
 		#endregion

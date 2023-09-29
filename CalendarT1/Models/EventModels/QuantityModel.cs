@@ -10,14 +10,6 @@ using CalendarT1.Models.EventTypesModels;
 
 namespace CalendarT1.Models.EventModels
 {
-	public class ValueModel : AbstractEventModel
-	{
-		public ValueModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
-			: base(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown, quantityAmount)
-		{
-		}
-	}
-
 	public class Quantity
 		{
 			public decimal Value { get; private set; }

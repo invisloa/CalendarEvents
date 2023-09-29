@@ -65,7 +65,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
-			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
+			_eventRepository.OnUserEventTypeListChanged += UpdateAllEventTypesList;
 			EditSelectedTypeCommand = new RelayCommand<IUserEventTypeModel>(EditSelectedType);
 		}
 

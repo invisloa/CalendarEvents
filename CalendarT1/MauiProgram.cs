@@ -53,7 +53,8 @@ public static class MauiProgram
 		// Preferences Setting General Properties
 		Preferences.Default.Set("ProgramName", "CalendarT1");
 		Preferences.Default.Set("JsonEventsFileName", "CalendarEvents");
-		Preferences.Default.Set("JsonUserTypesFileName", "CalendarTypesOfEvents");
+		Preferences.Default.Set("JsonSubTypesFileName", "CalendarSubTypesOfEvents");
+		Preferences.Default.Set("JsonMainTypesFileName", "CalendarMainTypesOfEvents");
 
 
 #if DEBUG

@@ -31,9 +31,22 @@ namespace CalendarT1.ViewModels
 			get => _isValueTypeSelected;
 			set
 			{
-				if(_isValueTypeSelected != value)
+				if (_isValueTypeSelected != value)
 				{
 					_isValueTypeSelected = value;
+					OnPropertyChanged();
+				}
+			}
+		}
+		private bool _isMultiTaskTypeSelected;
+		public bool IsMultiTaskTypeSelected
+		{
+			get => _isMultiTaskTypeSelected;
+			set
+			{
+				if (_isMultiTaskTypeSelected != value)
+				{
+					_isMultiTaskTypeSelected = value;
 					OnPropertyChanged();
 				}
 			}
@@ -59,7 +72,6 @@ namespace CalendarT1.ViewModels
 		{
 			_measurementSelectorHelperClass.SelectedMeasurementUnit = measurementUnitItem;
 			_measurementSelectorHelperClass.QuantityAmount = new Quantity(measurementUnitItem.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue) ;
-			
 		}
 
 		// Command set in the constructor
@@ -68,7 +80,7 @@ namespace CalendarT1.ViewModels
 
 		public DefaultEventTimespanCCHelperClass DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
 
-		public event Action<MainEventTypes> MainEventTypeChanged;
+		public event Action<IMainEventType> MainEventTypeChanged;		// TODO implement this event ?? if needed??
 
 
 		#region Fields
@@ -98,7 +110,7 @@ namespace CalendarT1.ViewModels
 				_defaultEventTime = value;
 			}
 		}
-		public MainEventTypes SelectedMainEventType
+		public IMainEventType SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
 			set
@@ -140,9 +152,9 @@ namespace CalendarT1.ViewModels
 		}
 
 		// helper class that makes dirty work for main event types
-		private IMainEventTypesCC _mainEventTypesCCHelper { get; set; } = Factory.CreateNewIMainEventTypeHelperClass();
+		private IMainEventTypesCC _mainEventTypesCCHelper { get; set; }
 
-		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesOC = value; }
+		public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
 
 		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
@@ -162,6 +174,7 @@ namespace CalendarT1.ViewModels
 		public AddNewTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
+			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(_eventRepository.AllMainEventTypesList);
 			InitializeColorButtons();
 			DefaultEventTimespanCCHelper.DurationValue = 30;
 			DefaultEventTimespanCCHelper.SelectedUnitIndex = 2;
@@ -200,7 +213,7 @@ namespace CalendarT1.ViewModels
 						// Perform the operation to delete all events of the event type.
 						_eventRepository.AllEventsList.RemoveAll(x => x.EventType.EventTypeName == _currentType.EventTypeName);
 						await _eventRepository.SaveEventsListAsync();
-						await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
+						await _eventRepository.DeleteFromSubEventTypesListAsync(_currentType);
 						// TODO make a confirmation message
 						break;
 					case "Go to All Events Page":
@@ -213,7 +226,7 @@ namespace CalendarT1.ViewModels
 				}
 				return;
 			}
-			await _eventRepository.DeleteFromUserEventTypesListAsync(_currentType);
+			await _eventRepository.DeleteFromSubEventTypesListAsync(_currentType);
 			await Shell.Current.Navigation.PopAsync();
 
 			//await Shell.Current.GoToAsync($"{nameof(AllTypesPage)}");
@@ -230,19 +243,23 @@ namespace CalendarT1.ViewModels
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = MainEventTypeButtonsColor;
 				_currentType.DefaultEventTimeSpan = DefaultEventTimespanCCHelper.GetDefaultDuration();
-				await _eventRepository.UpdateEventTypeAsync(_currentType);
+				await _eventRepository.UpdateSubEventTypeAsync(_currentType);
 				await Shell.Current.GoToAsync("..");								// TODO CHANGE NOT WORKING!!!
 				
 			}
 			else
 			{
-				Quantity? quantityAmount = null;
-				if (SelectedMainEventType == MainEventTypes.Value)
+				Quantity quantityAmount = null;
+				if (IsValueTypeSelected)
 				{
 					quantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 				}
+				if (IsMultiTaskTypeSelected)
+				{
+					List<MultiTask> multiTasks = new List<MultiTask>(); // TODO ADD multiTasks to 
+				}
 				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, DefaultEventTimespanCCHelper.GetDefaultDuration(), quantityAmount);
-				await _eventRepository.AddUserEventTypeAsync(newUserType);
+				await _eventRepository.AddSubEventTypeAsync(newUserType);
 				await Shell.Current.GoToAsync("..");    // TODO CHANGE NOT WORKING!!!
 			}
 		}
@@ -253,19 +270,11 @@ namespace CalendarT1.ViewModels
 			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-			if(SelectedMainEventType == MainEventTypes.Value)
-			{
-				IsValueTypeSelected = true;
-			}
-			else
-			{
-				IsValueTypeSelected = false;
-			}
 		}
 
 		private async Task TempRemoveAllUserTypes()
 		{
-			await _eventRepository.ClearAllUserTypesAsync();
+			await _eventRepository.ClearAllSubEventTypesAsync();
 		}
 		private void SelectColor(ButtonProperties selectedColor)
 		{

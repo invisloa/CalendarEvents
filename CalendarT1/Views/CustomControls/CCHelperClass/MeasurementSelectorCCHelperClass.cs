@@ -78,7 +78,7 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 		{
 			try
 			{
-				if (userEventTypeModel.MainEventType == MainEventTypes.Value)
+				if (userEventTypeModel.IsValueType)
 				{
 					SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == userEventTypeModel.QuantityAmount.Unit);
 					IsValueTypeSelected = true;

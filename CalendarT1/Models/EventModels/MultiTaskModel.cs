@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models.EventModels
 {
-	public class SubTask : BaseViewModel
+	public class MultiTask : BaseViewModel
 	{
 		private string _title;
 		private string _description;

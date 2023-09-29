@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCInterfaces
 {
-    public interface ISubTasksCC
+    public interface IMultiTasksCC
+
+
     {
-        ObservableCollection<SubTask> SubTasksOC { get; set; }
-        RelayCommand<SubTask> SubTaskCompleteSelectedCommand { get; set; }
+        ObservableCollection<MultiTask> MultiTasksOC { get; set; }
+        RelayCommand<MultiTask> MultiTaskCompleteSelectedCommand { get; set; }
 		public RelayCommand TaskCompleteSelectedCommand { get; set; }
 
 	}

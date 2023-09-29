@@ -38,15 +38,15 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 
-		private bool _isTaskTypeSelected;
-		public bool IsTaskTypeSelected
+		private bool _isMultiTaskTypeSelected;
+		public bool IsMultiTaskTypeSelected
 		{
-			get => _isTaskTypeSelected;
+			get => _isMultiTaskTypeSelected;
 			set
 			{
-				if (_isTaskTypeSelected != value)
+				if (_isMultiTaskTypeSelected != value)
 				{
-					_isTaskTypeSelected = value;
+					_isMultiTaskTypeSelected = value;
 					OnPropertyChanged();
 				}
 			}
@@ -86,13 +86,15 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
+			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(eventRepository.AllMainEventTypesList);
 			_eventRepository = eventRepository;
-			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
+			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
+			
 		}
 
 		//Fields
@@ -103,9 +105,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 
 		// normal fields
-		private bool _firstTimeEventsShown = true;
-
-		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
+		protected IMainEventTypesCC _mainEventTypesCCHelper;
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _selectedCurrentEvent;
 		protected bool _isCompleted;
@@ -124,7 +124,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected IUserEventTypeModel _selectedEventType;
 		private RelayCommand _goToAddNewTypePageCommand;
 		private RelayCommand _goToAddEventPageCommand;
-		public event Action<MainEventTypes> MainEventTypeChanged;
+		public event Action<IMainEventType> MainEventTypeChanged;
 
 
 		#endregion
@@ -145,7 +145,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 
 
-		public MainEventTypes SelectedMainEventType
+		public IMainEventType SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
 			set
@@ -155,21 +155,21 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 
-		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
+		private void FilterAllEventTypesOCByMainEventType(IMainEventType value)
 		{
 			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
 			OnPropertyChanged(nameof(AllEventTypesOC));
 		}
 
-		private List<IUserEventTypeModel> FilterUserTypesForVisuals(MainEventTypes value)
+		private List<IUserEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
 		{
 			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
 		}
-		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC 
+		public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC 
 		{ 
-			get => _mainEventTypesCCHelper.MainEventTypesOC;
-			set => _mainEventTypesCCHelper.MainEventTypesOC = value; 
+			get => _mainEventTypesCCHelper.MainEventTypesVisualsOC;
+			set => _mainEventTypesCCHelper.MainEventTypesVisualsOC = value; 
 		}
 		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
 		{
@@ -384,7 +384,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			Title = "";
 			Description = "";
 			IsCompleted = false;
-			if(SelectedEventType.MainEventType == MainEventTypes.Value)
+			if(SelectedEventType.IsValueType)
 			{
 				QuantityValue = 0; 
 			}
@@ -394,26 +394,21 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			var lastSelectedTypedefaultValue = SelectedEventType?.QuantityAmount?.Value ?? 0;
 			SelectedEventType = selectedEvent;
-			SelectedMainEventType = SelectedEventType.MainEventType;
+			IsMultiTaskTypeSelected = selectedEvent.IsMultiTaskType ? true : false;
+			// TODO Show Task Options ???
 
-			switch (SelectedMainEventType)
+			IsValueTypeSelected = selectedEvent.IsValueType ? true : false;
+			if (IsValueTypeSelected)
 			{
-				case MainEventTypes.Event:
-					EventTypeSelected_True();              
-					break;
-				case MainEventTypes.Task:
-					TaskTypeSelected_True();
-					break;
-				case MainEventTypes.Value:
-					ValueTypeSelected_True();
-					_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
-					if (!IsEditMode && (QuantityValue == 0 || QuantityValue == lastSelectedTypedefaultValue))
-					{   //Set default values when createMode
-						QuantityValue = SelectedEventType.QuantityAmount.Value;
-					}
-					SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
-					break;
+				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
+				if (!IsEditMode && (QuantityValue == 0 || QuantityValue == lastSelectedTypedefaultValue))
+				{   //Set default values when createMode
+					QuantityValue = SelectedEventType.QuantityAmount.Value;
+				}
+				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
 			}
+
+
 
 			SetEndExactTimeAccordingToEventType();
 			//((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute( ); // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
@@ -428,25 +423,17 @@ namespace CalendarT1.ViewModels.EventOperations
 			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x.EventTypeName == _selectedEventType.EventTypeName);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC);
+			SetSelectedEventTypeControlsVisibility();
 		}
 		protected virtual void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
 		{
 			if (SelectedMainEventType.ToString() != selectedMainEventType.ToString())
 			{
-				((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
+				_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 				SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-				switch(SelectedMainEventType)
-				{
-					case MainEventTypes.Event:
-						EventTypeSelected_True();
-						break;
-					case MainEventTypes.Task:
-						TaskTypeSelected_True();
-						break;
-					case MainEventTypes.Value:
-						ValueTypeSelected_True();
-						break;
-				}
+
+
+
 
 				FilterAllEventTypesOCByMainEventType(SelectedMainEventType);
 			}
@@ -454,6 +441,11 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				OnUserEventTypeSelected(AllEventTypesOC[0]);
 			}
+		}
+		private void SetSelectedEventTypeControlsVisibility()
+		{
+			IsValueTypeSelected = SelectedEventType.IsValueType;
+			IsMultiTaskTypeSelected = SelectedEventType.IsMultiTaskType;
 		}
 		private void SetEndExactTimeAccordingToEventType()
 		{
@@ -478,21 +470,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				EndExactTime = StartExactTime;
 			}
 		}
-		private void ValueTypeSelected_True()
-		{
-			IsValueTypeSelected = true;
-			IsTaskTypeSelected = false;
-		}
-		private void TaskTypeSelected_True()
-		{
-			IsValueTypeSelected = false;
-			IsTaskTypeSelected = true;
-		}
-		private void EventTypeSelected_True()
-		{
-			IsValueTypeSelected = false;
-			IsTaskTypeSelected = false;
-		}
+
 		public void DisableVisualsForAllMainEventTypes()
 		{
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();

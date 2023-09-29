@@ -15,12 +15,15 @@ public class LocalMachineEventRepository : IEventRepository
 	AdvancedEncryptionStandardService _aesService;
 
 
-
+	// File Paths generation code
 	#region File Paths generation code
 	private static string _eventsFilePath = null;
-	private static string _userTypesFilePath = null;
+	private static string _subEventsTypesFilePath = null;
+	private static string _mainEventsTypesFilePath = null;
+	
 	public event Action OnEventListChanged;
-	public event Action OnUserTypeListChanged;
+	public event Action OnMainEventTypesListChanged;	// TODO - implement
+	public event Action OnUserEventTypeListChanged;
 	private static string EventsFilePath
 	{
 		get
@@ -33,34 +36,50 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 	}
 
-	private static string UserTypesFilePath
+	private static string SubEventsTypesFilePath
 	{
 		get
 		{
-			if (_userTypesFilePath == null)
+			if (_subEventsTypesFilePath == null)
 			{
-				_userTypesFilePath = CalculateUserTypesFilePath();
+				_subEventsTypesFilePath = CalculateSubEventsTypesFilePath();
 			}
-			return _userTypesFilePath;
+			return _subEventsTypesFilePath;
 		}
 	}
+	private static string MainEventsTypesFilePath
+	{
+		get
+		{
+			if (_mainEventsTypesFilePath == null)
+			{
+				_mainEventsTypesFilePath = CalculateMainEventsTypesFilePath();
+			}
+			return _mainEventsTypesFilePath;
+		}
+	}
+
 	private static string CalculateEventsFilePath()
 	{
 		return Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonEventsFileName", "CalendarEventsD"));
 	}
 
-	private static string CalculateUserTypesFilePath()
+	private static string CalculateSubEventsTypesFilePath()
 	{
-		return Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonUserTypesFileName", "CalendarTypesOfEventsD"));
+		return Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonUserTypesFileName", "CalendarSubTypesOfEventsD"));
+	}
+	private static string CalculateMainEventsTypesFilePath()
+	{
+		return Path.Combine(FileSystem.Current.AppDataDirectory, Preferences.Default.Get("JsonMainTypesFileName", "CalendarMainTypesOfEventsD"));
 	}
 	#endregion
 
+	//CTOR
 	public LocalMachineEventRepository()
 	{
+		// Encryption key and IV
 		string keyBase64 = Convert.ToBase64String(new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F });
 		string ivBase64 = "MojeSuperHasloXD";
-
-
 		_aesService = new AdvancedEncryptionStandardService(keyBase64, ivBase64);
 	}
 
@@ -79,6 +98,26 @@ public class LocalMachineEventRepository : IEventRepository
 			OnEventListChanged?.Invoke();
 		}
 	}
+	private List<IMainEventType> _allMainEventTypesList = new List<IMainEventType>();
+	public List<IMainEventType> AllMainEventTypesList
+	{
+		get
+		{
+			return _allMainEventTypesList;
+		}
+		private set
+		{
+			if (_allMainEventTypesList == value) { return; }
+			_allMainEventTypesList = value;
+			OnMainEventTypesListChanged?.Invoke();
+		}
+	}
+	public async Task AddMainEventTypeAsync(IMainEventType mainEventTypeToAdd)
+	{
+		AllMainEventTypesList.Add(mainEventTypeToAdd);
+		OnMainEventTypesListChanged?.Invoke();
+		await SaveMainEventTypesListAsync();
+	}
 	public async Task AddEventAsync(IGeneralEventModel eventToAdd)
 	{
 		AllEventsList.Add(eventToAdd);
@@ -86,13 +125,6 @@ public class LocalMachineEventRepository : IEventRepository
 		OnEventListChanged?.Invoke();
 	}
 
-	public async Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete)
-	{
-		AllEventsList.Remove(eventToDelete);
-		await SaveEventsListAsync();
-		OnEventListChanged?.Invoke();
-
-	}
 
 	public async Task ClearEventsListAsync()
 	{
@@ -101,12 +133,19 @@ public class LocalMachineEventRepository : IEventRepository
 		OnEventListChanged?.Invoke();
 
 	}
-	public async Task ClearAllUserTypesAsync()
+	public async Task ClearAllSubEventTypesAsync()
 	{
 		await ClearEventsListAsync();
 		AllUserEventTypesList.Clear();
-		await SaveUserEventTypesListAsync();
-		OnUserTypeListChanged?.Invoke();
+		await SaveSubEventTypesListAsync();
+		OnUserEventTypeListChanged?.Invoke();
+	}
+	public async Task ClearAllMainEventTypesAsync()
+	{
+
+		AllMainEventTypesList.Clear();
+		await SaveSubEventTypesListAsync();
+		OnMainEventTypesListChanged?.Invoke();
 	}
 
 	public async Task<List<IGeneralEventModel>> GetEventsListAsync()
@@ -148,19 +187,6 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 
 
-	public async Task UpdateEventsAsync(IGeneralEventModel eventToUpdate)   // cos nie tak	???
-	{
-		var eventToUpdateInList = AllEventsList.FirstOrDefault(e => e.Id == eventToUpdate.Id);
-		if (eventToUpdateInList != null)
-		{
-			// TO CHECK
-			await SaveEventsListAsync();
-		}
-		else
-		{
-			await Task.CompletedTask;
-		}
-	}
 
 	public Task<IGeneralEventModel> GetEventByIdAsync(Guid eventId)
 	{
@@ -183,19 +209,34 @@ public class LocalMachineEventRepository : IEventRepository
 		{
 			if (_allUserEventTypesList == value) { return; }
 			_allUserEventTypesList = value;
-			OnUserTypeListChanged?.Invoke();
+			OnUserEventTypeListChanged?.Invoke();
 		}
 	}
 	public async Task InitializeAsync()
 	{
 		_allEventsList = await GetEventsListAsync();                          // TO CHECK -  ConfigureAwait
-		_allUserEventTypesList = await GetUserEventTypesListAsync();          // TO CHECK -  ConfigureAwait
+		_allUserEventTypesList = await GetSubEventTypesListAsync();          // TO CHECK -  ConfigureAwait
+		_allMainEventTypesList = await GetMainEventTypesListAsync();          // TO CHECK -  ConfigureAwait
 	}
-	public async Task<List<IUserEventTypeModel>> GetUserEventTypesListAsync()
+	public async Task<List<IMainEventType>> GetMainEventTypesListAsync()
 	{
-		if (File.Exists(UserTypesFilePath))
+		if (File.Exists(MainEventsTypesFilePath))
 		{
-			var jsonString = await File.ReadAllTextAsync(UserTypesFilePath);
+			var jsonString = await File.ReadAllTextAsync(MainEventsTypesFilePath);
+			var settings = JsonSerializerSettings_Auto;
+			AllMainEventTypesList = JsonConvert.DeserializeObject<List<IMainEventType>>(jsonString, settings);
+		}
+		else
+		{
+			AllMainEventTypesList = new List<IMainEventType>();
+		}
+		return AllMainEventTypesList;
+	}
+	public async Task<List<IUserEventTypeModel>> GetSubEventTypesListAsync()
+	{
+		if (File.Exists(SubEventsTypesFilePath))
+		{
+			var jsonString = await File.ReadAllTextAsync(SubEventsTypesFilePath);
 			var settings = JsonSerializerSettings_Auto;
 			AllUserEventTypesList = JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(jsonString, settings);
 		}
@@ -206,40 +247,85 @@ public class LocalMachineEventRepository : IEventRepository
 		return AllUserEventTypesList;
 	}
 
-	public async Task SaveUserEventTypesListAsync()
+	public async Task SaveSubEventTypesListAsync()
 	{
-		var directoryPath = Path.GetDirectoryName(UserTypesFilePath);
+		var directoryPath = Path.GetDirectoryName(SubEventsTypesFilePath);
 		if (!Directory.Exists(directoryPath))
 		{
 			Directory.CreateDirectory(directoryPath);
 		}
 		var settings = JsonSerializerSettings_Auto;
 		var jsonString = JsonConvert.SerializeObject(AllUserEventTypesList, settings);
-		await File.WriteAllTextAsync(UserTypesFilePath, jsonString);
-		OnUserTypeListChanged?.Invoke();
+		await File.WriteAllTextAsync(SubEventsTypesFilePath, jsonString);
 	}
-
-	public async Task DeleteFromUserEventTypesListAsync(IUserEventTypeModel eventTypeToDelete)
+	public async Task SaveMainEventTypesListAsync()
+	{
+		var directoryPath = Path.GetDirectoryName(MainEventsTypesFilePath);
+		if (!Directory.Exists(directoryPath))
+		{
+			Directory.CreateDirectory(directoryPath);
+		}
+		var settings = JsonSerializerSettings_Auto;
+		var jsonString = JsonConvert.SerializeObject(AllMainEventTypesList, settings);
+		await File.WriteAllTextAsync(MainEventsTypesFilePath, jsonString);
+	}
+	public async Task DeleteFromEventsListAsync(IGeneralEventModel eventToDelete)
+	{
+		AllEventsList.Remove(eventToDelete);
+		await SaveEventsListAsync();
+		OnEventListChanged?.Invoke();
+	}
+	public async Task DeleteFromMainEventTypesListAsync(IMainEventType mainEventTypeToDelete)
+	{
+		AllMainEventTypesList.Remove(mainEventTypeToDelete);
+		await SaveMainEventTypesListAsync();
+		OnMainEventTypesListChanged?.Invoke();
+	}
+	public async Task DeleteFromSubEventTypesListAsync(IUserEventTypeModel eventTypeToDelete)
 	{
 		AllUserEventTypesList.Remove(eventTypeToDelete);
-		await SaveUserEventTypesListAsync();
-		OnUserTypeListChanged?.Invoke();
+		await SaveSubEventTypesListAsync();
+		OnUserEventTypeListChanged?.Invoke();
 	}
 
-	public async Task AddUserEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
+	public async Task AddSubEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
 	{
 		AllUserEventTypesList.Add(eventTypeToAdd);
-		OnUserTypeListChanged?.Invoke();
-		await SaveUserEventTypesListAsync();
+		OnUserEventTypeListChanged?.Invoke();
+		await SaveSubEventTypesListAsync();
 	}
-	public async Task UpdateEventTypeAsync(IUserEventTypeModel eventTypeToUpdate)
+	public async Task UpdateEventAsync(IGeneralEventModel eventToUpdate)   // cos nie tak	???
 	{
-		await SaveUserEventTypesListAsync();
-		OnUserTypeListChanged?.Invoke();
+		var eventToUpdateInList = AllEventsList.FirstOrDefault(e => e.Id == eventToUpdate.Id);
+		if (eventToUpdateInList != null)
+		{
+			// TO CHECK
+			await SaveEventsListAsync();
+		}
+		else
+		{
+			await Task.CompletedTask;
+		}
 	}
-	public Task GetUserEventTypeAsync(IUserEventTypeModel eventTypeToSelect)
+
+	public async Task UpdateSubEventTypeAsync(IUserEventTypeModel eventTypeToUpdate)
 	{
-		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName);      // TO CHANGE
+		await SaveSubEventTypesListAsync();
+		OnUserEventTypeListChanged?.Invoke();
+	}
+	public async Task UpdateMainEventTypeAsync(IMainEventType eventTypeToUpdate)
+	{
+		await SaveMainEventTypesListAsync();
+		OnMainEventTypesListChanged?.Invoke();
+	}
+	public Task<IUserEventTypeModel> GetSubEventTypeAsync(IUserEventTypeModel eventTypeToSelect)
+	{
+		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName);      // TO CHANGE ???
+		return Task.FromResult(selectedEventType);
+	}
+	public Task<IMainEventType> GetMainEventTypeAsync(IMainEventType eventTypeToSelect)
+	{
+		var selectedEventType = AllMainEventTypesList.FirstOrDefault(e => e.Title == eventTypeToSelect.Title);      // TO CHANGE ???
 		return Task.FromResult(selectedEventType);
 	}
 	public List<IGeneralEventModel> DeepCopyAllEventsList()
@@ -248,11 +334,17 @@ public class LocalMachineEventRepository : IEventRepository
 		var serialized = JsonConvert.SerializeObject(_allEventsList, settings);
 		return JsonConvert.DeserializeObject<List<IGeneralEventModel>>(serialized, settings);
 	}
-	public List<IUserEventTypeModel> DeepCopyUserEventTypesList()
+	public List<IUserEventTypeModel> DeepCopySubEventTypesList()
 	{
 		var settings = JsonSerializerSettings_Auto;
 		var serialized = JsonConvert.SerializeObject(_allUserEventTypesList, settings);
 		return JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(serialized, settings);
+	}
+	public List<IMainEventType> DeepCopyMainEventTypesList()
+	{
+		var settings = JsonSerializerSettings_Auto;
+		var serialized = JsonConvert.SerializeObject(_allMainEventTypesList, settings);
+		return JsonConvert.DeserializeObject<List<IMainEventType>>(serialized, settings);
 	}
 	#endregion
 
@@ -268,23 +360,31 @@ public class LocalMachineEventRepository : IEventRepository
 			eventsAndTypesToSave = new EventsAndTypesForJson()
 			{
 				Events = AllEventsList,
-				UserEventTypes = AllUserEventTypesList
+				UserEventTypes = AllUserEventTypesList,
+				MainEventTypes = AllMainEventTypesList
 			};
 		}
 		else
 		{
-			var typesToSaveFromSpecifiedEvents = new List<IUserEventTypeModel>();
+			var subTypesToSaveFromSpecifiedEvents = new List<IUserEventTypeModel>();
+			var mainTypesToSaveFromSpecifiedEvents = new List<IMainEventType>();
+
 			foreach (var eventItem in eventsToSaveList)
 			{
-				if (!typesToSaveFromSpecifiedEvents.Contains(eventItem.EventType))
+				if (!subTypesToSaveFromSpecifiedEvents.Contains(eventItem.EventType))
 				{
-					typesToSaveFromSpecifiedEvents.Add(eventItem.EventType);
+					subTypesToSaveFromSpecifiedEvents.Add(eventItem.EventType);
+				}
+				if (!mainTypesToSaveFromSpecifiedEvents.Contains(eventItem.EventType.MainEventType))
+				{
+					mainTypesToSaveFromSpecifiedEvents.Add(eventItem.EventType.MainEventType);
 				}
 			}
 			eventsAndTypesToSave = new EventsAndTypesForJson()
 			{
 				Events = eventsToSaveList,
-				UserEventTypes = typesToSaveFromSpecifiedEvents
+				UserEventTypes = subTypesToSaveFromSpecifiedEvents,
+				MainEventTypes = mainTypesToSaveFromSpecifiedEvents
 			};
 		}
 
@@ -382,11 +482,16 @@ public class LocalMachineEventRepository : IEventRepository
 					{
 						AllUserEventTypesList.Add(eventType);
 					}
+					if(!AllMainEventTypesList.Contains(eventType.MainEventType))
+					{
+						AllMainEventTypesList.Add(eventType.MainEventType);
+					}
 				}
 
 				await Toast.Make($"Data loaded successfully from: {filePickerResult.FileName}").Show(cancellationToken);
 				await SaveEventsListAsync();
-				await SaveUserEventTypesListAsync();
+				await SaveSubEventTypesListAsync();
+				await SaveMainEventTypesListAsync();
 			}
 			else
 			{
@@ -421,6 +526,7 @@ public class LocalMachineEventRepository : IEventRepository
 	{
 		public List<IGeneralEventModel> Events { get; set; }
 		public List<IUserEventTypeModel> UserEventTypes { get; set; }
+		public List<IMainEventType> MainEventTypes { get; set; }
 	}
 
 

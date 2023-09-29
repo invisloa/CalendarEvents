@@ -36,30 +36,24 @@ namespace CalendarT1.Services
 		{
 			return new MeasurementOperationsHelperClass(eventsToCalculateList);
 		}
-		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, List<SubTask> subTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
+		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, List<MultiTask> multiTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
-			if (eventTypeModel.MainEventType == MainEventTypes.Event)
-			{
-				return new EventModel(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
-			}
-			else if (eventTypeModel.MainEventType == MainEventTypes.Task)
-			{
-				return new TaskModel(title, description, startTime, endTime, eventTypeModel, subTasks, isCompleted, postponeTime, wasShown);
-			}
-			else	// Value type event
-			{
-				return new ValueModel(title, description, startTime, endTime, eventTypeModel, quantityAmount, isCompleted, postponeTime, wasShown);
-			}
+			EventModelBuilder builder = new EventModelBuilder(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
+			if (quantityAmount != null)
+				builder.SetQuantityAmount(quantityAmount);
+			if (multiTasks != null)
+				builder.SetMultiTasksList(multiTasks);
+			return builder.Build();
 		}
-
-		public static IUserEventTypeModel CreateNewEventType(MainEventTypes mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity)
+		public static IUserEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity)
 		{
 			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, defaultEventTime, quantity);
 		}
 
-		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass()
+
+		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass(List<IMainEventType> mainEventTypes)
 		{
-			return new MainEventTypesCCHelper();
+			return new MainEventTypesCCHelper(mainEventTypes);
 		}
 
 		public static IFilterDatesCCHelperClass CreateFilterDatesCCHelperClass()

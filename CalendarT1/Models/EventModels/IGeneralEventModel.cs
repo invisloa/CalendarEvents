@@ -16,6 +16,6 @@ namespace CalendarT1.Models.EventModels
         string Title { get; set; }
         bool WasShown { get; set; }
         public Quantity QuantityAmount { get; set; }
-        public List<SubTask> SubTasksList { get; set; }
+        public List<MultiTask> MultiTasksList { get; set; }
     }
 }

@@ -17,14 +17,14 @@ namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
 	{
-		public event Action<MainEventTypes> MainEventTypeChanged;
+		public event Action<IMainEventType> MainEventTypeChanged;
 
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
-		protected IMainEventTypesCC _mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass();
+		protected IMainEventTypesCC _mainEventTypesCCHelper;
 		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
 
-		public MainEventTypes SelectedMainEventType
+		public IMainEventType SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
 			set
@@ -34,20 +34,20 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-		private void FilterAllEventTypesOCByMainEventType(MainEventTypes value)
+		private void FilterAllEventTypesOCByMainEventType(IMainEventType value)
 		{
 			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
 			OnPropertyChanged(nameof(AllEventTypesOC));
 		}
-		private List<IUserEventTypeModel> FilterUserTypesForVisuals(MainEventTypes value)
+		private List<IUserEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
 		{
 			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
 		}
-		public ObservableCollection<MainEventVisualDetails> MainEventTypesOC
+		public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC
 		{
-			get => _mainEventTypesCCHelper.MainEventTypesOC;
-			set => _mainEventTypesCCHelper.MainEventTypesOC = value;
+			get => _mainEventTypesCCHelper.MainEventTypesVisualsOC;
+			set => _mainEventTypesCCHelper.MainEventTypesVisualsOC = value;
 		}
 		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 153); // Defeault color is blue
@@ -142,7 +142,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			//DeleteAllEvents();
 			//DeleteAllUserTypes();
 			InitializeCommon(eventRepository);
-			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopyUserEventTypesList());
+			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
@@ -171,6 +171,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			SaveAllEventsToFileCommand = new AsyncRelayCommand(OnSaveEventsAndTypesCommand);
 			LoadEventsFromFileCommand = new AsyncRelayCommand(OnLoadEventsAndTypesCommand);
 			this.SetFilterDatesValues(false); // using extension method
+			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(eventRepository.AllMainEventTypesList);
 		}
 
 		#endregion
@@ -221,7 +222,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			{
 				_eventRepository.AllUserEventTypesList.Clear();
 				AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
-				await EventRepository.SaveUserEventTypesListAsync();
+				await EventRepository.SaveSubEventTypesListAsync();
 			}
 			catch (Exception ex)
 			{
@@ -277,8 +278,8 @@ namespace CalendarT1.ViewModels.EventsViewModels
 					}
 					catch (Exception ex)
 					{
-						int x = 5;
-					}
+						throw new Exception("Error adding event to EventsToShowList", ex);
+                    }
 				}
 			}
 			EventsToShowList = new ObservableCollection<IGeneralEventModel>(EventsToShowList);

@@ -100,6 +100,9 @@
 	  <MauiXaml Update="Views\AddNewTypePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\AddNewTypePageTemp.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\AllTypesPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -136,7 +139,7 @@
 	  <MauiXaml Update="Views\CustomControls\MeasurementSelectorCC.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CustomControls\SubTasksCC.xaml">
+	  <MauiXaml Update="Views\CustomControls\MultiTasksCC.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CustomControls\TodayAndSelectedDateCC.xaml">
@@ -176,6 +179,9 @@
 	  </Compile>
 	  <Compile Update="Views\CustomControls\EventTypesCustomControl.xaml.cs">
 	    <DependentUpon>EventTypesCustomControl.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CustomControls\MultiTasksCC.xaml.cs">
+	    <DependentUpon>MultiTasksCC.xaml</DependentUpon>
 	  </Compile>
 	</ItemGroup>
 

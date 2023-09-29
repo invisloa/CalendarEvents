@@ -2,19 +2,19 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:type_models="clr-namespace:CalendarT1.Models.EventModels;assembly=CalendarT1"
-             x:Class="CalendarT1.Views.CustomControls.SubTasksCC">
+             x:Class="CalendarT1.Views.CustomControls.MultiTasksCC">
     <StackLayout>
-        <CollectionView ItemsSource="{Binding SubTasksOC}" HorizontalOptions="FillAndExpand" BackgroundColor="{DynamicResource MainBackgroundColor}">
+        <CollectionView ItemsSource="{Binding MultiTasksOC}" HorizontalOptions="FillAndExpand" BackgroundColor="{DynamicResource MainBackgroundColor}">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="3" />
                 <!--Modify the Span to adjust number of items in a row-->
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="type_models:SubTask">
+                <DataTemplate x:DataType="type_models:MultiTask">
                     <Button Text="{Binding Title}"
                             TextColor= "{DynamicResource MainTextColor}"
                             BackgroundColor= "{DynamicResource MainButtonBackgroundColor}"
-                            Command="{Binding BindingContext.SelectSubTaskItemCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                            Command="{Binding BindingContext.SelectMultiTaskItemCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
                             CommandParameter="{Binding}">
                     </Button>
                 </DataTemplate>

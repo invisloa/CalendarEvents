@@ -88,7 +88,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
-			_eventRepository.OnUserTypeListChanged += UpdateAllEventTypesList;
+			_eventRepository.OnUserEventTypeListChanged += UpdateAllEventTypesList;
 			if (Application.Current.Resources.TryGetValue("MainTextColor", out var retrievedColor))
 			{
 				_deselectedUserEventTypeColor = (Color)retrievedColor;
