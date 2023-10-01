@@ -145,6 +145,9 @@
 	  <MauiXaml Update="Views\CustomControls\TodayAndSelectedDateCC.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CustomControls\UserTypeExtraOptionsCC.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\EventPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

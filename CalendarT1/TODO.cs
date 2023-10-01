@@ -1,4 +1,5 @@
-﻿
+﻿//     change in cc deselected color to dynamic resource
+
 /*		MAIN EVENT TYPES CHANGE
  * 
  * 

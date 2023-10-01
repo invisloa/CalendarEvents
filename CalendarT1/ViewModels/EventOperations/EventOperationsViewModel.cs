@@ -86,7 +86,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		: base(eventRepository)
 		{           
 			// value measurementType cannot be changed 
-			IsValueTypeSelectionEnabled = false;
 			_submitEventCommand = new AsyncRelayCommand(EditEventAsync, CanExecuteSubmitCommand);
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed

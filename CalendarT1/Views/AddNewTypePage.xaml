@@ -15,11 +15,12 @@
             <!--Main Event Types Custom Control -->
             <StackLayout>
                 <customControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
-                <customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>
             </StackLayout>
-            <customControls:DefaultEventTimespanCC/>
+
+
+            <!--<Label Text="TYPE COLOR:" HorizontalOptions="CenterAndExpand" Margin="30"/>-->
+
             <!--Possible Colors of events to choose-->
-            <Label Text="TYPE COLOR:" HorizontalOptions="CenterAndExpand" Margin="30"/>
             <CollectionView ItemsSource="{Binding ButtonsColors}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
@@ -32,12 +33,11 @@
                               BorderWidth="{Binding ButtonBorder}"
                               Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewTypePageName}}"
                               CommandParameter="{Binding .}"
-                              IsVisible="True" Margin="1"/>
-
+                              Margin="1"/>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
+            <customControls:UserTypeExtraOptionsCC Margin="10"/>
             <!--Down of the screen buttons-->
             <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}" Margin="10"/>
             <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" Margin="10" HorizontalOptions="Center"/>

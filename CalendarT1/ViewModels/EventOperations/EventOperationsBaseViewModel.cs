@@ -22,7 +22,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		#region MeasurementCC implementation
 		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
 		public int ValueFontSize { get; set; } = 20;
-		public bool IsValueTypeSelectionEnabled { get; set; } = true;
 
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected

@@ -18,13 +18,7 @@ namespace CalendarT1.ViewModels
 {
     public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC, IMeasurementSelectorCC
 	{
-
-		#region MeasurementCC implementation
-		public int ValueFontSize { get; set; } = 20;
-
-		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
-		public bool IsValueTypeSelectionEnabled { get; set; } = true;
-
+		private Color _deselectedColor = (Color)Application.Current.Resources["DeselectedBackgroundColor"];
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected
 		{
@@ -35,6 +29,7 @@ namespace CalendarT1.ViewModels
 				{
 					_isValueTypeSelected = value;
 					OnPropertyChanged();
+					OnPropertyChanged(nameof(IsValueTypeColor));
 				}
 			}
 		}
@@ -48,9 +43,63 @@ namespace CalendarT1.ViewModels
 				{
 					_isMultiTaskTypeSelected = value;
 					OnPropertyChanged();
+					OnPropertyChanged(nameof(IsMultiTaskTypeColor));
 				}
 			}
 		}
+		public Color IsMultiTaskTypeColor
+		{
+			get
+			{
+				if (IsMultiTaskTypeSelected)
+				{
+					return _selectedColor;
+				}
+				else
+				{
+					return _deselectedColor;
+				}
+			}
+		}
+		public Color IsValueTypeColor
+		{
+			get
+			{
+				if (IsValueTypeSelected)
+				{
+					return _selectedColor;
+				}
+				else
+				{
+					return _deselectedColor;
+				}
+			}
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		#region MeasurementCC implementation
+		public int ValueFontSize { get; set; } = 20;
+
+		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
+
 		public void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel)
 		{
 			_measurementSelectorHelperClass.SelectPropperMeasurementData(userEventTypeModel);
@@ -75,7 +124,11 @@ namespace CalendarT1.ViewModels
 		}
 
 		// Command set in the constructor
-		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
+		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; } 
+		public RelayCommand IsValueTypeSelectedCommand { get; set; }
+		public RelayCommand IsMultiTaskTypeSelectedCommand { get; set; }
+
+
 		#endregion
 
 		public DefaultEventTimespanCCHelperClass DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
@@ -185,6 +238,8 @@ namespace CalendarT1.ViewModels
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 			TempRemoveAllUserTypesCommand = new AsyncRelayCommand(TempRemoveAllUserTypes);
+			IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
+			IsMultiTaskTypeSelectedCommand = new RelayCommand(() => IsMultiTaskTypeSelected = !IsMultiTaskTypeSelected);
 		}
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)

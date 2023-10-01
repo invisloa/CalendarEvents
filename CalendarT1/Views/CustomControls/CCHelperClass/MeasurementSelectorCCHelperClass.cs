@@ -23,8 +23,6 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 		private RelayCommand<MeasurementUnitItem> _measurementUnitSelectedCommand;
 		private string _quantityValueText;
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
-		public bool IsValueTypeSelectionEnabled { get; set; } = true;
-
 		public IMeasurementOperationsHelperClass MeasurementOperationsHelperClass { get => _measurementOperationsHelperClass; set => _measurementOperationsHelperClass = value; }
 		public string QuantityValueText { get => _quantityValueText; set => _quantityValueText = value; }
 		public MeasurementSelectorCCHelperClass()

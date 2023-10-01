@@ -24,7 +24,6 @@
                         SelectedItem="{Binding SelectedMeasurementUnit, Mode=TwoWay}" 
                         MinimumWidthRequest="200" BackgroundColor="{DynamicResource MainButtonBackgroundColor}"
                         HorizontalTextAlignment="Center" TextColor="{DynamicResource MainTextColor}"
-                        IsEnabled="{Binding IsValueTypeSelectionEnabled}"
                     />
         </StackLayout >
         <StackLayout Orientation="Horizontal">
