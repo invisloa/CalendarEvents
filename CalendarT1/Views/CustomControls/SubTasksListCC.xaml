@@ -2,7 +2,8 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:CalendarT1.Helpers.Converters"
-             x:Class="CalendarT1.Views.CustomControls.SubTasksListCC">
+             x:Class="CalendarT1.Views.CustomControls.SubTasksListCC"
+             x:Name="root" >
 
     <ContentView.Resources>
         <ResourceDictionary>
@@ -10,15 +11,15 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <CollectionView ItemsSource="{Binding SubStasksListOC}">
+    <CollectionView ItemsSource="{Binding SubTasksListOC}">
         <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical"
-                             Span="5" />
+            <GridItemsLayout Orientation="Vertical" Span="3"/>
         </CollectionView.ItemsLayout>
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Button BackgroundColor="{Binding IsSubTaskCompleted, Converter={StaticResource boolToColorConverter}}"
-                        Command="{Binding SelectSubTaskCommand}"
+                <Button Text="{Binding SubTaskTitle}" 
+                        BackgroundColor="{Binding IsSubTaskCompleted, Converter={StaticResource boolToColorConverter}}"
+                        Command="{Binding Path=BindingContext.SelectSubTaskCommand, Source={x:Reference root}}"
                         CommandParameter="{Binding .}"
                         Margin="5"/>
             </DataTemplate>

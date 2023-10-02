@@ -11,9 +11,9 @@ namespace CalendarT1.Helpers.Converters
 		{
 			if (value is bool isCompleted && isCompleted)
 			{
-				return Application.Current.Resources.ContainsKey("MainSubTaskBackgroundColor");
+				return (Color)Application.Current.Resources["DeselectedBackgroundColor"]; 
 			}
-			return Application.Current.Resources.ContainsKey("DeselectedBackgroundColor");
+			return (Color)Application.Current.Resources["MainSubTaskBackgroundColor"];
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

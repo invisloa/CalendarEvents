@@ -17,9 +17,6 @@
                 <customControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
             </StackLayout>
 
-
-            <!--<Label Text="TYPE COLOR:" HorizontalOptions="CenterAndExpand" Margin="30"/>-->
-
             <!--Possible Colors of events to choose-->
             <CollectionView ItemsSource="{Binding ButtonsColors}">
                 <CollectionView.ItemsLayout>
@@ -37,7 +34,10 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <customControls:UserTypeExtraOptionsCC/>
+
+            <!--UserTypeExtraOptionsCC-->
+            <customControls:UserTypeExtraOptionsCC BindingContext="{Binding}"/>
+            
             <!--Down of the screen buttons-->
             <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}"/>
             <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" HorizontalOptions="Center"/>

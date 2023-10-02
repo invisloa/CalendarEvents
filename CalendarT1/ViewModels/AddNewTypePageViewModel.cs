@@ -121,7 +121,8 @@ namespace CalendarT1.ViewModels
 		}
 		public ObservableCollection<MultiTask> SubTasksListOC { get; set; } = new ObservableCollection<MultiTask>();
 
-		public RelayCommand AddSubTaskEventCommand { get; set; } 
+		public RelayCommand AddSubTaskEventCommand { get; set; }
+		public RelayCommand<MultiTask> SelectSubTaskCommand { get; set; }
 		
 
 
@@ -287,6 +288,12 @@ namespace CalendarT1.ViewModels
 			IsSubTaskListTypeSelectedCommand = new RelayCommand(() => IsSubTaskListSelected = !IsSubTaskListSelected);
 			IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
 			AddSubTaskEventCommand = new RelayCommand(() => { SubTasksListOC.Add(new MultiTask(SubTaskToAddTitle)); });
+			SelectSubTaskCommand = new RelayCommand<MultiTask>(OnSubTaskSelected);
+		}
+		private void OnSubTaskSelected(MultiTask multiTask)
+		{
+			multiTask.IsSubTaskCompleted = !multiTask.IsSubTaskCompleted;
+			OnPropertyChanged(nameof(SubTasksListOC));
 		}
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
