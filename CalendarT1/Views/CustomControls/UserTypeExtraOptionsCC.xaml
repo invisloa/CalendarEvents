@@ -18,7 +18,9 @@
 
         <!--Visible in both Modes-->
         <customControls:SubTaskAddCC IsVisible="{Binding IsSubTaskListSelected}"/>
-        <customControls:SubTasksListCC BindingContext="{Binding}" IsVisible="{Binding IsSubTaskListSelected}"/>
+        <StackLayout  IsVisible="{Binding IsNotEdit}">
+            <customControls:SubTasksListCC BindingContext="{Binding}" IsVisible="{Binding IsSubTaskListSelected}"/>
+         </StackLayout>
 
     </StackLayout>
 </ContentView>

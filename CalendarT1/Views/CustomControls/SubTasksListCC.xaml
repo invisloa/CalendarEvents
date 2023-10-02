@@ -11,11 +11,12 @@
         </ResourceDictionary>
     </ContentView.Resources>
 
-    <CollectionView ItemsSource="{Binding SubTasksListOC}">
-        <CollectionView.ItemsLayout>
-            <GridItemsLayout Orientation="Vertical" Span="3"/>
-        </CollectionView.ItemsLayout>
-        <CollectionView.ItemTemplate>
+    <FlexLayout BindableLayout.ItemsSource="{Binding SubTasksListOC}" 
+                Direction="Row" 
+                Wrap="Wrap" 
+                AlignItems="Start"
+                JustifyContent="Start">
+        <BindableLayout.ItemTemplate>
             <DataTemplate>
                 <Button Text="{Binding SubTaskTitle}" 
                         BackgroundColor="{Binding IsSubTaskCompleted, Converter={StaticResource boolToColorConverter}}"
@@ -23,6 +24,6 @@
                         CommandParameter="{Binding .}"
                         Margin="5"/>
             </DataTemplate>
-        </CollectionView.ItemTemplate>
-    </CollectionView>
+        </BindableLayout.ItemTemplate>
+    </FlexLayout>
 </ContentView>
