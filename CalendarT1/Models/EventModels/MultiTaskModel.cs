@@ -10,10 +10,9 @@ namespace CalendarT1.Models.EventModels
 	public class MultiTask : BaseViewModel
 	{
 		private string _title;
-		private string _description;
 		private bool _isCompleted;
 
-		public string Title
+		public string SubTaskTitle
 		{
 			get => _title;
 			set
@@ -26,21 +25,7 @@ namespace CalendarT1.Models.EventModels
 				OnPropertyChanged();
 			}
 		}
-		public string Description
-		{
-			get => _description;
-			set
-			{
-				if (_description == value)
-				{
-					return;
-				}
-				_description = value;
-				OnPropertyChanged();
-			}
-		}
-
-		public bool IsCompleted
+		public bool IsSubTaskCompleted
 		{
 			get => _isCompleted;
 			set
@@ -52,6 +37,11 @@ namespace CalendarT1.Models.EventModels
 				_isCompleted = value;
 				OnPropertyChanged();
 			}
+		}
+		public MultiTask(string title, bool isCompleted = false)
+		{
+			SubTaskTitle = title;
+			IsSubTaskCompleted = isCompleted;
 		}
 
 	}

@@ -7,12 +7,18 @@
         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="20">
             <Button Text="VALUE"  BackgroundColor="{Binding IsValueTypeColor}" Command="{Binding IsValueTypeSelectedCommand}" IsVisible="{Binding IsNotEdit}"/>
             <Button Text="DEFAULT TIMESPAN"  BackgroundColor="{Binding IsDefaultTimespanColor}" Command="{Binding IsDefaultTimespanSelectedCommand}"/>
-            <Button Text="MULTITASK" BackgroundColor="{Binding IsMultiTaskTypeColor}" Command="{Binding IsMultiTaskTypeSelectedCommand}" IsVisible="{Binding IsNotEdit}"/>
+            <Button Text="MULTITASK" BackgroundColor="{Binding IsSubTaskListTypeColor}" Command="{Binding IsSubTaskListTypeSelectedCommand}" IsVisible="{Binding IsNotEdit}"/>
         </StackLayout>
+        
+        <!--Not Visible in Edit Mode-->
         <StackLayout  IsVisible="{Binding IsNotEdit}">
         <customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>
-        <customControls:DefaultEventTimespanCC IsVisible="{Binding IsDefaultEventTimespan}"/>
+        <customControls:DefaultEventTimespanCC IsVisible="{Binding IsDefaultEventTimespanSelected}"/>
         </StackLayout>
-        <!--<customControls:MultiTaskAddingCC IsVisible="{Binding IsDefaultEventTimespan}"/>-->
+
+        <!--Visible in both Modes-->
+        <customControls:SubTaskAddCC IsVisible="{Binding IsSubTaskListSelected}"/>
+        <customControls:SubTasksListCC  IsVisible="{Binding IsSubTaskListSelected}"/>
+
     </StackLayout>
 </ContentView>

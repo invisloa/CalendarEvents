@@ -1,8 +1,8 @@
 namespace CalendarT1.Views.CustomControls;
 
-public partial class MultiTasksCC : ContentView
+public partial class SubTasksListCC : ContentView
 {
-	public MultiTasksCC()
+	public SubTasksListCC()
 	{
 		InitializeComponent();
 	}

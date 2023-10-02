@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCHelperClass
 {
-	public class MultiTasksCCHelperClass : IMultiTasksCC
+	public class MultiTasksListCCHelperClass : IMultiTasksCC
 	{
         private bool _allMultiTasksCompleted;
         public bool AllMultiTasksCompleted
@@ -27,30 +27,30 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 		IGeneralEventModel _taskTypeEvent;
 		public ObservableCollection<MultiTask> MultiTasksOC { get; set; }
 		public RelayCommand<MultiTask> MultiTaskCompleteSelectedCommand { get; set; }
-		public RelayCommand TaskCompleteSelectedCommand { get; set; }
+		public RelayCommand SubTaskCompleteSelectedCommand { get; set; }
 
-		public MultiTasksCCHelperClass(IGeneralEventModel taskTypeEvent)
+		public MultiTasksListCCHelperClass(IGeneralEventModel taskTypeEvent)
         {
 			_taskTypeEvent = taskTypeEvent;
 			MultiTasksOC = new ObservableCollection<MultiTask>(taskTypeEvent.MultiTasksList);
 			MultiTaskCompleteSelectedCommand = new RelayCommand<MultiTask>(OnMultiTaskSelected);
-			TaskCompleteSelectedCommand = new RelayCommand(TaskCompleteSelected);
+			SubTaskCompleteSelectedCommand = new RelayCommand(OnSubTaskCompleteSelected);
 		}
-		private void TaskCompleteSelected()
+		private void OnSubTaskCompleteSelected()
 		{
 			_taskTypeEvent.IsCompleted = !_taskTypeEvent.IsCompleted;
 			foreach (var multiTask in MultiTasksOC)
 			{
-				multiTask.IsCompleted = _taskTypeEvent.IsCompleted;
+				multiTask.IsSubTaskCompleted = _taskTypeEvent.IsCompleted;
 			}
 		}
 
 
 		public void OnMultiTaskSelected(MultiTask multiTask)
         {
-			multiTask.IsCompleted = !multiTask.IsCompleted;
+			multiTask.IsSubTaskCompleted = !multiTask.IsSubTaskCompleted;
 			//if multiTask was changed to not completed then change maintask to not completed
-			if (!multiTask.IsCompleted)
+			if (!multiTask.IsSubTaskCompleted)
 			{
 				_taskTypeEvent.IsCompleted = false;
 				return;
@@ -60,7 +60,7 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 				//check if all multiTask are completed
 				foreach (var multiTaskItem in MultiTasksOC)
 				{
-					if (!multiTask.IsCompleted)
+					if (!multiTask.IsSubTaskCompleted)
 					{
 						AllMultiTasksCompleted = false;
 						return;

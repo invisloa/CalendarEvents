@@ -15,11 +15,15 @@
             <x:Int32 x:Key="EventTitleFontSize">20</x:Int32>
 
             <Color x:Key="MainTextColor">#fff</Color>
+            <Color x:Key="MainPlaceholderTextColor">#ccc</Color>
             <Color x:Key="MainBackgroundColor">#3b78d4</Color>
             <Color x:Key="MainButtonBackgroundColor">#062e9c</Color>
             <Color x:Key="MainFrameBackgroundColor">#2a4ebd</Color>
             <Color x:Key="MainTextboxesBackgroundColor">#273567</Color>
             <Color x:Key="DeselectedBackgroundColor">#8198B2</Color>
+            <Color x:Key="MainSubTaskBackgroundColor">#069</Color>
+
+            
 
             <!-- Define the style for labels -->
             <Style TargetType="Label">

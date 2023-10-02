@@ -1,4 +1,8 @@
-﻿//     change in cc deselected color to dynamic resource
+﻿
+// make class color picker 	->	private void InitializeColorButtons() // also to extract as a separate custom control
+
+// edit subtasks page?? how to remove and edit??
+//     change in cc deselected color to dynamic resource
 
 /*		MAIN EVENT TYPES CHANGE
  * 

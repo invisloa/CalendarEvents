@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalendarT1.Views.CustomControls.SubTaskAddCC">
+    <!--<Grid>
+
+        --><!-- Define rows --><!--
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        --><!-- CollectionView for subtasks --><!--
+        <CollectionView ItemsSource="{Binding SubTasksListOC}" Grid.Row="0">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                                 Span="5" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Button BackgroundColor="{Binding ButtonColor}"
+                            BorderWidth="{Binding ButtonBorder}"
+                            Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewTypePageName}}"
+                            CommandParameter="{Binding .}"
+                            Margin="1"/>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>-->
+
+        <!-- Grid for Entry and Button -->
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Stroke="{DynamicResource MainTextboxesBackgroundColor}" Grid.Column="1"
+                    StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry 
+                    Placeholder="...SUBTASK TO ADD..." 
+                    HorizontalOptions="CenterAndExpand"
+                    MinimumWidthRequest="200"
+                    Text="{Binding SubTaskToAddTitle, Mode=TwoWay}"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    TextColor="{DynamicResource MainTextColor}"
+                    PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
+                    Background="{DynamicResource MainTextboxesBackgroundColor}" />
+            </Border>
+            <Button Grid.Column="2" HorizontalOptions="Start"  Text="+" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" 
+                    CornerRadius="10" Command="{Binding AddSubTaskEventCommand}" Margin="10,0,0,0"
+            />
+        <!--</Grid>-->
+    </Grid>
+</ContentView>

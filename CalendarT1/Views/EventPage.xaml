@@ -25,21 +25,20 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Stroke="{DynamicResource MainTextboxesBackgroundColor}" Grid.Column="1"
-                        StrokeThickness="2 ">
+                        StrokeThickness="3">
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="20" />
                     </Border.StrokeShape>
 
                     <Entry 
                        Placeholder="...EVENT TITLE..." 
-                       x:Name="TitleEntry" 
                        HorizontalTextAlignment="Center"
                        HorizontalOptions="CenterAndExpand"
                        MinimumWidthRequest="200"
                        Text="{Binding Title}"
                        TextColor="{DynamicResource MainTextColor}"
                        FontSize="{DynamicResource EventTitleFontSize}"
-                       PlaceholderColor="{DynamicResource MainTextColor}"
+                       PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
                        Background="{DynamicResource MainTextboxesBackgroundColor}" />
                 </Border>
 
@@ -71,10 +70,10 @@
 
             <Editor Placeholder="...DESCRIPTION..."
                         AutoSize="TextChanges"
-                        x:Name="DescriptionEditor"  HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
+                        HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
                         Text="{Binding Description, Mode=TwoWay}"
                         TextColor="{DynamicResource MainTextColor}"
-                        PlaceholderColor="{DynamicResource MainTextColor}"
+                        PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
                         Background="{DynamicResource MainTextboxesBackgroundColor}"
                         VerticalTextAlignment="Center"
                         MaximumHeightRequest="100"

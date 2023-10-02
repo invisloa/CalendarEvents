@@ -45,9 +45,9 @@ namespace CalendarT1.Services
 				builder.SetMultiTasksList(multiTasks);
 			return builder.Build();
 		}
-		public static IUserEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity)
+		public static IUserEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity, List<MultiTask> multiTasksList)
 		{
-			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, defaultEventTime, quantity);
+			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, defaultEventTime, quantity, multiTasksList);
 		}
 
 

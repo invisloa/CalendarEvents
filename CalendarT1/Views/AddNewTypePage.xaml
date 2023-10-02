@@ -37,10 +37,10 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-            <customControls:UserTypeExtraOptionsCC Margin="10"/>
+            <customControls:UserTypeExtraOptionsCC/>
             <!--Down of the screen buttons-->
-            <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}" Margin="10"/>
-            <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" Margin="10" HorizontalOptions="Center"/>
+            <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}"/>
+            <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" HorizontalOptions="Center"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

@@ -14,7 +14,7 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces
     {
         ObservableCollection<MultiTask> MultiTasksOC { get; set; }
         RelayCommand<MultiTask> MultiTaskCompleteSelectedCommand { get; set; }
-		public RelayCommand TaskCompleteSelectedCommand { get; set; }
+		public RelayCommand SubTaskCompleteSelectedCommand { get; set; }
 
 	}
 }
