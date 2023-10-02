@@ -48,7 +48,10 @@ public class RelayCommand : ICommand
 	{
 		canExecuteChanged?.Invoke(this, EventArgs.Empty);
 	}
-
+	public void RaiseCanExecuteChanged()
+	{
+		canExecuteChanged?.Invoke(this, EventArgs.Empty);
+	}
 	#endregion
 }
 

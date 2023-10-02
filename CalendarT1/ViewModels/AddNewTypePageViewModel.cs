@@ -14,6 +14,7 @@ using CalendarT1.Views.CustomControls.CCInterfaces;
 using CalendarT1.Models.EventModels;
 using CalendarT1.Views.CustomControls.CCHelperClass;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CalendarT1.ViewModels
 {
@@ -31,6 +32,7 @@ namespace CalendarT1.ViewModels
 				{
 					_subtaskToAddTitle = value;
 					OnPropertyChanged();
+					AddSubTaskEventCommand.RaiseCanExecuteChanged();
 				}
 			}
 		}
@@ -287,14 +289,20 @@ namespace CalendarT1.ViewModels
 			IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
 			IsSubTaskListTypeSelectedCommand = new RelayCommand(() => IsSubTaskListSelected = !IsSubTaskListSelected);
 			IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
-			AddSubTaskEventCommand = new RelayCommand(() => { SubTasksListOC.Add(new MultiTask(SubTaskToAddTitle)); });
+			AddSubTaskEventCommand = new RelayCommand(OnAddSubTaskEventCommand, CanExecuteAddSubTaskEventCommand);
 			SelectSubTaskCommand = new RelayCommand<MultiTask>(OnSubTaskSelected);
+		}
+		private void OnAddSubTaskEventCommand()
+		{
+			SubTasksListOC.Add(new MultiTask(SubTaskToAddTitle));
+			SubTaskToAddTitle = String.Empty;
 		}
 		private void OnSubTaskSelected(MultiTask multiTask)
 		{
 			multiTask.IsSubTaskCompleted = !multiTask.IsSubTaskCompleted;
 			OnPropertyChanged(nameof(SubTasksListOC));
 		}
+		private bool CanExecuteAddSubTaskEventCommand() => !string.IsNullOrEmpty(SubTaskToAddTitle);
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
 			: this(eventRepository)

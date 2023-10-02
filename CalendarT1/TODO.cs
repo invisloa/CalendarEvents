@@ -1,4 +1,9 @@
-﻿
+﻿// Can add new usertypeevent without maintypeselected!!!
+// ...Add new event error and main events are not working as should (some null reference exception)
+
+
+
+
 // make class color picker 	->	private void InitializeColorButtons() // also to extract as a separate custom control
 
 // edit subtasks page?? how to remove and edit??
