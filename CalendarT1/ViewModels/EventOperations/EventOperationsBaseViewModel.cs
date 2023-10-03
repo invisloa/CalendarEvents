@@ -157,13 +157,20 @@ namespace CalendarT1.ViewModels.EventOperations
 		private void FilterAllEventTypesOCByMainEventType(IMainEventType value)
 		{
 			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+
+            AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
 			OnPropertyChanged(nameof(AllEventTypesOC));
 		}
 
 		private List<IUserEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
 		{
-			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
+			string myvalue = $"my value is: {value}";
+			string values = "";
+			foreach (var item in _allUserTypesForVisuals)
+			{
+				values += $"my values are: {item.MainEventType}";
+			}
+			return _allUserTypesForVisuals.FindAll(x => x.MainEventType.Equals(value));
 		}
 		public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC 
 		{ 
@@ -421,19 +428,17 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x.EventTypeName == _selectedEventType.EventTypeName);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC);
+			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC); // ??????
+			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(SelectedEventType.MainEventType);
+			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 			SetSelectedEventTypeControlsVisibility();
 		}
 		protected virtual void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
 		{
-			if (SelectedMainEventType.ToString() != selectedMainEventType.ToString())
+			if (SelectedMainEventType == null || SelectedMainEventType.ToString() != selectedMainEventType.ToString())
 			{
 				_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 				SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-
-
-
-
 				FilterAllEventTypesOCByMainEventType(SelectedMainEventType);
 			}
 			if(AllEventTypesOC.Count > 0)

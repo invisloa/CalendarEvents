@@ -5,7 +5,11 @@
                           xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
 
              Title="WelcomePage">
-    <customControls:UserTypeExtraOptionsCC/>
+    <StackLayout>
+        <Button Text="XXXXXXX" Clicked="Button_Clicked"/>
+    </StackLayout>
+    <!--<customControls:UserTypeExtraOptionsCC/>-->
+    
 
 </ContentPage>
 

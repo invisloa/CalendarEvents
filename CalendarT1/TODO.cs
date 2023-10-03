@@ -1,6 +1,6 @@
-﻿// ANDROID IsVisible PROBLEM BUG
+﻿// ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
-
+// colors for main event types (border color of mainevent type and inside user event type color)
 // Can add new usertypeevent without maintypeselected!!!
 // ...Add new event error and main events are not working as should (some null reference exception)
 

@@ -35,18 +35,20 @@ namespace CalendarT1.Models.EventTypesModels
 			MainEventTypeBorderColor = mainEventTypeBorderColor;
 		}
 
-		public bool Equals(IMainEventType obj)
+		public override bool Equals(object obj)
 		{
-			return Title == obj.Title;
+			if (obj == null || GetType() != obj.GetType())
+			{
+				return false;
+			}
+
+			MainEventType other = (MainEventType)obj;
+			return Title == other.Title;
 		}
+
 		public override int GetHashCode()
 		{
-			unchecked
-			{
-				int hash = 17;
-				hash = hash * 23 + Title.GetHashCode();
-				return hash;
-			}
+			return Title.GetHashCode();
 		}
 
 	}
