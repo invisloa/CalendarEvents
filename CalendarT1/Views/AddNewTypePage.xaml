@@ -21,11 +21,12 @@
             <CollectionView ItemsSource="{Binding ButtonsColors}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
-                         Span="5" />
+                         Span="10" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Button 
+                              MinimumWidthRequest="10"
                               BackgroundColor="{Binding ButtonColor}"
                               BorderWidth="{Binding ButtonBorder}"
                               Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewTypePageName}}"
@@ -40,7 +41,7 @@
             
             <!--Down of the screen buttons-->
             <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}"/>
-            <Button Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" HorizontalOptions="Center"/>
+            <Button Margin="5" Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" HorizontalOptions="Center"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>

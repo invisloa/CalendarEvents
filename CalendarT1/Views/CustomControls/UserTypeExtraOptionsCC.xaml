@@ -4,9 +4,9 @@
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              x:Class="CalendarT1.Views.CustomControls.UserTypeExtraOptionsCC">
     <StackLayout>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Spacing="20">
-            <Button Text="VALUE"  BackgroundColor="{Binding IsValueTypeColor}" Command="{Binding IsValueTypeSelectedCommand}" IsVisible="{Binding IsNotEdit}"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
             <Button Text="DEFAULT TIMESPAN"  BackgroundColor="{Binding IsDefaultTimespanColor}" Command="{Binding IsDefaultTimespanSelectedCommand}"/>
+            <Button Text="VALUE"  BackgroundColor="{Binding IsValueTypeColor}" Command="{Binding IsValueTypeSelectedCommand}" IsVisible="{Binding IsNotEdit}"/>
             <Button Text="MULTITASK" BackgroundColor="{Binding IsSubTaskListTypeColor}" Command="{Binding IsSubTaskListTypeSelectedCommand}" IsVisible="{Binding IsNotEdit}"/>
         </StackLayout>
         
@@ -18,9 +18,7 @@
 
         <!--Visible in both Modes-->
         <customControls:SubTaskAddCC IsVisible="{Binding IsSubTaskListSelected}"/>
-        <StackLayout  IsVisible="{Binding IsNotEdit}">
-            <customControls:SubTasksListCC BindingContext="{Binding}" IsVisible="{Binding IsSubTaskListSelected}"/>
-         </StackLayout>
+        <customControls:SubTasksListCC BindingContext="{Binding}" IsVisible="{Binding IsSubTaskListSelected}"/>
 
     </StackLayout>
 </ContentView>

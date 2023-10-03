@@ -1,4 +1,7 @@
-﻿// Can add new usertypeevent without maintypeselected!!!
+﻿// ANDROID IsVisible PROBLEM BUG
+
+
+// Can add new usertypeevent without maintypeselected!!!
 // ...Add new event error and main events are not working as should (some null reference exception)
 
 
