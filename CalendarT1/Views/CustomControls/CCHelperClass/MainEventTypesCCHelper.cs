@@ -39,7 +39,6 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
                 // set visuals for selected event type
                 SetSelectedMainEventType(_selectedMainEventType);       // TO CHECK IF COMMENTING THIS LINE IS OK
 				MainEventTypeChanged?.Invoke(_selectedMainEventType); // Fire the event
-
 			}
 		}
         // Properties

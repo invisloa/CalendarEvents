@@ -417,7 +417,6 @@ namespace CalendarT1.ViewModels.EventOperations
 
 
 			SetEndExactTimeAccordingToEventType();
-			//((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute( ); // (This is not using SelectedMainEventType(property) so there would be no filtering applied to UserEventTypes)
 			SetVisualsForSelectedUserType();
 		}
 		protected void SetVisualsForSelectedUserType()
@@ -429,8 +428,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x.EventTypeName == _selectedEventType.EventTypeName);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC); // ??????
-			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(SelectedEventType.MainEventType);
-			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
+			SelectedMainEventType = SelectedEventType.MainEventType;
 			SetSelectedEventTypeControlsVisibility();
 		}
 		protected virtual void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
