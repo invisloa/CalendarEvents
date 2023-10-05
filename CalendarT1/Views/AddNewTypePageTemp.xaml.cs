@@ -10,6 +10,7 @@ public partial class AddNewTypePageTemp : ContentPage
 	public AddNewTypePageTemp()
 	{
 		_eventRepository = ServiceHelper.GetService<IEventRepository>();
+
 		InitializeComponent();
 	}
 
@@ -17,6 +18,10 @@ public partial class AddNewTypePageTemp : ContentPage
 	{
 		IMainEventType userEventTypeModel = new MainEventType("test1", Color.FromArgb("#FF0000"));
 		_eventRepository.AddMainEventTypeAsync(userEventTypeModel);
+		IMainEventType userEventTypeModel2 = new MainEventType("test2", Color.FromArgb("#FFaaaa"));
+		_eventRepository.AddMainEventTypeAsync(userEventTypeModel2);
+		IMainEventType userEventTypeModel3 = new MainEventType("test3", Color.FromArgb("#FFdd00"));
+		_eventRepository.AddMainEventTypeAsync(userEventTypeModel3);
 
 	}
 }

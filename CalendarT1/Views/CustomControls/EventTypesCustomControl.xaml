@@ -12,11 +12,18 @@
             </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="type_models:IUserEventTypeModel">
-                    <Button Text="{Binding EventTypeName}"
+                    <Button Text="{Binding EventTypeName}" Margin="5"
+
                             TextColor="White"
-                            BackgroundColor="{Binding BackgroundColor}"
+                            BackgroundColor="{Binding BackgroundColor}" BorderColor="{Binding MainEventType.MainEventTypeBorderColor}" 
+                            BorderWidth="5"
                             Command="{Binding BindingContext.SelectUserEventTypeCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
                             CommandParameter="{Binding}">
+                        <Button.Shadow>
+                            <Shadow Brush="Black"
+                                    Radius="3"
+                                    Opacity="1"/>
+                        </Button.Shadow>
                     </Button>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

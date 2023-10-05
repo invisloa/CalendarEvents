@@ -89,13 +89,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserEventTypeListChanged += UpdateAllEventTypesList;
-			if (Application.Current.Resources.TryGetValue("MainTextColor", out var retrievedColor))
+			if (Application.Current.Resources.TryGetValue("MainEventDeselectedBackgroundColor", out var retrievedColor))
 			{
 				_deselectedUserEventTypeColor = (Color)retrievedColor;
 			}
 			else
 			{
-				// Optionally handle if the resource is not found
+				// if the resource is not found
 				// write Color.FromArgb black color value
 
 				_deselectedUserEventTypeColor = Color.FromArgb("#ff949494");

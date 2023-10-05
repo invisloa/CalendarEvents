@@ -152,7 +152,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 
 
-	public async Task ClearEventsListAsync()
+	public async Task ClearAllEventsListAsync()
 	{
 		AllEventsList.Clear();
 		await SaveEventsListAsync();
@@ -161,7 +161,7 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public async Task ClearAllSubEventTypesAsync()
 	{
-		await ClearEventsListAsync();
+		await ClearAllEventsListAsync();
 		AllUserEventTypesList.Clear();
 		await SaveSubEventTypesListAsync();
 		OnUserEventTypeListChanged?.Invoke();
@@ -170,7 +170,7 @@ public class LocalMachineEventRepository : IEventRepository
 	{
 
 		AllMainEventTypesList.Clear();
-		await SaveSubEventTypesListAsync();
+		await SaveMainEventTypesListAsync();
 		OnMainEventTypesListChanged?.Invoke();
 	}
 

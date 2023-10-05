@@ -1,9 +1,11 @@
 ﻿// ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
+
+// EventOperationsBaseViewModel event types selections
 // colors for main event types (border color of mainevent type and inside user event type color)
 // Can add new usertypeevent without maintypeselected!!!
 // ...Add new event error and main events are not working as should (some null reference exception)
-
+// daily view shakes as with something before (collectionview or something)
 
 
 

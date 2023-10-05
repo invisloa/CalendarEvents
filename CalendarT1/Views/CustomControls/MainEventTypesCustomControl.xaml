@@ -15,9 +15,10 @@
                             Text="{Binding MainEventTitle}"
                             Opacity="{Binding Opacity}"
                             BorderWidth="{Binding Border}"
+                            BorderColor="{Binding Path=BindingContext.MainEventTypeButtonsBorderColor, Source={x:Reference MainEventTypesControl}}"
                             CommandParameter="{Binding .}"
                             Command="{Binding Path=BindingContext.MainEventTypeSelectedCommand, Source={x:Reference MainEventTypesControl}}"
-                            BackgroundColor="{Binding Path=BindingContext.MainEventTypeButtonsColor, Source={x:Reference MainEventTypesControl}}"
+                            BackgroundColor="{Binding MainEventTypeButtonColor}"
                             />
 
                 </DataTemplate>

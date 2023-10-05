@@ -9,8 +9,11 @@
             <Button Text="ALL TYPES PAGE" Command="{Binding GoToAllTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
                     WidthRequest="150" HorizontalOptions="End" BorderColor="CadetBlue" BorderWidth="3" Margin="10"/>
             <!-- Textbox for new type name -->
+            <Frame BackgroundColor="{Binding SelectedMainEventType.MainEventTypeBorderColor}" Padding="0" Margin="10,0,20,0" HorizontalOptions="Center" >
+                
             <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" Margin="30" 
-                       HorizontalTextAlignment="Center" BackgroundColor="Azure" TextColor="Black" VerticalOptions="Fill"/>
+                       HorizontalTextAlignment="Center" BackgroundColor="{Binding MainEventTypeButtonsColor}" TextColor="Black" VerticalOptions="Fill"/>
+            </Frame>
 
             <!--Main Event Types Custom Control -->
             <StackLayout>

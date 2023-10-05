@@ -91,14 +91,10 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
             MainEventTypesVisualsOC = new ObservableCollection<MainEventVisualDetails>();
 
             // dynamically create Main Event Types according to enum
-            foreach (MainEventType eventType in _mainEventTypesList)
+            foreach (IMainEventType eventType in _mainEventTypesList)
             {
-                var eventDetails = new MainEventVisualDetails
-                {
-                    MainEventTitle = eventType.ToString(),
-                    Opacity = FadedOpacity,
-                    Border = BorderSize
-                };
+                var eventDetails = new MainEventVisualDetails(eventType.ToString(), BorderSize, FadedOpacity, eventType.MainEventTypeBorderColor);
+
 
                 _eventVisualDetails[eventType] = eventDetails;
                 MainEventTypesVisualsOC.Add(eventDetails);
@@ -112,12 +108,24 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 
     public class MainEventVisualDetails : BaseViewModel
     {
+        public MainEventVisualDetails(string eventTitle, int borderWidth, float Opacity, Color buttonColor)
+        {
+            MainEventTitle = eventTitle;
+			Border = borderWidth;
+			this.Opacity = Opacity;
+			MainEventTypeButtonColor = buttonColor;            
+        }
         // Fields
         private string _mainEventTitle;
         private float _opacity;
         private int _border;
-
+        private Color _color;
         // Properties
+        public Color MainEventTypeButtonColor
+        {
+			get => _color;
+			set { _color = value; OnPropertyChanged(); }
+		}
         public string MainEventTitle
         {
             get => _mainEventTitle;

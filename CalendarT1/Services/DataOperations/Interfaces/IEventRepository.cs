@@ -26,7 +26,7 @@ namespace CalendarT1.Services.DataOperations.Interfaces
 		Task<IUserEventTypeModel> GetSubEventTypeAsync(IUserEventTypeModel eventTypeToSelect);
 		Task<IMainEventType> GetMainEventTypeAsync(IMainEventType eventTypeToSelect);
 
-		Task ClearEventsListAsync();
+		Task ClearAllEventsListAsync();
 		Task ClearAllSubEventTypesAsync();
 		Task ClearAllMainEventTypesAsync();
 

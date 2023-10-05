@@ -9,15 +9,13 @@
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:IUserEventTypeModel">
                     <StackLayout>
-                        <Frame BackgroundColor="{Binding EventTypeColor}">
-                            <Frame.GestureRecognizers>
+                        <Button BackgroundColor="{Binding MainEventType.MainEventTypeBorderColor}" BorderColor="{Binding BackgroundColor}" Text="{Binding EventTypeName}" FontSize="20" FontAttributes="Bold" BorderWidth="10">
+
+                            <Button.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding BindingContext.EditSelectedTypeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                                      CommandParameter="{Binding .}"/>
-                            </Frame.GestureRecognizers>
-                            <StackLayout Spacing="10">
-                                <Label Text="{Binding EventTypeName}" FontSize="20" FontAttributes="Bold"/>
-                            </StackLayout>
-                        </Frame>
+                            </Button.GestureRecognizers>
+                        </Button>
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
