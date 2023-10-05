@@ -406,7 +406,7 @@ namespace CalendarT1.ViewModels
 		}
 		private void SelectColor(ButtonProperties selectedColor)
 		{
-			//MainEventTypeButtonsColor = selectedColor.ButtonColor;
+			MainEventTypeButtonsColor = selectedColor.ButtonColor;
 
 			foreach (var button in ButtonsColors)
 			{
