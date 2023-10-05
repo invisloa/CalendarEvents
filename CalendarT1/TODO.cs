@@ -1,6 +1,14 @@
 ﻿// ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
+// main events types do not segregate 
+// monthly view days of the week names are not centered
+					/*Severity Count	Data Context	Binding Path	Target	Target Type	Description	File	Line	Project
+					Error	1	EventOperationsViewModel	IsCompleteFrameCommand	TapGestureRecognizer.Command	ICommand	'IsCompleteFrameCommand' property not found on 'CalendarT1.ViewModels.EventOperations.EventOperationsViewModel', target property: 'Microsoft.Maui.Controls.TapGestureRecognizer.Command'    C: \Users\invis\source\repos\CalendarT1\CalendarT1\Views\EventPage.xaml	125	CalendarT1
 
+					//< Frame.GestureRecognizers >
+					//	< TapGestureRecognizer Command = "{Binding IsCompleteFrameCommand}" />
+					//</ Frame.GestureRecognizers >
+					*/
 // EventOperationsBaseViewModel event types selections
 // colors for main event types (border color of mainevent type and inside user event type color)
 // Can add new usertypeevent without maintypeselected!!!

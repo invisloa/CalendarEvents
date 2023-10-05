@@ -32,6 +32,30 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 			}
 		}
 
+		public void SetControlsValues(TimeSpan timeToAdjust)
+		{
+			if (timeToAdjust.Days >= 1 && timeToAdjust.Hours == 0 && timeToAdjust.Minutes == 0 && timeToAdjust.Seconds == 0)
+			{
+				SelectedUnitIndex = 0;
+				DurationValue = timeToAdjust.Days;
+			}
+			else if (timeToAdjust.TotalHours >= 1 && timeToAdjust.Minutes == 0 && timeToAdjust.Seconds == 0)
+			{
+				SelectedUnitIndex = 1;
+				DurationValue = timeToAdjust.TotalHours;
+			}
+			else if (timeToAdjust.TotalMinutes >= 1 && timeToAdjust.Seconds == 0)
+			{
+				SelectedUnitIndex = 2;
+				DurationValue = timeToAdjust.TotalMinutes;
+			}
+			else
+			{
+				SelectedUnitIndex = 3;
+				DurationValue = timeToAdjust.TotalSeconds;
+			}
+		}
+
 		public TimeSpan GetDefaultDuration()
 		{
 			switch (SelectedUnitIndex)

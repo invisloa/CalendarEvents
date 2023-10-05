@@ -50,6 +50,13 @@ namespace CalendarT1.ViewModels
 				}
 			}
 		}
+		public TimeSpan DefaultTimespan
+		{
+			get
+			{
+				return IsDefaultEventTimespanSelected ? DefaultEventTimespanCCHelper.GetDefaultDuration() : TimeSpan.Zero;
+			}
+		}
 		private bool _isSubTaskListSelected;
 		public bool IsSubTaskListSelected
 		{
@@ -180,15 +187,12 @@ namespace CalendarT1.ViewModels
 
 		#endregion
 
-		public DefaultEventTimespanCCHelperClass DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
 
 		public event Action<IMainEventType> MainEventTypeChanged;		// TODO implement this event ?? if needed??
-
-
 		#region Fields
 		private const int NoBorderSize = 0;
 		private const int BorderSize = 7;
-
+		private IMainEventTypesCC _mainEventTypesCCHelper;
 		private TimeSpan _defaultEventTime;
 		private IUserEventTypeModel _currentType;   // if null => add new type, else => edit type
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
@@ -203,15 +207,7 @@ namespace CalendarT1.ViewModels
 		public string SubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW TYPE";
 		public bool IsEdit => _currentType != null;
 		public bool IsNotEdit => !IsEdit;
-		public TimeSpan DefaultEventTimeSpan
-		{
-			get => _defaultEventTime;
-			set
-			{
-				if (_defaultEventTime == value) return;
-				_defaultEventTime = value;
-			}
-		}
+
 		public IMainEventType SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
@@ -232,8 +228,12 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
 		public Color MainEventTypeButtonsColor
+		{
+			get; set;
+		}
+
+		public Color SelectedSubTypeColor
 		{
 			get => _selectedColor;
 			set
@@ -256,21 +256,26 @@ namespace CalendarT1.ViewModels
 		}
 
 		// helper class that makes dirty work for main event types
-		private IMainEventTypesCC _mainEventTypesCCHelper { get; set; }
-
 		public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
 
-		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 
 		#endregion
 
 		#region Commands
+		public DefaultEventTimespanCCHelperClass DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
+		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
 		public RelayCommand GoToAllTypesPageCommand { get; private set; }
 		public AsyncRelayCommand TempRemoveAllUserTypesCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
+		#region Commands CanExecute
+
+		private bool CanExecuteAddSubTaskEventCommand() => !string.IsNullOrEmpty(SubTaskToAddTitle);
+
+		private bool CanExecuteSubmitTypeCommand() => !string.IsNullOrEmpty(TypeName) && SelectedMainEventType != null;
+		#endregion
 		#endregion
 
 		#region Constructors
@@ -282,19 +287,35 @@ namespace CalendarT1.ViewModels
 			InitializeColorButtons();
 			DefaultEventTimespanCCHelper.DurationValue = 30;
 			DefaultEventTimespanCCHelper.SelectedUnitIndex = 2;
-			SelectColorCommand = new RelayCommand<ButtonProperties>(SelectColor);
+			SelectColorCommand = new RelayCommand<ButtonProperties>(OnSelectColorCommand);
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
-			TempRemoveAllUserTypesCommand = new AsyncRelayCommand(TempRemoveAllUserTypes);
 			IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
 			IsSubTaskListTypeSelectedCommand = new RelayCommand(() => IsSubTaskListSelected = !IsSubTaskListSelected);
 			IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
 			AddSubTaskEventCommand = new RelayCommand(OnAddSubTaskEventCommand, CanExecuteAddSubTaskEventCommand);
 			SelectSubTaskCommand = new RelayCommand<MultiTask>(OnSubTaskSelected);
 		}
+		// constructor for edit mode
+		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
+			: this(eventRepository)
+		{
+			SelectedMainEventType = currentType.MainEventType;
+			CurrentType = currentType;
+			SelectedSubTypeColor = currentType.EventTypeColor;
+			TypeName = currentType.EventTypeName;
+			DefaultEventTimespanCCHelper.SetControlsValues(currentType.DefaultEventTimeSpan);
+			setIsVisibleForExtraControlsForEditMode(currentType);
+			// set proper visuals for an edited event type
+		}
+
+		#endregion
+
+
+		#region Methods
 		private void OnAddSubTaskEventCommand()
 		{
 			SubTasksListOC.Add(new MultiTask(SubTaskToAddTitle));
@@ -305,22 +326,7 @@ namespace CalendarT1.ViewModels
 			multiTask.IsSubTaskCompleted = !multiTask.IsSubTaskCompleted;
 			OnPropertyChanged(nameof(SubTasksListOC));
 		}
-		private bool CanExecuteAddSubTaskEventCommand() => !string.IsNullOrEmpty(SubTaskToAddTitle);
-		// constructor for edit mode
-		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
-			: this(eventRepository)
-		{
-			CurrentType = currentType;
-			MainEventTypeButtonsColor = currentType.EventTypeColor;
-			TypeName = currentType.EventTypeName;
-			DefaultEventTimeSpan = currentType.DefaultEventTimeSpan;
-			// set proper visuals for an edited event type
-		}
-		#endregion
 
-
-		#region Methods
-		private bool CanExecuteSubmitTypeCommand() => !string.IsNullOrEmpty(TypeName) && SelectedMainEventType != null;
 		private async Task DeleteSelectedEventType()
 		{
 			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.EventType.EventTypeName == _currentType.EventTypeName);
@@ -359,39 +365,31 @@ namespace CalendarT1.ViewModels
 		{
 			if (IsEdit)
 			{
-				// cannot change main event type => may lead to some future errors???
+				// cannot change main event, Quantity type => may lead to some future errors???
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = _selectedColor;
-				if(IsDefaultEventTimespanSelected)
-				{
-					_currentType.DefaultEventTimeSpan = DefaultEventTimespanCCHelper.GetDefaultDuration();
-				}
-				else
-				{
-					_currentType.DefaultEventTimeSpan = TimeSpan.Zero;
-				}
+				SetExtraUserControlsAccordingToSelections();
 				await _eventRepository.UpdateSubEventTypeAsync(_currentType);
 				await Shell.Current.GoToAsync("..");								// TODO CHANGE NOT WORKING!!!
 				
 			}
 			else
 			{
-				Quantity quantityAmount = null;
-				if (IsValueTypeSelected)
-				{
-					quantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
-				}
-				List<MultiTask> multiTasks = null;
-				if (IsSubTaskListSelected)
-				{
-					multiTasks = new List<MultiTask>(SubTasksListOC); // TODO ADD multiTasks to 
-				}
-				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, DefaultEventTimespanCCHelper.GetDefaultDuration(), quantityAmount, multiTasks);
+				Quantity quantityAmount = IsValueTypeSelected ? new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue) : null;
+				List<MultiTask> multiTasks = IsSubTaskListSelected ? new List<MultiTask>(SubTasksListOC) : null;
+
+				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, DefaultTimespan, quantityAmount, multiTasks);
 				await _eventRepository.AddSubEventTypeAsync(newUserType);
 				await Shell.Current.GoToAsync("..");    // TODO CHANGE NOT WORKING!!!
 			}
 		}
-
+		// doing
+		private void setIsVisibleForExtraControlsForEditMode(IUserEventTypeModel userEventTypeModel)
+		{
+			IsValueTypeSelected = userEventTypeModel.IsValueType;
+			IsSubTaskListSelected = userEventTypeModel.IsMultiTaskType;
+			IsDefaultEventTimespanSelected = userEventTypeModel.DefaultEventTimeSpan != TimeSpan.Zero;
+		}
 
 		private void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
 		{
@@ -399,14 +397,9 @@ namespace CalendarT1.ViewModels
 
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 		}
-
-		private async Task TempRemoveAllUserTypes()
+		private void OnSelectColorCommand(ButtonProperties selectedColor)
 		{
-			await _eventRepository.ClearAllSubEventTypesAsync();
-		}
-		private void SelectColor(ButtonProperties selectedColor)
-		{
-			MainEventTypeButtonsColor = selectedColor.ButtonColor;
+			SelectedSubTypeColor = selectedColor.ButtonColor;
 
 			foreach (var button in ButtonsColors)
 			{
@@ -421,6 +414,27 @@ namespace CalendarT1.ViewModels
 		{
 			ButtonsColorsInitializerHelperClass buttonsColorsInitializerHelperClass = new ButtonsColorsInitializerHelperClass(BorderSize);
 			ButtonsColors = buttonsColorsInitializerHelperClass.ButtonsColors;
+		}
+		private void SetExtraUserControlsAccordingToSelections()
+		{
+			if (IsDefaultEventTimespanSelected)
+			{
+				_currentType.DefaultEventTimeSpan = DefaultTimespan;
+			}
+			else
+			{
+				_currentType.DefaultEventTimeSpan = TimeSpan.Zero;
+			}
+			if (IsSubTaskListSelected)
+			{
+				_currentType.IsMultiTaskType = true;
+				_currentType.MultiTasksList = new List<MultiTask>(SubTasksListOC);
+			}
+			else
+			{
+				_currentType.IsMultiTaskType = false;
+				_currentType.MultiTasksList = null;
+			}
 		}
 
 	}
