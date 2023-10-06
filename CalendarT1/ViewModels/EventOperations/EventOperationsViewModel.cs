@@ -81,7 +81,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			EndDateTime = selectedDate;
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
-			IsCompleteFrameCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
+			IsCompleteFrameCommand = new RelayCommand(() => IsCompleted = !IsCompleted);
 
 		}
 		// ctor for editing events edit mode

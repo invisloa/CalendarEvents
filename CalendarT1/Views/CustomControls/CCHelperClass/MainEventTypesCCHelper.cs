@@ -20,7 +20,7 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
         private const int BorderSize = 10;
         List<IMainEventType> _mainEventTypesList;
         public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 0); // Defeault color is black
-        private readonly Dictionary<IMainEventType, MainEventVisualDetails> _eventVisualDetails = new Dictionary<IMainEventType, MainEventVisualDetails>();
+        private readonly Dictionary<IMainEventType, MainEventTypeViewModel> _eventVisualDetails = new Dictionary<IMainEventType, MainEventTypeViewModel>();
         private IMainEventType _selectedMainEventType = null;
         private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 
@@ -42,20 +42,20 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 			}
 		}
         // Properties
-        public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC { get; set; }
+        public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get; set; }
 
-        public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; private set; }
+        public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; private set; }
 
         // Constructor
         public MainEventTypesCCHelper(List<IMainEventType> mainEventTypesList)
         {
 			_mainEventTypesList = mainEventTypesList;
-			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(ConvertEventDetailsAndSelectType);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(ConvertEventDetailsAndSelectType);
             InitializeMainEventTypes();
         }
 
         // Methods
-        private void ConvertEventDetailsAndSelectType(MainEventVisualDetails selectedEventTypeDetails)
+        private void ConvertEventDetailsAndSelectType(MainEventTypeViewModel selectedEventTypeDetails)
         {
 			var selectedEventType = _mainEventTypesList.FirstOrDefault(sc => sc.Title == selectedEventTypeDetails.MainEventTitle);
 
@@ -88,12 +88,12 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
         }
         private void InitializeMainEventTypes()
         {
-            MainEventTypesVisualsOC = new ObservableCollection<MainEventVisualDetails>();
+            MainEventTypesVisualsOC = new ObservableCollection<MainEventTypeViewModel>();
 
             // dynamically create Main Event Types according to enum
             foreach (IMainEventType eventType in _mainEventTypesList)
             {
-                var eventDetails = new MainEventVisualDetails(eventType.ToString(), BorderSize, FadedOpacity, eventType.MainEventTypeBorderColor);
+                var eventDetails = new MainEventTypeViewModel(eventType, BorderSize, FadedOpacity);
 
 
                 _eventVisualDetails[eventType] = eventDetails;
@@ -106,14 +106,16 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
         }
     }
 
-    public class MainEventVisualDetails : BaseViewModel
+    public class MainEventTypeViewModel : BaseViewModel
     {
-        public MainEventVisualDetails(string eventTitle, int borderWidth, float Opacity, Color buttonColor)
+        private IMainEventType _mainEventType;
+        public MainEventTypeViewModel(IMainEventType mainEventType, int borderWidth, float Opacity)
         {
-            MainEventTitle = eventTitle;
+			_mainEventType = mainEventType;
+			MainEventTitle = _mainEventType.Title;
+			MainEventTypeButtonColor = _mainEventType.MainEventTypeBorderColor;
 			Border = borderWidth;
 			this.Opacity = Opacity;
-			MainEventTypeButtonColor = buttonColor;            
         }
         // Fields
         private string _mainEventTitle;

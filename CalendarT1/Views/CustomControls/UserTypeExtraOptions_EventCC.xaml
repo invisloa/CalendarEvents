@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
+             x:Class="CalendarT1.Views.CustomControls.UserTypeExtraOptions_EventCC"
+             >
+
+    <StackLayout>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+            <Button Text="TIMESPAN"  BackgroundColor="{Binding SelectedEventType.EventTypeColor}" Command="{Binding IsDefaultTimespanSelectedCommand}"/>
+            <Button Text="VALUE"  BackgroundColor="{Binding IsValueTypeColor}" Command="{Binding IsValueTypeSelectedCommand}" IsVisible="{Binding SelectedEventType.IsValueType}"/>
+            <Button Text="MULTITASK" BackgroundColor="{Binding IsSubTaskListTypeColor}" Command="{Binding IsSubTaskListTypeSelectedCommand}" IsVisible="{Binding SelectedEventType.IsMultiTaskType}"/>
+        </StackLayout>
+
+        <customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>
+        <customControls:DefaultEventTimespanCC IsVisible="{Binding IsDefaultEventTimespanSelected}"/>
+        <customControls:SubTaskAddCC IsVisible="{Binding IsSubTaskListSelected}"/>
+        <customControls:SubTasksListCC BindingContext="{Binding}" IsVisible="{Binding IsSubTaskListSelected}"/>
+
+    </StackLayout>
+</ContentView>

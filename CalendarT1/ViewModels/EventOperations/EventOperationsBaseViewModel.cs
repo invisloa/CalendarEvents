@@ -90,7 +90,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			
@@ -172,7 +172,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 			return _allUserTypesForVisuals.FindAll(x => x.MainEventType.Equals(value));
 		}
-		public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC 
+		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC 
 		{ 
 			get => _mainEventTypesCCHelper.MainEventTypesVisualsOC;
 			set => _mainEventTypesCCHelper.MainEventTypesVisualsOC = value; 
@@ -367,7 +367,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		// Command
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
-		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
+		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
 		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
 		#endregion
 
@@ -431,7 +431,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			SelectedMainEventType = SelectedEventType.MainEventType;
 			SetSelectedEventTypeControlsVisibility();
 		}
-		protected virtual void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
+		protected virtual void OnMainEventTypeSelected(MainEventTypeViewModel selectedMainEventType)
 		{
 			if (SelectedMainEventType == null || SelectedMainEventType.ToString() != selectedMainEventType.ToString())
 			{

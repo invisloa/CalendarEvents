@@ -256,7 +256,7 @@ namespace CalendarT1.ViewModels
 		}
 
 		// helper class that makes dirty work for main event types
-		public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
+		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
 
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
 
@@ -264,7 +264,7 @@ namespace CalendarT1.ViewModels
 
 		#region Commands
 		public DefaultEventTimespanCCHelperClass DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
-		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
+		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
 		public RelayCommand GoToAllTypesPageCommand { get; private set; }
 		public AsyncRelayCommand TempRemoveAllUserTypesCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
@@ -291,7 +291,7 @@ namespace CalendarT1.ViewModels
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
-			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 			IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
 			IsSubTaskListTypeSelectedCommand = new RelayCommand(() => IsSubTaskListSelected = !IsSubTaskListSelected);
@@ -391,7 +391,7 @@ namespace CalendarT1.ViewModels
 			IsDefaultEventTimespanSelected = userEventTypeModel.DefaultEventTimeSpan != TimeSpan.Zero;
 		}
 
-		private void OnMainEventTypeSelected(MainEventVisualDetails selectedMainEventType)
+		private void OnMainEventTypeSelected(MainEventTypeViewModel selectedMainEventType)
 		{
 			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 

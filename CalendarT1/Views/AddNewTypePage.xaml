@@ -39,8 +39,8 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!--UserTypeExtraOptionsCC-->
-            <customControls:UserTypeExtraOptionsCC BindingContext="{Binding}"/>
+            <!--UserTypeExtraOptions_TypesCC-->
+            <customControls:UserTypeExtraOptions_TypesCC BindingContext="{Binding}"/>
             
             <!--Down of the screen buttons-->
             <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}"/>

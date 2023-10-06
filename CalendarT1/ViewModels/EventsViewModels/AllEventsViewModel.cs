@@ -44,18 +44,18 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
 		}
-		public ObservableCollection<MainEventVisualDetails> MainEventTypesVisualsOC
+		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC
 		{
 			get => _mainEventTypesCCHelper.MainEventTypesVisualsOC;
 			set => _mainEventTypesCCHelper.MainEventTypesVisualsOC = value;
 		}
-		public RelayCommand<MainEventVisualDetails> MainEventTypeSelectedCommand { get; set; }
+		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
 		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 153); // Defeault color is blue
 		public void DisableVisualsForAllMainEventTypes()
 		{
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
-		protected void OnMainEventTypeSelected(MainEventVisualDetails eventType)
+		protected void OnMainEventTypeSelected(MainEventTypeViewModel eventType)
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
@@ -144,7 +144,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			InitializeCommon(eventRepository);
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
-			MainEventTypeSelectedCommand = new RelayCommand<MainEventVisualDetails>(OnMainEventTypeSelected);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
 
