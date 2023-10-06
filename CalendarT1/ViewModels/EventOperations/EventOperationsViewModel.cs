@@ -70,6 +70,8 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		#endregion
 
+		public RelayCommand IsCompleteFrameCommand { get; set; }
+
 		#region Constructors
 		// ctor for creating evnents create mode
 		public EventOperationsViewModel(IEventRepository eventRepository, DateTime selectedDate)
@@ -79,6 +81,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			EndDateTime = selectedDate;
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
+			IsCompleteFrameCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
 
 		}
 		// ctor for editing events edit mode
@@ -111,8 +114,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
 			}
 			// TODO ADD EVENT TYPE multiTasks
-
-
+			IsCompleteFrameCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
 			MainEventTypeSelectedCommand = null;
 		}
 		#endregion

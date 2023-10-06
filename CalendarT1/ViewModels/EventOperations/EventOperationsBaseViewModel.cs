@@ -425,7 +425,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				eventType.BackgroundColor = Color.FromRgba(255, 255, 255, 1);
 			}
-			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x.EventTypeName == _selectedEventType.EventTypeName);
+			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x == _selectedEventType);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC); // ??????
 			SelectedMainEventType = SelectedEventType.MainEventType;
