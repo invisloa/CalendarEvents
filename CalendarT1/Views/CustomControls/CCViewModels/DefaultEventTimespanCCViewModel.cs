@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarT1.Views.CustomControls.CCHelperClass
+namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-	public class DefaultEventTimespanCCHelperClass : BaseViewModel
+	public class DefaultEventTimespanCCViewModel : BaseViewModel
 	{
+
 		private int _selectedUnitIndex;
 		public int SelectedUnitIndex
 		{

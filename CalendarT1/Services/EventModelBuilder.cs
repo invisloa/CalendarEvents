@@ -21,8 +21,8 @@ namespace CalendarT1.Services
 		private bool isCompleted = false;
 		private TimeSpan? postponeTime = null;
 		private bool wasShown = false;
-		private Quantity quantityAmount = null;
-		private List<MultiTask> _multiTasksList = null;
+		private QuantityModel quantityAmount = null;
+		private List<MicroTaskModel> _microTasksList = null;
 
 
 		public EventModelBuilder(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventType, bool isCompleted, TimeSpan? postponeTime, bool wasShown)
@@ -62,22 +62,22 @@ namespace CalendarT1.Services
 			return this;
 		}
 
-		public EventModelBuilder SetQuantityAmount(Quantity quantityAmount)
+		public EventModelBuilder SetQuantityAmount(QuantityModel quantityAmount)
 		{
 			this.quantityAmount = quantityAmount;
 			return this;
 		}
 
-		public EventModelBuilder SetMultiTasksList(List<MultiTask> multiTasksList)
+		public EventModelBuilder SetMicroTasksList(List<MicroTaskModel> microTasksList)
 		{
-			this._multiTasksList = multiTasksList;
+			_microTasksList = microTasksList;
 			return this;
 		}
 
 		public EventModel Build()
 		{
 			// Perform any final validation
-			return new EventModel(title, description, startTime, endTime, eventType, isCompleted, postponeTime, wasShown, quantityAmount, _multiTasksList);
+			return new EventModel(title, description, startTime, endTime, eventType, isCompleted, postponeTime, wasShown, quantityAmount, _microTasksList);
 		}
 	}
 }

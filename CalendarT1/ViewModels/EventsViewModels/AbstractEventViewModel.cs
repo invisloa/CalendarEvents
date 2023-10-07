@@ -2,7 +2,7 @@
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
-using CalendarT1.Views.CustomControls.CCHelperClass;
+using CalendarT1.Views.CustomControls.CCViewModels;
 using CalendarT1.Views.CustomControls.CCInterfaces;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

@@ -1,8 +1,8 @@
 namespace CalendarT1.Views.CustomControls;
 
-public partial class AddNewEventAndTypeCC : ContentView
+public partial class AddNewEventAndTypeBtnsCC : ContentView
 {
-	public AddNewEventAndTypeCC()
+	public AddNewEventAndTypeBtnsCC()
 	{
 		InitializeComponent();
 	}

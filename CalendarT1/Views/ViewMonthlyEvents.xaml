@@ -23,7 +23,7 @@
         <customControls:EventTypesCustomControl Grid.Row="1"/>
 
         <!--Events list layout-->
-        <customControls:AddNewEventAndTypeCC Grid.Row="2"/>
+        <customControls:AddNewEventAndTypeBtnsCC Grid.Row="2"/>
 
         <!--Events Grid-->
         <ScrollView Grid.Row="3" Orientation="Vertical" HeightRequest="400">

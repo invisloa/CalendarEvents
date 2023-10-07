@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:CalendarT1.Helpers.Converters"
+             x:Class="CalendarT1.Views.CustomControls.SubTasksListCC"
+             x:Name="root" >
+
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolToColorConverter x:Key="boolToColorConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
+    <FlexLayout BindableLayout.ItemsSource="{Binding MicroTasksAddCCHelper.SubTasksListOC}" 
+                Direction="Row" 
+                Wrap="Wrap" 
+                AlignItems="Start"
+                JustifyContent="Start">
+        <BindableLayout.ItemTemplate>
+            <DataTemplate>
+                <Button Text="{Binding SubTaskTitle}" 
+                        BackgroundColor="{Binding IsSubTaskCompleted, Converter={StaticResource boolToColorConverter}}"
+                        Command="{Binding Path=BindingContext.MicroTasksAddCCHelper.SelectSubTaskCommand, Source={x:Reference root}}"
+                        CommandParameter="{Binding .}"
+                        Margin="5"/>
+            </DataTemplate>
+        </BindableLayout.ItemTemplate>
+    </FlexLayout>
+</ContentView>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <!--Some other I dont know which one was the good one but i thought not the one below:
+--><!--<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:type_models="clr-namespace:CalendarT1.Models.EventModels;assembly=CalendarT1"
+             x:Class="CalendarT1.Views.CustomControls.MicroTasksListCC">
+    <StackLayout>
+        <CollectionView ItemsSource="{Binding MultiTasksOC}" HorizontalOptions="FillAndExpand" BackgroundColor="{DynamicResource MainBackgroundColor}">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="3" />
+                -->
+<!--Modify the Span to adjust number of items in a row-->
+<!--
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="type_models:MicroTask">
+                    <Button Text="{Binding SubTaskTitle}"
+                            TextColor= "{DynamicResource MainTextColor}"
+                            BackgroundColor= "{DynamicResource MainButtonBackgroundColor}"
+                            Command="{Binding BindingContext.SelectMultiTaskItemCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                            CommandParameter="{Binding}">
+                    </Button>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </StackLayout>
+</ContentView>-->

@@ -1,5 +1,5 @@
 ﻿using CalendarT1.Models.EventTypesModels;
-using CalendarT1.Views.CustomControls.CCHelperClass;
+using CalendarT1.Views.CustomControls.CCViewModels;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

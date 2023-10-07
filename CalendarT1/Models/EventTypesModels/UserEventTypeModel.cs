@@ -15,9 +15,9 @@ namespace CalendarT1.Models.EventTypesModels
 
 		private bool _isValueType;
 		private bool _isMultiTaskType;
-		private List<MultiTask> _multiTasksList;
-		private Quantity _quantityAmount;
-		public List<MultiTask> MultiTasksList
+		private List<MicroTaskModel> _multiTasksList;
+		private QuantityModel _quantityAmount;
+		public List<MicroTaskModel> DefaultMicroTasksList
 		{
 			get => _multiTasksList;
 			set
@@ -102,7 +102,7 @@ namespace CalendarT1.Models.EventTypesModels
 				}
 			}
 		}
-		public bool IsMultiTaskType
+		public bool IsMicroTaskType
 		{
 			get => _isMultiTaskType;
 			set
@@ -126,7 +126,7 @@ namespace CalendarT1.Models.EventTypesModels
 				}
 			}
 		}
-		public Quantity QuantityAmount
+		public QuantityModel DefaultQuantityAmount
 		{
 			get => _quantityAmount;
 			set
@@ -139,7 +139,7 @@ namespace CalendarT1.Models.EventTypesModels
 			}
 		}
 
-		public UserEventTypeModel(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity = null, List<MultiTask> multiTasksList = null, bool isSelectedToFilter = true)
+		public UserEventTypeModel(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity = null, List<MicroTaskModel> multiTasksList = null, bool isSelectedToFilter = true)
 		{
 			MainEventType = mainEventType;
 			IsSelectedToFilter = isSelectedToFilter;
@@ -147,8 +147,8 @@ namespace CalendarT1.Models.EventTypesModels
 			EventTypeName = eventTypeName;
 			EventTypeColor = eventTypeColor;
 			BackgroundColor = eventTypeColor; // Initialize BackgroundColor as EventTypeColor upon object creation
-			QuantityAmount = quantity;
-			MultiTasksList = multiTasksList;
+			DefaultQuantityAmount = quantity;
+			DefaultMicroTasksList = multiTasksList;
 		}
 
 		public bool Equals(IUserEventTypeModel obj)

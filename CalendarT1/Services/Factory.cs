@@ -3,9 +3,10 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.HelperClass;
 using CalendarT1.Views.CustomControls;
-using CalendarT1.Views.CustomControls.CCHelperClass;
-using CalendarT1.Views.CustomControls.CCHelperClass.CalendarT1.Views.CustomControls.CCHelperClass;
+using CalendarT1.Views.CustomControls.CCViewModels;
+using CalendarT1.Views.CustomControls.CCViewModels.CalendarT1.Views.CustomControls.CCHelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces;
+using CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
@@ -17,7 +18,7 @@ namespace CalendarT1.Services
 		// Event Repository
 		public static ObservableCollection<MeasurementUnitItem> PopulateMeasurementCollection()
 		{
-			return new ObservableCollection<MeasurementUnitItem>(
+			var measurementUnitItems = new ObservableCollection<MeasurementUnitItem>(
 			Enum.GetValues(typeof(MeasurementUnit))
 			.Cast<MeasurementUnit>()
 			.Select(unit => new MeasurementUnitItem(unit)
@@ -27,43 +28,60 @@ namespace CalendarT1.Services
 					: unit.GetDescription()
 
 				}));
+			return measurementUnitItems;
 		}
-		public static IMeasurementSelectorCC CreateMeasurementSelectorCCHelperClass()
+		public static MeasurementSelectorCCViewModel CreateNewMeasurementSelectorCCHelperClass()
 		{
-			return new MeasurementSelectorCCHelperClass();
+			return new MeasurementSelectorCCViewModel();
 		}
 		public static IMeasurementOperationsHelperClass CreateMeasurementOperationsHelperClass(ObservableCollection<IGeneralEventModel> eventsToCalculateList)
 		{
 			return new MeasurementOperationsHelperClass(eventsToCalculateList);
 		}
-		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, Quantity quantityAmount = null, List<MultiTask> multiTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
+		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, QuantityModel quantityAmount = null, List<MicroTaskModel> microTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
 			EventModelBuilder builder = new EventModelBuilder(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
 			if (quantityAmount != null)
 				builder.SetQuantityAmount(quantityAmount);
-			if (multiTasks != null)
-				builder.SetMultiTasksList(multiTasks);
+			if (microTasks != null)
+				builder.SetMicroTasksList(microTasks);
 			return builder.Build();
 		}
-		public static IUserEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, Quantity quantity, List<MultiTask> multiTasksList)
+		public static IUserEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity, List<MicroTaskModel> microTasksList)
 		{
-			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, defaultEventTime, quantity, multiTasksList);
+			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, defaultEventTime, quantity, microTasksList);
 		}
 
 
 		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass(List<IMainEventType> mainEventTypes)
 		{
-			return new MainEventTypesCCHelper(mainEventTypes);
+			return new MainEventTypesCCViewModel(mainEventTypes);
 		}
 
 		public static IFilterDatesCCHelperClass CreateFilterDatesCCHelperClass()
 		{
-			return new FilterDatesCCHelperClass();
+			return new FilterDatesCCViewModel();
 		}
 
-		internal static DefaultEventTimespanCCHelperClass CreateNewDefaultEventTimespanCCHelperClass()
+		internal static DefaultEventTimespanCCViewModel CreateNewDefaultEventTimespanCCHelperClass()
 		{
-			return new DefaultEventTimespanCCHelperClass();
+			return new DefaultEventTimespanCCViewModel();
+		}
+
+		internal static IUserTypeExtraOptionsCC CreateNewUserTypeExtraOptionsHelperClass()
+		{
+			return new UserTypeExtraOptionsViewModel();
+		}
+
+		internal static MicroTasksListCCViewModel CreateNewMicroTasksListCCHelperClass(IGeneralEventModel eventWithMicroTasks)
+		{
+			
+			return new MicroTasksListCCViewModel(eventWithMicroTasks);
+		}
+
+		internal static MicroTasksAddCCViewModel CreateNewMicroTasksAddCCHelperClass(List<MicroTaskModel> listToAddMiroTasks)
+		{
+			return new MicroTasksAddCCViewModel(listToAddMiroTasks);
 		}
 	}
 }

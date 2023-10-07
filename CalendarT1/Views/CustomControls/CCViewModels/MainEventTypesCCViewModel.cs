@@ -9,9 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarT1.Views.CustomControls.CCHelperClass
+namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-    public class MainEventTypesCCHelper : IMainEventTypesCC
+    public class MainEventTypesCCViewModel : IMainEventTypesCC
     {
         // Fields
         private const int FullOpacity = 1;
@@ -47,7 +47,7 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
         public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; private set; }
 
         // Constructor
-        public MainEventTypesCCHelper(List<IMainEventType> mainEventTypesList)
+        public MainEventTypesCCViewModel(List<IMainEventType> mainEventTypesList)
         {
 			_mainEventTypesList = mainEventTypesList;
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(ConvertEventDetailsAndSelectType);

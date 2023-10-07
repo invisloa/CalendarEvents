@@ -2,7 +2,7 @@
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.ViewModels.HelperClass;
-using CalendarT1.Views.CustomControls.CCInterfaces;
+using CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,13 +10,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarT1.Views.CustomControls.CCHelperClass
+namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-	public class MeasurementSelectorCCHelperClass : IMeasurementSelectorCC
+    public class MeasurementSelectorCCViewModel : IMeasurementSelectorCC
 	{
 		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
 		private MeasurementUnitItem _selectedMeasurementUnit;
-		private Quantity _eventQuantity;
+		private QuantityModel _eventQuantity;
 		private bool _isValueTypeSelected;
 
 		private decimal _quantityValue = 0;
@@ -25,11 +25,11 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
 		public IMeasurementOperationsHelperClass MeasurementOperationsHelperClass { get => _measurementOperationsHelperClass; set => _measurementOperationsHelperClass = value; }
 		public string QuantityValueText { get => _quantityValueText; set => _quantityValueText = value; }
-		public MeasurementSelectorCCHelperClass()
+		public MeasurementSelectorCCViewModel()
 		{
 			_measurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			_selectedMeasurementUnit = MeasurementUnitsOC[0];   //default value- Currency
-			_eventQuantity = new Quantity(_selectedMeasurementUnit.TypeOfMeasurementUnit, _quantityValue);
+			_eventQuantity = new QuantityModel(_selectedMeasurementUnit.TypeOfMeasurementUnit, _quantityValue);
 		}
 		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC
 		{
@@ -56,9 +56,7 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 				_selectedMeasurementUnit = value;
 			}
 		}
-		public int ValueFontSize { get; set; } = 20;
-
-		public Quantity QuantityAmount { get => _eventQuantity; set => _eventQuantity = value; }
+		public QuantityModel QuantityAmount { get => _eventQuantity; set => _eventQuantity = value; }
 		public bool IsValueTypeSelected { get => _isValueTypeSelected; set => _isValueTypeSelected = value; }
 		public decimal QuantityValue
 		{
@@ -78,7 +76,7 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 			{
 				if (userEventTypeModel.IsValueType)
 				{
-					SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == userEventTypeModel.QuantityAmount.Unit);
+					SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == userEventTypeModel.DefaultQuantityAmount.Unit);
 					IsValueTypeSelected = true;
 				}
 			}

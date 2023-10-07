@@ -2,7 +2,7 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:cusomControls="clr-namespace:CalendarT1.Views.CustomControls"
-             x:Class="CalendarT1.Views.CustomControls.AddNewEventAndTypeCC"
+             x:Class="CalendarT1.Views.CustomControls.AddNewEventAndTypeBtnsCC"
              >
     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="10">
         <cusomControls:AddNewEventCC/>

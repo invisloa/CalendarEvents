@@ -19,15 +19,16 @@
                         Placeholder="...SUBTASK TO ADD..." 
                         HorizontalOptions="CenterAndExpand"
                         MinimumWidthRequest="200"
-                        Text="{Binding SubTaskToAddTitle, Mode=TwoWay}"
+                        Text="{Binding MicroTasksAddCCHelper.MicroTaskToAddName, Mode=TwoWay}"
                         HorizontalTextAlignment="Center"
                         VerticalTextAlignment="Center"
                         TextColor="{DynamicResource MainTextColor}"
                         PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
                         Background="{DynamicResource MainTextboxesBackgroundColor}" />
                 </Border>
-                <Button Grid.Column="2" HorizontalOptions="Start"  Text="+" BackgroundColor="{DynamicResource MainButtonBackgroundColor}" 
-                        CornerRadius="10" Command="{Binding AddSubTaskEventCommand}" Margin="10,0,0,0"
+                <Button Grid.Column="2" HorizontalOptions="Start"  Text="+"  
+                        CornerRadius="10" Command="{Binding MicroTasksAddCCHelper.AddMicroTaskEventCommand}"
+                        Margin="10,0,0,0"
                 />
             </Grid>
 </ContentView>

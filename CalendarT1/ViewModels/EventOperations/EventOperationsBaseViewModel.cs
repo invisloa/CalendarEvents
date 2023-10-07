@@ -3,8 +3,9 @@ using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.Views;
-using CalendarT1.Views.CustomControls.CCHelperClass;
+using CalendarT1.Views.CustomControls.CCViewModels;
 using CalendarT1.Views.CustomControls.CCInterfaces;
+using CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions;
 using CommunityToolkit.Mvvm.Input;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -13,15 +14,14 @@ using System.Runtime.CompilerServices;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-	/// <summary>
-	/// Contains only must know data for events
-	/// </summary>
-	public abstract class EventOperationsBaseViewModel : BaseViewModel, IMainEventTypesCC, IMeasurementSelectorCC
+    /// <summary>
+    /// Contains only must know data for events
+    /// </summary>
+    public abstract class EventOperationsBaseViewModel : BaseViewModel, IMainEventTypesCC, IMeasurementSelectorCC
 	{
 		//MeasurementCC implementation
 		#region MeasurementCC implementation
-		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateMeasurementSelectorCCHelperClass();
-		public int ValueFontSize { get; set; } = 20;
+		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateNewMeasurementSelectorCCHelperClass();
 
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected
@@ -74,7 +74,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC => _measurementSelectorHelperClass.MeasurementUnitsOC;
-		public Quantity QuantityAmount { get => _measurementSelectorHelperClass.QuantityAmount; set => _measurementSelectorHelperClass.QuantityAmount = value; }
+		public QuantityModel QuantityAmount { get => _measurementSelectorHelperClass.QuantityAmount; set => _measurementSelectorHelperClass.QuantityAmount = value; }
 		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)
 		{
 			_measurementSelectorHelperClass.SelectedMeasurementUnit = measurementUnitItem;
@@ -110,7 +110,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected bool _isCompleted;
 		protected string _title;
 		protected string _description;
-		protected Quantity _quantityAmount;
+		protected QuantityModel _quantityAmount;
 		protected DateTime _startDateTime = DateTime.Today;
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
 		protected DateTime _endDateTime = DateTime.Today;
@@ -398,9 +398,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
 		{
-			var lastSelectedTypedefaultValue = SelectedEventType?.QuantityAmount?.Value ?? 0;
+			var lastSelectedTypedefaultValue = SelectedEventType?.DefaultQuantityAmount?.Value ?? 0;
 			SelectedEventType = selectedEvent;
-			IsMultiTaskTypeSelected = selectedEvent.IsMultiTaskType ? true : false;
+			IsMultiTaskTypeSelected = selectedEvent.IsMicroTaskType ? true : false;
 			// TODO Show Task Options ???
 
 			IsValueTypeSelected = selectedEvent.IsValueType ? true : false;
@@ -409,7 +409,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
 				if (!IsEditMode && (QuantityValue == 0 || QuantityValue == lastSelectedTypedefaultValue))
 				{   //Set default values when createMode
-					QuantityValue = SelectedEventType.QuantityAmount.Value;
+					QuantityValue = SelectedEventType.DefaultQuantityAmount.Value;
 				}
 				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
 			}
@@ -447,7 +447,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private void SetSelectedEventTypeControlsVisibility()
 		{
 			IsValueTypeSelected = SelectedEventType.IsValueType;
-			IsMultiTaskTypeSelected = SelectedEventType.IsMultiTaskType;
+			IsMultiTaskTypeSelected = SelectedEventType.IsMicroTaskType;
 		}
 		private void SetEndExactTimeAccordingToEventType()
 		{

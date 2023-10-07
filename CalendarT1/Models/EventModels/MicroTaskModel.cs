@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models.EventModels
 {
-	public class MultiTask : BaseViewModel
+	public class MicroTaskModel : BaseViewModel
 	{
 		private string _title;
 		private bool _isCompleted;
 
-		public string SubTaskTitle
+		public string MicroTaskTitle
 		{
 			get => _title;
 			set
@@ -25,7 +25,7 @@ namespace CalendarT1.Models.EventModels
 				OnPropertyChanged();
 			}
 		}
-		public bool IsSubTaskCompleted
+		public bool IsMicroTaskCompleted
 		{
 			get => _isCompleted;
 			set
@@ -38,10 +38,10 @@ namespace CalendarT1.Models.EventModels
 				OnPropertyChanged();
 			}
 		}
-		public MultiTask(string title, bool isCompleted = false)
+		public MicroTaskModel(string title, bool isCompleted = false)
 		{
-			SubTaskTitle = title;
-			IsSubTaskCompleted = isCompleted;
+			MicroTaskTitle = title;
+			IsMicroTaskCompleted = isCompleted;
 		}
 
 	}

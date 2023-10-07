@@ -5,20 +5,22 @@
              x:Class="CalendarT1.Views.CustomControls.UserTypeExtraOptions_TypesCC">
     <StackLayout>
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-            <Button Text="DEFAULT TIMESPAN"  BackgroundColor="{Binding IsDefaultTimespanColor}" Command="{Binding IsDefaultTimespanSelectedCommand}"/>
-            <Button Text="DEFAULT VALUE"  BackgroundColor="{Binding IsValueTypeColor}" Command="{Binding IsValueTypeSelectedCommand}" IsVisible="{Binding IsNotEdit}"/>
-            <Button Text="DEFAULT MULTITASK" BackgroundColor="{Binding IsSubTaskListTypeColor}" Command="{Binding IsSubTaskListTypeSelectedCommand}"/>
+            <Button Text="DEFAULT TIMESPAN"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanColor}" Command="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanSelectedCommand}"/>
+            <Button Text="DEFAULT VALUE"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsValueTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsValueTypeSelectedCommand}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEdit}"/>
+            <Button Text="DEFAULT MULTITASK" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsSubTaskListTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsSubTaskListTypeSelectedCommand}"/>
         </StackLayout>
         
         <!--Not Visible in Edit Mode-->
-        <StackLayout  IsVisible="{Binding IsNotEdit}">
-        <customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>
+        <StackLayout  IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEdit}">
+            <customControls:MeasurementSelectorCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsValueTypeSelected}"/>
         </StackLayout>
 
         <!--Visible in both Modes-->
-        <customControls:DefaultEventTimespanCC IsVisible="{Binding IsDefaultEventTimespanSelected}"/>
-        <customControls:SubTaskAddCC IsVisible="{Binding IsSubTaskListSelected}"/>
-        <customControls:SubTasksListCC BindingContext="{Binding}" IsVisible="{Binding IsSubTaskListSelected}"/>
+        <customControls:DefaultEventTimespanCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected}"/>
+        <customControls:SubTaskAddCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsSubTaskListSelected}"/>
+        <customControls:SubTasksListCC BindingContext="{Binding UserTypeExtraOptions_TypesCC}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsSubTaskListSelected}"/>
+        <!--TO DO !!! CHECK IF THE BELOW WILL WORK ALSO no -BindingContext="{Binding}" !!!!
+        <customControls:SubTasksListCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsSubTaskListSelected}"/>-->
 
     </StackLayout>
 </ContentView>

@@ -15,7 +15,7 @@ namespace CalendarT1.Models.EventModels
 		DateTime EndDateTime { get; set; }
         string Title { get; set; }
         bool WasShown { get; set; }
-        public Quantity QuantityAmount { get; set; }
-        public List<MultiTask> MultiTasksList { get; set; }
+        public QuantityModel QuantityAmount { get; set; }
+        public List<MicroTaskModel> MicroTasksList { get; set; }
     }
 }

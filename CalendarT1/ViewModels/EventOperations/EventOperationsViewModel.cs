@@ -134,7 +134,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 
 			// Create a new Event based on the selected EventType
-			QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
+			QuantityAmount = new QuantityModel(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, QuantityAmount);
 			await _eventRepository.AddEventAsync(_selectedCurrentEvent);
 
@@ -150,7 +150,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_selectedCurrentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_selectedCurrentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 			_selectedCurrentEvent.IsCompleted = IsCompleted;
-			QuantityAmount = new Quantity(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
+			QuantityAmount = new QuantityModel(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
 			_selectedCurrentEvent.QuantityAmount = QuantityAmount;
 			await _eventRepository.UpdateEventAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");

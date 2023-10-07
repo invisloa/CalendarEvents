@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CalendarT1.Views.CustomControls.CCHelperClass
+namespace CalendarT1.Views.CustomControls.CCViewModels
 {
 	using global::CalendarT1.Views.CustomControls.CCInterfaces;
     using System;
@@ -12,7 +12,7 @@ namespace CalendarT1.Views.CustomControls.CCHelperClass
 
 	namespace CalendarT1.Views.CustomControls.CCHelperClass
     {
-        public class FilterDatesCCHelperClass : IFilterDatesCC, IFilterDatesCCHelperClass
+        public class FilterDatesCCViewModel : IFilterDatesCC, IFilterDatesCCHelperClass
 		{
 			// there is no SEARCHBOX here because it is not worth to add all logic for it
 			private DateTime _filterDateFrom;

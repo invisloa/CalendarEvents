@@ -27,7 +27,7 @@
         </StackLayout>
 
         <!-- Events list layout -->
-        <customControls:AddNewEventAndTypeCC Grid.Row="2"/>
+        <customControls:AddNewEventAndTypeBtnsCC Grid.Row="2"/>
 
         <!-- EventsToShowList collection -->
         <CollectionView ItemsSource="{Binding EventsToShowList}" Grid.Row="3">
