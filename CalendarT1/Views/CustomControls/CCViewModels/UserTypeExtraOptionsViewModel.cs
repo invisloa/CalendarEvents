@@ -12,69 +12,15 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-    internal class UserTypeExtraOptionsViewModel : BaseViewModel, IUserTypeExtraOptionsCC
+	internal class UserTypeExtraOptionsViewModel : BaseViewModel, IUserTypeExtraOptionsViewModel
 	{
-		public UserTypeExtraOptionsViewModel()
+		public UserTypeExtraOptionsViewModel(bool isEditMode)
 		{
-
-
+			IsEditMode = isEditMode;
 			IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
 			IsMicroTaskListTypeSelectedCommand = new RelayCommand(() => IsMicroTasksTypeSelected = !IsMicroTasksTypeSelected);
 			IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
 		}
-		/*		
-		 *					SelectSubTaskCommand = new RelayCommand<MultiTask>(OnSubTaskSelected);
-
-		 *		DefaultEventTimespanCCHelper.DurationValue = 30;
-					DefaultEventTimespanCCHelper.SelectedUnitIndex = 2;
-								AddSubTaskEventCommand = new RelayCommand(OnAddSubTaskEventCommand, CanExecuteAddSubTaskEventCommand);
-				public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
-				private bool CanExecuteAddSubTaskEventCommand() => !string.IsNullOrEmpty(SubTaskToAddTitle);
-
-				public DefaultEventTimespanCCViewModel DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
-
-				private void OnAddSubTaskEventCommand()
-				{
-					SubTasksListOC.Add(new MultiTask(SubTaskToAddTitle));
-					SubTaskToAddTitle = String.Empty;
-				}
-				private void OnSubTaskSelected(MultiTask multiTask)
-				{
-					multiTask.IsSubTaskCompleted = !multiTask.IsSubTaskCompleted;
-					OnPropertyChanged(nameof(SubTasksListOC));
-				}
-				public string SubTaskToAddTitle
-				{
-					get => _subtaskToAddTitle;
-					set
-					{
-						if (_subtaskToAddTitle != value)
-						{
-							_subtaskToAddTitle = value;
-							OnPropertyChanged();
-							AddSubTaskEventCommand.RaiseCanExecuteChanged();
-						}
-					}
-				}
-
-				public TimeSpan DefaultTimespan
-		{
-			get
-			{
-				return IsDefaultEventTimespanSelected ? DefaultEventTimespanCCHelper.GetDefaultDuration() : TimeSpan.Zero;
-			}
-		}
-				private string _subtaskToAddTitle;
-
-		public ObservableCollection<MultiTask> SubTasksListOC { get; set; } = new ObservableCollection<MultiTask>();
-
-		public RelayCommand AddSubTaskEventCommand { get; set; }
-		public RelayCommand<MultiTask> SelectSubTaskCommand { get; set; }
-
-
-		*/
-
-
 		public RelayCommand IsValueTypeSelectedCommand { get; set; }
 		public RelayCommand IsMicroTaskListTypeSelectedCommand { get; set; }
 		public RelayCommand IsDefaultTimespanSelectedCommand { get; set; }
@@ -95,6 +41,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
+		public bool IsEditMode { get; set; }
 
 		private bool _isMicroTasksListSelected;
 		public bool IsMicroTasksTypeSelected
@@ -124,8 +71,6 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
-
-
 		public Color IsValueTypeColor
 		{
 			get
@@ -168,5 +113,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
+
+		public bool IsNotEditMode => !IsEditMode;
 	}
 }

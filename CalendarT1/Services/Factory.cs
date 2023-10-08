@@ -68,9 +68,9 @@ namespace CalendarT1.Services
 			return new DefaultEventTimespanCCViewModel();
 		}
 
-		internal static IUserTypeExtraOptionsCC CreateNewUserTypeExtraOptionsHelperClass()
+		internal static IUserTypeExtraOptionsViewModel CreateNewUserTypeExtraOptionsHelperClass(bool isEditMode)
 		{
-			return new UserTypeExtraOptionsViewModel();
+			return new UserTypeExtraOptionsViewModel(isEditMode);
 		}
 
 		internal static MicroTasksListCCViewModel CreateNewMicroTasksListCCHelperClass(IGeneralEventModel eventWithMicroTasks)

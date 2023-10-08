@@ -7,12 +7,12 @@
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
             <Button Text="DEFAULT TIMESPAN"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanColor}" Command="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanSelectedCommand}"/>
-            <Button Text="DEFAULT VALUE"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsValueTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsValueTypeSelectedCommand}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEdit}"/>
+            <Button Text="DEFAULT VALUE"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsValueTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsValueTypeSelectedCommand}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEditMode}"/>
             <Button Text="DEFAULT MULTITASK" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsMicroTasksListTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsMicroTaskListTypeSelectedCommand}"/>
         </StackLayout>
         
         <!--Not Visible in Edit Mode-->
-        <StackLayout  IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEdit}">
+        <StackLayout  IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEditMode}">
             <customControls:MeasurementSelectorCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsValueTypeSelected}"/>
         </StackLayout>
 

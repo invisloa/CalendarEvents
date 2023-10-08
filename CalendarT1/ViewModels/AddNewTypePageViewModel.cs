@@ -20,7 +20,7 @@ using CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions;
 
 namespace CalendarT1.ViewModels
 {
-    public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC
+    public class AddNewTypePageViewModel : BaseViewModel
 	{
 		// TODO ! CHANGE THE BELOW CLASS TO VIEW MODEL 
 		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
@@ -28,7 +28,7 @@ namespace CalendarT1.ViewModels
 		public MeasurementSelectorCCViewModel DefaultMeasurementSelectorCCHelper { get; set; } = Factory.CreateNewMeasurementSelectorCCHelperClass();
 		public MicroTasksListCCViewModel MicroTasksListCCHelper { get; set; }
 
-		public IUserTypeExtraOptionsCC UserTypeExtraOptionsHelper { get; set; } = Factory.CreateNewUserTypeExtraOptionsHelperClass();
+		public IUserTypeExtraOptionsViewModel UserTypeExtraOptionsHelper { get; set; }
 
 		public event Action<IMainEventType> MainEventTypeChanged;		// TODO implement this event ?? if needed??
 		#region Fields
@@ -117,18 +117,18 @@ namespace CalendarT1.ViewModels
 		public AddNewTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			InitializeCommon();
+			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(false);
 			DefaultEventTimespanCCHelper.SelectedUnitIndex = 2; // minutes
 			DefaultEventTimespanCCHelper.DurationValue = 30;
 			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(_eventRepository.AllMainEventTypesList);
 			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(microTasksList);
+			InitializeCommon();
 		}
 
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
 		{
 			_eventRepository = eventRepository;
-			InitializeCommon();
 			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(currentType.MicroTasksList);
 			SelectedMainEventType = currentType.MainEventType;
 			CurrentType = currentType;
@@ -136,12 +136,16 @@ namespace CalendarT1.ViewModels
 			TypeName = currentType.EventTypeName;
 			DefaultEventTimespanCCHelper.SetControlsValues(currentType.DefaultEventTimeSpan);
 			setIsVisibleForExtraControlsInEditMode();
+			InitializeCommon();
+
 			// set proper visuals for an edited event type ??
 		}
 
 		private void InitializeCommon()
 		{
 			InitializeColorButtons();
+			bool isEditMode = CurrentType != null;
+			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(isEditMode);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(OnSelectColorCommand);
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
