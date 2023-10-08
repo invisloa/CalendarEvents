@@ -10,9 +10,9 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions
         bool IsDefaultEventTimespanSelected { get; set; }
         Color IsDefaultTimespanColor { get; }
         RelayCommand IsDefaultTimespanSelectedCommand { get; set; }
-        bool IsSubTaskListSelected { get; set; }
-        Color IsSubTaskListTypeColor { get; }
-        RelayCommand IsSubTaskListTypeSelectedCommand { get; set; }
+        bool IsMictoTasksTypeSelected { get; set; }
+        Color IsMicroTaskListTypeColor { get; }
+        RelayCommand IsMicroTaskListTypeSelectedCommand { get; set; }
         Color IsValueTypeColor { get; }
         bool IsValueTypeSelected { get; set; }
         RelayCommand IsValueTypeSelectedCommand { get; set; }

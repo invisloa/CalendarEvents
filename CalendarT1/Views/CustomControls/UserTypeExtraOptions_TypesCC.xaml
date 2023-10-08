@@ -7,7 +7,7 @@
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
             <Button Text="DEFAULT TIMESPAN"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanColor}" Command="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanSelectedCommand}"/>
             <Button Text="DEFAULT VALUE"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsValueTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsValueTypeSelectedCommand}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEdit}"/>
-            <Button Text="DEFAULT MULTITASK" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsSubTaskListTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsSubTaskListTypeSelectedCommand}"/>
+            <Button Text="DEFAULT MULTITASK" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsSubTaskListTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsMicroTaskListTypeSelectedCommand}"/>
         </StackLayout>
         
         <!--Not Visible in Edit Mode-->
@@ -17,10 +17,8 @@
 
         <!--Visible in both Modes-->
         <customControls:DefaultEventTimespanCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected}"/>
-        <customControls:SubTaskAddCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsSubTaskListSelected}"/>
-        <customControls:SubTasksListCC BindingContext="{Binding UserTypeExtraOptions_TypesCC}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsSubTaskListSelected}"/>
-        <!--TO DO !!! CHECK IF THE BELOW WILL WORK ALSO no -BindingContext="{Binding}" !!!!
-        <customControls:SubTasksListCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsSubTaskListSelected}"/>-->
+        <customControls:MicroTasksListCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsSubTaskListSelected}"/>
+
 
     </StackLayout>
 </ContentView>

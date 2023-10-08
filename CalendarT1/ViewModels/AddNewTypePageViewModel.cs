@@ -22,15 +22,13 @@ namespace CalendarT1.ViewModels
 {
     public class AddNewTypePageViewModel : BaseViewModel, IMainEventTypesCC
 	{
+		// TODO ! CHANGE THE BELOW CLASS TO VIEW MODEL 
+		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
 		public DefaultEventTimespanCCViewModel DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
 		public MeasurementSelectorCCViewModel DefaultMeasurementSelectorCCHelper { get; set; } = Factory.CreateNewMeasurementSelectorCCHelperClass();
-		public MicroTasksAddCCViewModel MicroTasksAddCCHelper { get; set; }
-
-
+		public MicroTasksListCCViewModel MicroTasksListCCHelper { get; set; }
 
 		public IUserTypeExtraOptionsCC UserTypeExtraOptionsHelper { get; set; } = Factory.CreateNewUserTypeExtraOptionsHelperClass();
-
-
 
 		public event Action<IMainEventType> MainEventTypeChanged;		// TODO implement this event ?? if needed??
 		#region Fields
@@ -43,7 +41,6 @@ namespace CalendarT1.ViewModels
 		private string _typeName;
 		private IEventRepository _eventRepository;
 		List<MicroTaskModel> microTasksList = new List<MicroTaskModel>();
-
 		#endregion
 
 		#region Properties
@@ -101,13 +98,9 @@ namespace CalendarT1.ViewModels
 			}
 		}
 
-		// helper class that makes dirty work for main event types
-		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
 
 		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
-
 		#endregion
-
 		#region Commands
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
 		public RelayCommand GoToAllTypesPageCommand { get; private set; }
@@ -124,23 +117,22 @@ namespace CalendarT1.ViewModels
 		public AddNewTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(_eventRepository.AllMainEventTypesList);
-			MicroTasksAddCCHelper = Factory.CreateNewMicroTasksAddCCHelperClass(microTasksList);
 			InitializeColorButtons();
-
+			DefaultEventTimespanCCHelper.SelectedUnitIndex = 2; // minutes
+			DefaultEventTimespanCCHelper.DurationValue = 30;
+			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(_eventRepository.AllMainEventTypesList);
+			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(microTasksList);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(OnSelectColorCommand);
 			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
-
-
 		}
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
 			: this(eventRepository)
 		{
-			MicroTasksAddCCHelper = Factory.CreateNewMicroTasksAddCCHelperClass(currentType.DefaultMicroTasksList);
+			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(currentType.MicroTasksList);
 			SelectedMainEventType = currentType.MainEventType;
 			CurrentType = currentType;
 			SelectedSubTypeColor = currentType.EventTypeColor;
@@ -152,7 +144,7 @@ namespace CalendarT1.ViewModels
 		private void setIsVisibleForExtraControlsForEditMode(IUserEventTypeModel userEventTypeModel)
 		{
 			UserTypeExtraOptionsHelper.IsValueTypeSelected = userEventTypeModel.IsValueType;
-			UserTypeExtraOptionsHelper.IsSubTaskListSelected = userEventTypeModel.IsMicroTaskType;
+			UserTypeExtraOptionsHelper.IsMictoTasksTypeSelected = userEventTypeModel.IsMicroTaskType;
 			UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected = userEventTypeModel.DefaultEventTimeSpan != TimeSpan.Zero;
 		}
 		#endregion
@@ -201,6 +193,7 @@ namespace CalendarT1.ViewModels
 				// cannot change main event, Quantity type => may lead to some future errors???
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = _selectedColor;
+				SetExtraUserControlsAccordingToSelections(_currentType);
 				await _eventRepository.UpdateSubEventTypeAsync(_currentType);
 				await Shell.Current.GoToAsync("..");								// TODO CHANGE NOT WORKING!!!
 				
@@ -251,24 +244,24 @@ namespace CalendarT1.ViewModels
 			{
 				return;
 			}
-			//if (UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected)
-			//{
-			//	_currentType.DefaultEventTimeSpan = DefaultEventTimespanCCHelper.DefaultTimespan;
-			//}
-			//else
-			//{
-			//	_currentType.DefaultEventTimeSpan = TimeSpan.Zero;
-			//}
-			//if (UserTypeExtraOptionsHelper.IsSubTaskListSelected)
-			//{
-			//	_currentType.IsMultiTaskType = true;
-			//	_currentType.MultiTasksList = new List<MultiTask>(DefaultSubTaskCCHelper.SubTasksListOC);
-			//}
-			//else
-			//{
-			//	_currentType.IsMultiTaskType = false;
-			//	_currentType.MultiTasksList = null;
-			//}
+			if (UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected)
+			{
+				_currentType.DefaultEventTimeSpan = DefaultEventTimespanCCHelper.GetDefaultDuration();
+			}
+			else
+			{
+				_currentType.DefaultEventTimeSpan = TimeSpan.Zero;
+			}
+			if (UserTypeExtraOptionsHelper.IsMictoTasksTypeSelected)
+			{
+				_currentType.IsMicroTaskType = true;
+				_currentType.MicroTasksList = new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC);
+			}
+			else
+			{
+				_currentType.IsMicroTaskType = false;
+				_currentType.MicroTasksList = null;
+			}
 		}
 
 
@@ -297,7 +290,7 @@ namespace CalendarT1.ViewModels
 // helper class doing this
 
 //IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
-//IsSubTaskListTypeSelectedCommand = new RelayCommand(() => IsSubTaskListSelected = !IsSubTaskListSelected);
+//IsSubTaskListTypeSelectedCommand = new RelayCommand(() => IsMicroTaskListSelected = !IsMicroTaskListSelected);
 //IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
 //AddSubTaskEventCommand = new RelayCommand(OnAddSubTaskEventCommand, CanExecuteAddSubTaskEventCommand);
 //SelectSubTaskCommand = new RelayCommand<MultiTask>(OnSubTaskSelected);

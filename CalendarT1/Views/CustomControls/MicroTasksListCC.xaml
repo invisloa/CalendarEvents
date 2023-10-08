@@ -2,30 +2,61 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:CalendarT1.Helpers.Converters"
-             x:Class="CalendarT1.Views.CustomControls.SubTasksListCC"
+             x:Class="CalendarT1.Views.CustomControls.MicroTasksListCC"
              x:Name="root" >
-
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:BoolToColorConverter x:Key="boolToColorConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
+    <StackLayout>
 
-    <FlexLayout BindableLayout.ItemsSource="{Binding MicroTasksAddCCHelper.SubTasksListOC}" 
+        <!-- Grid for Entry and Button -->
+        <Grid HorizontalOptions="FillAndExpand" VerticalOptions="Center" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Border Stroke="{DynamicResource MainTextboxesBackgroundColor}" Grid.Column="1"
+                        StrokeThickness="1">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="10" />
+                </Border.StrokeShape>
+                <Entry 
+                        Placeholder="...SUBTASK TO ADD..." 
+                        HorizontalOptions="CenterAndExpand"
+                        MinimumWidthRequest="200"
+                        Text="{Binding MicroTasksAddCCHelper.MicroTaskToAddName, Mode=TwoWay}"
+                        HorizontalTextAlignment="Center"
+                        VerticalTextAlignment="Center"
+                        TextColor="{DynamicResource MainTextColor}"
+                        PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
+                        Background="{DynamicResource MainTextboxesBackgroundColor}" />
+            </Border>
+            <Button Grid.Column="2" HorizontalOptions="Start"  Text="+"  
+                        CornerRadius="10" Command="{Binding MicroTasksAddCCHelper.AddMicroTaskEventCommand}"
+                        Margin="10,0,0,0"
+                />
+        </Grid>
+
+
+        <FlexLayout BindableLayout.ItemsSource="{Binding MicroTasksAddCCHelper.SubTasksListOC}" 
                 Direction="Row" 
                 Wrap="Wrap" 
                 AlignItems="Start"
                 JustifyContent="Start">
-        <BindableLayout.ItemTemplate>
-            <DataTemplate>
-                <Button Text="{Binding SubTaskTitle}" 
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Button Text="{Binding SubTaskTitle}" 
                         BackgroundColor="{Binding IsSubTaskCompleted, Converter={StaticResource boolToColorConverter}}"
                         Command="{Binding Path=BindingContext.MicroTasksAddCCHelper.SelectSubTaskCommand, Source={x:Reference root}}"
                         CommandParameter="{Binding .}"
                         Margin="5"/>
-            </DataTemplate>
-        </BindableLayout.ItemTemplate>
-    </FlexLayout>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
+    </StackLayout>
 </ContentView>
 
     

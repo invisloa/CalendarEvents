@@ -79,9 +79,9 @@ namespace CalendarT1.Services
 			return new MicroTasksListCCViewModel(eventWithMicroTasks);
 		}
 
-		internal static MicroTasksAddCCViewModel CreateNewMicroTasksAddCCHelperClass(List<MicroTaskModel> listToAddMiroTasks)
+		internal static MicroTasksListCCViewModel CreateNewMicroTasksListCCHelperClass(List<MicroTaskModel> listToAddMiroTasks)
 		{
-			return new MicroTasksAddCCViewModel(listToAddMiroTasks);
+			return new MicroTasksListCCViewModel(listToAddMiroTasks);
 		}
 	}
 }

@@ -20,7 +20,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 
 
 			IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
-			IsSubTaskListTypeSelectedCommand = new RelayCommand(() => IsSubTaskListSelected = !IsSubTaskListSelected);
+			IsMicroTaskListTypeSelectedCommand = new RelayCommand(() => IsMictoTasksTypeSelected = !IsMictoTasksTypeSelected);
 			IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
 		}
 		/*		
@@ -77,7 +77,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 
 
 		public RelayCommand IsValueTypeSelectedCommand { get; set; }
-		public RelayCommand IsSubTaskListTypeSelectedCommand { get; set; }
+		public RelayCommand IsMicroTaskListTypeSelectedCommand { get; set; }
 		public RelayCommand IsDefaultTimespanSelectedCommand { get; set; }
 
 		private Color _deselectedColor = (Color)Application.Current.Resources["DeselectedBackgroundColor"];
@@ -98,7 +98,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		}
 
 		private bool _isSubTaskListSelected;
-		public bool IsSubTaskListSelected
+		public bool IsMictoTasksTypeSelected
 		{
 			get => _isSubTaskListSelected;
 			set
@@ -107,7 +107,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				{
 					_isSubTaskListSelected = value;
 					OnPropertyChanged();
-					OnPropertyChanged(nameof(IsSubTaskListTypeColor));
+					OnPropertyChanged(nameof(IsMicroTaskListTypeColor));
 				}
 			}
 		}
@@ -141,11 +141,11 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
-		public Color IsSubTaskListTypeColor
+		public Color IsMicroTaskListTypeColor
 		{
 			get
 			{
-				if (IsSubTaskListSelected)
+				if (IsMictoTasksTypeSelected)
 				{
 					return _selectedColor;
 				}

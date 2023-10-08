@@ -143,9 +143,6 @@
 	  <MauiXaml Update="Views\CustomControls\MeasurementSelectorCC.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CustomControls\MicroTaskAddCC.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Views\CustomControls\MicroTasksListCC.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -192,9 +189,6 @@
 	  </Compile>
 	  <Compile Update="Views\CustomControls\EventTypesCustomControl.xaml.cs">
 	    <DependentUpon>EventTypesCustomControl.xaml</DependentUpon>
-	  </Compile>
-	  <Compile Update="Views\CustomControls\MicroTaskAddCC.xaml.cs">
-	    <DependentUpon>MicroTaskAddCC.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\CustomControls\MicroTasksListCC.xaml.cs">
 	    <DependentUpon>MicroTasksListCC.xaml</DependentUpon>

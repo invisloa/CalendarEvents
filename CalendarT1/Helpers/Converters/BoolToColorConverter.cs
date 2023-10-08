@@ -13,7 +13,7 @@ namespace CalendarT1.Helpers.Converters
 			{
 				return (Color)Application.Current.Resources["DeselectedBackgroundColor"]; 
 			}
-			return (Color)Application.Current.Resources["MainSubTaskBackgroundColor"];
+			return (Color)Application.Current.Resources["MainMicroTaskBackgroundColor"];
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

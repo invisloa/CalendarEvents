@@ -21,7 +21,7 @@
             <Color x:Key="MainFrameBackgroundColor">#2a4ebd</Color>
             <Color x:Key="MainTextboxesBackgroundColor">#273567</Color>
             <Color x:Key="DeselectedBackgroundColor">#8198B2</Color>
-            <Color x:Key="MainSubTaskBackgroundColor">#069</Color>
+            <Color x:Key="MainMicroTaskBackgroundColor">#069</Color>
             <Color x:Key="MainEventDeselectedBackgroundColor">#000</Color>
 
 

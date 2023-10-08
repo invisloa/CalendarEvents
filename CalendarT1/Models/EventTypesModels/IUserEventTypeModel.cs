@@ -13,7 +13,7 @@ namespace CalendarT1.Models.EventTypesModels
 		string EventTypeName { get; set; }	
 		bool IsSelectedToFilter { get; set; }
 		QuantityModel DefaultQuantityAmount { get; set; }	
-		List<MicroTaskModel> DefaultMicroTasksList { get; set; }
+		List<MicroTaskModel> MicroTasksList { get; set; }
 		public TimeSpan DefaultEventTimeSpan { get; set; }	// default event time for the event type
 		string ToString();
 		new bool Equals(IUserEventTypeModel other);	// to check if the event type is already in the list

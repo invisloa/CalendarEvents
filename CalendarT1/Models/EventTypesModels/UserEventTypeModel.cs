@@ -17,7 +17,7 @@ namespace CalendarT1.Models.EventTypesModels
 		private bool _isMultiTaskType;
 		private List<MicroTaskModel> _multiTasksList;
 		private QuantityModel _quantityAmount;
-		public List<MicroTaskModel> DefaultMicroTasksList
+		public List<MicroTaskModel> MicroTasksList
 		{
 			get => _multiTasksList;
 			set
@@ -148,7 +148,7 @@ namespace CalendarT1.Models.EventTypesModels
 			EventTypeColor = eventTypeColor;
 			BackgroundColor = eventTypeColor; // Initialize BackgroundColor as EventTypeColor upon object creation
 			DefaultQuantityAmount = quantity;
-			DefaultMicroTasksList = multiTasksList;
+			MicroTasksList = multiTasksList;
 		}
 
 		public bool Equals(IUserEventTypeModel obj)

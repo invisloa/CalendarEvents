@@ -9,13 +9,12 @@
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
             <Button Text="TIMESPAN"  BackgroundColor="{Binding SelectedEventType.EventTypeColor}" Command="{Binding IsDefaultTimespanSelectedCommand}"/>
             <Button Text="VALUE"  BackgroundColor="{Binding IsValueTypeColor}" Command="{Binding IsValueTypeSelectedCommand}" IsVisible="{Binding SelectedEventType.IsValueType}"/>
-            <Button Text="MULTITASK" BackgroundColor="{Binding IsSubTaskListTypeColor}" Command="{Binding IsSubTaskListTypeSelectedCommand}" IsVisible="{Binding SelectedEventType.IsMultiTaskType}"/>
+            <Button Text="MULTITASK" BackgroundColor="{Binding IsSubTaskListTypeColor}" Command="{Binding IsMicroTaskListTypeSelectedCommand}" IsVisible="{Binding SelectedEventType.IsMultiTaskType}"/>
         </StackLayout>
 
         <customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>
         <customControls:DefaultEventTimespanCC IsVisible="{Binding IsDefaultEventTimespanSelected}"/>
-        <customControls:SubTaskAddCC IsVisible="{Binding IsSubTaskListSelected}"/>
-        <customControls:SubTasksListCC BindingContext="{Binding}" IsVisible="{Binding IsSubTaskListSelected}"/>
+        <customControls:MicroTasksListCC IsVisible="{Binding IsSubTaskListSelected}"/>
 
     </StackLayout>
 </ContentView>
