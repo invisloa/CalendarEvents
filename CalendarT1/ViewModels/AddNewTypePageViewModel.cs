@@ -117,21 +117,18 @@ namespace CalendarT1.ViewModels
 		public AddNewTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			InitializeColorButtons();
+			InitializeCommon();
 			DefaultEventTimespanCCHelper.SelectedUnitIndex = 2; // minutes
 			DefaultEventTimespanCCHelper.DurationValue = 30;
 			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(_eventRepository.AllMainEventTypesList);
 			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(microTasksList);
-			SelectColorCommand = new RelayCommand<ButtonProperties>(OnSelectColorCommand);
-			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
-			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
-			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
-			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 		}
+
 		// constructor for edit mode
 		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
-			: this(eventRepository)
 		{
+			_eventRepository = eventRepository;
+			InitializeCommon();
 			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(currentType.MicroTasksList);
 			SelectedMainEventType = currentType.MainEventType;
 			CurrentType = currentType;
@@ -141,6 +138,17 @@ namespace CalendarT1.ViewModels
 			setIsVisibleForExtraControlsForEditMode(currentType);
 			// set proper visuals for an edited event type ??
 		}
+
+		private void InitializeCommon()
+		{
+			InitializeColorButtons();
+			SelectColorCommand = new RelayCommand<ButtonProperties>(OnSelectColorCommand);
+			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
+			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
+			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
+		}
+
 		private void setIsVisibleForExtraControlsForEditMode(IUserEventTypeModel userEventTypeModel)
 		{
 			UserTypeExtraOptionsHelper.IsValueTypeSelected = userEventTypeModel.IsValueType;
