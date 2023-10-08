@@ -14,13 +14,12 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 {
     internal class UserTypeExtraOptionsViewModel : BaseViewModel, IUserTypeExtraOptionsCC
 	{
-		public MeasurementSelectorCCViewModel MeasurementSelectorCCHelper { get; set; } = Factory.CreateNewMeasurementSelectorCCHelperClass();
 		public UserTypeExtraOptionsViewModel()
 		{
 
 
 			IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
-			IsMicroTaskListTypeSelectedCommand = new RelayCommand(() => IsMictoTasksTypeSelected = !IsMictoTasksTypeSelected);
+			IsMicroTaskListTypeSelectedCommand = new RelayCommand(() => IsMicroTasksTypeSelected = !IsMicroTasksTypeSelected);
 			IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
 		}
 		/*		
@@ -97,17 +96,17 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			}
 		}
 
-		private bool _isSubTaskListSelected;
-		public bool IsMictoTasksTypeSelected
+		private bool _isMicroTasksListSelected;
+		public bool IsMicroTasksTypeSelected
 		{
-			get => _isSubTaskListSelected;
+			get => _isMicroTasksListSelected;
 			set
 			{
-				if (_isSubTaskListSelected != value)
+				if (_isMicroTasksListSelected != value)
 				{
-					_isSubTaskListSelected = value;
+					_isMicroTasksListSelected = value;
 					OnPropertyChanged();
-					OnPropertyChanged(nameof(IsMicroTaskListTypeColor));
+					OnPropertyChanged(nameof(IsMicroTasksListTypeColor));
 				}
 			}
 		}
@@ -141,11 +140,11 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
-		public Color IsMicroTaskListTypeColor
+		public Color IsMicroTasksListTypeColor
 		{
 			get
 			{
-				if (IsMictoTasksTypeSelected)
+				if (IsMicroTasksTypeSelected)
 				{
 					return _selectedColor;
 				}

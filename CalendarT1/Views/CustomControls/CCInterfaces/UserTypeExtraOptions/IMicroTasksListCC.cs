@@ -9,8 +9,10 @@ using System.Threading.Tasks;
 namespace CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions
 {
     public interface IMicroTasksCC
-    {
-        ObservableCollection<MicroTaskModel> MicroTasksOC { get; set; }
-        RelayCommand<MicroTaskModel> MicroTaskCompleteSelectedCommand { get; set; }
+	{
+		string MicroTaskToAddName { get; set; }
+		RelayCommand AddMicroTaskEventCommand { get; set; }
+		ObservableCollection<MicroTaskModel> MicroTasksOC { get; set; }
+        RelayCommand<MicroTaskModel> SelectMicroTaskCommand { get; set; }
     }
 }

@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-    public class MicroTasksListCCViewModel : BaseViewModel, IMicroTasksAddCC
+    public class MicroTasksListCCViewModel : BaseViewModel, IMicroTasksCC
 	{
 		List<MicroTaskModel> _listToAddMicroTasks;
 		public MicroTasksListCCViewModel(List<MicroTaskModel> listToAddMicroTasks)
 		{
-			_listToAddMicroTasks = listToAddMicroTasks;
+			MicroTasksOC = new ObservableCollection<MicroTaskModel>(listToAddMicroTasks);
 			AddMicroTaskEventCommand = new RelayCommand(AddMicroTaskEvent, CanAddMicroTaskEvent);
 		}
 		private string _microTaskToAddName;
@@ -33,7 +33,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		public RelayCommand AddMicroTaskEventCommand { get; set; }
 		public void AddMicroTaskEvent()
 		{
-			_listToAddMicroTasks.Add(new MicroTaskModel(MicroTaskToAddName));
+			MicroTasksOC.Add(new MicroTaskModel(MicroTaskToAddName));
 			MicroTaskToAddName = "";
 		}
 		public bool CanAddMicroTaskEvent() => !string.IsNullOrWhiteSpace(MicroTaskToAddName);
@@ -52,12 +52,12 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		}
 		IGeneralEventModel _taskTypeEvent;
 		public ObservableCollection<MicroTaskModel> MicroTasksOC { get; set; }
-		public RelayCommand<MicroTaskModel> MicroTaskCompleteSelectedCommand { get; set; }
+		public RelayCommand<MicroTaskModel> SelectMicroTaskCommand { get; set; }
 		public MicroTasksListCCViewModel(IGeneralEventModel taskTypeEvent) //taskTypeEvent contains its own MicroTasksList
         {
 			_taskTypeEvent = taskTypeEvent;
 			MicroTasksOC = new ObservableCollection<MicroTaskModel>(taskTypeEvent.MicroTasksList);
-			MicroTaskCompleteSelectedCommand = new RelayCommand<MicroTaskModel>(OnMultiTaskSelected);
+			SelectMicroTaskCommand = new RelayCommand<MicroTaskModel>(OnMultiTaskSelected);
 		}
 
 		public void OnMultiTaskSelected(MicroTaskModel microTask)

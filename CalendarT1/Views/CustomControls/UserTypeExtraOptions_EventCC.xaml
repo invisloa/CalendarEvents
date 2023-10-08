@@ -14,7 +14,7 @@
 
         <customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>
         <customControls:DefaultEventTimespanCC IsVisible="{Binding IsDefaultEventTimespanSelected}"/>
-        <customControls:MicroTasksListCC IsVisible="{Binding IsSubTaskListSelected}"/>
+        <customControls:MicroTasksListCC BindingContext="{Binding UserTypeExtraOptions_EventCC}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsMicroTasksListSelected}"/>
 
     </StackLayout>
 </ContentView>

@@ -29,7 +29,7 @@ namespace CalendarT1.Helpers
 			AddColors(GenerateShades(Color.FromRgb(30, 144, 255))); // Base Blue
 			AddColors(GenerateShades(Color.FromRgb(60, 179, 113))); // Base Green
 			AddColors(GenerateShades(Color.FromRgb(255, 165, 0))); // Base Orange
-																   // ... Add more base colors as needed
+			// ... Add more base colors as needed
 		}
 
 		private void AddColors(params Color[] colors)

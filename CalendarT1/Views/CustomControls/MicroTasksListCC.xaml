@@ -27,7 +27,7 @@
                         Placeholder="...SUBTASK TO ADD..." 
                         HorizontalOptions="CenterAndExpand"
                         MinimumWidthRequest="200"
-                        Text="{Binding MicroTasksAddCCHelper.MicroTaskToAddName, Mode=TwoWay}"
+                        Text="{Binding MicroTasksListCCHelper.MicroTaskToAddName, Mode=TwoWay}"
                         HorizontalTextAlignment="Center"
                         VerticalTextAlignment="Center"
                         TextColor="{DynamicResource MainTextColor}"
@@ -35,22 +35,22 @@
                         Background="{DynamicResource MainTextboxesBackgroundColor}" />
             </Border>
             <Button Grid.Column="2" HorizontalOptions="Start"  Text="+"  
-                        CornerRadius="10" Command="{Binding MicroTasksAddCCHelper.AddMicroTaskEventCommand}"
+                        CornerRadius="10" Command="{Binding MicroTasksListCCHelper.AddMicroTaskEventCommand}"
                         Margin="10,0,0,0"
                 />
         </Grid>
 
 
-        <FlexLayout BindableLayout.ItemsSource="{Binding MicroTasksAddCCHelper.SubTasksListOC}" 
+        <FlexLayout BindableLayout.ItemsSource="{Binding MicroTasksListCCHelper.MicroTasksOC}" 
                 Direction="Row" 
                 Wrap="Wrap" 
                 AlignItems="Start"
                 JustifyContent="Start">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
-                    <Button Text="{Binding SubTaskTitle}" 
-                        BackgroundColor="{Binding IsSubTaskCompleted, Converter={StaticResource boolToColorConverter}}"
-                        Command="{Binding Path=BindingContext.MicroTasksAddCCHelper.SelectSubTaskCommand, Source={x:Reference root}}"
+                    <Button Text="{Binding MicroTaskTitle}" 
+                        BackgroundColor="{Binding IsMicroTaskCompleted, Converter={StaticResource boolToColorConverter}}"
+                        Command="{Binding Path=BindingContext.MicroTasksListCCHelper.SelectMicroTaskCommand, Source={x:Reference root}}"
                         CommandParameter="{Binding .}"
                         Margin="5"/>
                 </DataTemplate>
@@ -59,16 +59,17 @@
     </StackLayout>
 </ContentView>
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <!--Some other I dont know which one was the good one but i thought not the one below:
+<!--Command="{Binding Path=BindingContext.MicroTasksListCCHelper.SelectMicroTaskCommand, Source={x:Reference root}}"-->
+
+
+
+
+
+
+
+
+
+<!--Some other I dont know which one was the good one but i thought not the one below:
 --><!--<?xml version="1.0" encoding="utf-8" ?>
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -87,7 +88,7 @@
                     <Button Text="{Binding SubTaskTitle}"
                             TextColor= "{DynamicResource MainTextColor}"
                             BackgroundColor= "{DynamicResource MainButtonBackgroundColor}"
-                            Command="{Binding BindingContext.SelectMultiTaskItemCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                            Command="{Binding BindingContext.SelectMicroTaskCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
                             CommandParameter="{Binding}">
                     </Button>
                 </DataTemplate>

@@ -135,7 +135,7 @@ namespace CalendarT1.ViewModels
 			SelectedSubTypeColor = currentType.EventTypeColor;
 			TypeName = currentType.EventTypeName;
 			DefaultEventTimespanCCHelper.SetControlsValues(currentType.DefaultEventTimeSpan);
-			setIsVisibleForExtraControlsForEditMode(currentType);
+			setIsVisibleForExtraControlsInEditMode();
 			// set proper visuals for an edited event type ??
 		}
 
@@ -149,11 +149,11 @@ namespace CalendarT1.ViewModels
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 		}
 
-		private void setIsVisibleForExtraControlsForEditMode(IUserEventTypeModel userEventTypeModel)
+		private void setIsVisibleForExtraControlsInEditMode()
 		{
-			UserTypeExtraOptionsHelper.IsValueTypeSelected = userEventTypeModel.IsValueType;
-			UserTypeExtraOptionsHelper.IsMictoTasksTypeSelected = userEventTypeModel.IsMicroTaskType;
-			UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected = userEventTypeModel.DefaultEventTimeSpan != TimeSpan.Zero;
+			UserTypeExtraOptionsHelper.IsValueTypeSelected = CurrentType.IsValueType;
+			UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected = CurrentType.IsMicroTaskType;
+			UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected = CurrentType.DefaultEventTimeSpan != TimeSpan.Zero;
 		}
 		#endregion
 
@@ -195,32 +195,26 @@ namespace CalendarT1.ViewModels
 		}
 		private async Task SubmitType()
 		{
-			SetExtraUserControlsAccordingToSelections(_currentType);
 			if (IsEdit)
 			{
 				// cannot change main event, Quantity type => may lead to some future errors???
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = _selectedColor;
-				SetExtraUserControlsAccordingToSelections(_currentType);
+				SetExtraUserControlsValues(_currentType);
 				await _eventRepository.UpdateSubEventTypeAsync(_currentType);
 				await Shell.Current.GoToAsync("..");								// TODO CHANGE NOT WORKING!!!
-				
 			}
 			else
 			{
-				QuantityModel quantityAmount = DefaultMeasurementSelectorCCHelper.QuantityAmount;
-
-
 				// TODO NOW !!!!!
-				//List<MultiTask> multiTasks = UserTypeExtraOptionsHelper.IsSubTaskListSelected ? new List<MultiTask>(UserTypeExtraOptionsHelper.SubTasksListOC) : null;
-				//var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, UserTypeExtraOptionsHelper.DefaultTimespan, quantityAmount, multiTasks);
-				//await _eventRepository.AddSubEventTypeAsync(newUserType);
-				await Shell.Current.GoToAsync("..");    // TODO CHANGE NOT WORKING!!!
+				var timespan = UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected ? DefaultEventTimespanCCHelper.GetDefaultDuration() : TimeSpan.Zero;
+				var quantityAmount = UserTypeExtraOptionsHelper.IsValueTypeSelected ? DefaultMeasurementSelectorCCHelper.QuantityAmount : null;
+				var multiTasks = UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected ? new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC) : null;
+				var newUserType = Factory.CreateNewEventType(SelectedMainEventType, TypeName, _selectedColor, timespan, quantityAmount, multiTasks);
+				await _eventRepository.AddSubEventTypeAsync(newUserType);
+				await Shell.Current.GoToAsync("..");    // TODO !!!!! CHANGE NOT WORKING!!!
 			}
 		}
-		// doing
-
-
 		private void OnMainEventTypeSelected(MainEventTypeViewModel selectedMainEventType)
 		{
 			((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypeSelectedCommand.Execute(selectedMainEventType);
@@ -240,13 +234,12 @@ namespace CalendarT1.ViewModels
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AllTypesPage());
 		}
-		private void InitializeColorButtons() // also to extract as a separate custom control
+		private void InitializeColorButtons() //TODO ! also to extract as a separate custom control
 		{
 			ButtonsColorsInitializerHelperClass buttonsColorsInitializerHelperClass = new ButtonsColorsInitializerHelperClass(BorderSize);
 			ButtonsColors = buttonsColorsInitializerHelperClass.ButtonsColors;
 		}
-		// TODO NOW !!!!!
-		public void SetExtraUserControlsAccordingToSelections(IUserEventTypeModel _currentType)
+		public void SetExtraUserControlsValues(IUserEventTypeModel _currentType)
 		{
 			if (_currentType == null)
 			{
@@ -260,7 +253,7 @@ namespace CalendarT1.ViewModels
 			{
 				_currentType.DefaultEventTimeSpan = TimeSpan.Zero;
 			}
-			if (UserTypeExtraOptionsHelper.IsMictoTasksTypeSelected)
+			if (UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected)
 			{
 				_currentType.IsMicroTaskType = true;
 				_currentType.MicroTasksList = new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC);
@@ -271,8 +264,6 @@ namespace CalendarT1.ViewModels
 				_currentType.MicroTasksList = null;
 			}
 		}
-
-
 	}
 	#endregion
 

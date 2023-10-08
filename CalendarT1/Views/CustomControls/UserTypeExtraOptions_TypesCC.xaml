@@ -4,10 +4,11 @@
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              x:Class="CalendarT1.Views.CustomControls.UserTypeExtraOptions_TypesCC">
     <StackLayout>
+
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
             <Button Text="DEFAULT TIMESPAN"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanColor}" Command="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanSelectedCommand}"/>
             <Button Text="DEFAULT VALUE"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsValueTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsValueTypeSelectedCommand}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEdit}"/>
-            <Button Text="DEFAULT MULTITASK" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsSubTaskListTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsMicroTaskListTypeSelectedCommand}"/>
+            <Button Text="DEFAULT MULTITASK" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsMicroTasksListTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsMicroTaskListTypeSelectedCommand}"/>
         </StackLayout>
         
         <!--Not Visible in Edit Mode-->
@@ -17,7 +18,7 @@
 
         <!--Visible in both Modes-->
         <customControls:DefaultEventTimespanCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected}"/>
-        <customControls:MicroTasksListCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsSubTaskListSelected}"/>
+        <customControls:MicroTasksListCC IsVisible="{Binding UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected}"/>
 
 
     </StackLayout>

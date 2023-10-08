@@ -74,7 +74,6 @@ check what happens if removed		// REGISTER ROUTING
 //All Events Page EventsToShowList and userEventTypesList
 
 // remove the below code and decouple IHelperclass from ICC and make it a separate interfaces
-// 		public event Action<MainEventTypes> MainEventTypeChanged;
 
 // search button in allEventsPage
 // save events to some random file.
