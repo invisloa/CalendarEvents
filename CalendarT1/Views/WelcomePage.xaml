@@ -5,8 +5,16 @@
                           xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
 
              Title="WelcomePage">
-    <StackLayout>
+    
+    <StackLayout Background="White">
         <Button Text="XXXXXXX" Clicked="Button_Clicked"/>
+        <ImageButton 
+                             CornerRadius="10"
+                             Source="search.png"
+                             WidthRequest="40" 
+                             HeightRequest="40"
+                             Margin="10"
+                              />
     </StackLayout>
     <!--<customControls:UserTypeExtraOptions_TypesCC/>-->
     

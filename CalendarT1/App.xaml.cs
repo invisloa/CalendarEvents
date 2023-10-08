@@ -11,7 +11,7 @@ public partial class App : Application
 	{
 		_repository = repository;
 		//_repository.ClearAllMainEventTypesAsync();
-		//_repository.ClearEventsListAsync();
+		//_repository.ClearAllEventsListAsync();
 		//_repository.ClearAllSubEventTypesAsync();
 
 

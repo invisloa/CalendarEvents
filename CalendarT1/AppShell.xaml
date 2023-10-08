@@ -13,16 +13,16 @@
     
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="Daily events list">
-            
+            <ShellContent
+                Title="Welcome Page"
+                ContentTemplate="{DataTemplate local:WelcomePage}"
+                Route="WelcomePage" />
             <ShellContent
                 Title="AddNewType"
                 ContentTemplate="{DataTemplate local:AddNewTypePage}"
                 Route="AddNewTypePage" />
             
-            <ShellContent
-                Title="Welcome Page"
-                ContentTemplate="{DataTemplate local:WelcomePage}"
-                Route="WelcomePage" />
+
             <ShellContent
                 Title="Weekly"
                 ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
