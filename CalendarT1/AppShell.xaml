@@ -19,8 +19,8 @@
                 Route="WelcomePage" />
             <ShellContent
                 Title="AddNewType"
-                ContentTemplate="{DataTemplate local:AddNewTypePage}"
-                Route="AddNewTypePage" />
+                ContentTemplate="{DataTemplate local:AddNewSubTypePage}"
+                Route="AddNewSubTypePage" />
             
 
             <ShellContent
@@ -44,9 +44,9 @@
                 ContentTemplate="{DataTemplate local:ViewMonthlyEvents}"
                 Route="MonthlyEvents" />
             <ShellContent
-                Title="AddNewTypePageTemp"
-                ContentTemplate="{DataTemplate local:AddNewTypePageTemp}"
-                Route="AddNewTypePageTemp" />
+                Title="AddNewSubTypePageTemp"
+                ContentTemplate="{DataTemplate local:AddNewSubTypePageTemp}"
+                Route="AddNewSubTypePageTemp" />
 
             <ShellContent
                 Title="ValueTypeCalculationsPage"

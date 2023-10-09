@@ -20,7 +20,7 @@ using CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions;
 
 namespace CalendarT1.ViewModels
 {
-    public class AddNewTypePageViewModel : BaseViewModel
+    public class AddNewSubTypePageViewModel : BaseViewModel
 	{
 		// TODO ! CHANGE THE BELOW CLASS TO VIEW MODEL 
 		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
@@ -114,7 +114,7 @@ namespace CalendarT1.ViewModels
 
 		#region Constructors
 		// constructor for create mode
-		public AddNewTypePageViewModel(IEventRepository eventRepository)
+		public AddNewSubTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
 			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(false);
@@ -126,7 +126,7 @@ namespace CalendarT1.ViewModels
 		}
 
 		// constructor for edit mode
-		public AddNewTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
+		public AddNewSubTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
 		{
 			_eventRepository = eventRepository;
 			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(currentType.MicroTasksList);

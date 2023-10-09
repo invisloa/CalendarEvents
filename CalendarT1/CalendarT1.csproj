@@ -101,10 +101,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Views\AddNewTypePage.xaml">
+	  <MauiXaml Update="Views\AddNewSubTypePage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\AddNewTypePageTemp.xaml">
+	  <MauiXaml Update="Views\AddNewSubTypePageTemp.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\AllTypesPage.xaml">
@@ -186,6 +186,9 @@
 	    <DesignTime>True</DesignTime>
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\AddNewSubTypePage.xaml.cs">
+	    <DependentUpon>AddNewSubTypePage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\CustomControls\EventTypesCustomControl.xaml.cs">
 	    <DependentUpon>EventTypesCustomControl.xaml</DependentUpon>

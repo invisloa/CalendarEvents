@@ -6,7 +6,7 @@
 /*// REGISTER ROUTING
  * 	public AppShell()
 {
-Routing.RegisterRoute(nameof(AddNewTypePage), typeof(AddNewTypePage));
+Routing.RegisterRoute(nameof(AddNewSubTypePage), typeof(AddNewSubTypePage));
 Routing.RegisterRoute(nameof(AllTypesPage), typeof(AllTypesPage));
 }
 */

@@ -4,10 +4,10 @@ using CalendarT1.Services.DataOperations.Interfaces;
 
 namespace CalendarT1.Views;
 
-public partial class AddNewTypePageTemp : ContentPage
+public partial class AddNewSubTypePageTemp : ContentPage
 {
 	IEventRepository _eventRepository;
-	public AddNewTypePageTemp()
+	public AddNewSubTypePageTemp()
 	{
 		_eventRepository = ServiceHelper.GetService<IEventRepository>();
 

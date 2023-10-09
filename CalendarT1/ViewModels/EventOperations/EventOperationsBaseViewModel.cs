@@ -121,7 +121,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected ObservableCollection<IUserEventTypeModel> _eventTypesOC;
 		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
 		protected IUserEventTypeModel _selectedEventType;
-		private RelayCommand _goToAddNewTypePageCommand;
+		private RelayCommand _goToAddNewSubTypePageCommand;
 		private RelayCommand _goToAddEventPageCommand;
 		public event Action<IMainEventType> MainEventTypeChanged;
 
@@ -368,7 +368,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
 		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
-		public RelayCommand GoToAddNewTypePageCommand => _goToAddNewTypePageCommand ?? (_goToAddNewTypePageCommand = new RelayCommand(GoToAddNewTypePage));
+		public RelayCommand GoToAddNewSubTypePageCommand => _goToAddNewSubTypePageCommand ?? (_goToAddNewSubTypePageCommand = new RelayCommand(GoToAddNewSubTypePage));
 		#endregion
 
 
@@ -477,9 +477,9 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
-		private void GoToAddNewTypePage()
+		private void GoToAddNewSubTypePage()
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage());
+			Application.Current.MainPage.Navigation.PushAsync(new AddNewSubTypePage());
 		}
 		
 		#endregion

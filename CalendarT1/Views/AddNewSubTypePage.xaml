@@ -1,9 +1,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="CalendarT1.Views.AddNewTypePage"
+             x:Class="CalendarT1.Views.AddNewSubTypePage"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
-             Title="AddNewTypePage"
-             x:Name="AddNewTypePageName">
+             Title="AddNewSubTypePage"
+             x:Name="AddNewSubTypePageName">
     <ScrollView BackgroundColor="{DynamicResource MainBackgroundColor}">
         <StackLayout>
             <Button Text="ALL TYPES PAGE" Command="{Binding GoToAllTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
@@ -17,7 +17,7 @@
 
             <!--Main Event Types Custom Control -->
             <StackLayout>
-                <customControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
+                <customControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
             </StackLayout>
 
             <!--Possible Colors of events to choose-->
@@ -32,7 +32,7 @@
                               MinimumWidthRequest="10"
                               BackgroundColor="{Binding ButtonColor}"
                               BorderWidth="{Binding ButtonBorder}"
-                              Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewTypePageName}}"
+                              Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewSubTypePageName}}"
                               CommandParameter="{Binding .}"
                               Margin="1"/>
                     </DataTemplate>

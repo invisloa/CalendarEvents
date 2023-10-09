@@ -89,7 +89,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 
 		private void EditSelectedType(IUserEventTypeModel userTypeToEdit)
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new AddNewTypePage(EventRepository, userTypeToEdit));
+			Application.Current.MainPage.Navigation.PushAsync(new AddNewSubTypePage(EventRepository, userTypeToEdit));
 		}
 
 		#endregion
