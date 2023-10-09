@@ -10,7 +10,7 @@ public partial class AppShell : Shell
 
 		// REGISTER ROUTING
 		Routing.RegisterRoute(nameof(AddNewSubTypePage), typeof(AddNewSubTypePage));
-		Routing.RegisterRoute(nameof(AllTypesPage), typeof(AllTypesPage));
+		Routing.RegisterRoute(nameof(AllSubTypesPage), typeof(AllSubTypesPage));
 
 
 

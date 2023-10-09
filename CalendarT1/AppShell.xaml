@@ -18,6 +18,10 @@
                 ContentTemplate="{DataTemplate local:WelcomePage}"
                 Route="WelcomePage" />
             <ShellContent
+                Title="AddNewMainTypePage"
+                ContentTemplate="{DataTemplate local:AddNewMainTypePage}"
+                Route="AddNewMainTypePage" />
+            <ShellContent
                 Title="AddNewType"
                 ContentTemplate="{DataTemplate local:AddNewSubTypePage}"
                 Route="AddNewSubTypePage" />

@@ -7,12 +7,12 @@
  * 	public AppShell()
 {
 Routing.RegisterRoute(nameof(AddNewSubTypePage), typeof(AddNewSubTypePage));
-Routing.RegisterRoute(nameof(AllTypesPage), typeof(AllTypesPage));
+Routing.RegisterRoute(nameof(AllSubTypesPage), typeof(AllSubTypesPage));
 }
 */
 
 // go to registered page but the one that is added to Shell
-// await Shell.Current.GoToAsync($"//{nameof(AllTypesPage)}");
+// await Shell.Current.GoToAsync($"//{nameof(AllSubTypesPage)}");
 
 // go to registered page but the one that does not have to be added to Shell
-// await Shell.Current.GoToAsync($"{nameof(AllTypesPage)}");
+// await Shell.Current.GoToAsync($"{nameof(AllSubTypesPage)}");

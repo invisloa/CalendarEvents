@@ -38,7 +38,7 @@ DefaultEventTimespanCCHelper.SelectedUnitIndex = 2;
  
 check what happens if removed		// REGISTER ROUTING
 		Routing.RegisterRoute(nameof(AddNewSubTypePage), typeof(AddNewSubTypePage));
-		Routing.RegisterRoute(nameof(AllTypesPage), typeof(AllTypesPage));
+		Routing.RegisterRoute(nameof(AllSubTypesPage), typeof(AllSubTypesPage));
 
 
 
@@ -169,7 +169,7 @@ check what happens if removed		// REGISTER ROUTING
 
 
 // edit page with no go to all types page button
-// After Editing event type in AddNewSubTypePage go back to AllTypesPage and update the list of event types list is not updating???
+// After Editing event type in AddNewSubTypePage go back to AllSubTypesPage and update the list of event types list is not updating???
 // when deleting an event type ask user what to do with events of this type switch to other similar type or delete all events of this type
 // all event types page with select an event type and edit
 

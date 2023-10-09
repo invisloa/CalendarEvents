@@ -103,7 +103,7 @@ namespace CalendarT1.ViewModels
 		#endregion
 		#region Commands
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
-		public RelayCommand GoToAllTypesPageCommand { get; private set; }
+		public RelayCommand GoToAllSubTypesPageCommand { get; private set; }
 		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
@@ -147,7 +147,7 @@ namespace CalendarT1.ViewModels
 			bool isEditMode = CurrentType != null;
 			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(isEditMode);
 			SelectColorCommand = new RelayCommand<ButtonProperties>(OnSelectColorCommand);
-			GoToAllTypesPageCommand = new RelayCommand(GoToAllTypesPage);
+			GoToAllSubTypesPageCommand = new RelayCommand(GoToAllSubTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
@@ -165,7 +165,7 @@ namespace CalendarT1.ViewModels
 		#region Methods
 		private async Task DeleteSelectedEventType()
 		{
-			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.EventType.EventTypeName == _currentType.EventTypeName);
+			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x == _currentType); // TODO !!! check if this works (equals)
 			if (eventTypesInDb.Any())
 			{
 				var action = await App.Current.MainPage.DisplayActionSheet("This type is used in some events.", "Cancel", null, "Delete all associated events", "Go to All Events Page");
@@ -191,7 +191,7 @@ namespace CalendarT1.ViewModels
 			await _eventRepository.DeleteFromSubEventTypesListAsync(_currentType);
 			await Shell.Current.Navigation.PopAsync();
 
-			//await Shell.Current.GoToAsync($"{nameof(AllTypesPage)}");
+			//await Shell.Current.GoToAsync($"{nameof(AllSubTypesPage)}");
 		}
 		public void DisableVisualsForAllMainEventTypes()
 		{
@@ -234,9 +234,9 @@ namespace CalendarT1.ViewModels
 				button.ButtonBorder = button == selectedColor ? NoBorderSize : BorderSize;
 			}
 		}
-		private void GoToAllTypesPage()
+		private void GoToAllSubTypesPage()
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new AllTypesPage());
+			Application.Current.MainPage.Navigation.PushAsync(new AllSubTypesPage());
 		}
 		private void InitializeColorButtons() //TODO ! also to extract as a separate custom control
 		{

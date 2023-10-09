@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace CalendarT1.ViewModels.TypesViewModels
 {
 
-	class AllTypesPageViewModel : BaseViewModel
+	class AllSubTypesPageViewModel : BaseViewModel
 	{
 		#region Fields
 
@@ -59,7 +59,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 
 		#region Constructor
 
-		public AllTypesPageViewModel(IEventRepository eventRepository)
+		public AllSubTypesPageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
 			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);

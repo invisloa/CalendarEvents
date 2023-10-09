@@ -6,21 +6,26 @@
              x:Name="AddNewSubTypePageName">
     <ScrollView BackgroundColor="{DynamicResource MainBackgroundColor}">
         <StackLayout>
-            <Button Text="ALL TYPES PAGE" Command="{Binding GoToAllTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
+            <Button Text="ALL TYPES PAGE" Command="{Binding GoToAllSubTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
                     WidthRequest="150" HorizontalOptions="End" BorderColor="CadetBlue" BorderWidth="3" Margin="10"/>
-            <!-- Textbox for new type name -->
+             <!--Textbox for new type name--> 
+            
             <Frame BackgroundColor="{Binding SelectedMainEventType.MainEventTypeBorderColor}" Padding="8" HorizontalOptions="CenterAndExpand" WidthRequest="250" >
-                
+
                 <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" Margin="10"  FontAttributes="Bold" FontSize="Body"
                            HorizontalTextAlignment="Center" BackgroundColor="{Binding SelectedSubTypeColor}" TextColor="{DynamicResource MainTextColor}" VerticalOptions="Fill"/>
             </Frame>
 
-            <!--Main Event Types Custom Control -->
+            
+            <!--Main Event Types Custom Control--> 
+            
             <StackLayout>
                 <customControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
             </StackLayout>
 
+            
             <!--Possible Colors of events to choose-->
+            
             <CollectionView ItemsSource="{Binding ButtonsColors}">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical"
@@ -39,12 +44,28 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
+            
             <!--UserTypeExtraOptions_TypesCC-->
+            
             <customControls:UserTypeExtraOptions_TypesCC />
+
             
             <!--Down of the screen buttons-->
+            
             <Button Text="DELETE SELECTED TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}"/>
             <Button Margin="5" Text="{Binding SubmitButtonText}" Command="{Binding SubmitTypeCommand}" HorizontalOptions="Center"/>
         </StackLayout>
     </ScrollView>
 </ContentPage>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -5,12 +5,12 @@ using System.Net.WebSockets;
 
 namespace CalendarT1.Views;
 
-public partial class AllTypesPage : ContentPage
+public partial class AllSubTypesPage : ContentPage
 {
-	public AllTypesPage()
+	public AllSubTypesPage()
 	{
 		var eventRepository = ServiceHelper.GetService<IEventRepository>();
-		BindingContext = new AllTypesPageViewModel(eventRepository);
+		BindingContext = new AllSubTypesPageViewModel(eventRepository);
 		InitializeComponent();
 	}
 }
