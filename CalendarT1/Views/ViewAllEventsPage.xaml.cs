@@ -22,7 +22,7 @@ public partial class ViewAllEventsPage : ContentPage
 		};
 	}
 	// for viewing all specific type of events
-	public ViewAllEventsPage(IEventRepository eventRepository, IUserEventTypeModel eventTypeModel)
+	public ViewAllEventsPage(IEventRepository eventRepository, ISubEventTypeModel eventTypeModel)
 	{
 		BindingContext = new AllEventsViewModel(eventRepository, eventTypeModel);
 		var viewModel = BindingContext as AllEventsViewModel;

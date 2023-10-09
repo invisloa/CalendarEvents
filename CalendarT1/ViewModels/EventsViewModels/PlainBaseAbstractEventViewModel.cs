@@ -16,9 +16,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Fields
 		protected IEventRepository _eventRepository;
 		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
-		private ObservableCollection<IUserEventTypeModel> _AllSubEventTypesOC;
+		private ObservableCollection<ISubEventTypeModel> _AllSubEventTypesOC;
 		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
-		private RelayCommand<IUserEventTypeModel> _selectUserEventTypeCommand;
+		private RelayCommand<ISubEventTypeModel> _selectUserEventTypeCommand;
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
 		private RelayCommand _goToAddNewSubTypePageCommand;
 
@@ -41,7 +41,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		public ObservableCollection<IUserEventTypeModel> AllSubEventTypesOC
+		public ObservableCollection<ISubEventTypeModel> AllSubEventTypesOC
 		{
 			get => _AllSubEventTypesOC;
 			set
@@ -62,11 +62,11 @@ namespace CalendarT1.ViewModels.EventsViewModels
 				OnPropertyChanged();
 			}
 		}
-		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand
+		public RelayCommand<ISubEventTypeModel> SelectUserEventTypeCommand
 		{
 			get
 			{
-				return _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected));
+				return _selectUserEventTypeCommand ?? (_selectUserEventTypeCommand = new RelayCommand<ISubEventTypeModel>(OnUserEventTypeSelected));
 			}
 			set
 			{
@@ -86,7 +86,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_eventRepository = eventRepository;
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserEventTypeListChanged += UpdateAllEventTypesList;
 			if (Application.Current.Resources.TryGetValue("MainEventDeselectedBackgroundColor", out var retrievedColor))
@@ -112,7 +112,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public void UpdateAllEventTypesList()   // TO CHECK HOW TO CHANGE THIS
 		{
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
 
 		public abstract void BindDataToScheduleList();
@@ -126,7 +126,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#endregion
 
 		#region Private Methods
-		protected virtual void OnUserEventTypeSelected(IUserEventTypeModel eventSubType)
+		protected virtual void OnUserEventTypeSelected(ISubEventTypeModel eventSubType)
 		{
 			eventSubType.IsSelectedToFilter = !eventSubType.IsSelectedToFilter;
 			if(eventSubType.IsSelectedToFilter)

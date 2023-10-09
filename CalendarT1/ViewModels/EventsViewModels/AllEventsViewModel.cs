@@ -22,7 +22,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
 		protected IMainEventTypesCC _mainEventTypesCCHelper;
-		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
+		protected List<ISubEventTypeModel> _allUserTypesForVisuals;
 
 		public IMainEventType SelectedMainEventType
 		{
@@ -37,10 +37,10 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		private void FilterAllSubEventTypesOCByMainEventType(IMainEventType value)
 		{
 			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(tempFilteredEventTypes);
 			OnPropertyChanged(nameof(AllSubEventTypesOC));
 		}
-		private List<IUserEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
+		private List<ISubEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
 		{
 			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
 		}
@@ -110,7 +110,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		#region Fields
 
-		private IUserEventTypeModel _eventType;
+		private ISubEventTypeModel _eventType;
 
 		#endregion
 
@@ -142,18 +142,18 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			//DeleteAllEvents();
 			//DeleteAllUserTypes();
 			InitializeCommon(eventRepository);
-			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
-			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
+			_allUserTypesForVisuals = new List<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
+			SelectUserEventTypeCommand = new RelayCommand<ISubEventTypeModel>(OnUserEventTypeSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
 
 		// Single Event Type MODE
-		public AllEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
+		public AllEventsViewModel(IEventRepository eventRepository, ISubEventTypeModel eventType) : base(eventRepository)
 		{
 			InitializeCommon(eventRepository);
 
-			var allTempTypes = new List<IUserEventTypeModel>();
+			var allTempTypes = new List<ISubEventTypeModel>();
 			foreach (var item in AllSubEventTypesOC)
 			{
 				allTempTypes.Add(item);
@@ -221,7 +221,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			try
 			{
 				_eventRepository.AllUserEventTypesList.Clear();
-				AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+				AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(_eventRepository.AllUserEventTypesList);
 				await EventRepository.SaveSubEventTypesListAsync();
 			}
 			catch (Exception ex)

@@ -38,7 +38,7 @@ namespace CalendarT1.Services
 		{
 			return new MeasurementOperationsHelperClass(eventsToCalculateList);
 		}
-		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventTypeModel, QuantityModel quantityAmount = null, List<MicroTaskModel> microTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
+		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventTypeModel, QuantityModel quantityAmount = null, List<MicroTaskModel> microTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
 			EventModelBuilder builder = new EventModelBuilder(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
 			if (quantityAmount != null)
@@ -47,7 +47,7 @@ namespace CalendarT1.Services
 				builder.SetMicroTasksList(microTasks);
 			return builder.Build();
 		}
-		public static IUserEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity, List<MicroTaskModel> microTasksList)
+		public static ISubEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity, List<MicroTaskModel> microTasksList)
 		{
 			return new UserEventTypeModel(mainEventType, eventTypeName, eventTypeColor, defaultEventTime, quantity, microTasksList);
 		}

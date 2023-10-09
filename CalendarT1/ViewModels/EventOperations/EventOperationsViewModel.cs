@@ -158,7 +158,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		private void FilterAllSubEventTypesOCByMainEventType(IMainEventType value)
 		{
 			var tempFilteredEventTypes = AllSubEventTypesOC.ToList().FindAll(x => x.MainEventType == value);
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(tempFilteredEventTypes);
 			OnPropertyChanged(nameof(AllSubEventTypesOC));
 		}
 

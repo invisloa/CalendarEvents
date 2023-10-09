@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace CalendarT1.Models.EventTypesModels
 {
-	public class UserEventTypeModel : BaseViewModel, IUserEventTypeModel
+	public class UserEventTypeModel : BaseViewModel, ISubEventTypeModel
 	{
 		public IMainEventType MainEventType { get; set; }
 		public string EventTypeName { get; set; }
@@ -151,9 +151,9 @@ namespace CalendarT1.Models.EventTypesModels
 			MicroTasksList = multiTasksList;
 		}
 
-		public bool Equals(IUserEventTypeModel obj)
+		public bool Equals(ISubEventTypeModel obj)
 		{
-			if (obj is IUserEventTypeModel other)
+			if (obj is ISubEventTypeModel other)
 			{
 				return MainEventType == other.MainEventType &&
 					   EventTypeColorString == other.EventTypeColorString &&

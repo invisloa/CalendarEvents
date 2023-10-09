@@ -14,7 +14,7 @@ namespace CalendarT1.Models.EventModels
         public string Description { get; set; }
         public bool WasShown { get; set; }
         public virtual bool IsCompleted { get; set; }
-        public IUserEventTypeModel EventType { get; set; }
+        public ISubEventTypeModel EventType { get; set; }
         public List<DateTime> PostponeHistory { get; set; }
         public TimeSpan DefaultPostponeTime { get; set; }
         public TimeSpan ReminderTime { get; set; }
@@ -38,7 +38,7 @@ namespace CalendarT1.Models.EventModels
         }
 
 		// TO Consider postpone time and maybe some other extra options for advanced event adding mode??
-		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, QuantityModel quantityAmount = null, List<MicroTaskModel> multiTasksList = null)
+		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, QuantityModel quantityAmount = null, List<MicroTaskModel> multiTasksList = null)
 		{
 			//... rest of the code
 

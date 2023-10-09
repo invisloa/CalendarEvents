@@ -18,7 +18,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 
 		private IEventRepository _eventRepository;
 		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
-		private ObservableCollection<IUserEventTypeModel> _AllSubEventTypesOC;
+		private ObservableCollection<ISubEventTypeModel> _AllSubEventTypesOC;
 
 		#endregion
 
@@ -39,7 +39,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 			}
 		}
 
-		public ObservableCollection<IUserEventTypeModel> AllSubEventTypesOC
+		public ObservableCollection<ISubEventTypeModel> AllSubEventTypesOC
 		{
 			get => _AllSubEventTypesOC;
 			set
@@ -53,7 +53,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 			}
 		}
 
-		public RelayCommand<IUserEventTypeModel> EditSelectedTypeCommand { get; set; }
+		public RelayCommand<ISubEventTypeModel> EditSelectedTypeCommand { get; set; }
 
 		#endregion
 
@@ -62,11 +62,11 @@ namespace CalendarT1.ViewModels.TypesViewModels
 		public AllSubTypesPageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserEventTypeListChanged += UpdateAllEventTypesList;
-			EditSelectedTypeCommand = new RelayCommand<IUserEventTypeModel>(EditSelectedType);
+			EditSelectedTypeCommand = new RelayCommand<ISubEventTypeModel>(EditSelectedType);
 		}
 
 		#endregion
@@ -80,14 +80,14 @@ namespace CalendarT1.ViewModels.TypesViewModels
 
 		public void UpdateAllEventTypesList()
 		{
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
 
 		#endregion
 
 		#region Private Methods
 
-		private void EditSelectedType(IUserEventTypeModel userTypeToEdit)
+		private void EditSelectedType(ISubEventTypeModel userTypeToEdit)
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AddNewSubTypePage(EventRepository, userTypeToEdit));
 		}

@@ -22,6 +22,6 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions
         QuantityModel QuantityAmount { get; set; }
         public string QuantityValueText { get; set; }
         public decimal QuantityValue { get; set; }
-        void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel);
+        void SelectPropperMeasurementData(ISubEventTypeModel userEventTypeModel);
     }
 }

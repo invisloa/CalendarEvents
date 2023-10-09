@@ -9,7 +9,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 {
 	public class DailyEventsViewModel : AbstractEventViewModel
 	{
-		private IUserEventTypeModel _eventType;
+		private ISubEventTypeModel _eventType;
 		public string AboveEventsListText
 		{
 			get
@@ -25,7 +25,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		}
 
-		public DailyEventsViewModel(IEventRepository eventRepository, IUserEventTypeModel eventType) : base(eventRepository)
+		public DailyEventsViewModel(IEventRepository eventRepository, ISubEventTypeModel eventType) : base(eventRepository)
 		{
 		}
 		protected override void ApplyEventsDatesFilter(DateTime startDate, DateTime endDate)

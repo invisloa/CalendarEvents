@@ -2,7 +2,7 @@
 
 namespace CalendarT1.Models.EventTypesModels
 {
-	public interface IUserEventTypeModel : IEquatable<IUserEventTypeModel>
+	public interface ISubEventTypeModel : IEquatable<ISubEventTypeModel>
 	{
 		IMainEventType MainEventType { get; set; }
 		public bool IsValueType { get; set; }	// if the event type is a value type, it will be shown in the value type list
@@ -16,7 +16,7 @@ namespace CalendarT1.Models.EventTypesModels
 		List<MicroTaskModel> MicroTasksList { get; set; }
 		public TimeSpan DefaultEventTimeSpan { get; set; }	// default event time for the event type
 		string ToString();
-		new bool Equals(IUserEventTypeModel other);	// to check if the event type is already in the list
+		new bool Equals(ISubEventTypeModel other);	// to check if the event type is already in the list
 		int GetHashCode();	// to check if the event type is already in the list
 	}
 }

@@ -54,11 +54,11 @@ check what happens if removed		// REGISTER ROUTING
 // check if event title exists before adding new main event
 
 // change this so it deserialize from file path instead of serializing and deserializing...
-/*public List<IUserEventTypeModel> DeepCopyMainEventTypesList()
+/*public List<ISubEventTypeModel> DeepCopyMainEventTypesList()
 {
 	var settings = JsonSerializerSettings_Auto;
 	var serialized = JsonConvert.SerializeObject(_allMainEventTypesList, settings);
-	return JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(serialized, settings);
+	return JsonConvert.DeserializeObject<List<ISubEventTypeModel>>(serialized, settings);
 }*/
 
 // calculations page max by week 0 value bug (two same dates shown if the value is 0)
@@ -222,7 +222,7 @@ check what happens if removed		// REGISTER ROUTING
 // ADD SEARCH OPTION TO ALL EVENTS PAGE
 // Check for data Operations thread safety!!!
 // divide dailyeventsPage into two pages one for events and one for all eventslist for types
-//Change to also visually select proper event type in AllEventPage (IUserEventTypeModel)
+//Change to also visually select proper event type in AllEventPage (ISubEventTypeModel)
 
 // fix the scrolling isse horizontal and vertical
 // save events button available only if there were changes made - share events button only if there are no changes made

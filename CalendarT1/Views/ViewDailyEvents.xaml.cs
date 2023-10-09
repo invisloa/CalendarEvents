@@ -22,7 +22,7 @@ public partial class ViewDailyEvents : ContentPage
 		base.OnDisappearing();
 		(BindingContext as DailyEventsViewModel).OnEventsToShowListUpdated -= (BindingContext as DailyEventsViewModel).BindDataToScheduleList;
 	}
-	public ViewDailyEvents(IEventRepository eventRepository, IUserEventTypeModel eventType)
+	public ViewDailyEvents(IEventRepository eventRepository, ISubEventTypeModel eventType)
 	{
 		BindingContext = new DailyEventsViewModel(eventRepository, eventType);
 		InitializeComponent();

@@ -70,7 +70,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		{
 			SelectedMeasurementUnit = measurementUnitItem;
 		}
-		public void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel)
+		public void SelectPropperMeasurementData(ISubEventTypeModel userEventTypeModel)
 		{
 			try
 			{

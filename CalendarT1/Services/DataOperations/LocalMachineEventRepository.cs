@@ -224,8 +224,8 @@ public class LocalMachineEventRepository : IEventRepository
 
 	// UserTypes Repository
 	#region UserTypes Repository
-	private List<IUserEventTypeModel> _allUserEventTypesList = new List<IUserEventTypeModel>();
-	public List<IUserEventTypeModel> AllUserEventTypesList
+	private List<ISubEventTypeModel> _allUserEventTypesList = new List<ISubEventTypeModel>();
+	public List<ISubEventTypeModel> AllUserEventTypesList
 	{
 		get
 		{
@@ -258,17 +258,17 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 		return AllMainEventTypesList;
 	}
-	public async Task<List<IUserEventTypeModel>> GetSubEventTypesListAsync()
+	public async Task<List<ISubEventTypeModel>> GetSubEventTypesListAsync()
 	{
 		if (File.Exists(SubEventsTypesFilePath))
 		{
 			var jsonString = await File.ReadAllTextAsync(SubEventsTypesFilePath);
 			var settings = JsonSerializerSettings_Auto;
-			AllUserEventTypesList = JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(jsonString, settings);
+			AllUserEventTypesList = JsonConvert.DeserializeObject<List<ISubEventTypeModel>>(jsonString, settings);
 		}
 		else
 		{
-			AllUserEventTypesList = new List<IUserEventTypeModel>();
+			AllUserEventTypesList = new List<ISubEventTypeModel>();
 		}
 		return AllUserEventTypesList;
 	}
@@ -307,14 +307,14 @@ public class LocalMachineEventRepository : IEventRepository
 		await SaveMainEventTypesListAsync();
 		OnMainEventTypesListChanged?.Invoke();
 	}
-	public async Task DeleteFromSubEventTypesListAsync(IUserEventTypeModel eventTypeToDelete)
+	public async Task DeleteFromSubEventTypesListAsync(ISubEventTypeModel eventTypeToDelete)
 	{
 		AllUserEventTypesList.Remove(eventTypeToDelete);
 		await SaveSubEventTypesListAsync();
 		OnUserEventTypeListChanged?.Invoke();
 	}
 
-	public async Task AddSubEventTypeAsync(IUserEventTypeModel eventTypeToAdd)
+	public async Task AddSubEventTypeAsync(ISubEventTypeModel eventTypeToAdd)
 	{
 		AllUserEventTypesList.Add(eventTypeToAdd);
 		OnUserEventTypeListChanged?.Invoke();
@@ -334,7 +334,7 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 	}
 
-	public async Task UpdateSubEventTypeAsync(IUserEventTypeModel eventTypeToUpdate)
+	public async Task UpdateSubEventTypeAsync(ISubEventTypeModel eventTypeToUpdate)
 	{
 		await SaveSubEventTypesListAsync();
 		OnUserEventTypeListChanged?.Invoke();
@@ -344,7 +344,7 @@ public class LocalMachineEventRepository : IEventRepository
 		await SaveMainEventTypesListAsync();
 		OnMainEventTypesListChanged?.Invoke();
 	}
-	public Task<IUserEventTypeModel> GetSubEventTypeAsync(IUserEventTypeModel eventTypeToSelect)
+	public Task<ISubEventTypeModel> GetSubEventTypeAsync(ISubEventTypeModel eventTypeToSelect)
 	{
 		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName && e.MainEventType == eventTypeToSelect.MainEventType);      // TO CHANGE ???
 		return Task.FromResult(selectedEventType);
@@ -360,11 +360,11 @@ public class LocalMachineEventRepository : IEventRepository
 		var serialized = JsonConvert.SerializeObject(_allEventsList, settings);
 		return JsonConvert.DeserializeObject<List<IGeneralEventModel>>(serialized, settings);
 	}
-	public List<IUserEventTypeModel> DeepCopySubEventTypesList()
+	public List<ISubEventTypeModel> DeepCopySubEventTypesList()
 	{
 		var settings = JsonSerializerSettings_Auto;
 		var serialized = JsonConvert.SerializeObject(_allUserEventTypesList, settings);
-		return JsonConvert.DeserializeObject<List<IUserEventTypeModel>>(serialized, settings);
+		return JsonConvert.DeserializeObject<List<ISubEventTypeModel>>(serialized, settings);
 	}
 	public List<IMainEventType> DeepCopyMainEventTypesList()
 	{
@@ -392,7 +392,7 @@ public class LocalMachineEventRepository : IEventRepository
 		}
 		else
 		{
-			var subTypesToSaveFromSpecifiedEvents = new List<IUserEventTypeModel>();
+			var subTypesToSaveFromSpecifiedEvents = new List<ISubEventTypeModel>();
 			var mainTypesToSaveFromSpecifiedEvents = new List<IMainEventType>();
 
 			foreach (var eventItem in eventsToSaveList)
@@ -551,7 +551,7 @@ public class LocalMachineEventRepository : IEventRepository
 	private class EventsAndTypesForJson
 	{
 		public List<IGeneralEventModel> Events { get; set; }
-		public List<IUserEventTypeModel> UserEventTypes { get; set; }
+		public List<ISubEventTypeModel> UserEventTypes { get; set; }
 		public List<IMainEventType> MainEventTypes { get; set; }
 	}
 

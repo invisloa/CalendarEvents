@@ -36,7 +36,7 @@ namespace CalendarT1.ViewModels
 		private const int BorderSize = 7;
 		private IMainEventTypesCC _mainEventTypesCCHelper;
 		private TimeSpan _defaultEventTime;
-		private IUserEventTypeModel _currentType;   // if null => add new type, else => edit type
+		private ISubEventTypeModel _currentType;   // if null => add new type, else => edit type
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 		private string _typeName;
 		private IEventRepository _eventRepository;
@@ -61,7 +61,7 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-		public IUserEventTypeModel CurrentType
+		public ISubEventTypeModel CurrentType
 		{
 			get => _currentType;
 			set
@@ -126,7 +126,7 @@ namespace CalendarT1.ViewModels
 		}
 
 		// constructor for edit mode
-		public AddNewSubTypePageViewModel(IEventRepository eventRepository, IUserEventTypeModel currentType)
+		public AddNewSubTypePageViewModel(IEventRepository eventRepository, ISubEventTypeModel currentType)
 		{
 			_eventRepository = eventRepository;
 			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(currentType.MicroTasksList);
@@ -243,7 +243,7 @@ namespace CalendarT1.ViewModels
 			ButtonsColorsInitializerHelperClass buttonsColorsInitializerHelperClass = new ButtonsColorsInitializerHelperClass(BorderSize);
 			ButtonsColors = buttonsColorsInitializerHelperClass.ButtonsColors;
 		}
-		public void SetExtraUserControlsValues(IUserEventTypeModel _currentType)
+		public void SetExtraUserControlsValues(ISubEventTypeModel _currentType)
 		{
 			if (_currentType == null)
 			{

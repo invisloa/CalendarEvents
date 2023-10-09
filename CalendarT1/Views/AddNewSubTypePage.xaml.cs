@@ -16,7 +16,7 @@ public partial class AddNewSubTypePage : ContentPage
 		InitializeComponent();
 
 	}
-	public AddNewSubTypePage(IEventRepository eventRepository, IUserEventTypeModel userEventTypeModel)	// edit mode
+	public AddNewSubTypePage(IEventRepository eventRepository, ISubEventTypeModel userEventTypeModel)	// edit mode
 	{
 		BindingContext = new AddNewSubTypePageViewModel(eventRepository, userEventTypeModel);
 		InitializeComponent();

@@ -5,7 +5,7 @@ namespace CalendarT1.Models.EventModels
     public interface IGeneralEventModel
     {
         string Description { get; set; }
-        IUserEventTypeModel EventType { get; set; }
+        ISubEventTypeModel EventType { get; set; }
         Color EventVisibleColor { get; }
         Guid Id { get; set; }
         bool IsCompleted { get; set; }

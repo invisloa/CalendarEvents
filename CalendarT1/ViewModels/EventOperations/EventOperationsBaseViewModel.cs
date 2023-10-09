@@ -50,7 +50,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				}
 			}
 		}
-		public void SelectPropperMeasurementData(IUserEventTypeModel userEventTypeModel)
+		public void SelectPropperMeasurementData(ISubEventTypeModel userEventTypeModel)
 		{
 			_measurementSelectorHelperClass.SelectPropperMeasurementData(userEventTypeModel);
 		}
@@ -87,11 +87,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(eventRepository.AllMainEventTypesList);
 			_eventRepository = eventRepository;
-			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
+			_allUserTypesForVisuals = new List<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
-			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
+			SelectUserEventTypeCommand = new RelayCommand<ISubEventTypeModel>(OnUserEventTypeSelected);
 			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			
 		}
@@ -117,10 +117,10 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
 		protected AsyncRelayCommand _submitEventCommand;
 		protected Color _mainEventTypeButtonColor;
-		protected List<IUserEventTypeModel> _allUserTypesForVisuals;
-		protected ObservableCollection<IUserEventTypeModel> _eventTypesOC;
+		protected List<ISubEventTypeModel> _allUserTypesForVisuals;
+		protected ObservableCollection<ISubEventTypeModel> _eventTypesOC;
 		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
-		protected IUserEventTypeModel _selectedEventType;
+		protected ISubEventTypeModel _selectedEventType;
 		private RelayCommand _goToAddNewSubTypePageCommand;
 		private RelayCommand _goToAddEventPageCommand;
 		public event Action<IMainEventType> MainEventTypeChanged;
@@ -158,11 +158,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
 
-            AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+            AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(tempFilteredEventTypes);
 			OnPropertyChanged(nameof(AllSubEventTypesOC));
 		}
 
-		private List<IUserEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
+		private List<ISubEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
 		{
 			string myvalue = $"my value is: {value}";
 			string values = "";
@@ -177,7 +177,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			get => _mainEventTypesCCHelper.MainEventTypesVisualsOC;
 			set => _mainEventTypesCCHelper.MainEventTypesVisualsOC = value; 
 		}
-		public ObservableCollection<IUserEventTypeModel> AllSubEventTypesOC
+		public ObservableCollection<ISubEventTypeModel> AllSubEventTypesOC
 		{
 			get => _eventTypesOC;
 			set
@@ -200,7 +200,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		// Basic Event Information
 		#region Basic Event Information
-		public IUserEventTypeModel SelectedEventType		// TO CHANGE !!!
+		public ISubEventTypeModel SelectedEventType		// TO CHANGE !!!
 		{
 			get => _selectedEventType;
 			set
@@ -366,7 +366,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		// Command
 		public AsyncRelayCommand SubmitEventCommand => _submitEventCommand;
-		public RelayCommand<IUserEventTypeModel> SelectUserEventTypeCommand { get; set; }
+		public RelayCommand<ISubEventTypeModel> SelectUserEventTypeCommand { get; set; }
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
 		public RelayCommand GoToAddNewSubTypePageCommand => _goToAddNewSubTypePageCommand ?? (_goToAddNewSubTypePageCommand = new RelayCommand(GoToAddNewSubTypePage));
 		#endregion
@@ -396,7 +396,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 			// TODO Show POPUP ???
 		}
-		protected void OnUserEventTypeSelected(IUserEventTypeModel selectedEvent)
+		protected void OnUserEventTypeSelected(ISubEventTypeModel selectedEvent)
 		{
 			var lastSelectedTypedefaultValue = SelectedEventType?.DefaultQuantityAmount?.Value ?? 0;
 			SelectedEventType = selectedEvent;
@@ -427,7 +427,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 			var SelectedEventType = AllSubEventTypesOC.FirstOrDefault(x => x == _selectedEventType);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllSubEventTypesOC); // ??????
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(AllSubEventTypesOC); // ??????
 			SelectedMainEventType = SelectedEventType.MainEventType;
 			SetSelectedEventTypeControlsVisibility();
 		}

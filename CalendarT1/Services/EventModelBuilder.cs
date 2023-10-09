@@ -15,7 +15,7 @@ namespace CalendarT1.Services
 		private readonly string description;
 		private readonly DateTime startTime;
 		private readonly DateTime endTime;
-		private readonly IUserEventTypeModel eventType;
+		private readonly ISubEventTypeModel eventType;
 
 		// Optional Parameters with Defaults
 		private bool isCompleted = false;
@@ -25,7 +25,7 @@ namespace CalendarT1.Services
 		private List<MicroTaskModel> _microTasksList = null;
 
 
-		public EventModelBuilder(string title, string description, DateTime startTime, DateTime endTime, IUserEventTypeModel eventType, bool isCompleted, TimeSpan? postponeTime, bool wasShown)
+		public EventModelBuilder(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventType, bool isCompleted, TimeSpan? postponeTime, bool wasShown)
 		{
 			// Validate Required Parameters Here
 			if (string.IsNullOrWhiteSpace(title)) throw new ArgumentException("Title must not be empty", nameof(title));

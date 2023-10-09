@@ -257,7 +257,7 @@ namespace CalendarT1.ViewModels
 		public RelayCommand<DateTime> GoToWeeksPageCommand { get; set; }
 		public RelayCommand MaxByWeekCalculationsCommand { get; set; }
 		public RelayCommand MinByWeekCalculationsCommand { get; set; }
-		protected override void OnUserEventTypeSelected(IUserEventTypeModel eventSubType)
+		protected override void OnUserEventTypeSelected(ISubEventTypeModel eventSubType)
 		{
 			base.OnUserEventTypeSelected(eventSubType);  // Call to the base class method
 
@@ -268,7 +268,7 @@ namespace CalendarT1.ViewModels
 		// CONSTRUCTOR
 		public ValueTypeCalculationsViewModel(IEventRepository eventRepository) : base(eventRepository)
 		{
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList().Where(x => x.IsValueType).ToList());
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList().Where(x => x.IsValueType).ToList());
 			DoBasicCalculationsCommand = new RelayCommand(OnDoBasicCalculationsCommand, _canExecuteCalculationsCommands);
 			MaxByWeekCalculationsCommand = new RelayCommand(OnMaxByWeekCalculationsCommand, _canExecuteCalculationsCommands);
 			MinByWeekCalculationsCommand = new RelayCommand(OnMinByWeekCalculationsCommand, _canExecuteCalculationsCommands);
@@ -287,7 +287,7 @@ namespace CalendarT1.ViewModels
 			var selectedEventTypes = AllSubEventTypesOC.Where(x => x.IsSelectedToFilter).ToList();
 
 			// Create a HashSet for faster lookups.
-			HashSet<IUserEventTypeModel> selectedEventTypesSet = new HashSet<IUserEventTypeModel>(selectedEventTypes);
+			HashSet<ISubEventTypeModel> selectedEventTypesSet = new HashSet<ISubEventTypeModel>(selectedEventTypes);
 
 			// Iterate through the AllUserEventTypesList once and set IsSelectedToFilter based on whether it exists in the HashSet.
 			foreach (var eventType in _eventRepository.AllUserEventTypesList)
@@ -353,7 +353,7 @@ namespace CalendarT1.ViewModels
 
 		internal void OnAppearing()
 		{
-			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllSubEventTypesOC.Where(x => x.IsValueType).ToList());
+			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(AllSubEventTypesOC.Where(x => x.IsValueType).ToList());
 		}
 	}
 }
