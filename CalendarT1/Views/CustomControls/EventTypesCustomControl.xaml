@@ -5,7 +5,7 @@
              xmlns:CustomControls="clr-namespace:CalendarT1.Views.CustomControls"
              x:Class="CalendarT1.Views.CustomControls.EventTypesCustomControl">
     <StackLayout>
-        <CollectionView ItemsSource="{Binding AllEventTypesOC}" HorizontalOptions="FillAndExpand">
+        <CollectionView ItemsSource="{Binding AllSubEventTypesOC}" HorizontalOptions="FillAndExpand">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="3" />
                  <!--Modify the Span to adjust number of items in a row--> 

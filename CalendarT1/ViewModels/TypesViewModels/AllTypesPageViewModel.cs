@@ -18,7 +18,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 
 		private IEventRepository _eventRepository;
 		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
-		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
+		private ObservableCollection<IUserEventTypeModel> _AllSubEventTypesOC;
 
 		#endregion
 
@@ -39,16 +39,16 @@ namespace CalendarT1.ViewModels.TypesViewModels
 			}
 		}
 
-		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
+		public ObservableCollection<IUserEventTypeModel> AllSubEventTypesOC
 		{
-			get => _allEventTypesOC;
+			get => _AllSubEventTypesOC;
 			set
 			{
-				if (_allEventTypesOC == value)
+				if (_AllSubEventTypesOC == value)
 				{
 					return;
 				}
-				_allEventTypesOC = value;
+				_AllSubEventTypesOC = value;
 				OnPropertyChanged();
 			}
 		}
@@ -62,7 +62,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 		public AllSubTypesPageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserEventTypeListChanged += UpdateAllEventTypesList;
@@ -80,7 +80,7 @@ namespace CalendarT1.ViewModels.TypesViewModels
 
 		public void UpdateAllEventTypesList()
 		{
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
 
 		#endregion

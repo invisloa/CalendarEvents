@@ -88,7 +88,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(eventRepository.AllMainEventTypesList);
 			_eventRepository = eventRepository;
 			_allUserTypesForVisuals = new List<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
+			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<IUserEventTypeModel>(OnUserEventTypeSelected);
@@ -154,12 +154,12 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 
-		private void FilterAllEventTypesOCByMainEventType(IMainEventType value)
+		private void FilterAllSubEventTypesOCByMainEventType(IMainEventType value)
 		{
 			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
 
-            AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
-			OnPropertyChanged(nameof(AllEventTypesOC));
+            AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			OnPropertyChanged(nameof(AllSubEventTypesOC));
 		}
 
 		private List<IUserEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
@@ -177,7 +177,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			get => _mainEventTypesCCHelper.MainEventTypesVisualsOC;
 			set => _mainEventTypesCCHelper.MainEventTypesVisualsOC = value; 
 		}
-		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
+		public ObservableCollection<IUserEventTypeModel> AllSubEventTypesOC
 		{
 			get => _eventTypesOC;
 			set
@@ -421,13 +421,13 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		protected void SetVisualsForSelectedUserType()
 		{
-			foreach (var eventType in AllEventTypesOC)		// it sets colors in a different AllEventTypesOC then SelectedEventType is...
+			foreach (var eventType in AllSubEventTypesOC)		// it sets colors in a different AllSubEventTypesOC then SelectedEventType is...
 			{
 				eventType.BackgroundColor = Color.FromRgba(255, 255, 255, 1);
 			}
-			var SelectedEventType = AllEventTypesOC.FirstOrDefault(x => x == _selectedEventType);
+			var SelectedEventType = AllSubEventTypesOC.FirstOrDefault(x => x == _selectedEventType);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllEventTypesOC); // ??????
+			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(AllSubEventTypesOC); // ??????
 			SelectedMainEventType = SelectedEventType.MainEventType;
 			SetSelectedEventTypeControlsVisibility();
 		}
@@ -437,11 +437,11 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 				SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-				FilterAllEventTypesOCByMainEventType(SelectedMainEventType);
+				FilterAllSubEventTypesOCByMainEventType(SelectedMainEventType);
 			}
-			if(AllEventTypesOC.Count > 0)
+			if(AllSubEventTypesOC.Count > 0)
 			{
-				OnUserEventTypeSelected(AllEventTypesOC[0]);
+				OnUserEventTypeSelected(AllSubEventTypesOC[0]);
 			}
 		}
 		private void SetSelectedEventTypeControlsVisibility()

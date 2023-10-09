@@ -5,7 +5,7 @@
              x:Class="CalendarT1.Views.AllSubTypesPage"
              Title="AllSubTypesPage">
     <VerticalStackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
-        <CollectionView ItemsSource="{Binding AllEventTypesOC}">
+        <CollectionView ItemsSource="{Binding AllSubEventTypesOC}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:IUserEventTypeModel">
                     <StackLayout>

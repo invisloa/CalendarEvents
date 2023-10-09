@@ -30,15 +30,15 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			set
 			{
 				_mainEventTypesCCHelper.SelectedMainEventType = value;
-				FilterAllEventTypesOCByMainEventType(value);
+				FilterAllSubEventTypesOCByMainEventType(value);
 				OnPropertyChanged();
 			}
 		}
-		private void FilterAllEventTypesOCByMainEventType(IMainEventType value)
+		private void FilterAllSubEventTypesOCByMainEventType(IMainEventType value)
 		{
 			var tempFilteredEventTypes = FilterUserTypesForVisuals(value);
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
-			OnPropertyChanged(nameof(AllEventTypesOC));
+			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			OnPropertyChanged(nameof(AllSubEventTypesOC));
 		}
 		private List<IUserEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
 		{
@@ -59,7 +59,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
-			//OnUserEventTypeSelected(AllEventTypesOC[0]);
+			//OnUserEventTypeSelected(AllSubEventTypesOC[0]);
 		}
 
 		#endregion
@@ -154,7 +154,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			InitializeCommon(eventRepository);
 
 			var allTempTypes = new List<IUserEventTypeModel>();
-			foreach (var item in AllEventTypesOC)
+			foreach (var item in AllSubEventTypesOC)
 			{
 				allTempTypes.Add(item);
 			}
@@ -221,7 +221,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			try
 			{
 				_eventRepository.AllUserEventTypesList.Clear();
-				AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+				AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 				await EventRepository.SaveSubEventTypesListAsync();
 			}
 			catch (Exception ex)

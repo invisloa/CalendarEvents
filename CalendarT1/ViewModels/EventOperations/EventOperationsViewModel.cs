@@ -107,7 +107,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			EndExactTime = _selectedCurrentEvent.EndDateTime.TimeOfDay;
 			IsCompleted = _selectedCurrentEvent.IsCompleted;
 
-			FilterAllEventTypesOCByMainEventType(SelectedMainEventType);	// CANNOT CHANGE MAIN EVENT TYPE
+			FilterAllSubEventTypesOCByMainEventType(SelectedMainEventType);	// CANNOT CHANGE MAIN EVENT TYPE
 			if (_selectedCurrentEvent.EventType.IsValueType)
 			{
 				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
@@ -155,11 +155,11 @@ namespace CalendarT1.ViewModels.EventOperations
 			await _eventRepository.UpdateEventAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");
 		}
-		private void FilterAllEventTypesOCByMainEventType(IMainEventType value)
+		private void FilterAllSubEventTypesOCByMainEventType(IMainEventType value)
 		{
-			var tempFilteredEventTypes = AllEventTypesOC.ToList().FindAll(x => x.MainEventType == value);
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
-			OnPropertyChanged(nameof(AllEventTypesOC));
+			var tempFilteredEventTypes = AllSubEventTypesOC.ToList().FindAll(x => x.MainEventType == value);
+			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(tempFilteredEventTypes);
+			OnPropertyChanged(nameof(AllSubEventTypesOC));
 		}
 
 		private async Task DeleteSelectedEvent()

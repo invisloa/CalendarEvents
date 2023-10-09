@@ -31,7 +31,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		protected override void ApplyEventsDatesFilter(DateTime startDate, DateTime endDate)
 		{
 
-			var selectedToFilterEventTypes = AllEventTypesOC
+			var selectedToFilterEventTypes = AllSubEventTypesOC
 				.Where(x => x.IsSelectedToFilter)
 				.Select(x => x.EventTypeName)
 				.ToHashSet();

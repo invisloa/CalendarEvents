@@ -16,7 +16,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#region Fields
 		protected IEventRepository _eventRepository;
 		private ObservableCollection<IGeneralEventModel> _allEventsListOC;
-		private ObservableCollection<IUserEventTypeModel> _allEventTypesOC;
+		private ObservableCollection<IUserEventTypeModel> _AllSubEventTypesOC;
 		private ObservableCollection<IGeneralEventModel> _eventsToShowList = new ObservableCollection<IGeneralEventModel>();
 		private RelayCommand<IUserEventTypeModel> _selectUserEventTypeCommand;
 		private RelayCommand<IGeneralEventModel> _selectEventCommand;
@@ -41,13 +41,13 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			}
 		}
 
-		public ObservableCollection<IUserEventTypeModel> AllEventTypesOC
+		public ObservableCollection<IUserEventTypeModel> AllSubEventTypesOC
 		{
-			get => _allEventTypesOC;
+			get => _AllSubEventTypesOC;
 			set
 			{
-				if (_allEventTypesOC == value) return;
-				_allEventTypesOC = value;
+				if (_AllSubEventTypesOC == value) return;
+				_AllSubEventTypesOC = value;
 				OnPropertyChanged();
 				OnOnEventsToShowListUpdated();
 			}
@@ -86,7 +86,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_eventRepository = eventRepository;
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 			_eventRepository.OnEventListChanged += UpdateAllEventList;
 			_eventRepository.OnUserEventTypeListChanged += UpdateAllEventTypesList;
 			if (Application.Current.Resources.TryGetValue("MainEventDeselectedBackgroundColor", out var retrievedColor))
@@ -112,7 +112,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 
 		public void UpdateAllEventTypesList()   // TO CHECK HOW TO CHANGE THIS
 		{
-			AllEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
+			AllSubEventTypesOC = new ObservableCollection<IUserEventTypeModel>(_eventRepository.AllUserEventTypesList);
 		}
 
 		public abstract void BindDataToScheduleList();
@@ -148,7 +148,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#endregion
 		protected virtual void ApplyEventsDatesFilter(DateTime startDate, DateTime endDate)
 		{
-				var selectedToFilterEventTypes = AllEventTypesOC
+				var selectedToFilterEventTypes = AllSubEventTypesOC
 					.Where(x => x.IsSelectedToFilter)
 					.Select(x => x.EventTypeName)
 					.ToHashSet();
