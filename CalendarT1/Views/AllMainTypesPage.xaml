@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalendarT1.Views.AllMainTypesPage"
+             Title="AllSubTypesPage">
+    
+    
+    <VerticalStackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
+        <CollectionView ItemsSource="{Binding AllEventTypesOC}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:IUserEventTypeModel">
+                    <StackLayout>
+                        <Button BackgroundColor="{Binding MainEventType.MainEventTypeBorderColor}" BorderColor="{Binding BackgroundColor}" Text="{Binding EventTypeName}" FontSize="20" FontAttributes="Bold" BorderWidth="10">
+
+                            <Button.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.EditSelectedTypeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                     CommandParameter="{Binding .}"/>
+                            </Button.GestureRecognizers>
+                        </Button>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
+    
