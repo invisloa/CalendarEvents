@@ -4,6 +4,7 @@ using CalendarT1.Services.DataOperations.Interfaces;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,27 @@ namespace CalendarT1.ViewModels
 	{
 		public List<IMainEventType> MainEventTypesList{ get; set ; }
 		private IMainEventType _currentMainType;
+		private string _selectedIconSource;
+
+		public List<string> Icons { get; } = new List<string>
+		{
+			"logout.png",
+			"login.png",
+			// ... add other icon sources here ...
+		};
+
+		public string SelectedIconSource
+		{
+			get => _selectedIconSource;
+			set
+			{
+				if (_selectedIconSource != value)
+				{
+					_selectedIconSource = value;
+					OnPropertyChanged(nameof(SelectedIconSource));
+				}
+			}
+		}
 		private string _typeName;
 
 		private string _mainTypeName;
@@ -66,7 +88,6 @@ namespace CalendarT1.ViewModels
 			SubmitMainTypeCommand = new AsyncRelayCommand(OnSubmitMainTypeCommand, CanExecuteSubmitMainTypeCommand);
 			DeleteMainTypeCommand = new AsyncRelayCommand(OnDeleteMainTypeCommand);
 		}
-		#endregion
 
 
 		#region Methods
@@ -103,27 +124,28 @@ namespace CalendarT1.ViewModels
 		}
 		private async Task OnSubmitMainTypeCommand()
 		{
-			if (IsEdit)
-			{
-				// cannot change main event, Quantity type => may lead to some future errors???
-				_currentMainType.Title = MainTypeName;
-				_currentMainType.EventTypeColor = _selectedColor;
-				await _eventRepository.UpdateMainEventTypeAsync(_currentMainType);
-				await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
-			}
-			else
-			{
-				var newMainType = Factory.CreateNewMainEventType(MainTypeName, _selectedColor);
-				await _eventRepository.AddMainEventTypeAsync(newMainType);
-				await Shell.Current.GoToAsync("..");    // TODO !!!!! CHANGE NOT WORKING!!!
-			}
+			//if (IsEdit)
+			//{
+			//	_currentMainType.Title = MainTypeName;
+			//	_currentMainType.EventTypeColor = _selectedColor;
+			//	await _eventRepository.UpdateMainEventTypeAsync(_currentMainType);
+			//	await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
+			//}
+			//else
+			//{
+			//	var newMainType = Factory.CreateNewMainEventType(MainTypeName, _selectedColor);
+			//	await _eventRepository.AddMainEventTypeAsync(newMainType);
+			//	await Shell.Current.GoToAsync("..");    // TODO !!!!! CHANGE NOT WORKING!!!
+			//}
 		}
 		private void OnGoToAllMainTypesPageCommand()
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new AllMainTypesPage());
+			//Application.Current.MainPage.Navigation.PushAsync(new AllMainTypesPage());
 		}
 	}
 	#endregion
 
 
 }
+#endregion
+#endregion

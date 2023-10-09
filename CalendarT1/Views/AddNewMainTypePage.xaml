@@ -29,7 +29,7 @@
            HorizontalOptions="Start"  />
 
                 <!-- Icon Image (placed on top of the Entry) -->
-                <Image Grid.Column="0" Source="logout.png" 
+                <Image Grid.Column="0" Source="{Binding SelectedIconSource}"
            VerticalOptions="Center" HorizontalOptions="Start" 
            Margin="5,0,0,0" />
                 <!-- Adjust margin as needed to position the icon -->

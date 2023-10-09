@@ -2,7 +2,7 @@
 
 // ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
-
+// https://www.youtube.com/watch?v=rYdJP2t7foU
 // change main type color for icons
 // main events types do not segregate 
 // monthly view days of the week names are not centered
