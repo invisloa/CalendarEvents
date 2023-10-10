@@ -88,6 +88,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Fonts\MaterialIcons-Regular.ttf" />
 	  <None Remove="Resources\Images\logout.png" />
 	  <None Remove="Resources\Images\whatsapp.png" />
 	</ItemGroup>
