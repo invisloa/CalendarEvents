@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView x:Name="MainEventTypesControl"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CalendarT1.Views.CustomControls.MainEventTypesAllCC">
+    <VerticalStackLayout>
+
+
+    </VerticalStackLayout>
+</ContentView>
+
+
+
+
+
+
+
+
+
+
+<!--<CollectionView ItemsSource="{Binding MainEventTypesVisualsOC}" HorizontalOptions="FillAndExpand">
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical"
+                         Span="3" />
+            </CollectionView.ItemsLayout>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Button 
+                            Text="{Binding MainEventTitle}"
+                            Opacity="{Binding Opacity}"
+                            BorderWidth="{Binding Border}"
+                            CommandParameter="{Binding .}"
+                            Command="{Binding Path=BindingContext.MainEventTypeSelectedCommand, Source={x:Reference MainEventTypesControl}}"
+                            BackgroundColor="{Binding MainEventTypeBackgroundColor}"
+                            />
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>-->

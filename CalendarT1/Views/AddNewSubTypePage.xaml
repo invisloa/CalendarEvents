@@ -20,31 +20,16 @@
             <!--Main Event Types Custom Control--> 
             
             <StackLayout>
-                <customControls:MainEventTypesCustomControl BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
+                <customControls:MainEventTypesAllCC BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
             </StackLayout>
 
             
             <!--Possible Colors of events to choose-->
+            <customControls:ColorButtonsSelectorCC
+                BindingContext="{Binding}"
+                SelectColorCommand="{Binding SelectColorCommand}" />
             
-            <CollectionView ItemsSource="{Binding ButtonsColors}">
-                <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical"
-                         Span="10" />
-                </CollectionView.ItemsLayout>
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Button 
-                              MinimumWidthRequest="10"
-                              BackgroundColor="{Binding ButtonColor}"
-                              BorderWidth="{Binding ButtonBorder}"
-                              Command="{Binding Path=BindingContext.SelectColorCommand, Source={x:Reference Name=AddNewSubTypePageName}}"
-                              CommandParameter="{Binding .}"
-                              Margin="1"/>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
 
-            
             <!--UserTypeExtraOptions_TypesCC-->
             
             <customControls:UserTypeExtraOptions_TypesCC />

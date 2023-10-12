@@ -134,6 +134,9 @@
 	  <MauiXaml Update="Views\CustomControls\ColorButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\CustomControls\ColorButtonsSelectorCC.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\CustomControls\DateFilteringCC.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -146,7 +149,7 @@
 	  <MauiXaml Update="Views\CustomControls\EventTypesCustomControl.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\CustomControls\MainEventTypesCustomControl.xaml">
+	  <MauiXaml Update="Views\CustomControls\MainEventTypesAllCC.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\CustomControls\MeasurementOutputCC.xaml">
@@ -207,6 +210,9 @@
 	  </Compile>
 	  <Compile Update="Views\CustomControls\EventTypesCustomControl.xaml.cs">
 	    <DependentUpon>EventTypesCustomControl.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\CustomControls\MainEventTypesAllCC.xaml.cs">
+	    <DependentUpon>MainEventTypesAllCC.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\CustomControls\MicroTasksListCC.xaml.cs">
 	    <DependentUpon>MicroTasksListCC.xaml</DependentUpon>

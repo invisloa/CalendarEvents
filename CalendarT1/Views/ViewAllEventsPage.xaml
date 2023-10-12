@@ -18,7 +18,7 @@
             <RowDefinition Height="Auto"/>
             <!-- Row for TestTwo button -->
             <RowDefinition Height="Auto"/>
-            <!-- Row for MainEventTypesCustomControl -->
+            <!-- Row for MainEventTypesAllCC -->
             <RowDefinition Height="Auto"/>
             <!-- Row for EventTypesCustomControl -->
             <RowDefinition Height="300"/>
@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
         
 
-        <customControls:MainEventTypesCustomControl Grid.Row="0"/>
+        <customControls:MainEventTypesAllCC Grid.Row="0"/>
         <customControls:EventTypesCustomControl Grid.Row="1"/>
         <customControls:DateFilteringCC Grid.Row="2"/>
 

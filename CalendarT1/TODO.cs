@@ -121,7 +121,7 @@ check what happens if removed		// REGISTER ROUTING
 // Value type operations,
 // GoTo change page routing 
 // entrytext to change and check
-// make same refactoring to EventTypesCustomControl as with maineventtypescustomcontrol (helper class and interface)
+// make same refactoring to EventTypesCustomControl as with MainEventTypesAllCC (helper class and interface)
 
 
 
@@ -154,6 +154,7 @@ check what happens if removed		// REGISTER ROUTING
 }
 */
 
+// TODO !!!!!!!!!!!!!!!!!!!!!!!!  IF THERE ARE NO ITEMS IN THE REPOSITORY, ADD SOME DEFAULT ITEMS
 
 // Measurement Units added for events operations
 

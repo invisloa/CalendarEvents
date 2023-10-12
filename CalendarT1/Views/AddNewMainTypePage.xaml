@@ -6,32 +6,55 @@
              Title="AddNewMainTypePage">
     <ScrollView BackgroundColor="{DynamicResource MainBackgroundColor}">
         <StackLayout>
+            <!-- Button to go to all MainEvents Page-->
             <Button Text="ALL Main TYPES PAGE" Command="{Binding GoToAllSubTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
                      HorizontalOptions="End" BorderColor="CadetBlue" BorderWidth="3" Margin="10"/>
+            
+            
+            
             <!-- Textbox for new type name -->
-
-
             <Grid HorizontalOptions="Center" Margin="10">
-                <!-- Define the columns of the Grid                <Grid.ColumnDefinitions>
-                </Grid.ColumnDefinitio
+                <!-- Define the columns of the Grid-->
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
                 <!-- Entry for new type name -->
                 <Entry x:Name="TypeNameEntry" Grid.Column="0" 
-           Placeholder="{Binding MainTypePlaceholderText}" 
-           Text="{Binding MainTypeName, Mode=TwoWay}" 
-           FontAttributes="Bold" FontSize="Body"
-           HorizontalTextAlignment="Center" 
-           BackgroundColor="{DynamicResource MainTextboxesBackgroundColor}" 
-           TextColor="{DynamicResource MainTextColor}" 
-           VerticalOptions="Center" 
-           HorizontalOptions="Start"  />
+                           Placeholder="{Binding MainTypePlaceholderText}" 
+                           Text="{Binding MainTypeName, Mode=TwoWay}" 
+                           FontAttributes="Bold" FontSize="Body"
+                           HorizontalTextAlignment="Center" 
+                           BackgroundColor="{DynamicResource MainTextboxesBackgroundColor}" 
+                           TextColor="{DynamicResource MainTextColor}" 
+                           VerticalOptions="Center" 
+                           HorizontalOptions="Start"  />
 
                 <!-- Icon Image (placed on top of the Entry) -->
                 <Image Grid.Column="0" Source="{Binding SelectedIconSource}"
-           VerticalOptions="Center" HorizontalOptions="Start" 
-           Margin="5,0,0,0" />
+                       VerticalOptions="Center" HorizontalOptions="Start" 
+                       Margin="5,0,0,0" />
                 <!-- Adjust margin as needed to position the icon -->
             </Grid>
+
+            <!-- Icon Selection UI -->
+            <CollectionView ItemsSource="{Binding IconsList}" HorizontalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Button 
+                            BackgroundColor="{Binding BackgroundColor}"
+                            TextColor="{Binding TextColor}"
+                            CommandParameter="{Binding .}"
+                            Command="{Binding Path=BindingContext.IconSelectedCommand, Source={x:Reference IconSelectionControl}}" />
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
 
             <!--Down of the screen buttons-->
             <Button Text="DELETE SELECTED MAIN TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}"/>
@@ -39,3 +62,19 @@
         </StackLayout>
     </ScrollView>
 </ContentPage>
+
+
+
+
+<!-- Icon Display --><!--
+<Label>
+    <Label.FormattedText>
+        <FormattedString>
+            <Span Text="{Binding SelectedIcon.Icon}" FontFamily="GoogleMaterialFont" FontSize="32" TextColor="{Binding SelectedIcon.TextColor}" />
+            <Span Text="{Binding SelectedIcon.Title}" TextColor="{Binding SelectedIcon.TextColor}" />
+        </FormattedString>
+    </Label.FormattedText>
+    <Label.BackgroundColor>
+        {Binding SelectedIcon.BackgroundColor}
+    </Label.BackgroundColor>
+</Label>-->

@@ -7,7 +7,7 @@
     
     
     <VerticalStackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
-        <CollectionView ItemsSource="{Binding AllSubEventTypesOC}">
+        <!--<CollectionView ItemsSource="{Binding AllSubEventTypesOC}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ISubEventTypeModel">
                     <StackLayout>
@@ -21,7 +21,7 @@
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-        </CollectionView>
+        </CollectionView>-->
     </VerticalStackLayout>
 </ContentPage>
     

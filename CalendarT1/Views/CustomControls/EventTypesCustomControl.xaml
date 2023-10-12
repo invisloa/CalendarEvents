@@ -15,7 +15,7 @@
                     <Button Text="{Binding EventTypeName}" Margin="5"
 
                             TextColor="White"
-                            BackgroundColor="{Binding BackgroundColor}" BorderColor="{Binding MainEventType.MainEventTypeBorderColor}" 
+                            BackgroundColor="{Binding BackgroundColor}" 
                             BorderWidth="5"
                             Command="{Binding BindingContext.SelectUserEventTypeCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
                             CommandParameter="{Binding}">

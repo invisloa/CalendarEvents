@@ -10,9 +10,9 @@ public partial class App : Application
 	public App(IEventRepository repository)
 	{
 		_repository = repository;
-		//_repository.ClearAllMainEventTypesAsync();
-		//_repository.ClearAllEventsListAsync();
-		//_repository.ClearAllSubEventTypesAsync();
+		_repository.ClearAllMainEventTypesAsync();
+		_repository.ClearAllEventsListAsync();
+		_repository.ClearAllSubEventTypesAsync();
 
 
 		InitializeComponent();
@@ -42,7 +42,7 @@ public partial class App : Application
 
 
 
-		// TODO IF THERE ARE NO ITEMS IN THE REPOSITORY, ADD SOME DEFAULT ITEMS
+		// TODO !!!!!!!!!!!!!!!!!!!!!!!!  IF THERE ARE NO ITEMS IN THE REPOSITORY, ADD SOME DEFAULT ITEMS
 /*		if (_repository.AllMainEventTypesList.Count == 0)
 		{
 			_repository.AddEventAsync;

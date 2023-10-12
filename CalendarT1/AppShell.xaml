@@ -48,19 +48,9 @@
                 ContentTemplate="{DataTemplate local:ViewMonthlyEvents}"
                 Route="MonthlyEvents" />
             <ShellContent
-                Title="AddNewSubTypePageTemp"
-                ContentTemplate="{DataTemplate local:AddNewSubTypePageTemp}"
-                Route="AddNewSubTypePageTemp" />
-
-            <ShellContent
                 Title="ValueTypeCalculationsPage"
                 ContentTemplate="{DataTemplate local:ValueTypeCalculationsPage}"
                 Route="ValueTypeCalculationsPage" />
-            <!--<ShellContent
-                Title="PopupTestPage"
-                ContentTemplate="{DataTemplate local:PopupTestPage}"
-                Route="PopupTestPage" />-->
-            
 
         </Tab>
     </FlyoutItem>
