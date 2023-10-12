@@ -150,8 +150,6 @@ public class LocalMachineEventRepository : IEventRepository
 		await SaveEventsListAsync();
 		OnEventListChanged?.Invoke();
 	}
-
-
 	public async Task ClearAllEventsListAsync()
 	{
 		AllEventsList.Clear();
@@ -173,7 +171,6 @@ public class LocalMachineEventRepository : IEventRepository
 		await SaveMainEventTypesListAsync();
 		OnMainEventTypesListChanged?.Invoke();
 	}
-
 	public async Task<List<IGeneralEventModel>> GetEventsListAsync()
 	{
 		if (File.Exists(EventsFilePath))
@@ -211,9 +208,6 @@ public class LocalMachineEventRepository : IEventRepository
 			Console.WriteLine(ex.Message + "while SaveEventsListAsync");
 		}
 	}
-
-
-
 	public Task<IGeneralEventModel> GetEventByIdAsync(Guid eventId)
 	{
 		var selectedEvent = AllEventsList.FirstOrDefault(e => e.Id == eventId);

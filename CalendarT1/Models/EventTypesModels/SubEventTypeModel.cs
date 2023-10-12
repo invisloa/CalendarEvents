@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace CalendarT1.Models.EventTypesModels
 {
-	public class UserEventTypeModel : BaseViewModel, ISubEventTypeModel
+	public class SubEventTypeModel : BaseViewModel, ISubEventTypeModel
 	{
 		public IMainEventType MainEventType { get; set; }
 		public string EventTypeName { get; set; }
@@ -36,7 +36,6 @@ namespace CalendarT1.Models.EventTypesModels
 			{
 				return _eventTypeColor.ToArgbHex();
 			}
-
 			set
 			{
 				_eventTypeColor = Color.FromArgb(value);
@@ -76,7 +75,7 @@ namespace CalendarT1.Models.EventTypesModels
 
 		private Color _backgroundColor;
 
-		// BackgroundColor uses its own private backing field
+		// BackgroundColor is added to the model to store the color that is currently shown (isCompleted color adjustment) - consider changing it to a converter (low priority)
 		[JsonIgnore]
 		public Color BackgroundColor
 		{
@@ -139,7 +138,7 @@ namespace CalendarT1.Models.EventTypesModels
 			}
 		}
 
-		public UserEventTypeModel(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity = null, List<MicroTaskModel> multiTasksList = null, bool isSelectedToFilter = true)
+		public SubEventTypeModel(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity = null, List<MicroTaskModel> multiTasksList = null, bool isSelectedToFilter = true)
 		{
 			MainEventType = mainEventType;
 			IsSelectedToFilter = isSelectedToFilter;

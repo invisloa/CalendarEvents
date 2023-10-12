@@ -16,11 +16,11 @@ public partial class AddNewSubTypePageTemp : ContentPage
 
 	private void Button_Clicked(object sender, EventArgs e)
 	{
-		IMainEventType userEventTypeModel = new MainEventType("test1", Color.FromArgb("#FF0000"));
+		IMainEventType userEventTypeModel = new MainEventType("test1", Color.FromArgb("#FF0000"), Color.FromArgb("#FF0000"));
 		_eventRepository.AddMainEventTypeAsync(userEventTypeModel);
-		IMainEventType userEventTypeModel2 = new MainEventType("test2", Color.FromArgb("#FFaaaa"));
+		IMainEventType userEventTypeModel2 = new MainEventType("test2", Color.FromArgb("#FFaaaa"), Color.FromArgb("#FFaaaa"));
 		_eventRepository.AddMainEventTypeAsync(userEventTypeModel2);
-		IMainEventType userEventTypeModel3 = new MainEventType("test3", Color.FromArgb("#FFdd00"));
+		IMainEventType userEventTypeModel3 = new MainEventType("test3", Color.FromArgb("#FFdd00"), Color.FromArgb("#FFdd00"));
 		_eventRepository.AddMainEventTypeAsync(userEventTypeModel3);
 
 	}

@@ -51,7 +51,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
         {
 			_mainEventTypesList = mainEventTypesList;
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(ConvertEventDetailsAndSelectType);
-            InitializeMainEventTypes();
+            InitializeMainEventTypesVisuals();
         }
 
         // Methods
@@ -75,8 +75,6 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
             _eventVisualDetails[mainEventType].Opacity = FullOpacity;
             _eventVisualDetails[mainEventType].Border = NoBorderSize;
 
-            //OC updates automatically
-           //MainEventTypesOC = new ObservableCollection<MainEventVisualDetails>(_eventVisualDetails.Values);
         }
         public void DisableVisualsForAllMainEventTypes()
         {
@@ -86,22 +84,21 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
                 eventType.Border = BorderSize;
             }
         }
-        private void InitializeMainEventTypes()
+        private void InitializeMainEventTypesVisuals()
         {
             MainEventTypesVisualsOC = new ObservableCollection<MainEventTypeViewModel>();
 
-            // dynamically create Main Event Types according to enum
-            foreach (IMainEventType eventType in _mainEventTypesList)
+			// dynamically create Main Event Types according to _mainEventTypesList
+			foreach (IMainEventType eventType in _mainEventTypesList)
             {
                 var eventDetails = new MainEventTypeViewModel(eventType, BorderSize, FadedOpacity);
-
 
                 _eventVisualDetails[eventType] = eventDetails;
                 MainEventTypesVisualsOC.Add(eventDetails);
             }
             if (_selectedMainEventType != null)
             {
-                SetSelectedMainEventType(_selectedMainEventType);   // TODO TOCHECK consider (if create mode it is event by default TEMPORARY IT IS NOT) , if edit it is the type of the event
+                SetSelectedMainEventType(_selectedMainEventType);   // TODO TOCHECK, if edit it is the type of the event
             }
         }
     }

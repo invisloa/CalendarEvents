@@ -15,6 +15,8 @@ public partial class AddNewMainTypePage : ContentPage
 		var bindingContext = new AddNewMainTypePageViewModel(_eventRepository);
 	}
 
+
+	// padding modification for entry control So that the text is not too close to the edge of the control - extra space for icon to show
 	void ModifyEntryPadding()
 	{
 		Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping("AddLeftPadding", (handler, view) =>

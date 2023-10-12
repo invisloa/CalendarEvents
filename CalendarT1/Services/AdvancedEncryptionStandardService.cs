@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Services
 {
+	/// <summary>
+	/// Encryption and decryption service using AES algorithm
+	/// Used to save events to a file
+	/// </summary>
 	public class AdvancedEncryptionStandardService
 	{
 		private readonly string _key;

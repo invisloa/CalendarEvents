@@ -11,28 +11,65 @@ namespace CalendarT1.Models.EventTypesModels
 	public class MainEventType : IMainEventType
 	{
 		public string Title { get; set; }
+		private Color _mainEventTypeBackgroundColor;
+
 		[JsonIgnore]
-		public Color MainEventTypeBackgroundColor { get; set; }
-		public string MainEventTypeBorderColorString       
+		public Color MainEventTypeBackgroundColor
+		{
+			get => _mainEventTypeBackgroundColor;
+			set
+			{
+				if (_mainEventTypeBackgroundColor != value)
+				{
+					_mainEventTypeBackgroundColor = value;
+				}
+			}
+		}
+		public string MainEventTypeBackgroundColorString       
 		{
 			get
 			{
-				return MainEventTypeBackgroundColor.ToArgbHex();
+				return _mainEventTypeBackgroundColor.ToArgbHex();
+			}
+			set
+			{
+				_mainEventTypeBackgroundColor = Color.FromArgb(value);
+			}
+		}
+		private Color _mainEventTypeTextColor;
+		[JsonIgnore]
+		public Color MainEventTypeTextColor 
+		{ get => _mainEventTypeTextColor;
+			set
+			{
+				if(_mainEventTypeTextColor != value)
+				{
+					_mainEventTypeTextColor = value;
+				}
+			}
+		}
+
+		public string MainEventTypeTextColorString
+		{
+			get
+			{
+				return _mainEventTypeTextColor.ToArgbHex();
 			}
 
 			set
 			{
-				MainEventTypeBackgroundColor = Color.FromArgb(value);
+				_mainEventTypeTextColor = Color.FromArgb(value);
 			}
 		}
 		public override string ToString()
 		{
 			return Title;
 		}
-		public MainEventType(string title, Color mainEventTypeBorderColor)
+		public MainEventType(string title, Color mainEventTypeBackgroundColor, Color mainEventTypeTextColor)
 		{
 			Title = title;
-			MainEventTypeBackgroundColor = mainEventTypeBorderColor;
+			MainEventTypeBackgroundColor = mainEventTypeBackgroundColor;
+			MainEventTypeTextColor = mainEventTypeTextColor;
 		}
 
 		public override bool Equals(object obj)
