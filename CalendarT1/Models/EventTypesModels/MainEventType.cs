@@ -12,17 +12,17 @@ namespace CalendarT1.Models.EventTypesModels
 	{
 		public string Title { get; set; }
 		[JsonIgnore]
-		public Color MainEventTypeBorderColor { get; set; }
+		public Color MainEventTypeBackgroundColor { get; set; }
 		public string MainEventTypeBorderColorString       
 		{
 			get
 			{
-				return MainEventTypeBorderColor.ToArgbHex();
+				return MainEventTypeBackgroundColor.ToArgbHex();
 			}
 
 			set
 			{
-				MainEventTypeBorderColor = Color.FromArgb(value);
+				MainEventTypeBackgroundColor = Color.FromArgb(value);
 			}
 		}
 		public override string ToString()
@@ -32,7 +32,7 @@ namespace CalendarT1.Models.EventTypesModels
 		public MainEventType(string title, Color mainEventTypeBorderColor)
 		{
 			Title = title;
-			MainEventTypeBorderColor = mainEventTypeBorderColor;
+			MainEventTypeBackgroundColor = mainEventTypeBorderColor;
 		}
 
 		public override bool Equals(object obj)

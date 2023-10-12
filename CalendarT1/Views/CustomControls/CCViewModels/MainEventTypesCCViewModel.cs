@@ -19,7 +19,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
         private const int NoBorderSize = 0;
         private const int BorderSize = 10;
         List<IMainEventType> _mainEventTypesList;
-        public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 0); // Defeault color is black
+        public Color MainEventTypeBackgroundColor { get; set; } = Color.FromRgb(0, 0, 0); // Defeault color is black
         private readonly Dictionary<IMainEventType, MainEventTypeViewModel> _eventVisualDetails = new Dictionary<IMainEventType, MainEventTypeViewModel>();
         private IMainEventType _selectedMainEventType = null;
         private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
@@ -113,7 +113,8 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
         {
 			_mainEventType = mainEventType;
 			MainEventTitle = _mainEventType.Title;
-			MainEventTypeButtonColor = _mainEventType.MainEventTypeBorderColor;
+			MainEventTypeBackgroundColor = _mainEventType.MainEventTypeBackgroundColor;
+            MainEventTypeTextColor = _mainEventType.MainEventTypeTextColor;
 			Border = borderWidth;
 			this.Opacity = Opacity;
         }
@@ -121,14 +122,21 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
         private string _mainEventTitle;
         private float _opacity;
         private int _border;
-        private Color _color;
-        // Properties
-        public Color MainEventTypeButtonColor
-        {
-			get => _color;
-			set { _color = value; OnPropertyChanged(); }
+		private Color _backgroundColor;
+		private Color _textColor;
+		// Properties
+		public Color MainEventTypeBackgroundColor
+		{
+			get => _backgroundColor;
+			set { _backgroundColor = value; OnPropertyChanged(); }
 		}
-        public string MainEventTitle
+		public Color MainEventTypeTextColor
+		{
+			get => _textColor;
+			set { _textColor = value; OnPropertyChanged(); }
+		}
+
+		public string MainEventTitle
         {
             get => _mainEventTitle;
             set { _mainEventTitle = value; OnPropertyChanged(); }

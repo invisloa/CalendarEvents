@@ -19,7 +19,7 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces
 		public IMainEventType SelectedMainEventType { get; set; }
 		ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get; set; }
 		RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; }
-		public Color MainEventTypeButtonsColor { get; set; } 
+		public Color MainEventTypeBackgroundColor { get; set; } 
 		public void DisableVisualsForAllMainEventTypes();
 		public event Action<IMainEventType> MainEventTypeChanged;
 	}

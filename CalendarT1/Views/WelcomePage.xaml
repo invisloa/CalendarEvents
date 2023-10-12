@@ -18,7 +18,19 @@
                               />
         <Label Text="{x:Static icon:IconFont.Apartment}" Style="{x:StaticResource GoogleFont}" TextColor="Black"></Label>
         <Label Text="{x:Static icon:IconFont.Add_location}" Style="{x:StaticResource GoogleFont}" ></Label>
-        <Label Text="{x:Static icon:IconFont.Apartment}" Style="{x:StaticResource GoogleFont}" TextColor="Black"></Label>
+        <Label Text="{x:Static icon:IconFont.Apartment}" Style="{x:StaticResource GoogleF
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            ont}" TextColor="Black"></Label>
         <Label Text="{x:Static icon:IconFont.Add_location}" Style="{x:StaticResource GoogleFont}" ></Label>
         <Label Text="{x:Static icon:IconFont.Apartment}" Style="{x:StaticResource GoogleFont}" TextColor="Black"></Label>
         <Label Text="{x:Static icon:IconFont.Add_location}" Style="{x:StaticResource GoogleFont}" TextColor="Black"></Label>

@@ -12,10 +12,8 @@
 
 
             <Grid HorizontalOptions="Center" Margin="10">
-                <!-- Define the columns of the Grid -->
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
+                <!-- Define the columns of the Grid                <Grid.ColumnDefinitions>
+                </Grid.ColumnDefinitio
 
                 <!-- Entry for new type name -->
                 <Entry x:Name="TypeNameEntry" Grid.Column="0" 

@@ -50,7 +50,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			set => _mainEventTypesCCHelper.MainEventTypesVisualsOC = value;
 		}
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
-		public Color MainEventTypeButtonsColor { get; set; } = Color.FromRgb(0, 0, 153); // Defeault color is blue
+		public Color MainEventTypeBackgroundColor { get; set; } = Color.FromRgb(0, 0, 153); // Defeault color is blue
 		public void DisableVisualsForAllMainEventTypes()
 		{
 			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();

@@ -116,7 +116,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected DateTime _endDateTime = DateTime.Today;
 		protected TimeSpan _endExactTime = DateTime.Now.TimeOfDay;
 		protected AsyncRelayCommand _submitEventCommand;
-		protected Color _mainEventTypeButtonColor;
+		protected Color _mainEventTypeBackgroundColor;
 		protected List<ISubEventTypeModel> _allUserTypesForVisuals;
 		protected ObservableCollection<ISubEventTypeModel> _eventTypesOC;
 		protected ObservableCollection<IGeneralEventModel> _allEventsListOC;
@@ -207,25 +207,25 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				if(_selectedEventType == value) return;
 				_selectedEventType = value;
-				MainEventTypeButtonsColor = _selectedEventType.EventTypeColor;
+				MainEventTypeBackgroundColor = _selectedEventType.EventTypeColor;
 				_submitEventCommand.NotifyCanExecuteChanged();
 				OnPropertyChanged();
 			}
 		}
 
-		public Color MainEventTypeButtonsColor
+		public Color MainEventTypeBackgroundColor
 		{
 			get
 			{
-				if (_mainEventTypeButtonColor == null)
+				if (_mainEventTypeBackgroundColor == null)
 				{
-					return _mainEventTypesCCHelper.MainEventTypeButtonsColor;
+					return _mainEventTypesCCHelper.MainEventTypeBackgroundColor;
 				}
-				else return _mainEventTypeButtonColor;
+				else return _mainEventTypeBackgroundColor;
 			}
 			set
 			{
-				_mainEventTypeButtonColor = value;
+				_mainEventTypeBackgroundColor = value;
 				OnPropertyChanged();
 			}
 		}
