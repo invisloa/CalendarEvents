@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models
 {
-	public class IconModel
+	public class IconModel : IMainTypeVisualElement
 	{
 		public string IconName { get; set; }
 

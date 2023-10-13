@@ -8,9 +8,7 @@
             <!-- Button to go to all MainEvents Page-->
             <Button Text="ALL Main TYPES PAGE" Command="{Binding GoToAllSubTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
                      HorizontalOptions="End" BorderColor="CadetBlue" BorderWidth="3" Margin="10"/>
-            
-            
-            
+
             <!-- Textbox for new type name -->
             <Grid HorizontalOptions="Center" Margin="10">
                 <!-- Define the columns of the Grid-->

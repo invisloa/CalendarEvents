@@ -69,6 +69,8 @@ namespace CalendarT1.ViewModels
 		public AddNewMainTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
+			InitializeCommon();
+
 		}
 
 		// constructor for edit mode

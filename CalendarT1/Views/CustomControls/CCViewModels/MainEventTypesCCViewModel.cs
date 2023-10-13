@@ -1,4 +1,5 @@
-﻿using CalendarT1.Models.EventTypesModels;
+﻿using CalendarT1.Models;
+using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.ViewModels;
 using CalendarT1.Views.CustomControls.CCInterfaces;
@@ -6,149 +7,147 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-    public class MainEventTypesCCViewModel : IMainEventTypesCC
-    {
-        // Fields
-        private const int FullOpacity = 1;
-        private const float FadedOpacity = 0.3f;
-        private const int NoBorderSize = 0;
-        private const int BorderSize = 10;
-        List<IMainEventType> _mainEventTypesList;
-        public Color MainEventTypeBackgroundColor { get; set; } = Color.FromRgb(0, 0, 0); // Defeault color is black
-        private readonly Dictionary<IMainEventType, MainEventTypeViewModel> _eventVisualDetails = new Dictionary<IMainEventType, MainEventTypeViewModel>();
-        private IMainEventType _selectedMainEventType = null;
-        private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
+	public class MainEventTypesCCViewModel : IMainEventTypesCC
+	{
+		// Constants
+		private const int FullOpacity = 1;
+		private const float FadedOpacity = 0.3f;
+		private const int NoBorderSize = 0;
+		private const int BorderSize = 10;
 
-		public event Action<IMainEventType> MainEventTypeChanged;
+		// Fields
+		private readonly List<IMainEventType> _mainEventTypesList;
+		private readonly Dictionary<IMainEventType, MainEventTypeViewModel> _eventVisualDetails;
+		private IMainEventType _selectedMainEventType;
+		private IconModel _selectedIcon;
+		private Color _selectedColor = Color.FromRgb(255, 0, 0); // Default to red
 
+		// Properties
+		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get; set; }
+		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; private set; }
 		public IMainEventType SelectedMainEventType
-        {
-            get => _selectedMainEventType;
-            set
-            {
-                if (_selectedMainEventType == value)
-                {
-					return;
+		{
+			get => _selectedMainEventType;
+			set
+			{
+				if (_selectedMainEventType != value)
+				{
+					_selectedMainEventType = value;
+					UpdateSelectedMainEventTypeVisuals(_selectedMainEventType);
+					MainEventTypeChanged?.Invoke(_selectedMainEventType);
 				}
-                _selectedMainEventType = value;
-                // set visuals for selected event type
-                SetSelectedMainEventType(_selectedMainEventType);       // TO CHECK IF COMMENTING THIS LINE IS OK
-				MainEventTypeChanged?.Invoke(_selectedMainEventType); // Fire the event
 			}
 		}
-        // Properties
-        public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get; set; }
+		public IconModel SelectedIcon
+		{
+			get => _selectedIcon;
+			set => _selectedIcon = value;
+		}
 
-        public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; private set; }
+		// Events
+		public event Action<IMainEventType> MainEventTypeChanged;
 
-        // Constructor
-        public MainEventTypesCCViewModel(List<IMainEventType> mainEventTypesList)
-        {
-			_mainEventTypesList = mainEventTypesList;
-			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(ConvertEventDetailsAndSelectType);
-            InitializeMainEventTypesVisuals();
-        }
+		// Constructor
+		public MainEventTypesCCViewModel(List<IMainEventType> mainEventTypesList)
+		{
+			_mainEventTypesList = mainEventTypesList ?? throw new ArgumentNullException(nameof(mainEventTypesList));
+			_eventVisualDetails = new Dictionary<IMainEventType, MainEventTypeViewModel>();
 
-        // Methods
-        private void ConvertEventDetailsAndSelectType(MainEventTypeViewModel selectedEventTypeDetails)
-        {
-			var selectedEventType = _mainEventTypesList.FirstOrDefault(sc => sc.Title == selectedEventTypeDetails.MainEventTitle);
+			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(SetMainEventTypeFromViewModel);
+			InitializeMainEventTypesVisuals();
+		}
 
+		// Private Methods
+		private void SetMainEventTypeFromViewModel(MainEventTypeViewModel viewModel)
+		{
+			var selectedEventType = _mainEventTypesList.FirstOrDefault(sc => sc.Title == viewModel.MainEventTitle);
 			if (selectedEventType == null)
-            { 
-                throw new ArgumentException($"Invalid TypeOfEvent value: {selectedEventTypeDetails.MainEventTitle}");
-            }
+			{
+				throw new ArgumentException($"Invalid TypeOfEvent value: {viewModel.MainEventTitle}");
+			}
+			SelectedMainEventType = selectedEventType;
+		}
 
-            SetSelectedMainEventType(selectedEventType);
-        }
+		private void UpdateSelectedMainEventTypeVisuals(IMainEventType mainEventType)
+		{
+			DisableVisualsForAllMainEventTypes();
 
-        private void SetSelectedMainEventType(IMainEventType mainEventType)
-        {
-            _selectedMainEventType = mainEventType;
-            DisableVisualsForAllMainEventTypes();
-            //for selected event type set different visuals
-            _eventVisualDetails[mainEventType].Opacity = FullOpacity;
-            _eventVisualDetails[mainEventType].Border = NoBorderSize;
+			if (mainEventType != null && _eventVisualDetails.TryGetValue(mainEventType, out var details))
+			{
+				details.Opacity = FullOpacity;
+				details.Border = NoBorderSize;
+			}
+		}
 
-        }
-        public void DisableVisualsForAllMainEventTypes()
-        {
-            foreach (var eventType in _eventVisualDetails.Values)
-            {
-                eventType.Opacity = FadedOpacity;
-                eventType.Border = BorderSize;
-            }
-        }
-        private void InitializeMainEventTypesVisuals()
-        {
-            MainEventTypesVisualsOC = new ObservableCollection<MainEventTypeViewModel>();
+		public void DisableVisualsForAllMainEventTypes()
+		{
+			foreach (var eventType in _eventVisualDetails.Values)
+			{
+				eventType.Opacity = FadedOpacity;
+				eventType.Border = BorderSize;
+			}
+		}
 
-			// dynamically create Main Event Types according to _mainEventTypesList
+		private void InitializeMainEventTypesVisuals()
+		{
+			MainEventTypesVisualsOC = new ObservableCollection<MainEventTypeViewModel>();
+
 			foreach (IMainEventType eventType in _mainEventTypesList)
-            {
-                var eventDetails = new MainEventTypeViewModel(eventType, BorderSize, FadedOpacity);
+			{
+				var viewModel = new MainEventTypeViewModel(eventType, SelectedIcon, BorderSize, FadedOpacity);
+				_eventVisualDetails[eventType] = viewModel;
+				MainEventTypesVisualsOC.Add(viewModel);
+			}
 
-                _eventVisualDetails[eventType] = eventDetails;
-                MainEventTypesVisualsOC.Add(eventDetails);
-            }
-            if (_selectedMainEventType != null)
-            {
-                SetSelectedMainEventType(_selectedMainEventType);   // TODO TOCHECK, if edit it is the type of the event
-            }
-        }
-    }
+			if (_selectedMainEventType != null)
+			{
+				UpdateSelectedMainEventTypeVisuals(_selectedMainEventType);
+			}
+		}
+	}
 
-    public class MainEventTypeViewModel : BaseViewModel
-    {
-        private IMainEventType _mainEventType;
-        public MainEventTypeViewModel(IMainEventType mainEventType, int borderWidth, float Opacity)
-        {
-			_mainEventType = mainEventType;
-			MainEventTitle = _mainEventType.Title;
-			MainEventTypeBackgroundColor = _mainEventType.MainEventTypeBackgroundColor;
-            MainEventTypeTextColor = _mainEventType.MainEventTypeTextColor;
-			Border = borderWidth;
-			this.Opacity = Opacity;
-        }
-        // Fields
-        private string _mainEventTitle;
-        private float _opacity;
-        private int _border;
-		private Color _backgroundColor;
-		private Color _textColor;
+	public class MainEventTypeViewModel : BaseViewModel
+	{
+		// Fields
+		private readonly IMainEventType _mainEventType;
+		private string _mainEventTitle;
+		private float _opacity;
+		private int _border;
+		private IconModel _selectedIcon;
+
 		// Properties
-		public Color MainEventTypeBackgroundColor
-		{
-			get => _backgroundColor;
-			set { _backgroundColor = value; OnPropertyChanged(); }
-		}
-		public Color MainEventTypeTextColor
-		{
-			get => _textColor;
-			set { _textColor = value; OnPropertyChanged(); }
-		}
-
 		public string MainEventTitle
-        {
-            get => _mainEventTitle;
-            set { _mainEventTitle = value; OnPropertyChanged(); }
-        }
+		{
+			get => _mainEventTitle;
+			set { _mainEventTitle = value; OnPropertyChanged(); }
+		}
+		public IconModel SelectedIcon
+		{
+			get => _selectedIcon;
+			set { _selectedIcon = value; OnPropertyChanged(); }
+		}
+		public float Opacity
+		{
+			get => _opacity;
+			set { _opacity = value; OnPropertyChanged(); }
+		}
+		public int Border
+		{
+			get => _border;
+			set { _border = value; OnPropertyChanged(); }
+		}
 
-        public float Opacity
-        {
-            get => _opacity;
-            set { _opacity = value; OnPropertyChanged(); }
-        }
-
-        public int Border
-        {
-            get => _border;
-            set { _border = value; OnPropertyChanged(); }
-        }
-    }
+		// Constructor
+		public MainEventTypeViewModel(IMainEventType mainEventType, IconModel selectedIcon, int borderWidth, float opacity)
+		{
+			_mainEventType = mainEventType ?? throw new ArgumentNullException(nameof(mainEventType));
+			MainEventTitle = _mainEventType.Title;
+			SelectedIcon = selectedIcon;
+			Border = borderWidth;
+			Opacity = opacity;
+		}
+	}
 }

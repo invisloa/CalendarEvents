@@ -17,7 +17,7 @@ namespace CalendarT1.Models.EventTypesModels
 		{
 			return Title;
 		}
-		public MainEventType(string title, IconModel icon, Color mainEventTypeBackgroundColor, Color mainEventTypeTextColor)
+		public MainEventType(string title, IconModel icon)
 		{
 			Title = title;
 			SelectedIcon = icon; 
