@@ -3,6 +3,11 @@
 // ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
 
+// main event type icon selector
+
+
+
+
 // check equal after changing main event type - icons implementation
 // consider removing 					OnPropertyChanged(); in subeventtype model
 

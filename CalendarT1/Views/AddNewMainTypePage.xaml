@@ -4,8 +4,7 @@
              x:Class="CalendarT1.Views.AddNewMainTypePage"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              Title="AddNewMainTypePage">
-    <ScrollView BackgroundColor="{DynamicResource MainBackgroundColor}">
-        <StackLayout>
+    <StackLayout    BackgroundColor="{DynamicResource MainBackgroundColor}"        >
             <!-- Button to go to all MainEvents Page-->
             <Button Text="ALL Main TYPES PAGE" Command="{Binding GoToAllSubTypesPageCommand}" BackgroundColor="DarkGoldenrod" 
                      HorizontalOptions="End" BorderColor="CadetBlue" BorderWidth="3" Margin="10"/>
@@ -60,7 +59,6 @@
             <Button Text="DELETE SELECTED MAIN TYPE" IsVisible="{Binding IsEdit}" Command="{Binding DeleteSelectedEventTypeCommand}"/>
             <Button Margin="5" Text="{Binding SubmitMainTypeButtonText}" Command="{Binding SubmitMainTypeCommand}" HorizontalOptions="Center"/>
         </StackLayout>
-    </ScrollView>
 </ContentPage>
 
 

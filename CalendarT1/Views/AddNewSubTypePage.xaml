@@ -28,8 +28,6 @@
             <customControls:ColorButtonsSelectorCC
                 BindingContext="{Binding}"
                 SelectColorCommand="{Binding SelectColorCommand}" />
-            
-
             <!--UserTypeExtraOptions_TypesCC-->
             
             <customControls:UserTypeExtraOptions_TypesCC />
