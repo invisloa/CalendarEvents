@@ -87,7 +87,7 @@ namespace CalendarT1.ViewModels
 		{
 			bool isEditMode = _currentMainType != null;
 			GoToAllMainTypesPageCommand = new RelayCommand(OnGoToAllMainTypesPageCommand);
-			SubmitMainTypeCommand = new AsyncRelayCommand(OnSubmitMainTypeCommand, CanExecuteSubmitMainTypeCommand);
+			SubmitAsyncMainTypeCommand = new AsyncRelayCommand(OnSubmitMainTypeCommand, CanExecuteSubmitMainTypeCommand);
 			DeleteMainTypeCommand = new AsyncRelayCommand(OnDeleteMainTypeCommand);
 		}
 
