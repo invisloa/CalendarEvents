@@ -12,15 +12,15 @@ namespace CalendarT1.Models.EventTypesModels
 	public class MainEventType : IMainEventType
 	{
 		public string Title { get; set; }
-		public IconModel SelectedIcon { get; set; }  // new property for the icon
+		public IMainTypeVisualElement SelectedVisualElement { get; set; }  // new property for the icon
 		public override string ToString()
 		{
 			return Title;
 		}
-		public MainEventType(string title, IconModel icon)
+		public MainEventType(string title, IMainTypeVisualElement icon)
 		{
 			Title = title;
-			SelectedIcon = icon; 
+			SelectedVisualElement = icon; 
 
 		}
 
@@ -32,12 +32,12 @@ namespace CalendarT1.Models.EventTypesModels
 			}
 
 			MainEventType other = (MainEventType)obj;
-			return Title == other.Title && SelectedIcon == other.SelectedIcon ;
+			return Title == other.Title && SelectedVisualElement == other.SelectedVisualElement ;
 		}
 
 		public override int GetHashCode()
 		{
-			return (Title, SelectedIcon).GetHashCode();
+			return (Title, SelectedVisualElement).GetHashCode();
 		}
 	}
 }

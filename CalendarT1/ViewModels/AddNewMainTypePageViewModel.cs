@@ -1,6 +1,9 @@
-﻿using CalendarT1.Models.EventTypesModels;
+﻿using CalendarT1.Helpers;
+using CalendarT1.Models;
+using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.Views;
 using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
@@ -11,69 +14,85 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels
 {
-    class AddNewMainTypePageViewModel : BaseViewModel
+	class AddNewMainTypePageViewModel : BaseViewModel
 	{
-		public List<IMainEventType> MainEventTypesList{ get; set ; }
-		private IMainEventType _currentMainType;
-		private string _selectedIconSource;
 
-		public List<string> Icons { get; } = new List<string>
-		{
-			"logout.png",
-			"login.png",
-			// ... add other icon sources here ...
-		};
+		public string MyTestFont { get; set; } = IconFont.Home_filled;
 
-		public string SelectedIconSource
-		{
-			get => _selectedIconSource;
-			set
-			{
-				if (_selectedIconSource != value)
-				{
-					_selectedIconSource = value;
-					OnPropertyChanged(nameof(SelectedIconSource));
-				}
-			}
-		}
-		private string _typeName;
 
-		private string _mainTypeName;
+
+
 		private IEventRepository _eventRepository;
-		public string MainTypePageTitle => IsEdit ? "EDIT MAIN TYPE" : "ADD NEW MAIN TYPE";
-		public string MainTypePlaceholderText => IsEdit ? $"TYPE NEW NAME FOR: {MainTypeName}" : "...NEW MAIN TYPE NAME...";
-		public string MainTypeSubmitButtonText => IsEdit ? "SUBMIT CHANGES" : "ADD NEW MAIN TYPE";
-		public bool IsEdit => _currentMainType != null;
-		public bool IsNotEdit => !IsEdit;
+		private IMainEventType _currentMainType;
+		private string _mainTypeName;
+		private string _selectedIconString;
+		private Color _backgroundColor;
+		private Color _textColor;
+		private bool _isEdit;
+		public string SubmitMainTypeButtonText => _isEdit ? "SUBMIT CHANGES" : "ADD NEW MAIN TYPE";
+		public string MainTypePlaceholderText => _isEdit ? $"TYPE NEW NAME FOR: {MainTypeName}" : "...NEW MAIN TYPE NAME...";
+
+
+		#region Properties
 		public string MainTypeName
 		{
-			get => _typeName;
+			get => _mainTypeName;
 			set
 			{
-				if (value == _typeName) return;
-				_typeName = value;
-				SubmitMainTypeCommand.NotifyCanExecuteChanged();
+				_mainTypeName = value;
+				OnPropertyChanged();
+				// notifycanexecute
+			}
+		}
+		public Color TextColor
+		{
+			get => _textColor;
+			set
+			{
+				_textColor = value;
 				OnPropertyChanged();
 			}
 		}
+		public Color BackgroundColor
+		{
+			get => _backgroundColor;
+			set
+			{
+				_backgroundColor = value;
+				OnPropertyChanged();
+			}
+		}
+		public string SelectedIconString
+		{
+			get => _selectedIconString;
+			set
+			{
+				_selectedIconString = value;
+				OnPropertyChanged();
+			}
+		}
+		public List<string> IconsListStrings { get; set; }  // to initialize in ctor
+
+		public RelayCommand GoToAllMainTypesPageCommand { get; set; }// to initialize in ctor
+		public RelayCommand<string> IconSelectedCommand  { get; set; }// to initialize in ctor
+		public AsyncRelayCommand SubmitAsyncMainTypeCommand { get; set; }// to initialize in ctor
+		public AsyncRelayCommand DeleteAsyncSelectedEventTypeCommand { get; set; }// to initialize in ctor
+		public RelayCommand ActivitiesIconsCommand { get; set; }// to initialize in ctor
+		public RelayCommand HomeIconsCommand { get; set; }// to initialize in ctor
 
 
-		public RelayCommand GoToAllMainTypesPageCommand { get; private set; }
-		public AsyncRelayCommand SubmitMainTypeCommand { get; private set; }
-		public AsyncRelayCommand DeleteMainTypeCommand { get; private set; }
-		#region Commands CanExecute
-		private bool CanExecuteSubmitMainTypeCommand() => !string.IsNullOrEmpty(MainTypeName);
+		#endregion
+
 
 		#region Constructors
-		// constructor for create mode
+		//Constructor for create mode
 		public AddNewMainTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
 			InitializeCommon();
 
 		}
-
-		// constructor for edit mode
+		//Constructor for edit mode
 		public AddNewMainTypePageViewModel(IEventRepository eventRepository, IMainEventType currentMainType)
 		{
 			_eventRepository = eventRepository;
@@ -83,16 +102,49 @@ namespace CalendarT1.ViewModels
 			InitializeCommon();
 		}
 
+		#endregion
+
+		#region public methods
+
+		#endregion
+
+
+
+		#region private methods
 		private void InitializeCommon()
 		{
 			bool isEditMode = _currentMainType != null;
+			IconsListStrings = Factory.CreateIconsListStrings();
 			GoToAllMainTypesPageCommand = new RelayCommand(OnGoToAllMainTypesPageCommand);
 			SubmitAsyncMainTypeCommand = new AsyncRelayCommand(OnSubmitMainTypeCommand, CanExecuteSubmitMainTypeCommand);
-			DeleteMainTypeCommand = new AsyncRelayCommand(OnDeleteMainTypeCommand);
+			DeleteAsyncSelectedEventTypeCommand = new AsyncRelayCommand(OnDeleteMainTypeCommand);
+			IconSelectedCommand = new RelayCommand<string>(OnIconSelectedCommand);
+			ActivitiesIconsCommand = new RelayCommand(OnActivitiesIconsCommand);
+			HomeIconsCommand = new RelayCommand(OnHomeIconsCommand);
 		}
+		private async Task OnSubmitMainTypeCommand()
+		{
+			var iconForMainEventType = Factory.CreateIMainTypeVisualElement(SelectedIconString, BackgroundColor, TextColor);
+			if (_isEdit)
+			{
+				_currentMainType.Title = MainTypeName;
+				_currentMainType.SelectedVisualElement = iconForMainEventType;
 
 
-		#region Methods
+				await _eventRepository.UpdateMainEventTypeAsync(_currentMainType);
+				await Shell.Current.GoToAsync("..");	// TODO CHANGE NOT WORKING!!!
+			}
+			else
+			{
+				var newMainType = Factory.CreateNewMainEventType(MainTypeName, iconForMainEventType);
+				await _eventRepository.AddMainEventTypeAsync(newMainType);
+				await Shell.Current.GoToAsync("..");    // TODO !!!!! CHANGE NOT WORKING!!!
+			}
+		}
+		private void OnGoToAllMainTypesPageCommand()
+		{
+			Application.Current.MainPage.Navigation.PushAsync(new AllMainTypesPage());
+		}
 		private async Task OnDeleteMainTypeCommand()
 		{
 			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x == _currentMainType); // TODO equals !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -119,35 +171,25 @@ namespace CalendarT1.ViewModels
 				}
 				return;
 			}
-			await _eventRepository.DeleteFromMainEventTypesListAsync(_currentMainType);
-			await Shell.Current.Navigation.PopAsync();
 
-			//await Shell.Current.GoToAsync($"{nameof(AllSubTypesPage)}");
+
 		}
-		private async Task OnSubmitMainTypeCommand()
+		private void OnIconSelectedCommand(string visualStringSource)
 		{
-			//if (IsEdit)
-			//{
-			//	_currentMainType.Title = MainTypeName;
-			//	_currentMainType.EventTypeColor = _selectedColor;
-			//	await _eventRepository.UpdateMainEventTypeAsync(_currentMainType);
-			//	await Shell.Current.GoToAsync("..");                                // TODO CHANGE NOT WORKING!!!
-			//}
-			//else
-			//{
-			//	var newMainType = Factory.CreateNewMainEventType(MainTypeName, _selectedColor);
-			//	await _eventRepository.AddMainEventTypeAsync(newMainType);
-			//	await Shell.Current.GoToAsync("..");    // TODO !!!!! CHANGE NOT WORKING!!!
-			//}
+			SelectedIconString = visualStringSource;
 		}
-		private void OnGoToAllMainTypesPageCommand()
+		private bool CanExecuteSubmitMainTypeCommand()
+			{
+				return string.IsNullOrEmpty(MainTypeName) && !string.IsNullOrEmpty(_selectedIconString) ;
+			}
+		private void OnActivitiesIconsCommand()
 		{
-			//Application.Current.MainPage.Navigation.PushAsync(new AllMainTypesPage());
+			IconsListStrings = new List<string> { IconFont.Language, IconFont.Landslide, IconFont.Landscape };
 		}
+		private void OnHomeIconsCommand()
+		{
+			IconsListStrings = new List<string> { IconFont.Home, IconFont.Home_filled, IconFont.Home_max};
+		}
+		#endregion
 	}
-	#endregion
-
-
 }
-#endregion
-#endregion

@@ -219,7 +219,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				if (_mainEventTypeBackgroundColor == null)
 				{
-					return _mainEventTypesCCHelper.SelectedMainEventType.SelectedIcon.BackgroundColor; // TODO !!!!!!!!!!!!!!!!!! CHANge the way it works (after change to icon)
+					return _mainEventTypesCCHelper.SelectedMainEventType.SelectedVisualElement.BackgroundColor; // TODO !!!!!!!!!!!!!!!!!! CHANge the way it works (after change to icon)
 				}
 				else return _mainEventTypeBackgroundColor;
 			}

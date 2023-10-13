@@ -9,6 +9,8 @@ using CalendarT1.Views.CustomControls.CCInterfaces;
 using CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using CalendarT1.Models;
+using CalendarT1.Helpers;
 
 namespace CalendarT1.Services
 {
@@ -82,6 +84,22 @@ namespace CalendarT1.Services
 		internal static MicroTasksListCCViewModel CreateNewMicroTasksListCCHelperClass(List<MicroTaskModel> listToAddMiroTasks)
 		{
 			return new MicroTasksListCCViewModel(listToAddMiroTasks);
+		}
+
+		internal static IMainTypeVisualElement CreateIMainTypeVisualElement(string selectedIconString, Color backgroundColor, Color textColor)
+		{
+			return new IconModel(selectedIconString, backgroundColor, textColor);
+		}
+
+		internal static IMainEventType CreateNewMainEventType(string mainTypeName, IMainTypeVisualElement iconForMainEventType)
+		{
+			return new MainEventType(mainTypeName, iconForMainEventType);
+		}
+
+		internal static List<string> CreateIconsListStrings()
+		{
+			return new List<string> { IconFont.Home, IconFont.Home_filled, IconFont.Home_max };
+
 		}
 	}
 }
