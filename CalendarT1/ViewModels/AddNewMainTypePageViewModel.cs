@@ -41,7 +41,16 @@ namespace CalendarT1.ViewModels
 			{
 				_mainTypeName = value;
 				OnPropertyChanged();
-				// notifycanexecute
+				SubmitAsyncMainTypeCommand.NotifyCanExecuteChanged();
+			}
+		}
+		public bool IsEdit
+		{
+			get => _isEdit;
+			set
+			{
+				_isEdit = value;
+				OnPropertyChanged();
 			}
 		}
 		public Color TextColor
@@ -71,7 +80,7 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-		public List<string> IconsListStrings { get; set; }  // to initialize in ctor
+		public ObservableCollection<string> IconsListStrings { get; set; }  // to initialize in ctor
 
 		public RelayCommand GoToAllMainTypesPageCommand { get; set; }// to initialize in ctor
 		public RelayCommand<string> IconSelectedCommand  { get; set; }// to initialize in ctor
@@ -113,6 +122,8 @@ namespace CalendarT1.ViewModels
 		#region private methods
 		private void InitializeCommon()
 		{
+			BackgroundColor = Color.FromArgb("#fff");
+			TextColor = Color.FromArgb("#000");
 			bool isEditMode = _currentMainType != null;
 			IconsListStrings = Factory.CreateIconsListStrings();
 			GoToAllMainTypesPageCommand = new RelayCommand(OnGoToAllMainTypesPageCommand);
@@ -121,6 +132,8 @@ namespace CalendarT1.ViewModels
 			IconSelectedCommand = new RelayCommand<string>(OnIconSelectedCommand);
 			ActivitiesIconsCommand = new RelayCommand(OnActivitiesIconsCommand);
 			HomeIconsCommand = new RelayCommand(OnHomeIconsCommand);
+			SelectedIconString = IconFont.Minor_crash;
+
 		}
 		private async Task OnSubmitMainTypeCommand()
 		{
@@ -180,15 +193,25 @@ namespace CalendarT1.ViewModels
 		}
 		private bool CanExecuteSubmitMainTypeCommand()
 			{
-				return string.IsNullOrEmpty(MainTypeName) && !string.IsNullOrEmpty(_selectedIconString) ;
+				return !string.IsNullOrEmpty(MainTypeName) ;
 			}
 		private void OnActivitiesIconsCommand()
 		{
-			IconsListStrings = new List<string> { IconFont.Language, IconFont.Landslide, IconFont.Landscape };
+			var newIconsListStrings = new ObservableCollection<string>
+				{
+					IconFont.Language,
+					IconFont.Landslide,
+					IconFont.Landscape
+				};
+
+			IconsListStrings = newIconsListStrings;
+			OnPropertyChanged(nameof(IconsListStrings));
 		}
+
 		private void OnHomeIconsCommand()
 		{
-			IconsListStrings = new List<string> { IconFont.Home, IconFont.Home_filled, IconFont.Home_max};
+			IconsListStrings.Clear();
+			// You can add other items if needed
 		}
 		#endregion
 	}

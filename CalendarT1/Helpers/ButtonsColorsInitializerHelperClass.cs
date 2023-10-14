@@ -11,19 +11,17 @@ namespace CalendarT1.Helpers
 {
 	public class ButtonsColorsInitializerHelperClass
 	{
-		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
-		private int BorderSize;
+		public ObservableCollection<SelectableButtonViewModel> ButtonsColors { get; set; }
 		private int NumberOfColumns = 10;
 
-		public ButtonsColorsInitializerHelperClass(int borderSize)
+		public ButtonsColorsInitializerHelperClass()
 		{
-			BorderSize = borderSize;
 			InitializeColorButtons();
 		}
 
 		private void InitializeColorButtons()
 		{
-			ButtonsColors = new ObservableCollection<ButtonProperties>();
+			ButtonsColors = new ObservableCollection<SelectableButtonViewModel>();
 
 			AddColors(GenerateShades(Color.FromRgb(205, 92, 92))); // Base Red
 			AddColors(GenerateShades(Color.FromRgb(30, 144, 255))); // Base Blue
@@ -36,7 +34,7 @@ namespace CalendarT1.Helpers
 		{
 			foreach (var color in colors)
 			{
-				ButtonsColors.Add(new ButtonProperties { ButtonColor = color, ButtonBorder = BorderSize });
+				ButtonsColors.Add(new SelectableButtonViewModel { ButtonColor = color});
 			}
 		}
 
@@ -59,32 +57,4 @@ namespace CalendarT1.Helpers
 			return shades;
 		}
 	}
-	#region Helper Classes
-
-	public class ButtonProperties : BaseViewModel
-	{
-		private int _borderSize;
-		[JsonIgnore]
-		public Color ButtonColor { get; set; }
-		public int ButtonBorder
-		{
-			get => _borderSize;
-			set
-			{
-				_borderSize = value;
-				OnPropertyChanged();
-			}
-		}
-		public string ButtonColorRgb        // when deserialized it will not fire OnPropertyChanged on ButtonColor to check later if its ok TOCHECK
-		{
-			get { return $"{ButtonColor.Red}, {ButtonColor.Green}, {ButtonColor.Blue}"; }
-			set
-			{
-				var rgbValues = value.Split(',').Select(int.Parse).ToArray();
-				ButtonColor = Color.FromRgb(rgbValues[0], rgbValues[1], rgbValues[2]);
-			}
-		}
-	}
-	#endregion
-
 }

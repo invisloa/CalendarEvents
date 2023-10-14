@@ -14,12 +14,12 @@
             <Grid HorizontalOptions="Center" Margin="10">
                 <!-- Define the columns of the Grid-->
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
                 <!-- Entry for new type name -->
-                <Entry x:Name="TypeNameEntry" Grid.Column="0" 
+                <Entry x:Name="TypeNameEntry" Grid.Column="1" 
                            Placeholder="{Binding MainTypePlaceholderText}" 
                            Text="{Binding MainTypeName, Mode=TwoWay}" 
                            FontAttributes="Bold" FontSize="Body"
@@ -28,18 +28,25 @@
                            TextColor="{DynamicResource MainTextColor}" 
                            VerticalOptions="Center" 
                            HorizontalOptions="Start"  />
-
-                <!-- Icon Image (placed on top of the Entry) -->
-            <Image Grid.Column="0" Source="{Binding SelectedIconString}"
-                       VerticalOptions="Center" HorizontalOptions="Start" 
-                       Margin="5,0,0,0" />
                 <!-- Adjust margin as needed to position the icon -->
+                <Frame  Grid.Column="0" Padding="0"  
+                        BackgroundColor="{Binding BackgroundColor}"
+                        >
+                
+                    <Label 
+                            Text="{Binding SelectedIconString}"
+                            TextColor="{Binding TextColor}"
+                            Style="{StaticResource GoogleFont}"
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"/>
+                </Frame>
+
             </Grid>
-        <Label 
-                    Text="{Binding MyTestFont}"
-                    Style="{StaticResource GoogleFont}"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+            <Button Text="ICONS"/>
+            <Button Text="BACKGROUND COLORS"/>
+            <Button Text="TEXT COLORS"/>
+        </StackLayout>
 
         <!--TODO !!!!!!!!! REFACTOR THIS TO SOME COLLECTION THIS IS ONLY TEMPORARY!!!!!!!!!!!!!!!!!!!! -->
         <StackLayout Orientation="Horizontal">
@@ -58,7 +65,7 @@
                         <Label 
                     Text="{Binding .}"
                     Style="{StaticResource GoogleFont}"
-                    HorizontalOptions="Center" 
+                    HorizontalOptions="Center"
                     VerticalOptions="Center"/>
                         <Button 
                     Command="{Binding Path=BindingContext.IconSelectedCommand, Source={x:Reference AddNewMainTypePageName}}" 

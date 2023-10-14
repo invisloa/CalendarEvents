@@ -32,8 +32,6 @@ namespace CalendarT1.ViewModels
 
 		public event Action<IMainEventType> MainEventTypeChanged;		// TODO implement this event ?? if needed??
 		#region Fields
-		private const int NoBorderSize = 0;
-		private const int BorderSize = 7;
 		private IMainEventTypesCC _mainEventTypesCCHelper;
 		private TimeSpan _defaultEventTime;
 		private ISubEventTypeModel _currentType;   // if null => add new type, else => edit type
@@ -99,12 +97,12 @@ namespace CalendarT1.ViewModels
 		}
 
 
-		public ObservableCollection<ButtonProperties> ButtonsColors { get; set; }
+		public ObservableCollection<SelectableButtonViewModel> ButtonsColors { get; set; }
 		#endregion
 		#region Commands
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
 		public RelayCommand GoToAllSubTypesPageCommand { get; private set; }
-		public RelayCommand<ButtonProperties> SelectColorCommand { get; private set; }
+		public RelayCommand<SelectableButtonViewModel> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
 		#region Commands CanExecute
@@ -146,7 +144,7 @@ namespace CalendarT1.ViewModels
 			InitializeColorButtons();
 			bool isEditMode = CurrentType != null;
 			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(isEditMode);
-			SelectColorCommand = new RelayCommand<ButtonProperties>(OnSelectColorCommand);
+			SelectColorCommand = new RelayCommand<SelectableButtonViewModel>(OnSelectColorCommand);
 			GoToAllSubTypesPageCommand = new RelayCommand(GoToAllSubTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
@@ -225,13 +223,13 @@ namespace CalendarT1.ViewModels
 
 			SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;
 		}
-		private void OnSelectColorCommand(ButtonProperties selectedColor)
+		private void OnSelectColorCommand(SelectableButtonViewModel selectedColor)
 		{
 			SelectedSubTypeColor = selectedColor.ButtonColor;
 
 			foreach (var button in ButtonsColors)
 			{
-				button.ButtonBorder = button == selectedColor ? NoBorderSize : BorderSize;
+				button.IsSelected = button.ButtonColor == selectedColor.ButtonColor;
 			}
 		}
 		private void GoToAllSubTypesPage()
@@ -240,7 +238,7 @@ namespace CalendarT1.ViewModels
 		}
 		private void InitializeColorButtons() //TODO ! also to extract as a separate custom control
 		{
-			ButtonsColorsInitializerHelperClass buttonsColorsInitializerHelperClass = new ButtonsColorsInitializerHelperClass(BorderSize);
+			ButtonsColorsInitializerHelperClass buttonsColorsInitializerHelperClass = new ButtonsColorsInitializerHelperClass();
 			ButtonsColors = buttonsColorsInitializerHelperClass.ButtonsColors;
 		}
 		public void SetExtraUserControlsValues(ISubEventTypeModel _currentType)
