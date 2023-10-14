@@ -42,23 +42,7 @@
                 </Frame>
 
             </Grid>
-        <FlexLayout BindableLayout.ItemsSource="{Binding MainButtonVisualsSelectors}" 
-                Direction="Row" 
-                Wrap="Wrap" 
-                AlignItems="Center"
-                JustifyContent="Center">
-            <BindableLayout.ItemTemplate>
-                <DataTemplate>
-                    <Button Text="{Binding ButtonText}" 
-                        BackgroundColor="{DynamicResource MainButtonBackgroundColor}"
-                        BorderWidth="{Binding ButtonBorder}"
-                        Command="{Binding ButtonCommand}"
-                        Opacity="{Binding ButtonOpacity}"
-                        CommandParameter="{Binding .}"
-                    Margin="5"/>
-                </DataTemplate>
-            </BindableLayout.ItemTemplate>
-        </FlexLayout>
+        <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding MainButtonVisualsSelectors}" />
 
 
         <!--TODO !!!!!!!!! REFACTOR THIS TO SOME COLLECTION THIS IS ONLY TEMPORARY!!!!!!!!!!!!!!!!!!!! -->
