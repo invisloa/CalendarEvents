@@ -1,17 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CalendarT1.ViewModels
 {
 	public class SelectableButtonViewModel : BaseViewModel
 	{
-		private bool _isSelected;
+		private bool _isSelected = false;
 		private int _borderSize = 7;
-
 		public string ButtonText { get; set; }
+		public Color ButtonColor { get; set; }
+		public ICommand ButtonCommand { get; set; }
+
 		public bool IsSelected
 		{
 			get => _isSelected;
@@ -21,30 +20,18 @@ namespace CalendarT1.ViewModels
 				_isSelected = value;
 				OnPropertyChanged();
 				OnPropertyChanged(nameof(ButtonBorder));
-
 			}
 		}
+
+		public int ButtonBorder => IsSelected ? 0 : _borderSize;
         public SelectableButtonViewModel(){}
-        public SelectableButtonViewModel(int bordersize)
-        {
-			_borderSize = bordersize;
-		}
-        public Color ButtonColor { get; set; }
-		public int ButtonBorder
-		{
-			get
-			{
-				if (IsSelected)
-				{
-					return 0;
-				}
-				else
-				{
-					return _borderSize;
-				}
-			}
-		}
 
-		
+        public SelectableButtonViewModel(string text= null, bool isSelected = false, ICommand selectButtonCommand = null, int borderSize = 7)
+		{
+			IsSelected = isSelected;
+			ButtonText = text;
+			ButtonCommand = selectButtonCommand;
+			_borderSize = borderSize;
+		}
 	}
 }

@@ -19,7 +19,7 @@ namespace CalendarT1.ViewModels
 
 		public string MyTestFont { get; set; } = IconFont.Home_filled;
 
-
+		public ObservableCollection<SelectableButtonViewModel> MainButtonVisualsSelectors { get; set; }
 
 
 		private IEventRepository _eventRepository;
@@ -124,6 +124,7 @@ namespace CalendarT1.ViewModels
 		{
 			BackgroundColor = Color.FromArgb("#fff");
 			TextColor = Color.FromArgb("#000");
+
 			bool isEditMode = _currentMainType != null;
 			IconsListStrings = Factory.CreateIconsListStrings();
 			GoToAllMainTypesPageCommand = new RelayCommand(OnGoToAllMainTypesPageCommand);
@@ -133,8 +134,15 @@ namespace CalendarT1.ViewModels
 			ActivitiesIconsCommand = new RelayCommand(OnActivitiesIconsCommand);
 			HomeIconsCommand = new RelayCommand(OnHomeIconsCommand);
 			SelectedIconString = IconFont.Minor_crash;
+			MainButtonVisualsSelectors = new ObservableCollection<SelectableButtonViewModel>
+			{
+				new SelectableButtonViewModel("Icons", false, new RelayCommand<SelectableButtonViewModel>(ShowIcons)),
+				new SelectableButtonViewModel("Background Colors", false, new RelayCommand<SelectableButtonViewModel>(ShowBackgroundColors)),
+				new SelectableButtonViewModel("Text Colors", false, new RelayCommand<SelectableButtonViewModel>(ShowTextColors)),
 
+			};
 		}
+
 		private async Task OnSubmitMainTypeCommand()
 		{
 			var iconForMainEventType = Factory.CreateIMainTypeVisualElement(SelectedIconString, BackgroundColor, TextColor);
@@ -187,14 +195,15 @@ namespace CalendarT1.ViewModels
 
 
 		}
+		private bool CanExecuteSubmitMainTypeCommand()
+		{
+			return !string.IsNullOrEmpty(MainTypeName);
+		}
 		private void OnIconSelectedCommand(string visualStringSource)
 		{
 			SelectedIconString = visualStringSource;
 		}
-		private bool CanExecuteSubmitMainTypeCommand()
-			{
-				return !string.IsNullOrEmpty(MainTypeName) ;
-			}
+
 		private void OnActivitiesIconsCommand()
 		{
 			var newIconsListStrings = new ObservableCollection<string>
@@ -210,9 +219,46 @@ namespace CalendarT1.ViewModels
 
 		private void OnHomeIconsCommand()
 		{
-			IconsListStrings.Clear();
-			// You can add other items if needed
+			var newIconsListStrings = new ObservableCollection<string>
+				{
+					IconFont.Safety_check,
+					IconFont.Safety_divider,
+					IconFont.Sailing
+				};
+
+			IconsListStrings = newIconsListStrings;
+			OnPropertyChanged(nameof(IconsListStrings));
 		}
 		#endregion
+
+
+		private void ShowIcons(SelectableButtonViewModel clickedButton)
+		{
+			DeselectAllButtons();
+			clickedButton.IsSelected = true;
+
+			// TODO !!!!!!!!!!!!!!!!!
+		}
+		private void ShowBackgroundColors(SelectableButtonViewModel clickedButton)
+		{
+			DeselectAllButtons();
+			clickedButton.IsSelected = true;
+
+			// TODO!!!!!!!!!!!!!!!!!
+		}
+		private void ShowTextColors(SelectableButtonViewModel clickedButton)
+		{
+			DeselectAllButtons();
+			clickedButton.IsSelected = true;
+
+			// TODO!!!!!!!!!!!!!!!!!!
+		}
+		private void DeselectAllButtons()
+		{
+			foreach (var button in MainButtonVisualsSelectors)
+			{
+				button.IsSelected = false;
+			}
+		}
 	}
 }

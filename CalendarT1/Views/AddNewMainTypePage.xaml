@@ -42,11 +42,23 @@
                 </Frame>
 
             </Grid>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-            <Button Text="ICONS"/>
-            <Button Text="BACKGROUND COLORS"/>
-            <Button Text="TEXT COLORS"/>
-        </StackLayout>
+        <FlexLayout BindableLayout.ItemsSource="{Binding MainButtonVisualsSelectors}" 
+                Direction="Row" 
+                Wrap="Wrap" 
+                AlignItems="Center"
+                JustifyContent="Center">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Button Text="{Binding ButtonText}" 
+                        BackgroundColor="{DynamicResource MainButtonBackgroundColor}"
+                        BorderWidth="{Binding ButtonBorder}"
+                        Command="{Binding ButtonCommand}"
+                        CommandParameter="{Binding .}"
+                    Margin="5"/>
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
+
 
         <!--TODO !!!!!!!!! REFACTOR THIS TO SOME COLLECTION THIS IS ONLY TEMPORARY!!!!!!!!!!!!!!!!!!!! -->
         <StackLayout Orientation="Horizontal">
@@ -87,19 +99,3 @@
         <Button Margin="5" Text="{Binding SubmitMainTypeButtonText}" Command="{Binding SubmitAsyncMainTypeCommand}" HorizontalOptions="Center"/>
         </StackLayout>
 </ContentPage>
-
-
-
-
-<!-- Icon Display --><!--
-<Label>
-    <Label.FormattedText>
-        <FormattedString>
-            <Span Text="{Binding SelectedIcon.Icon}" FontFamily="GoogleMaterialFont" FontSize="32" TextColor="{Binding SelectedIcon.TextColor}" />
-            <Span Text="{Binding SelectedIcon.Title}" TextColor="{Binding SelectedIcon.TextColor}" />
-        </FormattedString>
-    </Label.FormattedText>
-    <Label.BackgroundColor>
-        {Binding SelectedIcon.BackgroundColor}
-    </Label.BackgroundColor>
-</Label>-->
