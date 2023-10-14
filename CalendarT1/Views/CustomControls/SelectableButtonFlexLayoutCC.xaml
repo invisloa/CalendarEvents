@@ -3,7 +3,7 @@
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="CalendarT1.Views.CustomControls.SelectableButtonFlexLayoutCC"
             Direction="Row" 
-            Wrap="Wrap" 
+            Wrap="Wrap"
             AlignItems="Center"
             JustifyContent="Center">
 
@@ -14,8 +14,7 @@
                     BorderWidth="{Binding ButtonBorder}"
                     Command="{Binding ButtonCommand}"
                     Opacity="{Binding ButtonOpacity}"
-                    CommandParameter="{Binding .}"
-                    Margin="5"/>
+                    CommandParameter="{Binding .}" />
         </DataTemplate>
     </BindableLayout.ItemTemplate>
 </FlexLayout>

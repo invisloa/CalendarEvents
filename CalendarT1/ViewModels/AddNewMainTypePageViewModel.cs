@@ -20,6 +20,7 @@ namespace CalendarT1.ViewModels
 		public string MyTestFont { get; set; } = IconFont.Home_filled;
 
 		public ObservableCollection<SelectableButtonViewModel> MainButtonVisualsSelectors { get; set; }
+		public ObservableCollection<SelectableButtonViewModel> IconsListsSelector { get; set; } 
 
 
 		private IEventRepository _eventRepository;
@@ -139,8 +140,14 @@ namespace CalendarT1.ViewModels
 				new SelectableButtonViewModel("Icons", true, new RelayCommand<SelectableButtonViewModel>(ShowIcons)),
 				new SelectableButtonViewModel("Background Colors", false, new RelayCommand<SelectableButtonViewModel>(ShowBackgroundColors)),
 				new SelectableButtonViewModel("Text Colors", false, new RelayCommand<SelectableButtonViewModel>(ShowTextColors)),
-
 			};
+			IconsListsSelector = new ObservableCollection<SelectableButtonViewModel>
+			{
+				new SelectableButtonViewModel("Top", true, ActivitiesIconsCommand),
+				new SelectableButtonViewModel("Activities", false, HomeIconsCommand), // TODO add more icons and buttons
+				new SelectableButtonViewModel("Others", false),
+			};
+			
 		}
 
 		private async Task OnSubmitMainTypeCommand()

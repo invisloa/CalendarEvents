@@ -42,9 +42,12 @@
                 </Frame>
 
             </Grid>
-        <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding MainButtonVisualsSelectors}" />
 
+        <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding MainButtonVisualsSelectors}"  AlignItems="Center" JustifyContent="Center" />
 
+        <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding IconsListsSelector}" AlignItems="Start" JustifyContent="Start" />
+
+        
         <!--TODO !!!!!!!!! REFACTOR THIS TO SOME COLLECTION THIS IS ONLY TEMPORARY!!!!!!!!!!!!!!!!!!!! -->
         <StackLayout Orientation="Horizontal">
             <Button Text="Activities" Command="{Binding ActivitiesIconsCommand}"/>
