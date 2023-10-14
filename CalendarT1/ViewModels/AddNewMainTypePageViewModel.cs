@@ -136,7 +136,7 @@ namespace CalendarT1.ViewModels
 			SelectedIconString = IconFont.Minor_crash;
 			MainButtonVisualsSelectors = new ObservableCollection<SelectableButtonViewModel>
 			{
-				new SelectableButtonViewModel("Icons", false, new RelayCommand<SelectableButtonViewModel>(ShowIcons)),
+				new SelectableButtonViewModel("Icons", true, new RelayCommand<SelectableButtonViewModel>(ShowIcons)),
 				new SelectableButtonViewModel("Background Colors", false, new RelayCommand<SelectableButtonViewModel>(ShowBackgroundColors)),
 				new SelectableButtonViewModel("Text Colors", false, new RelayCommand<SelectableButtonViewModel>(ShowTextColors)),
 

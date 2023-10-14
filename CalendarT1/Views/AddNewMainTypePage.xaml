@@ -53,6 +53,7 @@
                         BackgroundColor="{DynamicResource MainButtonBackgroundColor}"
                         BorderWidth="{Binding ButtonBorder}"
                         Command="{Binding ButtonCommand}"
+                        Opacity="{Binding ButtonOpacity}"
                         CommandParameter="{Binding .}"
                     Margin="5"/>
                 </DataTemplate>
