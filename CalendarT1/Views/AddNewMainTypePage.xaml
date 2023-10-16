@@ -55,7 +55,7 @@
 
         </StackLayout>
         <!-- Icon Selection UI -->
-        <CollectionView ItemsSource="{Binding IconsListStrings}" HorizontalOptions="FillAndExpand">
+        <CollectionView ItemsSource="{Binding IconsStringsOC}" HorizontalOptions="FillAndExpand">
             <CollectionView.ItemsLayout>
                 <GridItemsLayout Orientation="Vertical" Span="3" />
             </CollectionView.ItemsLayout>

@@ -20,7 +20,8 @@ namespace CalendarT1.ViewModels
 		public string MyTestFont { get; set; } = IconFont.Home_filled;
 
 		public ObservableCollection<SelectableButtonViewModel> MainButtonVisualsSelectors { get; set; }
-		public ObservableCollection<SelectableButtonViewModel> IconsListsSelector { get; set; } 
+		public ObservableCollection<SelectableButtonViewModel> IconsListsSelector { get; set; }
+		private Dictionary<string, RelayCommand<SelectableButtonViewModel>> iconCommands;
 
 
 		private IEventRepository _eventRepository;
@@ -81,14 +82,16 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-		public ObservableCollection<string> IconsListStrings { get; set; }  // to initialize in ctor
+
+		public ObservableCollection<string> IconsStringsOC { get; set; }  // to initialize in ctor
 
 		public RelayCommand GoToAllMainTypesPageCommand { get; set; }// to initialize in ctor
-		public RelayCommand<string> IconSelectedCommand  { get; set; }// to initialize in ctor
+		public RelayCommand<string> IconSelectedCommand { get; set; }// to initialize in ctor
 		public AsyncRelayCommand SubmitAsyncMainTypeCommand { get; set; }// to initialize in ctor
 		public AsyncRelayCommand DeleteAsyncSelectedEventTypeCommand { get; set; }// to initialize in ctor
-		public RelayCommand ActivitiesIconsCommand { get; set; }// to initialize in ctor
-		public RelayCommand HomeIconsCommand { get; set; }// to initialize in ctor
+		public RelayCommand<SelectableButtonViewModel> ActivitiesIconsCommand { get; set; }// to initialize in ctor
+		public RelayCommand<SelectableButtonViewModel> HomeIconsCommand { get; set; }// to initialize in ctor
+		public RelayCommand<SelectableButtonViewModel> Top3IconsCommand { get; set; }// to initialize in ctor
 
 
 		#endregion
@@ -123,32 +126,75 @@ namespace CalendarT1.ViewModels
 		#region private methods
 		private void InitializeCommon()
 		{
+			InitializeColors();
+			InitializeCommands();
+			InitializeSelectors();
+		}
+
+		private void InitializeColors()
+		{
 			BackgroundColor = Color.FromArgb("#fff");
 			TextColor = Color.FromArgb("#000");
+		}
 
-			bool isEditMode = _currentMainType != null;
-			IconsListStrings = Factory.CreateIconsListStrings();
+		private void InitializeCommands()
+		{
 			GoToAllMainTypesPageCommand = new RelayCommand(OnGoToAllMainTypesPageCommand);
 			SubmitAsyncMainTypeCommand = new AsyncRelayCommand(OnSubmitMainTypeCommand, CanExecuteSubmitMainTypeCommand);
 			DeleteAsyncSelectedEventTypeCommand = new AsyncRelayCommand(OnDeleteMainTypeCommand);
 			IconSelectedCommand = new RelayCommand<string>(OnIconSelectedCommand);
-			ActivitiesIconsCommand = new RelayCommand(OnActivitiesIconsCommand);
-			HomeIconsCommand = new RelayCommand(OnHomeIconsCommand);
+
+			iconCommands = new Dictionary<string, RelayCommand<SelectableButtonViewModel>>
+			{
+				{ "Activities", null },
+				{ "Home", null },
+				{ "Top", null }
+			};
+
+			foreach (var item in iconCommands.Keys.ToList())
+			{
+				iconCommands[item] = new RelayCommand<SelectableButtonViewModel>(btn => OnShowIconsCommand(btn, item));
+			}
+		}
+
+		private void InitializeSelectors()
+		{
 			SelectedIconString = IconFont.Minor_crash;
 			MainButtonVisualsSelectors = new ObservableCollection<SelectableButtonViewModel>
 			{
-				new SelectableButtonViewModel("Icons", true, new RelayCommand<SelectableButtonViewModel>(ShowIcons)),
-				new SelectableButtonViewModel("Background Colors", false, new RelayCommand<SelectableButtonViewModel>(ShowBackgroundColors)),
-				new SelectableButtonViewModel("Text Colors", false, new RelayCommand<SelectableButtonViewModel>(ShowTextColors)),
+				new SelectableButtonViewModel("Icons", true, new RelayCommand<SelectableButtonViewModel>(OnShowIconsCommand)),
+				new SelectableButtonViewModel("Background Colors", false, new RelayCommand<SelectableButtonViewModel>(OnShowBackgroundColorsShow)),
+				new SelectableButtonViewModel("Text Colors", false, new RelayCommand<SelectableButtonViewModel>(OnShowTextColorsCommand)),
 			};
+
 			IconsListsSelector = new ObservableCollection<SelectableButtonViewModel>
 			{
 				new SelectableButtonViewModel("Top", true, ActivitiesIconsCommand),
 				new SelectableButtonViewModel("Activities", false, HomeIconsCommand), // TODO add more icons and buttons
 				new SelectableButtonViewModel("Others", false),
 			};
-			
 		}
+
+		private void OnShowIconsCommand(SelectableButtonViewModel clickedButton, string iconType)
+		{
+			var iconsMap = new Dictionary<string, ObservableCollection<string>>
+			{
+				{ "Top", IconsHelperClass.GetTopIcons3() },
+				{ "Activities", IconsHelperClass.GetTopIcons() },
+				{ "Home", IconsHelperClass.GetTopIcons2() }
+			};
+
+			OnExactIconsTypeClick(clickedButton, iconsMap[iconType]);
+		}
+		private void OnExactIconsTypeClick(SelectableButtonViewModel clickedButton, ObservableCollection<string> iconsToShowOC)
+		{
+			SingleButtonSelection(clickedButton, IconsListsSelector);
+
+			IconsStringsOC = iconsToShowOC;
+			OnPropertyChanged(nameof(IconsStringsOC));
+		}
+
+
 
 		private async Task OnSubmitMainTypeCommand()
 		{
@@ -160,7 +206,7 @@ namespace CalendarT1.ViewModels
 
 
 				await _eventRepository.UpdateMainEventTypeAsync(_currentMainType);
-				await Shell.Current.GoToAsync("..");	// TODO CHANGE NOT WORKING!!!
+				await Shell.Current.GoToAsync("..");    // TODO CHANGE NOT WORKING!!!
 			}
 			else
 			{
@@ -211,58 +257,40 @@ namespace CalendarT1.ViewModels
 			SelectedIconString = visualStringSource;
 		}
 
-		private void OnActivitiesIconsCommand()
-		{
-			var newIconsListStrings = new ObservableCollection<string>
-				{
-					IconFont.Language,
-					IconFont.Landslide,
-					IconFont.Landscape
-				};
 
-			IconsListStrings = newIconsListStrings;
-			OnPropertyChanged(nameof(IconsListStrings));
-		}
-
-		private void OnHomeIconsCommand()
-		{
-			var newIconsListStrings = new ObservableCollection<string>
-				{
-					IconFont.Safety_check,
-					IconFont.Safety_divider,
-					IconFont.Sailing
-				};
-
-			IconsListStrings = newIconsListStrings;
-			OnPropertyChanged(nameof(IconsListStrings));
-		}
 		#endregion
 
 
-		private void ShowIcons(SelectableButtonViewModel clickedButton)
+		private void OnShowIconsCommand(SelectableButtonViewModel clickedButton)
 		{
-			DeselectAllButtons();
-			clickedButton.IsSelected = true;
+			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
+
 
 			// TODO !!!!!!!!!!!!!!!!!
 		}
-		private void ShowBackgroundColors(SelectableButtonViewModel clickedButton)
+		private void OnShowBackgroundColorsShow(SelectableButtonViewModel clickedButton)
 		{
-			DeselectAllButtons();
-			clickedButton.IsSelected = true;
+			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
+
 
 			// TODO!!!!!!!!!!!!!!!!!
 		}
-		private void ShowTextColors(SelectableButtonViewModel clickedButton)
+		private void OnShowTextColorsCommand(SelectableButtonViewModel clickedButton)
 		{
-			DeselectAllButtons();
-			clickedButton.IsSelected = true;
+			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
+
 
 			// TODO!!!!!!!!!!!!!!!!!!
 		}
-		private void DeselectAllButtons()
+
+		private void SingleButtonSelection(SelectableButtonViewModel clickedButton, ObservableCollection<SelectableButtonViewModel> buttonsToDeselect)
 		{
-			foreach (var button in MainButtonVisualsSelectors)
+			DeselectAllButtons(buttonsToDeselect);
+			clickedButton.IsSelected = true;
+		}
+		private void DeselectAllButtons(ObservableCollection<SelectableButtonViewModel> buttonsToDeselect)
+		{
+			foreach (var button in buttonsToDeselect)
 			{
 				button.IsSelected = false;
 			}

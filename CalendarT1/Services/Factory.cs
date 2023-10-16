@@ -96,10 +96,5 @@ namespace CalendarT1.Services
 			return new MainEventType(mainTypeName, iconForMainEventType);
 		}
 
-		internal static ObservableCollection<string> CreateIconsListStrings()
-		{
-			return new ObservableCollection<string> { IconFont.Home, IconFont.Home_filled, IconFont.Home_max };
-
-		}
 	}
 }

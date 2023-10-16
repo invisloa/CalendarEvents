@@ -11,6 +11,7 @@ namespace CalendarT1.Helpers
 
 	internal static class IconFont
 	{
+
 		public const string Icon1 = "\u0030";
 		public const string Icon2 = "\u0031";
 		public const string Icon3 = "\u0032";
