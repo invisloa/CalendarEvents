@@ -14,23 +14,23 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels
 {
-	class AddNewMainTypePageViewModel : BaseViewModel
+	public class AddNewMainTypePageViewModel : BaseViewModel
 	{
-
-		public string MyTestFont { get; set; } = IconFont.Home_filled;
-
-		public ObservableCollection<SelectableButtonViewModel> MainButtonVisualsSelectors { get; set; }
-		public ObservableCollection<SelectableButtonViewModel> IconsListsSelector { get; set; }
-		private Dictionary<string, RelayCommand<SelectableButtonViewModel>> iconCommands;
-
-
-		private IEventRepository _eventRepository;
+		private readonly IEventRepository _eventRepository;
+		private  Dictionary<string, ObservableCollection<string>> _iconsMap;
 		private IMainEventType _currentMainType;
 		private string _mainTypeName;
 		private string _selectedIconString;
 		private Color _backgroundColor;
 		private Color _textColor;
 		private bool _isEdit;
+		private Dictionary<string, RelayCommand<SelectableButtonViewModel>> iconCommands;
+
+		public string MyTestFont { get; set; } = IconFont.Home_filled;
+
+		public ObservableCollection<SelectableButtonViewModel> MainButtonVisualsSelectors { get; set; }
+		public ObservableCollection<SelectableButtonViewModel> IconsListsSelector { get; set; }
+
 		public string SubmitMainTypeButtonText => _isEdit ? "SUBMIT CHANGES" : "ADD NEW MAIN TYPE";
 		public string MainTypePlaceholderText => _isEdit ? $"TYPE NEW NAME FOR: {MainTypeName}" : "...NEW MAIN TYPE NAME...";
 
@@ -126,6 +126,12 @@ namespace CalendarT1.ViewModels
 		#region private methods
 		private void InitializeCommon()
 		{
+			_iconsMap = new Dictionary<string, ObservableCollection<string>>
+				{
+					{ "Top", IconsHelperClass.GetTopIcons3() },
+					{ "Activities", IconsHelperClass.GetTopIcons() },
+					{ "Home", IconsHelperClass.GetTopIcons2() }
+				};
 			InitializeColors();
 			InitializeCommands();
 			InitializeSelectors();
@@ -146,9 +152,9 @@ namespace CalendarT1.ViewModels
 
 			iconCommands = new Dictionary<string, RelayCommand<SelectableButtonViewModel>>
 			{
+				{ "Top", null },
 				{ "Activities", null },
-				{ "Home", null },
-				{ "Top", null }
+				{ "Home", null }
 			};
 
 			foreach (var item in iconCommands.Keys.ToList())
@@ -169,22 +175,15 @@ namespace CalendarT1.ViewModels
 
 			IconsListsSelector = new ObservableCollection<SelectableButtonViewModel>
 			{
-				new SelectableButtonViewModel("Top", true, ActivitiesIconsCommand),
-				new SelectableButtonViewModel("Activities", false, HomeIconsCommand), // TODO add more icons and buttons
-				new SelectableButtonViewModel("Others", false),
+				new SelectableButtonViewModel("Top", true, iconCommands["Top"]),
+				new SelectableButtonViewModel("Activities", false, iconCommands["Activities"]),
+				new SelectableButtonViewModel("Others", false, iconCommands["Home"]),
 			};
 		}
 
 		private void OnShowIconsCommand(SelectableButtonViewModel clickedButton, string iconType)
 		{
-			var iconsMap = new Dictionary<string, ObservableCollection<string>>
-			{
-				{ "Top", IconsHelperClass.GetTopIcons3() },
-				{ "Activities", IconsHelperClass.GetTopIcons() },
-				{ "Home", IconsHelperClass.GetTopIcons2() }
-			};
-
-			OnExactIconsTypeClick(clickedButton, iconsMap[iconType]);
+			OnExactIconsTypeClick(clickedButton, _iconsMap[iconType]);
 		}
 		private void OnExactIconsTypeClick(SelectableButtonViewModel clickedButton, ObservableCollection<string> iconsToShowOC)
 		{
