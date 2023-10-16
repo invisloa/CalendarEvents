@@ -3,7 +3,7 @@
 // ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
 
-// main event type icon selector
+// OnShowIconsCommand
 
 
 

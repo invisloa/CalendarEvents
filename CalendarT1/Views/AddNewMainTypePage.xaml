@@ -45,38 +45,43 @@
 
         <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding MainButtonVisualsSelectors}"  AlignItems="Center" JustifyContent="Center" />
 
-        <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding IconsListsSelector}" AlignItems="Start" JustifyContent="Start" />
-
         
-        <!--TODO !!!!!!!!! REFACTOR THIS TO SOME COLLECTION THIS IS ONLY TEMPORARY!!!!!!!!!!!!!!!!!!!! -->
-        <StackLayout Orientation="Horizontal">
-            <Button Text="Activities" Command="{Binding ActivitiesIconsCommand}"/>
-            <Button Text="Home" Command="{Binding HomeIconsCommand}"/>
-
-        </StackLayout>
-        <!-- Icon Selection UI -->
-        <CollectionView ItemsSource="{Binding IconsStringsOC}" HorizontalOptions="FillAndExpand">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="3" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Label 
+        <!-- TO SHOW ONLY IF ICONS ARE SELECTED !!!-->
+        <StackLayout>
+            <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding IconsTabsOC, Mode=TwoWay}" AlignItems="Start" JustifyContent="Start" />
+            <!-- Icon Selection UI -->
+            <!-- TO SHOW ONLY IF ICONS ARE SELECTED !!!-->
+            <CollectionView ItemsSource="{Binding IconsToShowStringsOC, Mode=TwoWay}" HorizontalOptions="FillAndExpand">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Label 
                     Text="{Binding .}"
                     Style="{StaticResource GoogleFont}"
                     HorizontalOptions="Center"
                     VerticalOptions="Center"/>
-                        <Button 
-                    Command="{Binding Path=BindingContext.IconSelectedCommand, Source={x:Reference AddNewMainTypePageName}}" 
+                            <Button 
+                    Command="{Binding Path=BindingContext.ExactIconSelectedCommand, Source={x:Reference AddNewMainTypePageName}}" 
                     CommandParameter="{Binding .}"
                     BackgroundColor="Transparent"
                     HorizontalOptions="FillAndExpand" 
                     VerticalOptions="FillAndExpand"/>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </StackLayout>
+
+
+        <!-- TO SHOW ONLY IF BGColors ARE SELECTED !!!-->
+
+        <!-- TO SHOW ONLY IF TXTCOLORS ARE SELECTED !!!-->
+
+
+
 
 
 
