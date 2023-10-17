@@ -104,6 +104,9 @@ namespace CalendarT1.ViewModels
 		{
 			_eventRepository = eventRepository;
 			InitializeCommon();
+			//var firstKeyValuePair = _stringToOCMapper.ElementAt(0);
+			//string firstKey = firstKeyValuePair.Key;
+			//IconsToShowStringsOC = _stringToOCMapper[firstKey];
 
 		}
 		//Constructor for edit mode
@@ -163,7 +166,6 @@ namespace CalendarT1.ViewModels
 			GoToAllMainTypesPageCommand = new RelayCommand(OnGoToAllMainTypesPageCommand);
 			SubmitAsyncMainTypeCommand = new AsyncRelayCommand(OnSubmitMainTypeCommand, CanExecuteSubmitMainTypeCommand);
 			DeleteAsyncSelectedEventTypeCommand = new AsyncRelayCommand(OnDeleteMainTypeCommand);
-
 			ExactIconSelectedCommand = new RelayCommand<string>(OnExactIconSelectedCommand);
 		}
 
@@ -172,11 +174,11 @@ namespace CalendarT1.ViewModels
 			SelectedIconString = IconFont.Minor_crash;
 			MainButtonVisualsSelectors = new ObservableCollection<SelectableButtonViewModel>
 			{
-				new SelectableButtonViewModel("Icons", true, new RelayCommand<SelectableButtonViewModel>(OnShowIconsTabCommand)),
+				new SelectableButtonViewModel("Icons", false, new RelayCommand<SelectableButtonViewModel>(OnShowIconsTabCommand)),
 				new SelectableButtonViewModel("Background Colors", false, new RelayCommand<SelectableButtonViewModel>(OnShowBgColorsCommand)),
 				new SelectableButtonViewModel("Text Colors", false, new RelayCommand<SelectableButtonViewModel>(OnShowTextColorsCommand)),
 			};
-			InitializeIconsTabs();
+			//InitializeIconsTabs();
 		}
 
 		private async Task OnSubmitMainTypeCommand()
@@ -260,7 +262,10 @@ namespace CalendarT1.ViewModels
 		private void OnShowIconsTabCommand(SelectableButtonViewModel clickedButton)
 		{
 			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
-			ButtonsColorsOC.Clear();
+			if (ButtonsColorsOC != null)
+			{
+				ButtonsColorsOC.Clear();
+			}
 			InitializeIconsTabs();
 			var buttonToSelect = IconsTabsOC.Single(x => x.ButtonText == lastSelectedIconType);
 			OnExactIconsTabClick(buttonToSelect, _stringToOCMapper[lastSelectedIconType]);

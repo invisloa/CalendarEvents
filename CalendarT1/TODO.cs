@@ -7,7 +7,7 @@
 
 
 
-
+// color buttons visuals in maintype page to make the effect on click (border width)
 // check equal after changing main event type - icons implementation
 // consider removing 					OnPropertyChanged(); in subeventtype model
 
