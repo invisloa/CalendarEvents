@@ -14,13 +14,14 @@
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="Daily events list">
             <ShellContent
-                Title="Welcome Page"
-                ContentTemplate="{DataTemplate local:WelcomePage}"
-                Route="WelcomePage" />
-            <ShellContent
                 Title="AddNewMainTypePage"
                 ContentTemplate="{DataTemplate local:AddNewMainTypePage}"
                 Route="AddNewMainTypePage" />
+            <ShellContent
+                Title="Welcome Page"
+                ContentTemplate="{DataTemplate local:WelcomePage}"
+                Route="WelcomePage" />
+
             <ShellContent
                 Title="AddNewType"
                 ContentTemplate="{DataTemplate local:AddNewSubTypePage}"

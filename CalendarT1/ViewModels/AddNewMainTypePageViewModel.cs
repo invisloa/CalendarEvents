@@ -17,7 +17,7 @@ namespace CalendarT1.ViewModels
 	public class AddNewMainTypePageViewModel : BaseViewModel
 	{
 		private readonly IEventRepository _eventRepository;
-		private  Dictionary<string, ObservableCollection<string>> _iconsMap;
+		private  Dictionary<string, ObservableCollection<string>> _stringToOCMapper;
 		private IMainEventType _currentMainType;
 		private string _mainTypeName;
 		private string _selectedIconString;
@@ -124,15 +124,30 @@ namespace CalendarT1.ViewModels
 		#region private methods
 		private void InitializeCommon()
 		{
-			_iconsMap = new Dictionary<string, ObservableCollection<string>>
-			{
-				{ "Top", IconsHelperClass.GetTopIcons3() },
-				{ "Activities", IconsHelperClass.GetTopIcons() },
-				{ "Home", IconsHelperClass.GetTopIcons2() }
-			};
+			RefreshIconsToShowOC();
 			InitializeColors();
 			InitializeCommands();
 			InitializeSelectors();
+		}
+		private void InitializeIconsTabs()
+		{
+			IconsTabsOC = new ObservableCollection<SelectableButtonViewModel>
+			{
+				new SelectableButtonViewModel("Top", true, new RelayCommand(() => OnExactIconsTabCommand("Top"))),
+				new SelectableButtonViewModel("Activities", false, new RelayCommand(() => OnExactIconsTabCommand("Activities"))),
+				new SelectableButtonViewModel("Others", false, new RelayCommand(() => OnExactIconsTabCommand("Others"))),
+			};
+			RefreshIconsToShowOC();
+			OnPropertyChanged(nameof(IconsTabsOC));
+		}
+		private void RefreshIconsToShowOC()
+		{
+			_stringToOCMapper = new Dictionary<string, ObservableCollection<string>>
+			{
+				{ "Top", IconsHelperClass.GetTopIcons3() },
+				{ "Activities", IconsHelperClass.GetTopIcons() },
+				{ "Others", IconsHelperClass.GetTopIcons2() }
+			};
 		}
 		private void InitializeColors()
 		{
@@ -160,31 +175,6 @@ namespace CalendarT1.ViewModels
 			};
 			InitializeIconsTabs();
 		}
-		private void InitializeIconsTabs()
-		{
-			IconsTabsOC = new ObservableCollection<SelectableButtonViewModel>
-			{
-				new SelectableButtonViewModel("Top", true, new RelayCommand(() => OnShowIconsCommand("Top"))),
-				new SelectableButtonViewModel("Activities", false, new RelayCommand(() => OnShowIconsCommand("Activities"))),
-				new SelectableButtonViewModel("Others", false, new RelayCommand(() => OnShowIconsCommand("Others"))),
-			};
-			OnPropertyChanged(nameof(IconsTabsOC));
-		}
-
-		private void OnShowIconsCommand(string iconType)
-		{
-			var lastSelectedButton = IconsTabsOC.Single(x => x.ButtonText == lastSelectedIconType);
-			OnExactIconsTypeClick(lastSelectedButton, _iconsMap[iconType]);
-		}
-		private void OnExactIconsTypeClick(SelectableButtonViewModel clickedButton, ObservableCollection<string> iconsToShowOC)
-		{
-			SingleButtonSelection(clickedButton, IconsTabsOC);
-			lastSelectedIconType = clickedButton.ButtonText;
-			IconsToShowStringsOC = iconsToShowOC;
-			OnPropertyChanged(nameof(IconsToShowStringsOC));
-		}
-
-
 
 		private async Task OnSubmitMainTypeCommand()
 		{
@@ -242,6 +232,22 @@ namespace CalendarT1.ViewModels
 		{
 			return !string.IsNullOrEmpty(MainTypeName);
 		}
+
+		private void OnExactIconsTabCommand(string iconType)
+		{
+			var lastSelectedButton = IconsTabsOC.Single(x => x.ButtonText == iconType);
+			OnExactIconsTabClick(lastSelectedButton, _stringToOCMapper[iconType]);
+		}
+		private void OnExactIconsTabClick(SelectableButtonViewModel clickedButton, ObservableCollection<string> iconsToShowOC)
+		{
+			SingleButtonSelection(clickedButton, IconsTabsOC);
+			lastSelectedIconType = clickedButton.ButtonText;
+			IconsToShowStringsOC = iconsToShowOC;
+			OnPropertyChanged(nameof(IconsToShowStringsOC));
+		}
+
+
+
 		private void OnExactIconSelectedCommand(string visualStringSource)
 		{
 			SelectedIconString = visualStringSource;
@@ -253,7 +259,7 @@ namespace CalendarT1.ViewModels
 			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
 			InitializeIconsTabs();
 			var buttonToSelect = IconsTabsOC.Single(x => x.ButtonText == lastSelectedIconType);
-			OnExactIconsTypeClick(buttonToSelect, _iconsMap[lastSelectedIconType]);
+			OnExactIconsTabClick(buttonToSelect, _stringToOCMapper[lastSelectedIconType]);
 
 			// TODO !!!!!!!!!!!!!!!!!
 		}
