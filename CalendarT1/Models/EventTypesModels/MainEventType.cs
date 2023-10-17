@@ -12,12 +12,12 @@ namespace CalendarT1.Models.EventTypesModels
 	public class MainEventType : IMainEventType
 	{
 		public string Title { get; set; }
-		public IMainTypeVisualElement SelectedVisualElement { get; set; }  // new property for the icon
+		public IconModel SelectedVisualElement { get; set; }  // new property for the icon
 		public override string ToString()
 		{
 			return Title;
 		}
-		public MainEventType(string title, IMainTypeVisualElement icon)
+		public MainEventType(string title, IconModel icon)
 		{
 			Title = title;
 			SelectedVisualElement = icon; 

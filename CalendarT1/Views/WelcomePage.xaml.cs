@@ -2,6 +2,7 @@ using CalendarT1.Helpers;
 using CalendarT1.Models;
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
+using CalendarT1.ViewModels;
 
 namespace CalendarT1.Views;
 
@@ -13,6 +14,10 @@ public partial class WelcomePage : ContentPage
 	{
 		InitializeComponent();
 		_eventRepository = ServiceHelper.GetService<IEventRepository>();
+
+		BindingContext =  new WelcomePageViewModel(_eventRepository);
+
+
 		//_eventRepository.ClearAllMainEventTypesAsync();
 		//_eventRepository.ClearAllSubEventTypesAsync();
 		//_eventRepository.ClearAllEventsListAsync();

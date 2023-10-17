@@ -7,11 +7,21 @@
              Title="WelcomePage">
     
     <StackLayout Background="White">
-        <Button Text="XXXXXXX" Clicked="Button_Clicked"/>
+
+        <Label 
+                            Text="{Binding SomeIconToShow.IconName}" 
+                            TextColor="{Binding SomeIconToShow.TextColor}" 
+                            Style="{StaticResource GoogleFont}" 
+                            VerticalOptions="Center" 
+                            HorizontalOptions="Start" />
+
+
+
+        <Button Text="XXXXXXX" Command="{Binding ButtonClickCommand}"/>
         <ImageButton 
                              CornerRadius="10"
                              Source="logout.png"
-            BackgroundColor="Aquamarine"
+                             BackgroundColor="Aquamarine"
                              WidthRequest="40" 
                              HeightRequest="40"
                              Margin="10"
@@ -22,39 +32,6 @@
     
 
 </ContentPage>
-
-
-
-<!--<Label Text="{x:Static icon:IconFont.Apartment}" Style="{x:StaticResource GoogleFont}" TextColor="Black"></Label>
-<Label Text="{x:Static icon:IconFont.Add_location}" Style="{x:StaticResource GoogleFont}" ></Label>
-<Label Text="{x:Static icon:IconFont.Apartment}" Style="{x:StaticResource GoogleF
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    ont}" TextColor="Black"></Label>
-<Label Text="{x:Static icon:IconFont.Add_location}" Style="{x:StaticResource GoogleFont}" ></Label>
-<Label Text="{x:Static icon:IconFont.Apartment}" Style="{x:StaticResource GoogleFont}" TextColor="Black"></Label>
-<Label Text="{x:Static icon:IconFont.Add_location}" Style="{x:StaticResource GoogleFont}" TextColor="Black"></Label>-->
-
-
-
-
-
-
-
-
-
-
-
-
 
 <!--<VerticalStackLayout>
     <Label 

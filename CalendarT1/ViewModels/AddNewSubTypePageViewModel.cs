@@ -118,7 +118,7 @@ namespace CalendarT1.ViewModels
 			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(false);
 			DefaultEventTimespanCCHelper.SelectedUnitIndex = 2; // minutes
 			DefaultEventTimespanCCHelper.DurationValue = 30;
-			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(_eventRepository.AllMainEventTypesList);
+			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeViewModelClass(_eventRepository.AllMainEventTypesList);
 			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(microTasksList);
 			InitializeCommon();
 		}

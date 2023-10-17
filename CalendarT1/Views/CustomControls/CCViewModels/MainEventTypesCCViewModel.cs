@@ -63,10 +63,10 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		// Private Methods
 		private void SetMainEventTypeFromViewModel(MainEventTypeViewModel viewModel)
 		{
-			var selectedEventType = _mainEventTypesList.FirstOrDefault(sc => sc.Title == viewModel.MainEventTitle);
+			var selectedEventType = _mainEventTypesList.FirstOrDefault(o => o == viewModel.MainEventType);
 			if (selectedEventType == null)
 			{
-				throw new ArgumentException($"Invalid TypeOfEvent value: {viewModel.MainEventTitle}");
+				throw new ArgumentException($"Invalid TypeOfEvent value: {viewModel.MainEventType}");
 			}
 			SelectedMainEventType = selectedEventType;
 		}
@@ -97,7 +97,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 
 			foreach (IMainEventType eventType in _mainEventTypesList)
 			{
-				var viewModel = new MainEventTypeViewModel(eventType, SelectedIcon, BorderSize, FadedOpacity);
+				var viewModel = new MainEventTypeViewModel(eventType, eventType.SelectedVisualElement, BorderSize, FadedOpacity);
 				_eventVisualDetails[eventType] = viewModel;
 				MainEventTypesVisualsOC.Add(viewModel);
 			}
@@ -119,6 +119,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		private IconModel _selectedIcon;
 
 		// Properties
+		public IMainEventType MainEventType => _mainEventType;
 		public string MainEventTitle
 		{
 			get => _mainEventTitle;
@@ -143,7 +144,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		// Constructor
 		public MainEventTypeViewModel(IMainEventType mainEventType, IconModel selectedIcon, int borderWidth, float opacity)
 		{
-			_mainEventType = mainEventType ?? throw new ArgumentNullException(nameof(mainEventType));
+			_mainEventType = mainEventType;
 			MainEventTitle = _mainEventType.Title;
 			SelectedIcon = selectedIcon;
 			Border = borderWidth;

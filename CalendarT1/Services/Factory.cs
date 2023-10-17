@@ -55,7 +55,7 @@ namespace CalendarT1.Services
 		}
 
 
-		public static IMainEventTypesCC CreateNewIMainEventTypeHelperClass(List<IMainEventType> mainEventTypes)
+		public static IMainEventTypesCC CreateNewIMainEventTypeViewModelClass(List<IMainEventType> mainEventTypes)
 		{
 			return new MainEventTypesCCViewModel(mainEventTypes);
 		}
@@ -86,12 +86,12 @@ namespace CalendarT1.Services
 			return new MicroTasksListCCViewModel(listToAddMiroTasks);
 		}
 
-		internal static IMainTypeVisualElement CreateIMainTypeVisualElement(string selectedIconString, Color backgroundColor, Color textColor)
+		internal static IconModel CreateIMainTypeVisualElement(string selectedIconString, Color backgroundColor, Color textColor)
 		{
 			return new IconModel(selectedIconString, backgroundColor, textColor);
 		}
 
-		internal static IMainEventType CreateNewMainEventType(string mainTypeName, IMainTypeVisualElement iconForMainEventType)
+		internal static IMainEventType CreateNewMainEventType(string mainTypeName, IconModel iconForMainEventType)
 		{
 			return new MainEventType(mainTypeName, iconForMainEventType);
 		}

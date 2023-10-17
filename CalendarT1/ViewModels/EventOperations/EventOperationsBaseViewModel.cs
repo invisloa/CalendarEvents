@@ -85,7 +85,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
-			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeHelperClass(eventRepository.AllMainEventTypesList);
+			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeViewModelClass(eventRepository.AllMainEventTypesList);
 			_eventRepository = eventRepository;
 			_allUserTypesForVisuals = new List<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
