@@ -76,14 +76,10 @@
         </StackLayout>
 
 
-        <!-- TO SHOW ONLY IF BGColors ARE SELECTED !!!-->
-
-        <!-- TO SHOW ONLY IF TXTCOLORS ARE SELECTED !!!-->
-
-
-
-
-
+        <!-- TO SHOW ONLY IF BGColors or TEXTCOLORS ARE SELECTED !!!-->
+        <customControls:ColorButtonsSelectorCC
+                BindingContext="{Binding}"
+                SelectColorCommand="{Binding SelectColorCommand}" />
 
 
 

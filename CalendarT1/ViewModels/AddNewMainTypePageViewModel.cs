@@ -21,6 +21,7 @@ namespace CalendarT1.ViewModels
 		private IMainEventType _currentMainType;
 		private string _mainTypeName;
 		private string _selectedIconString;
+		private bool _isBgColorsSelected;
 		private Color _backgroundColor;
 		private Color _textColor;
 		private bool _isEdit;
@@ -30,6 +31,7 @@ namespace CalendarT1.ViewModels
 		public string MyTestFont { get; set; } = IconFont.Home_filled;
 
 		public ObservableCollection<SelectableButtonViewModel> MainButtonVisualsSelectors { get; set; }
+		public ObservableCollection<SelectableButtonViewModel> ButtonsColorsOC { get; set; }
 		public ObservableCollection<SelectableButtonViewModel> IconsTabsOC { get; set; }
 
 		public string SubmitMainTypeButtonText => _isEdit ? "SUBMIT CHANGES" : "ADD NEW MAIN TYPE";
@@ -92,6 +94,7 @@ namespace CalendarT1.ViewModels
 		public RelayCommand<SelectableButtonViewModel> ActivitiesIconsCommand { get; set; }
 		public RelayCommand<SelectableButtonViewModel> HomeIconsCommand { get; set; }
 		public RelayCommand<SelectableButtonViewModel> Top3IconsCommand { get; set; }
+		public RelayCommand<SelectableButtonViewModel> SelectColorCommand { get; private set; }
 		#endregion
 
 
@@ -183,14 +186,14 @@ namespace CalendarT1.ViewModels
 			{
 				_currentMainType.Title = MainTypeName;
 				_currentMainType.SelectedVisualElement = iconForMainEventType;
-
-
+				MainTypeName = string.Empty;
 				await _eventRepository.UpdateMainEventTypeAsync(_currentMainType);
 				await Shell.Current.GoToAsync("..");    // TODO CHANGE NOT WORKING!!!
 			}
 			else
 			{
 				var newMainType = Factory.CreateNewMainEventType(MainTypeName, iconForMainEventType);
+				MainTypeName = string.Empty;
 				await _eventRepository.AddMainEventTypeAsync(newMainType);
 				await Shell.Current.GoToAsync("..");    // TODO !!!!! CHANGE NOT WORKING!!!
 			}
@@ -257,16 +260,15 @@ namespace CalendarT1.ViewModels
 		private void OnShowIconsTabCommand(SelectableButtonViewModel clickedButton)
 		{
 			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
+			ButtonsColorsOC.Clear();
 			InitializeIconsTabs();
 			var buttonToSelect = IconsTabsOC.Single(x => x.ButtonText == lastSelectedIconType);
 			OnExactIconsTabClick(buttonToSelect, _stringToOCMapper[lastSelectedIconType]);
 
-			// TODO !!!!!!!!!!!!!!!!!
 		}
-		private void OnShowBgColorsCommand(SelectableButtonViewModel clickedButton)
+		private void ClearIconsTabs()
 		{
-			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
-			if(IconsTabsOC != null && IconsTabsOC.Any())
+			if (IconsTabsOC != null && IconsTabsOC.Any())
 			{
 				IconsTabsOC.Clear();
 			}
@@ -274,16 +276,7 @@ namespace CalendarT1.ViewModels
 			{
 				IconsToShowStringsOC.Clear();
 			}
-			// TODO!!!!!!!!!!!!!!!!!
 		}
-		private void OnShowTextColorsCommand(SelectableButtonViewModel clickedButton)
-		{
-			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
-
-
-			// TODO!!!!!!!!!!!!!!!!!!
-		}
-
 		private void SingleButtonSelection(SelectableButtonViewModel clickedButton, ObservableCollection<SelectableButtonViewModel> buttonsToDeselect)
 		{
 			DeselectAllButtons(buttonsToDeselect);
@@ -296,5 +289,43 @@ namespace CalendarT1.ViewModels
 				button.IsSelected = false;
 			}
 		}
+
+
+
+		#region COLOR BUTTONS
+		private void OnShowBgColorsCommand(SelectableButtonViewModel clickedButton)
+		{
+			_isBgColorsSelected = true;
+			ClearIconsTabs();
+			SelectColorCommand = new RelayCommand<SelectableButtonViewModel>(OnBgColorSeletctionCommand);
+			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
+			InitializeColorButtons();
+		}
+		private void OnShowTextColorsCommand(SelectableButtonViewModel clickedButton)
+		{
+			_isBgColorsSelected = false;
+			ClearIconsTabs();
+			SelectColorCommand = new RelayCommand<SelectableButtonViewModel>(OnTextColorSeletctionCommand);
+			SingleButtonSelection(clickedButton, MainButtonVisualsSelectors);
+			InitializeColorButtons();
+		}
+
+		private void InitializeColorButtons() 
+		{
+			ButtonsColorsInitializerHelperClass buttonsColorsInitializerHelperClass = new ButtonsColorsInitializerHelperClass();
+
+			// consider not reloading the buttons if they are already loaded - but there is a problem with relaycommand not reloading
+			ButtonsColorsOC = buttonsColorsInitializerHelperClass.ButtonsColorsOC;
+			OnPropertyChanged(nameof(ButtonsColorsOC));
+		}
+		private void OnTextColorSeletctionCommand(SelectableButtonViewModel clickedButton)
+		{
+			TextColor = clickedButton.ButtonColor;
+		}
+		private void OnBgColorSeletctionCommand(SelectableButtonViewModel clickedButton)
+		{
+			BackgroundColor = clickedButton.ButtonColor;
+		}
+		#endregion
 	}
 }

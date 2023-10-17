@@ -11,7 +11,7 @@ namespace CalendarT1.Helpers
 {
 	public class ButtonsColorsInitializerHelperClass
 	{
-		public ObservableCollection<SelectableButtonViewModel> ButtonsColors { get; set; }
+		public ObservableCollection<SelectableButtonViewModel> ButtonsColorsOC { get; set; }
 		private int NumberOfColumns = 10;
 
 		public ButtonsColorsInitializerHelperClass()
@@ -21,7 +21,7 @@ namespace CalendarT1.Helpers
 
 		private void InitializeColorButtons()
 		{
-			ButtonsColors = new ObservableCollection<SelectableButtonViewModel>();
+			ButtonsColorsOC = new ObservableCollection<SelectableButtonViewModel>();
 
 			AddColors(GenerateShades(Color.FromRgb(205, 92, 92))); // Base Red
 			AddColors(GenerateShades(Color.FromRgb(30, 144, 255))); // Base Blue
@@ -34,7 +34,7 @@ namespace CalendarT1.Helpers
 		{
 			foreach (var color in colors)
 			{
-				ButtonsColors.Add(new SelectableButtonViewModel { ButtonColor = color});
+				ButtonsColorsOC.Add(new SelectableButtonViewModel { ButtonColor = color});
 			}
 		}
 

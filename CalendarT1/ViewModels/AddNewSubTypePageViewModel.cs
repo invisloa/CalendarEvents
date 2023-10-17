@@ -97,7 +97,7 @@ namespace CalendarT1.ViewModels
 		}
 
 
-		public ObservableCollection<SelectableButtonViewModel> ButtonsColors { get; set; }
+		public ObservableCollection<SelectableButtonViewModel> ButtonsColorsOC { get; set; }
 		#endregion
 		#region Commands
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
@@ -227,7 +227,7 @@ namespace CalendarT1.ViewModels
 		{
 			SelectedSubTypeColor = selectedColor.ButtonColor;
 
-			foreach (var button in ButtonsColors)
+			foreach (var button in ButtonsColorsOC)
 			{
 				button.IsSelected = button.ButtonColor == selectedColor.ButtonColor;
 			}
@@ -239,7 +239,7 @@ namespace CalendarT1.ViewModels
 		private void InitializeColorButtons() //TODO ! also to extract as a separate custom control
 		{
 			ButtonsColorsInitializerHelperClass buttonsColorsInitializerHelperClass = new ButtonsColorsInitializerHelperClass();
-			ButtonsColors = buttonsColorsInitializerHelperClass.ButtonsColors;
+			ButtonsColorsOC = buttonsColorsInitializerHelperClass.ButtonsColorsOC;
 		}
 		public void SetExtraUserControlsValues(ISubEventTypeModel _currentType)
 		{
