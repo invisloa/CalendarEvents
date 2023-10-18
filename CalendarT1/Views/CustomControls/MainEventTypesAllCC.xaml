@@ -4,46 +4,36 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="CalendarT1.Views.CustomControls.MainEventTypesAllCC">
     <VerticalStackLayout>
-        <CollectionView ItemsSource="{Binding MainEventTypesVisualsOC}" HorizontalOptions="FillAndExpand">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical"
-                         Span="3" />
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
+        <FlexLayout BindableLayout.ItemsSource="{Binding MainEventTypesVisualsOC}" 
+                Direction="Row" 
+                Wrap="Wrap" 
+                AlignItems="Start"
+                JustifyContent="Start">
+            <BindableLayout.ItemTemplate>
                 <DataTemplate>
-                    <StackLayout 
+                        <StackLayout 
                         Orientation="Horizontal" 
                         BackgroundColor="{Binding MainEventTypeBackgroundColor}"
                         Spacing="5"  
                         Padding="10"
                         >
 
-                        <!-- Font Icon -->
-                        <Label 
-                            Text="{Binding SomeIconToShow.IconName}" 
-                            TextColor="{Binding SomeIconToShow.TextColor}" 
+                            <!-- Font Icon -->
+                            <Frame   
+                        BackgroundColor="{Binding SelectedIcon.BackgroundColor}"
+                        >
+
+                            <Label 
+                            Text="{Binding SelectedIcon.IconName}" 
+                            TextColor="{Binding SelectedIcon.TextColor}" 
                             Style="{StaticResource GoogleFont}" 
-                            VerticalOptions="Center" 
-                            HorizontalOptions="Start" />
-
-                        <!-- Text --><!--
-                        <Label 
-                            Text="{Binding MainEventTitle}" 
-                            VerticalOptions="Center" 
-                            HorizontalOptions="Start" />
-
-                        --><!-- Tap gesture to simulate button tap --><!--
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer 
-                                Command="{Binding Path=BindingContext.MainEventTypeSelectedCommand, Source={x:Reference MainEventTypesControl}}" 
-                                CommandParameter="{Binding .}" />
-                        </StackLayout.GestureRecognizers>-->
-                    </StackLayout>
-
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
-
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"/>
+                            </Frame>
+                        </StackLayout>
+                    </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout> 
     </VerticalStackLayout>
 </ContentView>
 
