@@ -15,14 +15,10 @@
                         Orientation="Horizontal" 
                         BackgroundColor="{Binding MainEventTypeBackgroundColor}"
                         Spacing="5"  
-                        Padding="10"
-                        >
-
-                            <!-- Font Icon -->
-                            <Frame   
-                        BackgroundColor="{Binding SelectedIcon.BackgroundColor}"
-                        >
-
+                        Padding="10">
+                            
+                        <!-- Font Icon -->
+                        <Frame BackgroundColor="{Binding SelectedIcon.BackgroundColor}">
                             <Label 
                             Text="{Binding SelectedIcon.IconName}" 
                             TextColor="{Binding SelectedIcon.TextColor}" 
