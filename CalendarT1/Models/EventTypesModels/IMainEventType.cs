@@ -9,7 +9,7 @@ namespace CalendarT1.Models.EventTypesModels
 	public interface IMainEventType : IEquatable<object>
 	{
 		string Title { get; set; }
-		IconModel SelectedVisualElement { get; set; }
+		IMainEventVisualModel SelectedVisualElement { get; set; }
 		new bool Equals(object other); // to check if the event type is already in the list
 	}
 }

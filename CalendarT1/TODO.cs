@@ -3,7 +3,7 @@
 // ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
 
-// IconModel => IVisualElementModel - some interface instead of exactr class
+// IconModel => IVisualElementModel - some interface instead of exact class
 
 
 

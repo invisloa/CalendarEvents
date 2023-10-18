@@ -86,12 +86,12 @@ namespace CalendarT1.Services
 			return new MicroTasksListCCViewModel(listToAddMiroTasks);
 		}
 
-		internal static IconModel CreateIMainTypeVisualElement(string selectedIconString, Color backgroundColor, Color textColor)
+		internal static IMainEventVisualModel CreateIMainTypeVisualElement(string selectedIconString, Color backgroundColor, Color textColor)
 		{
 			return new IconModel(selectedIconString, backgroundColor, textColor);
 		}
 
-		internal static IMainEventType CreateNewMainEventType(string mainTypeName, IconModel iconForMainEventType)
+		internal static IMainEventType CreateNewMainEventType(string mainTypeName, IMainEventVisualModel iconForMainEventType)
 		{
 			return new MainEventType(mainTypeName, iconForMainEventType);
 		}

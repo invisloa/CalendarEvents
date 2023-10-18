@@ -183,7 +183,7 @@ namespace CalendarT1.ViewModels
 
 		private async Task OnSubmitMainTypeCommand()
 		{
-			var iconForMainEventType = new IconModel(SelectedIconString, BackgroundColor, TextColor);
+			var iconForMainEventType = Factory.CreateIMainTypeVisualElement(SelectedIconString, BackgroundColor, TextColor);
 			if (_isEdit)
 			{
 				_currentMainType.Title = MainTypeName;

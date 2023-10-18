@@ -29,13 +29,13 @@ namespace CalendarT1.ViewModels
 			set
 			{
 				someIconString = value;
-				SomeIconToShow = new IconModel(someIconString, Color.FromArgb("#FF0000"), Color.FromArgb("#FF0000"));
+				SomeIconToShow = Factory.CreateIMainTypeVisualElement(someIconString, Color.FromArgb("#FF0000"), Color.FromArgb("#FF0000"));
 				OnPropertyChanged(nameof(SomeIconString));
 			}
 		}
 
-		private IconModel someIconToShow;
-		public IconModel SomeIconToShow
+		private IMainEventVisualModel someIconToShow;
+		public IMainEventVisualModel SomeIconToShow
 		{
 			get
 			{
