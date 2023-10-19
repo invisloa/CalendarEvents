@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Models
 {
-	public class IconModel : IEquatable<object>, IMainEventVisualModel
+	public class IconModel : IEquatable<object>, IMainTypeVisualModel
 	{
 		public string IconName { get; set; }
 
@@ -53,7 +53,7 @@ namespace CalendarT1.Models
 				return false;
 			}
 
-			IMainEventVisualModel other = (IMainEventVisualModel)obj;
+			IMainTypeVisualModel other = (IMainTypeVisualModel)obj;
 			return IconName == other.IconName &&
 				   BackgroundColorString == other.BackgroundColorString &&
 				   TextColorString == other.TextColorString;

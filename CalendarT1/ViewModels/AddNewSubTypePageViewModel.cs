@@ -105,6 +105,11 @@ namespace CalendarT1.ViewModels
 		public RelayCommand<SelectableButtonViewModel> SelectColorCommand { get; private set; }
 		public AsyncRelayCommand SubmitTypeCommand { get; private set; }
 		public AsyncRelayCommand DeleteSelectedEventTypeCommand { get; private set; }
+
+		public RelayCommand SelectMainEventTypeCommand<IMainEventTypeViewModel>(IMainEventTypeViewModel viewModel)
+		{
+			return new RelayCommand(() => SelectedMainEventType = viewModel.);
+		}
 		#region Commands CanExecute
 		private bool CanExecuteSubmitTypeCommand() => !string.IsNullOrEmpty(TypeName) && SelectedMainEventType != null;
 		#endregion

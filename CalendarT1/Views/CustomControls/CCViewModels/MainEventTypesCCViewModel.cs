@@ -22,7 +22,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		private readonly List<IMainEventType> _mainEventTypesList;
 		private readonly Dictionary<IMainEventType, MainEventTypeViewModel> _eventVisualDetails;
 		private IMainEventType _selectedMainEventType;
-		private IMainEventVisualModel _selectedIcon;
+		private IMainTypeVisualModel _selectedIcon;
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // Default to red
 
 		// Properties
@@ -41,7 +41,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
-		public IMainEventVisualModel SelectedIcon
+		public IMainTypeVisualModel SelectedIcon
 		{
 			get => _selectedIcon;
 			set => _selectedIcon = value;
@@ -116,7 +116,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		private string _mainEventTitle;
 		private float _opacity;
 		private int _border;
-		private IMainEventVisualModel _selectedIcon;
+		private IMainTypeVisualModel _selectedIcon;
 
 		// Properties
 		public IMainEventType MainEventType => _mainEventType;
@@ -125,7 +125,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			get => _mainEventTitle;
 			set { _mainEventTitle = value; OnPropertyChanged(); }
 		}
-		public IMainEventVisualModel SelectedIcon
+		public IMainTypeVisualModel SelectedIcon
 		{
 			get => _selectedIcon;
 			set { _selectedIcon = value; OnPropertyChanged(); }
@@ -142,7 +142,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		}
 
 		// Constructor
-		public MainEventTypeViewModel(IMainEventType mainEventType, IMainEventVisualModel selectedIcon, int borderWidth, float opacity)
+		public MainEventTypeViewModel(IMainEventType mainEventType, IMainTypeVisualModel selectedIcon, int borderWidth, float opacity)
 		{
 			_mainEventType = mainEventType;
 			MainEventTitle = _mainEventType.Title;

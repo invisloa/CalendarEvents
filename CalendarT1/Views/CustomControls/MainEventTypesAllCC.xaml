@@ -2,27 +2,39 @@
 <ContentView x:Name="MainEventTypesControl"
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:CalendarT1.Helpers.Converters"
              x:Class="CalendarT1.Views.CustomControls.MainEventTypesAllCC">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolToAlphaConverter x:Key="boolToAlphaConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
+
     <VerticalStackLayout>
         <FlexLayout BindableLayout.ItemsSource="{Binding MainEventTypesVisualsOC}" 
                 Direction="Row" 
                 Wrap="Wrap" 
                 AlignItems="Start"
-                JustifyContent="Start">
+                JustifyContent="Center">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
                         <StackLayout 
                         Orientation="Horizontal" 
-                        BackgroundColor="{Binding MainEventTypeBackgroundColor}"
                         Spacing="5"  
                         Padding="10">
                             
                         <!-- Font Icon -->
                         <Frame BackgroundColor="{Binding SelectedIcon.BackgroundColor}">
+                            
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding BindingContext.SelectMainEventTypeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                     CommandParameter="{Binding .}"/>                            
+                            </Frame.GestureRecognizers>
                             <Label 
                             Text="{Binding SelectedIcon.IconName}" 
                             TextColor="{Binding SelectedIcon.TextColor}" 
                             Style="{StaticResource GoogleFont}" 
+                            Opacity="{Binding IsSelected, Converter={StaticResource boolToAlphaConverter}}"
                             HorizontalOptions="Center" 
                             VerticalOptions="Center"/>
                             </Frame>

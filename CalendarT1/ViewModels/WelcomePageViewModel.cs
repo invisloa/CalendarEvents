@@ -34,8 +34,8 @@ namespace CalendarT1.ViewModels
 			}
 		}
 
-		private IMainEventVisualModel someIconToShow;
-		public IMainEventVisualModel SomeIconToShow
+		private IMainTypeVisualModel someIconToShow;
+		public IMainTypeVisualModel SomeIconToShow
 		{
 			get
 			{
