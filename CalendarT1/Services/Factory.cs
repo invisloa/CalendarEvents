@@ -55,7 +55,7 @@ namespace CalendarT1.Services
 		}
 
 
-		public static IMainEventTypesCC CreateNewIMainEventTypeViewModelClass(List<IMainEventType> mainEventTypes)
+		public static IMainEventTypesCCViewModel CreateNewIMainEventTypeViewModelClass(List<IMainEventType> mainEventTypes)
 		{
 			return new MainEventTypesCCViewModel(mainEventTypes);
 		}

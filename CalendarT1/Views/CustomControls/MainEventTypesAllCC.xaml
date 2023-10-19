@@ -7,6 +7,7 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:BoolToAlphaConverter x:Key="boolToAlphaConverter" />
+            <converters:BoolToScaleConverter x:Key="boolToScaleConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
 
@@ -24,17 +25,20 @@
                         Padding="10">
                             
                         <!-- Font Icon -->
-                        <Frame BackgroundColor="{Binding SelectedIcon.BackgroundColor}">
+                        <Frame BackgroundColor="{Binding SelectedIcon.BackgroundColor}"
+                               Scale="{Binding IsSelected, Converter={StaticResource boolToScaleConverter}}"
+                               Opacity="{Binding IsSelected, Converter={StaticResource boolToAlphaConverter}}"
+                               >
                             
                             <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.SelectMainEventTypeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                <TapGestureRecognizer Command="{Binding BindingContext.MainEventTypeSelectedCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
                                                      CommandParameter="{Binding .}"/>                            
                             </Frame.GestureRecognizers>
                             <Label 
+
                             Text="{Binding SelectedIcon.IconName}" 
                             TextColor="{Binding SelectedIcon.TextColor}" 
                             Style="{StaticResource GoogleFont}" 
-                            Opacity="{Binding IsSelected, Converter={StaticResource boolToAlphaConverter}}"
                             HorizontalOptions="Center" 
                             VerticalOptions="Center"/>
                             </Frame>

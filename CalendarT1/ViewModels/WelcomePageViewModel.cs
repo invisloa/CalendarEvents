@@ -14,9 +14,9 @@ namespace CalendarT1.ViewModels
 {
 	internal class WelcomePageViewModel: BaseViewModel
 	{
-		private IMainEventTypesCC _mainEventTypesCCHelper;
+		private IMainEventTypesCCViewModel _mainEventTypesCCHelper;
 		private IEventRepository _eventRepository;
-		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCC)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
+		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get => ((IMainEventTypesCCViewModel)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCCViewModel)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
 		public RelayCommand ButtonClickCommand { get; private set; }
 
 		private string someIconString;

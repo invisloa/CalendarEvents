@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-	public class MainEventTypesCCViewModel : IMainEventTypesCC
+	public class MainEventTypesCCViewModel : BaseViewModel, IMainEventTypesCCViewModel
 	{
 		// Constants
 		private const int FullOpacity = 1;
@@ -36,8 +36,9 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				if (_selectedMainEventType != value)
 				{
 					_selectedMainEventType = value;
-					UpdateSelectedMainEventTypeVisuals(_selectedMainEventType);
+					OnPropertyChanged(nameof(SelectedMainEventType));
 					MainEventTypeChanged?.Invoke(_selectedMainEventType);
+
 				}
 			}
 		}
@@ -69,25 +70,15 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				throw new ArgumentException($"Invalid TypeOfEvent value: {viewModel.MainEventType}");
 			}
 			SelectedMainEventType = selectedEventType;
+			deselectAllMainEventTypes();
+			viewModel.IsSelected = true;
 		}
 
-		private void UpdateSelectedMainEventTypeVisuals(IMainEventType mainEventType)
-		{
-			DisableVisualsForAllMainEventTypes();
-
-			if (mainEventType != null && _eventVisualDetails.TryGetValue(mainEventType, out var details))
-			{
-				details.Opacity = FullOpacity;
-				details.Border = NoBorderSize;
-			}
-		}
-
-		public void DisableVisualsForAllMainEventTypes()
+		private void deselectAllMainEventTypes()
 		{
 			foreach (var eventType in _eventVisualDetails.Values)
 			{
-				eventType.Opacity = FadedOpacity;
-				eventType.Border = BorderSize;
+				eventType.IsSelected = false;
 			}
 		}
 
@@ -97,14 +88,9 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 
 			foreach (IMainEventType eventType in _mainEventTypesList)
 			{
-				var viewModel = new MainEventTypeViewModel(eventType, eventType.SelectedVisualElement, BorderSize, FadedOpacity);
+				var viewModel = new MainEventTypeViewModel(eventType, eventType.SelectedVisualElement);
 				_eventVisualDetails[eventType] = viewModel;
 				MainEventTypesVisualsOC.Add(viewModel);
-			}
-
-			if (_selectedMainEventType != null)
-			{
-				UpdateSelectedMainEventTypeVisuals(_selectedMainEventType);
 			}
 		}
 	}
@@ -114,10 +100,17 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		// Fields
 		private readonly IMainEventType _mainEventType;
 		private string _mainEventTitle;
-		private float _opacity;
-		private int _border;
 		private IMainTypeVisualModel _selectedIcon;
-
+		private bool _isSelected;
+		public bool IsSelected
+		{
+			get => _isSelected;
+			set
+			{
+				_isSelected = value;
+				OnPropertyChanged();
+			}
+		}
 		// Properties
 		public IMainEventType MainEventType => _mainEventType;
 		public string MainEventTitle
@@ -130,25 +123,13 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			get => _selectedIcon;
 			set { _selectedIcon = value; OnPropertyChanged(); }
 		}
-		public float Opacity
-		{
-			get => _opacity;
-			set { _opacity = value; OnPropertyChanged(); }
-		}
-		public int Border
-		{
-			get => _border;
-			set { _border = value; OnPropertyChanged(); }
-		}
 
 		// Constructor
-		public MainEventTypeViewModel(IMainEventType mainEventType, IMainTypeVisualModel selectedIcon, int borderWidth, float opacity)
+		public MainEventTypeViewModel(IMainEventType mainEventType, IMainTypeVisualModel selectedIcon)
 		{
 			_mainEventType = mainEventType;
 			MainEventTitle = _mainEventType.Title;
 			SelectedIcon = selectedIcon;
-			Border = borderWidth;
-			Opacity = opacity;
 		}
 	}
 }

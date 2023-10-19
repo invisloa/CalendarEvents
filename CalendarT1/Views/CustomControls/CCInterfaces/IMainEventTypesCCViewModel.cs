@@ -10,16 +10,15 @@ using System.Threading.Tasks;
 namespace CalendarT1.Views.CustomControls.CCInterfaces
 {
 
-    /// <summary>
-    /// When using this interface consider using MainEventTypesCCHelper class
-    /// MainEventTypesCCHelper implements this interface and helps to set the logic for control operations 
-    /// </summary>
-    public interface IMainEventTypesCC
+	/// <summary>
+	/// When using this interface consider using MainEventTypesCCHelper class
+	/// MainEventTypesCCHelper implements this interface and helps to set the logic for control operations 
+	/// </summary>
+	public interface IMainEventTypesCCViewModel
 	{
 		public IMainEventType SelectedMainEventType { get; set; }
 		ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get; set; }
 		RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; }
-		public void DisableVisualsForAllMainEventTypes();
 		public event Action<IMainEventType> MainEventTypeChanged;
 	}
 }

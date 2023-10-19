@@ -15,13 +15,13 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.ViewModels.EventsViewModels
 {
-	public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCC, IFilterDatesCC
+	public class AllEventsViewModel : AbstractEventViewModel, IMainEventTypesCCViewModel, IFilterDatesCC
 	{
 		public event Action<IMainEventType> MainEventTypeChanged;
 
 		//MainEventTypesCC implementation
 		#region MainEventTypesCC implementation
-		protected IMainEventTypesCC _mainEventTypesCCHelper;
+		protected IMainEventTypesCCViewModel _mainEventTypesCCHelper;
 		protected List<ISubEventTypeModel> _allUserTypesForVisuals;
 
 		public IMainEventType SelectedMainEventType
@@ -51,10 +51,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
 		public Color MainEventTypeBackgroundColor { get; set; } = Color.FromRgb(0, 0, 153); // Defeault color is blue
-		public void DisableVisualsForAllMainEventTypes()
-		{
-			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
-		}
 		protected void OnMainEventTypeSelected(MainEventTypeViewModel eventType)
 		{
 			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(eventType);
@@ -145,7 +141,6 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			_allUserTypesForVisuals = new List<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			SelectUserEventTypeCommand = new RelayCommand<ISubEventTypeModel>(OnUserEventTypeSelected);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
-			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 		}
 
 		// Single Event Type MODE

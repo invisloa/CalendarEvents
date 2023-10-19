@@ -10,7 +10,7 @@
                     WidthRequest="150" HorizontalOptions="End" BorderColor="CadetBlue" BorderWidth="3" Margin="10"/>
              <!--Textbox for new type name--> 
             
-            <Frame BackgroundColor="{Binding SelectedMainEventType.MainEventTypeBorderColor}" Padding="8" HorizontalOptions="CenterAndExpand" WidthRequest="250" >
+            <Frame Padding="1" HorizontalOptions="CenterAndExpand" WidthRequest="250" >
 
                 <Entry x:Name="TypeNameEntry"  Placeholder="{Binding PlaceholderText}" Text="{Binding TypeName, Mode=TwoWay}" Margin="10"  FontAttributes="Bold" FontSize="Body"
                            HorizontalTextAlignment="Center" BackgroundColor="{Binding SelectedSubTypeColor}" TextColor="{DynamicResource MainTextColor}" VerticalOptions="Fill"/>

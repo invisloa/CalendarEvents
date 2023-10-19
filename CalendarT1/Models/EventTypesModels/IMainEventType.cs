@@ -10,8 +10,6 @@ namespace CalendarT1.Models.EventTypesModels
 	{
 		string Title { get; set; }
 		IMainTypeVisualModel SelectedVisualElement { get; set; }
-
-		public bool IsSelected { get; set; }
 		new bool Equals(object other); // to check if the event type is already in the list
 	}
 }

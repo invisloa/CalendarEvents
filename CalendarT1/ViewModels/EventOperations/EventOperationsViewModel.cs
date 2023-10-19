@@ -79,7 +79,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			StartDateTime = selectedDate;
 			EndDateTime = selectedDate;
-			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
 			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
 			IsCompleteFrameCommand = new RelayCommand(() => IsCompleted = !IsCompleted);
 

@@ -17,7 +17,7 @@ namespace CalendarT1.ViewModels.EventOperations
     /// <summary>
     /// Contains only must know data for events
     /// </summary>
-    public abstract class EventOperationsBaseViewModel : BaseViewModel, IMainEventTypesCC, IMeasurementSelectorCC
+    public abstract class EventOperationsBaseViewModel : BaseViewModel, IMainEventTypesCCViewModel, IMeasurementSelectorCC
 	{
 		//MeasurementCC implementation
 		#region MeasurementCC implementation
@@ -104,7 +104,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 
 		// normal fields
-		protected IMainEventTypesCC _mainEventTypesCCHelper;
+		protected IMainEventTypesCCViewModel _mainEventTypesCCHelper;
 		protected IEventRepository _eventRepository;
 		protected IGeneralEventModel _selectedCurrentEvent;
 		protected bool _isCompleted;
@@ -473,10 +473,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 
-		public void DisableVisualsForAllMainEventTypes()
-		{
-			_mainEventTypesCCHelper.DisableVisualsForAllMainEventTypes();
-		}
+
 		private void GoToAddNewSubTypePage()
 		{
 			Application.Current.MainPage.Navigation.PushAsync(new AddNewSubTypePage());

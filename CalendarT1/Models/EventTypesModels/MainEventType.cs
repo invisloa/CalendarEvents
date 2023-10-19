@@ -23,13 +23,6 @@ namespace CalendarT1.Models.EventTypesModels
 			SelectedVisualElement = icon; 
 
 		}
-		private bool _isSelected;
-		public bool IsSelected
-		{
-			get => _isSelected;
-			set	{_isSelected = value;}
-		}	
-
 		public override bool Equals(object obj)
 		{
 			if (obj == null || GetType() != obj.GetType())
