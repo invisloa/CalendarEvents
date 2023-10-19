@@ -209,7 +209,7 @@ namespace CalendarT1.ViewModels
 				var multiTasks = UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected ? new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC) : null;
 				var newUserType = Factory.CreateNewEventType(MainEventTypesCCHelper.SelectedMainEventType, TypeName, _selectedColor, timespan, quantityAmount, multiTasks);
 				await _eventRepository.AddSubEventTypeAsync(newUserType);
-				await Shell.Current.GoToAsync("..");    // TODO !!!!! CHANGE NOT WORKING!!!
+				TypeName = string.Empty;
 			}
 		}
 		private void OnSelectColorCommand(SelectableButtonViewModel selectedColor)

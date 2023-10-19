@@ -41,7 +41,7 @@
                             Style="{StaticResource GoogleFont}" 
                             HorizontalOptions="Center" 
                             VerticalOptions="Center"/>
-                            </Frame>
+                        </Frame>
                         </StackLayout>
                     </DataTemplate>
             </BindableLayout.ItemTemplate>

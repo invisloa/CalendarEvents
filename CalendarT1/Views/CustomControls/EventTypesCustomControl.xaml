@@ -3,30 +3,67 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:type_models="clr-namespace:CalendarT1.Models.EventTypesModels;assembly=CalendarT1"
              xmlns:CustomControls="clr-namespace:CalendarT1.Views.CustomControls"
+             xmlns:converters="clr-namespace:CalendarT1.Helpers.Converters"
              x:Class="CalendarT1.Views.CustomControls.EventTypesCustomControl">
+    <ContentView.Resources>
+        <ResourceDictionary>
+            <converters:BoolToAlphaConverter x:Key="boolToAlphaConverter" />
+        </ResourceDictionary>
+    </ContentView.Resources>
     <StackLayout>
-        <CollectionView ItemsSource="{Binding AllSubEventTypesOC}" HorizontalOptions="FillAndExpand">
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical" Span="3" />
-                 <!--Modify the Span to adjust number of items in a row--> 
-            </CollectionView.ItemsLayout>
-            <CollectionView.ItemTemplate>
+        <FlexLayout BindableLayout.ItemsSource="{Binding AllSubEventTypesOC}" 
+            Wrap="Wrap" 
+            Direction="Row" 
+            AlignItems="Start" 
+            JustifyContent="Start"
+            HorizontalOptions="Start">
+            <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="type_models:ISubEventTypeModel">
-                    <Button Text="{Binding EventTypeName}" Margin="5"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <!-- For MainType Frame -->
+                            <ColumnDefinition Width="Auto"/>
+                            <!-- For SubType Button -->
+                        </Grid.ColumnDefinitions>
 
-                            TextColor="White"
-                            BackgroundColor="{Binding BackgroundColor}" 
-                            BorderWidth="5"
-                            Command="{Binding BindingContext.SelectUserEventTypeCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
-                            CommandParameter="{Binding}">
-                        <Button.Shadow>
-                            <Shadow Brush="Black"
-                                    Radius="3"
-                                    Opacity="1"/>
-                        </Button.Shadow>
-                    </Button>
+                        <!-- Sub Type (Button) -->
+                        <Button Grid.Column="1"
+                        Text="{Binding EventTypeName}" Margin="-10, 0, 0, 0"
+                        TextColor="White"
+                        BackgroundColor="{Binding BackgroundColor}" 
+                        BorderWidth="5"
+                        Command="{Binding BindingContext.SelectUserEventTypeCommand, Source={RelativeSource AncestorType={x:Type ContentView}}}"
+                        CommandParameter="{Binding}">
+                            <Button.Shadow>
+                                <Shadow Brush="Black"
+                                Radius="3"
+                                Opacity="1"/>
+                            </Button.Shadow>
+                        </Button>
+
+                        <!-- Main Type -->
+                        <Frame Grid.Column="0"
+                       
+                       BackgroundColor="{Binding MainEventType.SelectedVisualElement.BackgroundColor}" 
+                       Padding="0"
+                       WidthRequest="40"
+                       HeightRequest="40"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       >
+                            <Label 
+                        Text="{Binding MainEventType.SelectedVisualElement.IconName}" 
+                        TextColor="{Binding MainEventType.SelectedVisualElement.TextColor}" 
+                        Style="{StaticResource GoogleFont}" 
+                        Opacity="{Binding IsSelectedToFilter, Converter={StaticResource boolToAlphaConverter}}"
+                        HorizontalOptions="Center" 
+                        VerticalOptions="Center"/>
+                        </Frame>
+                    </Grid>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
+
     </StackLayout>
 </ContentView>

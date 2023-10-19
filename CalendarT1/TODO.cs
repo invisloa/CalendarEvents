@@ -2,6 +2,8 @@
 
 // ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
+// first subtype is set to isselected = false - no idea why delete all and check if it is still happening
+
 
 // IconModel => IVisualElementModel - some interface instead of exact class
 
