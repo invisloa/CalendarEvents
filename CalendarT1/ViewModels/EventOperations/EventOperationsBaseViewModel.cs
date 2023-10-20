@@ -433,7 +433,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		protected virtual void OnMainEventTypeSelected(MainEventTypeViewModel selectedMainEventType)
 		{
-			if (SelectedMainEventType == null || SelectedMainEventType.ToString() != selectedMainEventType.ToString())
+			if (SelectedMainEventType == null || SelectedMainEventType != selectedMainEventType.MainEventType)
 			{
 				_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(selectedMainEventType);
 				SelectedMainEventType = _mainEventTypesCCHelper.SelectedMainEventType;

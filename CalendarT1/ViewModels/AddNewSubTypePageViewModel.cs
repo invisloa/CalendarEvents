@@ -92,7 +92,15 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-
+		public IMainEventType SelectedMainEventType
+		{
+			get => MainEventTypesCCHelper.SelectedMainEventType;
+			set
+			{
+				MainEventTypesCCHelper.SelectedMainEventType = value;
+				SubmitTypeCommand.NotifyCanExecuteChanged();
+			}
+		}
 
 		public ObservableCollection<SelectableButtonViewModel> ButtonsColorsOC { get; set; }
 		#endregion
@@ -147,9 +155,16 @@ namespace CalendarT1.ViewModels
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
 			MainEventTypeSelectedCommand = MainEventTypesCCHelper.MainEventTypeSelectedCommand;
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
+			_mainEventTypesCCHelper.MainEventTypeChanged += OnMainEventTypeChanged;
+
 		}
 
-		private void setIsVisibleForExtraControlsInEditMode()
+		// for telling the view that the main event type has changed
+		private void OnMainEventTypeChanged(IMainEventType newMainEventType)
+		{
+			SubmitTypeCommand.NotifyCanExecuteChanged();
+		}
+			private void setIsVisibleForExtraControlsInEditMode()
 		{
 			UserTypeExtraOptionsHelper.IsValueTypeSelected = CurrentType.IsValueType;
 			UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected = CurrentType.IsMicroTaskType;

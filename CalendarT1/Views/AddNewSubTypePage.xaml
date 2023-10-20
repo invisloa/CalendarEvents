@@ -18,10 +18,7 @@
 
             
             <!--Main Event Types Custom Control--> 
-            
-            <StackLayout>
-                <customControls:MainEventTypesAllCC BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
-            </StackLayout>
+            <customControls:MainEventTypesAllCC BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
 
             
             <!--Possible Colors of events to choose-->

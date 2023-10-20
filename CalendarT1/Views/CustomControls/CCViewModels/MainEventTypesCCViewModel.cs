@@ -64,14 +64,16 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		// Private Methods
 		private void SetMainEventTypeFromViewModel(MainEventTypeViewModel viewModel)
 		{
-			var selectedEventType = _mainEventTypesList.FirstOrDefault(o => o == viewModel.MainEventType);
-			if (selectedEventType == null)
+			var selectedMainEventType = _mainEventTypesList.FirstOrDefault(o => o == viewModel.MainEventType);
+			if (selectedMainEventType == null)
 			{
 				throw new ArgumentException($"Invalid TypeOfEvent value: {viewModel.MainEventType}");
 			}
-			SelectedMainEventType = selectedEventType;
+			SelectedMainEventType = selectedMainEventType;
 			deselectAllMainEventTypes();
 			viewModel.IsSelected = true;
+			MainEventTypeChanged?.Invoke(SelectedMainEventType);
+
 		}
 
 		private void deselectAllMainEventTypes()
