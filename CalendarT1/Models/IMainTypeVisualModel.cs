@@ -1,6 +1,6 @@
 ﻿namespace CalendarT1.Models
 {
-	public interface IMainTypeVisualModel
+	public interface IMainTypeVisualModel : IEquatable<object>
 	{
 		Color BackgroundColor { get; set; }
 		string BackgroundColorString { get; set; }

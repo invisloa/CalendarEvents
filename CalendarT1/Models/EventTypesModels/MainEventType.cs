@@ -31,7 +31,7 @@ namespace CalendarT1.Models.EventTypesModels
 			}
 
 			MainEventType other = (MainEventType)obj;
-			return Title == other.Title && SelectedVisualElement == other.SelectedVisualElement ;
+			return Title == other.Title && SelectedVisualElement.Equals(other.SelectedVisualElement) ;
 		}
 
 		public override int GetHashCode()

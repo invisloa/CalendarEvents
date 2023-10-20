@@ -164,13 +164,8 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private List<ISubEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
 		{
-			string myvalue = $"my value is: {value}";
-			string values = "";
-			foreach (var item in _allUserTypesForVisuals)
-			{
-				values += $"my values are: {item.MainEventType}";
-			}
-			return _allUserTypesForVisuals.FindAll(x => x.MainEventType.Equals(value));
+			var x = _allUserTypesForVisuals.FindAll(x => x.MainEventType.Equals(value));
+			return x;
 		}
 		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC 
 		{ 
