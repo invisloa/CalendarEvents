@@ -20,7 +20,7 @@ namespace CalendarT1.ViewModels
 		private  Dictionary<string, ObservableCollection<string>> _stringToOCMapper;
 		private IMainEventType _currentMainType;
 		private string _mainTypeName;
-		private string _selectedIconString;
+		private string _selectedVisualElementString;
 		private bool _isBgColorsSelected;
 		private Color _backgroundColor;
 		private Color _textColor;
@@ -76,12 +76,12 @@ namespace CalendarT1.ViewModels
 				OnPropertyChanged();
 			}
 		}
-		public string SelectedIconString
+		public string SelectedVisualElementString
 		{
-			get => _selectedIconString;
+			get => _selectedVisualElementString;
 			set
 			{
-				_selectedIconString = value;
+				_selectedVisualElementString = value;
 				OnPropertyChanged();
 			}
 		}
@@ -171,7 +171,7 @@ namespace CalendarT1.ViewModels
 
 		private void InitializeSelectors()
 		{
-			SelectedIconString = IconFont.Minor_crash;
+			SelectedVisualElementString = IconFont.Minor_crash;
 			MainButtonVisualsSelectors = new ObservableCollection<SelectableButtonViewModel>
 			{
 				new SelectableButtonViewModel("Icons", false, new RelayCommand<SelectableButtonViewModel>(OnShowIconsTabCommand)),
@@ -183,7 +183,7 @@ namespace CalendarT1.ViewModels
 
 		private async Task OnSubmitMainTypeCommand()
 		{
-			var iconForMainEventType = Factory.CreateIMainTypeVisualElement(SelectedIconString, BackgroundColor, TextColor);
+			var iconForMainEventType = Factory.CreateIMainTypeVisualElement(SelectedVisualElementString, BackgroundColor, TextColor);
 			if (_isEdit)
 			{
 				_currentMainType.Title = MainTypeName;
@@ -255,7 +255,7 @@ namespace CalendarT1.ViewModels
 
 		private void OnExactIconSelectedCommand(string visualStringSource)
 		{
-			SelectedIconString = visualStringSource;
+			SelectedVisualElementString = visualStringSource;
 		}
 		#endregion
 

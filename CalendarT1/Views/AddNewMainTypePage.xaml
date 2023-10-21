@@ -34,7 +34,7 @@
                         >
                 
                     <Label 
-                            Text="{Binding SelectedIconString}"
+                            Text="{Binding SelectedVisualElementString}"
                             TextColor="{Binding TextColor}"
                             Style="{StaticResource GoogleFont}"
                             HorizontalOptions="Center" 

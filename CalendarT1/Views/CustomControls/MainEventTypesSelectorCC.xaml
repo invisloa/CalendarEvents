@@ -27,7 +27,7 @@
                         Padding="10">
                             
                         <!-- Font Icon -->
-                        <Frame BackgroundColor="{Binding SelectedIcon.BackgroundColor}" 
+                            <Frame BackgroundColor="{Binding MainEventType.SelectedVisualElement.BackgroundColor}" 
                                Scale="{Binding IsSelected, Converter={StaticResource boolToScaleConverter}}"
                                Opacity="{Binding IsSelected, Converter={StaticResource boolToAlphaConverter}}"
                                >
@@ -38,8 +38,8 @@
                             </Frame.GestureRecognizers>
                             <Label 
 
-                            Text="{Binding SelectedIcon.IconName}" 
-                            TextColor="{Binding SelectedIcon.TextColor}" 
+                            Text="{Binding MainEventType.SelectedVisualElement.ElementName}" 
+                            TextColor="{Binding MainEventType.SelectedVisualElement.TextColor}" 
                             Style="{StaticResource GoogleFont}" 
                             HorizontalOptions="Center" 
                             VerticalOptions="Center"></Label>

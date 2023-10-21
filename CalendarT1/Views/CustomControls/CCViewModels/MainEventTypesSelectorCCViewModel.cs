@@ -22,7 +22,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		private readonly List<IMainEventType> _mainEventTypesList;
 		private readonly Dictionary<IMainEventType, MainEventTypeViewModel> _eventVisualDetails;
 		private IMainEventType _selectedMainEventType;
-		private IMainTypeVisualModel _selectedIcon;
+		private IMainTypeVisualModel _selectedVisualElement;
 		private Color _selectedColor = Color.FromRgb(255, 0, 0); // Default to red
 
 		// Properties
@@ -41,10 +41,11 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
-		public IMainTypeVisualModel SelectedIcon
+
+		public IMainTypeVisualModel SelectedVisualElement
 		{
-			get => _selectedIcon;
-			set => _selectedIcon = value;
+			get => _selectedVisualElement;
+			set => _selectedVisualElement = value;
 		}
 
 		// Events

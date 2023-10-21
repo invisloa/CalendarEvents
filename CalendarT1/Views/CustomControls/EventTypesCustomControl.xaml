@@ -53,12 +53,12 @@
                        VerticalOptions="Center"
                        >
                             <Label 
-                        Text="{Binding MainEventType.SelectedVisualElement.IconName}" 
-                        TextColor="{Binding MainEventType.SelectedVisualElement.TextColor}" 
-                        Style="{StaticResource GoogleFont}" 
-                        Opacity="{Binding IsSelectedToFilter, Converter={StaticResource boolToAlphaConverter}}"
-                        HorizontalOptions="Center" 
-                        VerticalOptions="Center"/>
+                                Text="{Binding  MainEventType.SelectedVisualElement.ElementName}" 
+                                TextColor="{Binding MainEventType.SelectedVisualElement.TextColor}" 
+                                Style="{StaticResource GoogleFont}" 
+                                Opacity="{Binding IsSelectedToFilter, Converter={StaticResource boolToAlphaConverter}}"
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center"/>
                         </Frame>
                     </Grid>
                 </DataTemplate>
