@@ -9,7 +9,7 @@ namespace CalendarT1.Models
 {
 	public class IconModel :  IMainTypeVisualModel
 	{
-		public string IconName { get; set; }
+		public string ElementName { get; set; }
 
 		private Color _backgroundColor;
 		[JsonIgnore]
@@ -41,7 +41,7 @@ namespace CalendarT1.Models
 
 		public IconModel(string icon, Color backgroundColor, Color textColor)
 		{
-			IconName = icon;
+			ElementName = icon;
 			BackgroundColor = backgroundColor;
 			TextColor = textColor;
 		}
@@ -54,14 +54,14 @@ namespace CalendarT1.Models
 			}
 
 			IMainTypeVisualModel other = (IMainTypeVisualModel)obj;
-			return IconName == other.IconName &&
+			return ElementName == other.ElementName &&
 				   BackgroundColorString == other.BackgroundColorString &&
 				   TextColorString == other.TextColorString;
 		}
 
 		public override int GetHashCode()
 		{
-			return (IconName, BackgroundColorString, TextColorString).GetHashCode();
+			return (ElementName, BackgroundColorString, TextColorString).GetHashCode();
 		}
 	}
 }

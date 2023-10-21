@@ -57,10 +57,7 @@ namespace CalendarT1.ViewModels
 
 		private void OnButtonCommand()
 		{
-			var x = MainEventTypesVisualsOC[0].SelectedIcon;
-			var y = MainEventTypesVisualsOC[0].SelectedIcon.IconName;
-			var z = MainEventTypesVisualsOC[0].SelectedIcon.BackgroundColor;
-
+			var y = MainEventTypesVisualsOC[0].MainEventType.SelectedVisualElement.ElementName;
 			SomeIconString = y;
 
 		}

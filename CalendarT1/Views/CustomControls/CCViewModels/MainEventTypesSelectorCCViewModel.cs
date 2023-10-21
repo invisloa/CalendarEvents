@@ -38,7 +38,6 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 					_selectedMainEventType = value;
 					OnPropertyChanged(nameof(SelectedMainEventType));
 					MainEventTypeChanged?.Invoke(_selectedMainEventType);
-
 				}
 			}
 		}
@@ -56,7 +55,6 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		{
 			_mainEventTypesList = mainEventTypesList ?? throw new ArgumentNullException(nameof(mainEventTypesList));
 			_eventVisualDetails = new Dictionary<IMainEventType, MainEventTypeViewModel>();
-
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(SetMainEventTypeFromViewModel);
 			InitializeMainEventTypesVisuals();
 		}
@@ -64,7 +62,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		// Private Methods
 		private void SetMainEventTypeFromViewModel(MainEventTypeViewModel viewModel)
 		{
-			var selectedMainEventType = _mainEventTypesList.FirstOrDefault(o => o == viewModel.MainEventType);
+			var selectedMainEventType = _mainEventTypesList.FirstOrDefault(o => o.Equals(viewModel.MainEventType));
 			if (selectedMainEventType == null)
 			{
 				throw new ArgumentException($"Invalid TypeOfEvent value: {viewModel.MainEventType}");
@@ -90,7 +88,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 
 			foreach (IMainEventType eventType in _mainEventTypesList)
 			{
-				var viewModel = new MainEventTypeViewModel(eventType, eventType.SelectedVisualElement);
+				var viewModel = new MainEventTypeViewModel(eventType);
 				_eventVisualDetails[eventType] = viewModel;
 				MainEventTypesVisualsOC.Add(viewModel);
 			}
@@ -102,7 +100,6 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		// Fields
 		private readonly IMainEventType _mainEventType;
 		private string _mainEventTitle;
-		private IMainTypeVisualModel _selectedIcon;
 		private bool _isSelected;
 		public bool IsSelected
 		{
@@ -120,18 +117,11 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			get => _mainEventTitle;
 			set { _mainEventTitle = value; OnPropertyChanged(); }
 		}
-		public IMainTypeVisualModel SelectedIcon
-		{
-			get => _selectedIcon;
-			set { _selectedIcon = value; OnPropertyChanged(); }
-		}
-
 		// Constructor
-		public MainEventTypeViewModel(IMainEventType mainEventType, IMainTypeVisualModel selectedIcon)
+		public MainEventTypeViewModel(IMainEventType mainEventType)
 		{
 			_mainEventType = mainEventType;
 			MainEventTitle = _mainEventType.Title;
-			SelectedIcon = selectedIcon;
 		}
 	}
 }

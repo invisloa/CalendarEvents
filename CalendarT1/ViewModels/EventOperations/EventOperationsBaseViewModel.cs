@@ -141,9 +141,6 @@ namespace CalendarT1.ViewModels.EventOperations
 				return _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
 			}
 		}
-
-
-
 		public IMainEventType SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
@@ -393,7 +390,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		}
 		protected void OnUserEventTypeSelected(ISubEventTypeModel selectedEvent)
 		{
-			var lastSelectedTypedefaultValue = SelectedEventType?.DefaultQuantityAmount?.Value ?? 0;
 			SelectedEventType = selectedEvent;
 			IsMultiTaskTypeSelected = selectedEvent.IsMicroTaskType ? true : false;
 			// TODO Show Task Options ???
@@ -402,13 +398,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			if (IsValueTypeSelected)
 			{
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
-				if (!IsEditMode && (QuantityValue == 0 || QuantityValue == lastSelectedTypedefaultValue))
-				{   //Set default values when createMode
-					QuantityValue = SelectedEventType.DefaultQuantityAmount.Value;
-				}
 				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
 			}
-
 
 
 			SetEndExactTimeAccordingToEventType();
@@ -423,7 +414,15 @@ namespace CalendarT1.ViewModels.EventOperations
 			var SelectedEventType = AllSubEventTypesOC.FirstOrDefault(x => x == _selectedEventType);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
 			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(AllSubEventTypesOC); // ??????
+			var maineventtypeviewmodel = MainEventTypesVisualsOC.Where(x => x.MainEventType.Equals(SelectedEventType.MainEventType)).FirstOrDefault();
+
+			_mainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(maineventtypeviewmodel);
+
+
 			SelectedMainEventType = SelectedEventType.MainEventType;
+
+			OnPropertyChanged(nameof(MainEventTypesVisualsOC));
+
 			SetSelectedEventTypeControlsVisibility();
 		}
 		protected virtual void OnMainEventTypeSelected(MainEventTypeViewModel selectedMainEventType)
