@@ -3,7 +3,7 @@
              xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:converters="clr-namespace:CalendarT1.Helpers.Converters"
-             x:Class="CalendarT1.Views.CustomControls.MainEventTypesAllCC">
+             x:Class="CalendarT1.Views.CustomControls.MainEventTypesSelectorCC">
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:BoolToAlphaConverter x:Key="boolToAlphaConverter" />
@@ -19,13 +19,15 @@
                 JustifyContent="Center">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
-                        <StackLayout 
+                    <StackLayout>
+
+                        <StackLayout HorizontalOptions="Center"
                         Orientation="Horizontal" 
                         Spacing="5"  
                         Padding="10">
                             
                         <!-- Font Icon -->
-                        <Frame BackgroundColor="{Binding SelectedIcon.BackgroundColor}"
+                        <Frame BackgroundColor="{Binding SelectedIcon.BackgroundColor}" 
                                Scale="{Binding IsSelected, Converter={StaticResource boolToScaleConverter}}"
                                Opacity="{Binding IsSelected, Converter={StaticResource boolToAlphaConverter}}"
                                >
@@ -40,10 +42,16 @@
                             TextColor="{Binding SelectedIcon.TextColor}" 
                             Style="{StaticResource GoogleFont}" 
                             HorizontalOptions="Center" 
-                            VerticalOptions="Center"/>
+                            VerticalOptions="Center"></Label>
+
                         </Frame>
-                        </StackLayout>
-                    </DataTemplate>
+                    </StackLayout >
+                    <Label Text="{Binding MainEventTitle}" VerticalOptions="Center" HorizontalOptions="Center"  
+                           Scale="{Binding IsSelected, Converter={StaticResource boolToScaleConverter}}"
+                                    Opacity="{Binding IsSelected, Converter={StaticResource boolToAlphaConverter}}"/>
+                    </StackLayout>
+
+                </DataTemplate>
             </BindableLayout.ItemTemplate>
         </FlexLayout> 
     </VerticalStackLayout>

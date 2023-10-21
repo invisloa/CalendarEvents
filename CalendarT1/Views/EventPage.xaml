@@ -80,7 +80,7 @@
                         MinimumWidthRequest="350"
                         Margin="0, 10, 0, 0" />
             <!--Main Event Types Custom Control-->
-                <customControls:MainEventTypesAllCC/>
+                <customControls:MainEventTypesSelectorCC/>
 
             <!--User Event Types Custom Control-->
                 <customControls:EventTypesCustomControl/>

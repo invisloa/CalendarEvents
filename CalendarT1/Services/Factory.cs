@@ -57,7 +57,7 @@ namespace CalendarT1.Services
 
 		public static IMainEventTypesCCViewModel CreateNewIMainEventTypeViewModelClass(List<IMainEventType> mainEventTypes)
 		{
-			return new MainEventTypesCCViewModel(mainEventTypes);
+			return new MainEventTypesSelectorCCViewModel(mainEventTypes);
 		}
 
 		public static IFilterDatesCCHelperClass CreateFilterDatesCCHelperClass()

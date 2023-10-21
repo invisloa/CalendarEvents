@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-	public class MainEventTypesCCViewModel : BaseViewModel, IMainEventTypesCCViewModel
+	public class MainEventTypesSelectorCCViewModel : BaseViewModel, IMainEventTypesCCViewModel
 	{
 		// Constants
 		private const int FullOpacity = 1;
@@ -52,7 +52,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		public event Action<IMainEventType> MainEventTypeChanged;
 
 		// Constructor
-		public MainEventTypesCCViewModel(List<IMainEventType> mainEventTypesList)
+		public MainEventTypesSelectorCCViewModel(List<IMainEventType> mainEventTypesList)
 		{
 			_mainEventTypesList = mainEventTypesList ?? throw new ArgumentNullException(nameof(mainEventTypesList));
 			_eventVisualDetails = new Dictionary<IMainEventType, MainEventTypeViewModel>();

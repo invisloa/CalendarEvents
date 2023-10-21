@@ -28,7 +28,7 @@
         </Grid.RowDefinitions>
         
 
-        <customControls:MainEventTypesAllCC Grid.Row="0"/>
+        <customControls:MainEventTypesSelectorCC Grid.Row="0"/>
         <customControls:EventTypesCustomControl Grid.Row="1"/>
         <customControls:DateFilteringCC Grid.Row="2"/>
 

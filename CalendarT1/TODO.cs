@@ -5,7 +5,6 @@
 // first subtype is set to isselected = false - no idea why delete all and check if it is still happening
 
 
-// IconModel => IVisualElementModel - some interface instead of exact class
 
 
 

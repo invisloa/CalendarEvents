@@ -18,7 +18,7 @@
 
             
             <!--Main Event Types Custom Control--> 
-            <customControls:MainEventTypesAllCC BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
+            <customControls:MainEventTypesSelectorCC BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
 
             
             <!--Possible Colors of events to choose-->
