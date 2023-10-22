@@ -3,7 +3,23 @@
 // ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
 
+/*System.NullReferenceException: 'Object reference not set to an instance of an object.'
+public MeasurementUnitItem SelectedMeasurementUnit
+{
+	get => _selectedMeasurementUnit;
+	set
+	{
+		if (_selectedMeasurementUnit == value)
+		{
+			return;
+		}
+		_selectedMeasurementUnit = value;
+		QuantityAmount.Unit = _selectedMeasurementUnit.TypeOfMeasurementUnit;
+		OnPropertyChanged();
 
+	}
+}
+*/
 // _selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, _measurementSelectorHelperClass.QuantityAmount); // TODO !!!!!add microtasks
 
 

@@ -354,11 +354,13 @@ namespace CalendarT1.ViewModels.EventOperations
 			UserTypeExtraOptionsHelper.IsValueTypeSelected = selectedEvent.IsValueType ? true : false;
 			if (UserTypeExtraOptionsHelper.IsValueTypeSelected)
 			{
-				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
 
 				// TODO chcange this so it will look for types in similair families (kg, g, mg, etc...)
-				var measurementUnitsForSelectedType = _measurementSelectorHelperClass.MeasurementUnitsOC.Where(x => x.TypeOfMeasurementUnit == SelectedEventType.DefaultQuantityAmount.Unit);
+				var measurementUnitsForSelectedType = _measurementSelectorHelperClass.MeasurementUnitsOC.Where(unit => unit.TypeOfMeasurementUnit == SelectedEventType.DefaultQuantityAmount.Unit)
+								.ToList();
+
 				DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC = new ObservableCollection<MeasurementUnitItem>(measurementUnitsForSelectedType);
+				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
 				OnPropertyChanged(nameof(DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC));
 
 			}

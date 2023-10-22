@@ -1,8 +1,10 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services;
+using CalendarT1.ViewModels;
 using CalendarT1.ViewModels.HelperClass;
 using CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions;
+using Microsoft.EntityFrameworkCore.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-    public class MeasurementSelectorCCViewModel : IMeasurementSelectorCC
+    public class MeasurementSelectorCCViewModel : BaseViewModel, IMeasurementSelectorCC
 	{
 		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
 		private MeasurementUnitItem _selectedMeasurementUnit;
@@ -40,6 +42,8 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			set
 			{
 				_measurementUnitsOC = value;
+				OnPropertyChanged();
+
 			}
 		}
 		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand
@@ -58,7 +62,12 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 					return;
 				}
 				_selectedMeasurementUnit = value;
-				QuantityAmount.Unit = _selectedMeasurementUnit.TypeOfMeasurementUnit;
+				if(_selectedMeasurementUnit != null)
+				{
+					QuantityAmount.Unit = _selectedMeasurementUnit.TypeOfMeasurementUnit;
+				}
+				OnPropertyChanged();
+				
 			}
 		}
 		public QuantityModel QuantityAmount 
