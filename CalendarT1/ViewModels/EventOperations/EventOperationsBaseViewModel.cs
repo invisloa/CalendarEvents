@@ -356,8 +356,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 
 				// TODO chcange this so it will look for types in similair families (kg, g, mg, etc...)
-				var measurementUnitsForSelectedType = _measurementSelectorHelperClass.MeasurementUnitsOC.Where(unit => unit.TypeOfMeasurementUnit == SelectedEventType.DefaultQuantityAmount.Unit)
-								.ToList();
+				var allMeasurementsData = Factory.PopulateMeasurementCollection();
+				var measurementUnitsForSelectedType = allMeasurementsData.Where(unit => unit.TypeOfMeasurementUnit == SelectedEventType.DefaultQuantityAmount.Unit);
 
 				DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC = new ObservableCollection<MeasurementUnitItem>(measurementUnitsForSelectedType);
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
