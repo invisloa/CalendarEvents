@@ -21,6 +21,18 @@ namespace CalendarT1.ViewModels.EventOperations
 		#region Properties
 		public string PageTitle => IsEditMode ? "Edit Event" : "Add Event";
 		public string HeaderText => IsEditMode ? $"EDIT EVENT" : "ADD NEW EVENT";
+		public bool IsDefaultEventTimespanSelected
+		{
+			get
+			{
+				return UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected;
+			}
+			set
+			{
+				UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected = value;
+				OnPropertyChanged();
+			}
+		}
 		protected override bool IsEditMode
 		{
 			get
@@ -46,6 +58,13 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			get => _shareEventCommand;
 			set => _shareEventCommand = value;
+		}
+		public RelayCommand IsDefaultTimespanSelectedCommand
+		{
+			get
+			{
+				return UserTypeExtraOptionsHelper.IsDefaultTimespanSelectedCommand;
+			}
 		}
 		public override string SubmitButtonText
 		{
@@ -109,10 +128,10 @@ namespace CalendarT1.ViewModels.EventOperations
 			FilterAllSubEventTypesOCByMainEventType(SelectedMainEventType);	// CANNOT CHANGE MAIN EVENT TYPE
 			if (_selectedCurrentEvent.EventType.IsValueType)
 			{
-				SelectedMeasurementUnit = MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
-				QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
+				_measurementSelectorHelperClass.SelectedMeasurementUnit = _measurementSelectorHelperClass.MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
+				_measurementSelectorHelperClass.QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
 			}
-			// TODO ADD EVENT TYPE multiTasks
+			// TODO ADD EVENT TYPE microtask
 			IsCompleteFrameCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
 			MainEventTypeSelectedCommand = null;
 		}
@@ -133,8 +152,8 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 
 			// Create a new Event based on the selected EventType
-			QuantityAmount = new QuantityModel(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
-			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, QuantityAmount);
+			//_measurementSelectorHelperClass.QuantityAmount = new QuantityModel(_measurementSelectorHelperClass.SelectedMeasurementUnit.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue);
+			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, _measurementSelectorHelperClass.QuantityAmount); // TODO !!!!!add microtasks
 			await _eventRepository.AddEventAsync(_selectedCurrentEvent);
 
 			ClearFields();
@@ -142,15 +161,15 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task EditEventAsync()
 		{
-			QuantityValueText = "SET VALUE:";
+			_measurementSelectorHelperClass.QuantityValueText = "SET VALUE:";
 			_selectedCurrentEvent.Title = Title;
 			_selectedCurrentEvent.Description = Description;
 			_selectedCurrentEvent.EventType = SelectedEventType;
 			_selectedCurrentEvent.StartDateTime = StartDateTime.Date + StartExactTime;
 			_selectedCurrentEvent.EndDateTime = EndDateTime.Date + EndExactTime;
 			_selectedCurrentEvent.IsCompleted = IsCompleted;
-			QuantityAmount = new QuantityModel(SelectedMeasurementUnit.TypeOfMeasurementUnit, QuantityValue);
-			_selectedCurrentEvent.QuantityAmount = QuantityAmount;
+			_measurementSelectorHelperClass.QuantityAmount = new QuantityModel(_measurementSelectorHelperClass.SelectedMeasurementUnit.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue);
+			_selectedCurrentEvent.QuantityAmount = _measurementSelectorHelperClass.QuantityAmount;
 			await _eventRepository.UpdateEventAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");
 		}

@@ -85,8 +85,6 @@
             <!--User Event Types Custom Control-->
                 <customControls:EventTypesCustomControl/>
 
-            <!--Measurement selector Custom Control-->
-            <!--<customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>-->
             
             <!--Start/End Date and time-->
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
@@ -120,10 +118,12 @@
                     </StackLayout>
                 </Frame>
             </StackLayout>
+
+            <!--UserExtraControls Timespan Value MicroTasks-->
+            <customControls:UserTypeExtraOptions_EventCC IsVisible="{Binding IsEventTypeSelected}"/>
                 
                 
-            <customControls:UserTypeExtraOptions_TypesCC/>
-            <Frame BackgroundColor="Transparent" HorizontalOptions="Center" Padding="5">
+            <Frame BackgroundColor="Transparent" HorizontalOptions="Center" Padding="5" Margin="10">
                 <Frame.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding IsCompleteFrameCommand}"/>
                 </Frame.GestureRecognizers>

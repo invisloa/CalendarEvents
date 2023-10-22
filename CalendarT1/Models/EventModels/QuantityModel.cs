@@ -12,8 +12,8 @@ namespace CalendarT1.Models.EventModels
 {
 	public class QuantityModel
 		{
-			public decimal Value { get; private set; }
-			public MeasurementUnit Unit { get; private set; }
+			public decimal Value { get; set; }
+			public MeasurementUnit Unit { get; set; }
 
 			public QuantityModel(MeasurementUnit unit, decimal value)
 			{

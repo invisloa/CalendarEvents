@@ -6,7 +6,7 @@ namespace CalendarT1.Models.EventTypesModels
 	{
 		IMainEventType MainEventType { get; set; }
 		public bool IsValueType { get; set; }	// if the event type is a value type, it will be shown in the value type list
-		public bool IsMicroTaskType { get; set; }   // if the event type is a multitask, it will be shown in the multitask list
+		public bool IsMicroTaskType { get; set; }   // if the event type is a IsMicroTaskType, it will be shown in the IsMicroTaskType list
 		Color EventTypeColor { get; set; }	// original event color
 		Color BackgroundColor { get; set; }	// color that is currently shown (isCompleted color adjustment)
 		string EventTypeColorString { get; set; }	// needed for json serialization

@@ -66,7 +66,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		public RelayCommand<MicroTaskModel> SelectMicroTaskCommand { get; set; }
 
 
-		public void OnMultiTaskSelected(MicroTaskModel microTask)
+		public void OnMicroTaskSelected(MicroTaskModel microTask)
         {
 			microTask.IsMicroTaskCompleted = !microTask.IsMicroTaskCompleted;
 			//if MicroTask was changed to not completed then change parenteventtask to not completed
@@ -92,14 +92,3 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		}
     }
 }
-
-
-
-//public void CompleteAllSubTasks()
-//{
-//	_taskTypeEvent.IsCompleted = !_taskTypeEvent.IsCompleted;
-//	foreach (var multiTask in MicroTasksOC)
-//	{
-//		multiTask.IsMicroTaskCompleted = _taskTypeEvent.IsCompleted;
-//	}
-//}

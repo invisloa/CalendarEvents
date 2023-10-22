@@ -38,7 +38,7 @@ namespace CalendarT1.Models.EventModels
         }
 
 		// TO Consider postpone time and maybe some other extra options for advanced event adding mode??
-		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, QuantityModel quantityAmount = null, List<MicroTaskModel> multiTasksList = null)
+		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, QuantityModel quantityAmount = null, List<MicroTaskModel> microTasksList = null)
 		{
 			//... rest of the code
 
@@ -55,7 +55,7 @@ namespace CalendarT1.Models.EventModels
             IsCompleted = isCompleted;
             WasShown = wasShown;
 			QuantityAmount = quantityAmount;
-			MicroTasksList = multiTasksList;
+			MicroTasksList = microTasksList;
 			PostponeHistory = new List<DateTime>(); // default new list 
         }
         private Color IsCompleteColorAdapt(Color color)

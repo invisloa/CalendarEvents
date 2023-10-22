@@ -15,6 +15,6 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions
         RelayCommand IsMicroTaskListTypeSelectedCommand { get; set; }
         Color IsValueTypeColor { get; }
         bool IsValueTypeSelected { get; set; }
-        RelayCommand IsValueTypeSelectedCommand { get; set; }
+        RelayCommand ValueTypeClickCommand { get; set; }
     }
 }

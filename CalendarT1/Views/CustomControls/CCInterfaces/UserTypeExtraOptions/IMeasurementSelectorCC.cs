@@ -16,7 +16,7 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions
     public interface IMeasurementSelectorCC
     {
         // Properties
-        ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC { get; }
+        ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC { get; set; }
         RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
         MeasurementUnitItem SelectedMeasurementUnit { get; set; }
         QuantityModel QuantityAmount { get; set; }

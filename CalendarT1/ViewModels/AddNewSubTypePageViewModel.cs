@@ -167,7 +167,7 @@ namespace CalendarT1.ViewModels
 			private void setIsVisibleForExtraControlsInEditMode()
 		{
 			UserTypeExtraOptionsHelper.IsValueTypeSelected = CurrentType.IsValueType;
-			UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected = CurrentType.IsMicroTaskType;
+			UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected = CurrentType.IsMicroTaskType;
 			UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected = CurrentType.DefaultEventTimeSpan != TimeSpan.Zero;
 		}
 		#endregion
@@ -221,8 +221,8 @@ namespace CalendarT1.ViewModels
 				// TODO NOW !!!!!
 				var timespan = UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected ? DefaultEventTimespanCCHelper.GetDefaultDuration() : TimeSpan.Zero;
 				var quantityAmount = UserTypeExtraOptionsHelper.IsValueTypeSelected ? DefaultMeasurementSelectorCCHelper.QuantityAmount : null;
-				var multiTasks = UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected ? new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC) : null;
-				var newUserType = Factory.CreateNewEventType(MainEventTypesCCHelper.SelectedMainEventType, TypeName, _selectedColor, timespan, quantityAmount, multiTasks);
+				var microTasks = UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected ? new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC) : null;
+				var newUserType = Factory.CreateNewEventType(MainEventTypesCCHelper.SelectedMainEventType, TypeName, _selectedColor, timespan, quantityAmount, microTasks);
 				await _eventRepository.AddSubEventTypeAsync(newUserType);
 				TypeName = string.Empty;
 			}
@@ -259,7 +259,7 @@ namespace CalendarT1.ViewModels
 			{
 				_currentType.DefaultEventTimeSpan = TimeSpan.Zero;
 			}
-			if (UserTypeExtraOptionsHelper.IsMicroTasksTypeSelected)
+			if (UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected)
 			{
 				_currentType.IsMicroTaskType = true;
 				_currentType.MicroTasksList = new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC);
@@ -274,28 +274,3 @@ namespace CalendarT1.ViewModels
 	#endregion
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// in ctor
-// not sure if helper class doing this	
-// 		MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
-
-// helper class doing this
-
-//IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
-//IsSubTaskListTypeSelectedCommand = new RelayCommand(() => IsMicroTaskListSelected = !IsMicroTaskListSelected);
-//IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
-//AddSubTaskEventCommand = new RelayCommand(OnAddSubTaskEventCommand, CanExecuteAddSubTaskEventCommand);
-//SelectSubTaskCommand = new RelayCommand<MultiTask>(OnSubTaskSelected);

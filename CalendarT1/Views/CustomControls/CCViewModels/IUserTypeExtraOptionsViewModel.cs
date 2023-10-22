@@ -9,9 +9,9 @@
 		bool IsNotEditMode { get; }
 		RelayCommand IsMicroTaskListTypeSelectedCommand { get; set; }
 		Color IsMicroTasksListTypeColor { get; }
-		bool IsMicroTasksTypeSelected { get; set; }
+		bool IsMicroTaskTypeSelected { get; set; }
 		Color IsValueTypeColor { get; }
 		bool IsValueTypeSelected { get; set; }
-		RelayCommand IsValueTypeSelectedCommand { get; set; }
+		RelayCommand ValueTypeClickCommand { get; set; }
 	}
 }

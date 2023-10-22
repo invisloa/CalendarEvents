@@ -17,11 +17,11 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		public UserTypeExtraOptionsViewModel(bool isEditMode)
 		{
 			IsEditMode = isEditMode;
-			IsValueTypeSelectedCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
-			IsMicroTaskListTypeSelectedCommand = new RelayCommand(() => IsMicroTasksTypeSelected = !IsMicroTasksTypeSelected);
+			ValueTypeClickCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
+			IsMicroTaskListTypeSelectedCommand = new RelayCommand(() => IsMicroTaskTypeSelected = !IsMicroTaskTypeSelected);
 			IsDefaultTimespanSelectedCommand = new RelayCommand(() => IsDefaultEventTimespanSelected = !IsDefaultEventTimespanSelected);
 		}
-		public RelayCommand IsValueTypeSelectedCommand { get; set; }
+		public RelayCommand ValueTypeClickCommand { get; set; }
 		public RelayCommand IsMicroTaskListTypeSelectedCommand { get; set; }
 		public RelayCommand IsDefaultTimespanSelectedCommand { get; set; }
 
@@ -44,7 +44,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		public bool IsEditMode { get; set; }
 
 		private bool _isMicroTasksListSelected;
-		public bool IsMicroTasksTypeSelected
+		public bool IsMicroTaskTypeSelected
 		{
 			get => _isMicroTasksListSelected;
 			set
@@ -71,6 +71,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
+		
 		public Color IsValueTypeColor
 		{
 			get
@@ -85,11 +86,12 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				}
 			}
 		}
+
 		public Color IsMicroTasksListTypeColor
 		{
 			get
 			{
-				if (IsMicroTasksTypeSelected)
+				if (IsMicroTaskTypeSelected)
 				{
 					return _selectedColor;
 				}

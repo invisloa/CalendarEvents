@@ -2,11 +2,13 @@
 
 // ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
-// first subtype is set to isselected = false - no idea why delete all and check if it is still happening
+
+
+// _selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, _measurementSelectorHelperClass.QuantityAmount); // TODO !!!!!add microtasks
 
 
 
-
+// CHANGE HELPER CLASS TO ADAPTER
 
 // color buttons visuals in maintype page to make the effect on click (border width)
 // check equal after changing main event type - icons implementation

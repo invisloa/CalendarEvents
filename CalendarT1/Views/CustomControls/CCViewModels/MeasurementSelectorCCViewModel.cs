@@ -16,7 +16,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 	{
 		private ObservableCollection<MeasurementUnitItem> _measurementUnitsOC;
 		private MeasurementUnitItem _selectedMeasurementUnit;
-		private QuantityModel _eventQuantity;
+		private QuantityModel _eventQuantityAmount;
 		private bool _isValueTypeSelected;
 
 		private decimal _quantityValue = 0;
@@ -29,13 +29,17 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		{
 			_measurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			_selectedMeasurementUnit = MeasurementUnitsOC[0];   //default value- Currency
-			_eventQuantity = new QuantityModel(_selectedMeasurementUnit.TypeOfMeasurementUnit, _quantityValue);
+			_eventQuantityAmount = new QuantityModel(_selectedMeasurementUnit.TypeOfMeasurementUnit, _quantityValue);
 		}
-		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC
+		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC		// TO CHECK IF THIS IS NEEDED MAYBE REMOVE !!!
 		{
 			get
 			{
 				return _measurementUnitsOC ??= Factory.PopulateMeasurementCollection();
+			}
+			set
+			{
+				_measurementUnitsOC = value;
 			}
 		}
 		public RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand
@@ -54,9 +58,14 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 					return;
 				}
 				_selectedMeasurementUnit = value;
+				QuantityAmount.Unit = _selectedMeasurementUnit.TypeOfMeasurementUnit;
 			}
 		}
-		public QuantityModel QuantityAmount { get => _eventQuantity; set => _eventQuantity = value; }
+		public QuantityModel QuantityAmount 
+		{ 
+			get => _eventQuantityAmount; 
+			set => _eventQuantityAmount = value; 
+		}
 		public bool IsValueTypeSelected { get => _isValueTypeSelected; set => _isValueTypeSelected = value; }
 		public decimal QuantityValue
 		{
@@ -64,6 +73,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			set
 			{ 
 				_quantityValue = value;
+				QuantityAmount.Value = _quantityValue;
 			}
 		}
 		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)

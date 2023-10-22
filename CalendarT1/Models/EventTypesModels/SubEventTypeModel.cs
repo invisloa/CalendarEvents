@@ -14,17 +14,17 @@ namespace CalendarT1.Models.EventTypesModels
 		private bool _isSelectedToFilter;
 
 		private bool _isValueType;
-		private bool _isMultiTaskType;
-		private List<MicroTaskModel> _multiTasksList;
+		private bool _isMicroTaskType;
+		private List<MicroTaskModel> _microTasksList;
 		private QuantityModel _quantityAmount;
 		public List<MicroTaskModel> MicroTasksList
 		{
-			get => _multiTasksList;
+			get => _microTasksList;
 			set
 			{
-				if (_multiTasksList != value)
+				if (_microTasksList != value)
 				{
-					_multiTasksList = value;
+					_microTasksList = value;
 					OnPropertyChanged();
 				}
 			}
@@ -103,12 +103,12 @@ namespace CalendarT1.Models.EventTypesModels
 		}
 		public bool IsMicroTaskType
 		{
-			get => _isMultiTaskType;
+			get => _isMicroTaskType;
 			set
 			{
-				if (_isMultiTaskType != value)
+				if (_isMicroTaskType != value)
 				{
-					_isMultiTaskType = value;
+					_isMicroTaskType = value;
 					OnPropertyChanged();
 				}
 			}
@@ -138,7 +138,7 @@ namespace CalendarT1.Models.EventTypesModels
 			}
 		}
 
-		public SubEventTypeModel(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity = null, List<MicroTaskModel> multiTasksList = null, bool isSelectedToFilter = true)
+		public SubEventTypeModel(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity = null, List<MicroTaskModel> microTasksList = null, bool isSelectedToFilter = true)
 		{
 			MainEventType = mainEventType;
 			IsSelectedToFilter = isSelectedToFilter;
@@ -146,8 +146,16 @@ namespace CalendarT1.Models.EventTypesModels
 			EventTypeName = eventTypeName;
 			EventTypeColor = eventTypeColor;
 			BackgroundColor = eventTypeColor; // Initialize BackgroundColor as EventTypeColor upon object creation
-			DefaultQuantityAmount = quantity;
-			MicroTasksList = multiTasksList;
+			if(quantity != null)
+			{
+				DefaultQuantityAmount = quantity;
+				IsValueType = true;
+			}
+			if(microTasksList != null)
+			{
+				MicroTasksList = microTasksList;
+				IsMicroTaskType = true;
+			}
 		}
 
 		public bool Equals(ISubEventTypeModel obj)

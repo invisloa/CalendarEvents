@@ -14,14 +14,17 @@ using System.Runtime.CompilerServices;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
-    /// <summary>
-    /// Contains only must know data for events
-    /// </summary>
-    public abstract class EventOperationsBaseViewModel : BaseViewModel, IMainEventTypesCCViewModel, IMeasurementSelectorCC
+	/// <summary>
+	/// Contains only must know data for events
+	/// </summary>
+	public abstract class EventOperationsBaseViewModel : BaseViewModel, IMainEventTypesCCViewModel
 	{
 		//MeasurementCC implementation
 		#region MeasurementCC implementation
-		IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateNewMeasurementSelectorCCHelperClass();
+		protected IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateNewMeasurementSelectorCCHelperClass();
+		public IMeasurementSelectorCC DefaultMeasurementSelectorCCHelper { get => _measurementSelectorHelperClass; }
+
+		public DefaultEventTimespanCCViewModel DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
 
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected
@@ -35,65 +38,34 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 		public IUserTypeExtraOptionsViewModel UserTypeExtraOptionsHelper { get; set; }
+		public MicroTasksListCCViewModel MicroTasksListCCHelper { get; set; }
 
-		private bool _isMultiTaskTypeSelected;
-		public bool IsMultiTaskTypeSelected
+
+		private bool _isMicroTaskTypeSelected;
+		public bool IsMicroTaskTypeSelected
 		{
-			get => _isMultiTaskTypeSelected;
+			get => _isMicroTaskTypeSelected;
 			set
 			{
-				if (_isMultiTaskTypeSelected != value)
+				if (_isMicroTaskTypeSelected != value)
 				{
-					_isMultiTaskTypeSelected = value;
+					_isMicroTaskTypeSelected = value;
 					OnPropertyChanged();
 				}
 			}
 		}
-		public void SelectPropperMeasurementData(ISubEventTypeModel userEventTypeModel)
-		{
-			_measurementSelectorHelperClass.SelectPropperMeasurementData(userEventTypeModel);
-		}
-		public string QuantityValueText { get => _measurementSelectorHelperClass.QuantityValueText; set => _measurementSelectorHelperClass.QuantityValueText = value; }
-		public decimal QuantityValue
-		{
-			get => _measurementSelectorHelperClass.QuantityValue;
-			set
-			{
-				_measurementSelectorHelperClass.QuantityValue = value;
-				OnPropertyChanged();
-			}
-		}
-		public MeasurementUnitItem SelectedMeasurementUnit
-		{
-			get => _measurementSelectorHelperClass.SelectedMeasurementUnit;
-			set
-			{
-				_measurementSelectorHelperClass.SelectedMeasurementUnit = value;
-				OnPropertyChanged();
-			}
-		}
-		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC => _measurementSelectorHelperClass.MeasurementUnitsOC;
-		public QuantityModel QuantityAmount { get => _measurementSelectorHelperClass.QuantityAmount; set => _measurementSelectorHelperClass.QuantityAmount = value; }
-		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)
-		{
-			_measurementSelectorHelperClass.SelectedMeasurementUnit = measurementUnitItem;
-		}
-		// set this relay command in a constructor
-		public virtual RelayCommand<MeasurementUnitItem> MeasurementUnitSelectedCommand { get; set; }
 		#endregion
 
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
 			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeViewModelClass(eventRepository.AllMainEventTypesList);
 			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(false);
-
 			_eventRepository = eventRepository;
 			_allUserTypesForVisuals = new List<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<ISubEventTypeModel>(OnUserEventTypeSelected);
-			MeasurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			
 		}
 
@@ -111,7 +83,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected bool _isCompleted;
 		protected string _title;
 		protected string _description;
-		protected QuantityModel _quantityAmount;
 		protected DateTime _startDateTime = DateTime.Today;
 		protected TimeSpan _startExactTime = DateTime.Now.TimeOfDay;
 		protected DateTime _endDateTime = DateTime.Today;
@@ -189,40 +160,25 @@ namespace CalendarT1.ViewModels.EventOperations
 				OnPropertyChanged();
 			}
 		}
-
+		public bool IsEventTypeSelected
+		{
+			get => _selectedEventType != null;
+		}
 
 		// Basic Event Information
 		#region Basic Event Information
-		public ISubEventTypeModel SelectedEventType		// TO CHANGE !!!
+		public ISubEventTypeModel SelectedEventType	
 		{
 			get => _selectedEventType;
 			set
 			{
 				if(_selectedEventType == value) return;
 				_selectedEventType = value;
-				MainEventTypeBackgroundColor = _selectedEventType.EventTypeColor;
 				_submitEventCommand.NotifyCanExecuteChanged();
 				OnPropertyChanged();
+				OnPropertyChanged(nameof(IsEventTypeSelected));
 			}
 		}
-
-		public Color MainEventTypeBackgroundColor
-		{
-			get
-			{
-				if (_mainEventTypeBackgroundColor == null)
-				{
-					return _mainEventTypesCCHelper.SelectedMainEventType.SelectedVisualElement.BackgroundColor; // TODO !!!!!!!!!!!!!!!!!! CHANge the way it works (after change to icon)
-				}
-				else return _mainEventTypeBackgroundColor;
-			}
-			set
-			{
-				_mainEventTypeBackgroundColor = value;
-				OnPropertyChanged();
-			}
-		}
-
 		public bool IsCompleted
 		{
 			get => _isCompleted;
@@ -385,21 +341,26 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = false;
 			if(SelectedEventType.IsValueType)
 			{
-				QuantityValue = 0; 
+				_measurementSelectorHelperClass.QuantityValue = 0; 
 			}
 			// TODO Show POPUP ???
 		}
 		protected void OnUserEventTypeSelected(ISubEventTypeModel selectedEvent)
 		{
 			SelectedEventType = selectedEvent;
-			IsMultiTaskTypeSelected = selectedEvent.IsMicroTaskType ? true : false;
+			UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected = selectedEvent.IsMicroTaskType ? true : false;
 			// TODO Show Task Options ???
 
-			IsValueTypeSelected = selectedEvent.IsValueType ? true : false;
-			if (IsValueTypeSelected)
+			UserTypeExtraOptionsHelper.IsValueTypeSelected = selectedEvent.IsValueType ? true : false;
+			if (UserTypeExtraOptionsHelper.IsValueTypeSelected)
 			{
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
-				SelectedMeasurementUnit = _measurementSelectorHelperClass.SelectedMeasurementUnit;
+
+				// TODO chcange this so it will look for types in similair families (kg, g, mg, etc...)
+				var measurementUnitsForSelectedType = _measurementSelectorHelperClass.MeasurementUnitsOC.Where(x => x.TypeOfMeasurementUnit == SelectedEventType.DefaultQuantityAmount.Unit);
+				DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC = new ObservableCollection<MeasurementUnitItem>(measurementUnitsForSelectedType);
+				OnPropertyChanged(nameof(DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC));
+
 			}
 
 
@@ -411,9 +372,11 @@ namespace CalendarT1.ViewModels.EventOperations
 			foreach (var eventType in AllSubEventTypesOC)		// it sets colors in a different AllSubEventTypesOC then SelectedEventType is...
 			{
 				eventType.BackgroundColor = Color.FromRgba(255, 255, 255, 1);
+				eventType.IsSelectedToFilter = false;
 			}
 			var SelectedEventType = AllSubEventTypesOC.FirstOrDefault(x => x == _selectedEventType);
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
+			SelectedEventType.IsSelectedToFilter = true;
 			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(AllSubEventTypesOC); // ??????
 			var maineventtypeviewmodel = MainEventTypesVisualsOC.Where(x => x.MainEventType.Equals(SelectedEventType.MainEventType)).FirstOrDefault();
 
@@ -438,11 +401,15 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				OnUserEventTypeSelected(AllSubEventTypesOC[0]);
 			}
+			else
+			{
+				SelectedEventType = null;
+			}
 		}
 		private void SetSelectedEventTypeControlsVisibility()
 		{
 			IsValueTypeSelected = SelectedEventType.IsValueType;
-			IsMultiTaskTypeSelected = SelectedEventType.IsMicroTaskType;
+			IsMicroTaskTypeSelected = SelectedEventType.IsMicroTaskType;
 		}
 		private void SetEndExactTimeAccordingToEventType()
 		{
