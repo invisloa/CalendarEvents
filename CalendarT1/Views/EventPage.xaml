@@ -86,7 +86,7 @@
                 <customControls:EventTypesCustomControl/>
 
             <!--Measurement selector Custom Control-->
-            <customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>
+            <!--<customControls:MeasurementSelectorCC IsVisible="{Binding IsValueTypeSelected}"/>-->
             
             <!--Start/End Date and time-->
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
@@ -120,6 +120,8 @@
                     </StackLayout>
                 </Frame>
             </StackLayout>
+                
+                
             <customControls:UserTypeExtraOptions_TypesCC/>
             <Frame BackgroundColor="Transparent" HorizontalOptions="Center" Padding="5">
                 <Frame.GestureRecognizers>

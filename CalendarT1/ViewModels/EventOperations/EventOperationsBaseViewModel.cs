@@ -29,13 +29,12 @@ namespace CalendarT1.ViewModels.EventOperations
 			get => _isValueTypeSelected;
 			set
 			{
-				if (_isValueTypeSelected != value)
-				{
 					_isValueTypeSelected = value;
 					OnPropertyChanged();
-				}
+
 			}
 		}
+		public IUserTypeExtraOptionsViewModel UserTypeExtraOptionsHelper { get; set; }
 
 		private bool _isMultiTaskTypeSelected;
 		public bool IsMultiTaskTypeSelected
@@ -86,6 +85,8 @@ namespace CalendarT1.ViewModels.EventOperations
 		public EventOperationsBaseViewModel(IEventRepository eventRepository)
 		{
 			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeViewModelClass(eventRepository.AllMainEventTypesList);
+			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(false);
+
 			_eventRepository = eventRepository;
 			_allUserTypesForVisuals = new List<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
