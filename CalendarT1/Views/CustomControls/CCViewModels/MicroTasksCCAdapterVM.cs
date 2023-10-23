@@ -37,7 +37,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 
 		private void UpdateCurrentCommand()
 		{
-			if (IsDeleteMicroTaskOn)
+			if (!IsSelectMicroTaskOn)
 			{
 				CurrentCommand = DeleteMicroTaskCommand;
 			}
@@ -61,16 +61,16 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 
 		private void OnToggleDeleteMode()
 		{
-			IsDeleteMicroTaskOn = !IsDeleteMicroTaskOn;
+			IsSelectMicroTaskOn = !IsSelectMicroTaskOn;
 			UpdateCurrentCommand();
 		}
-		private bool _isDeleteMicroTaskOn;
-		public bool IsDeleteMicroTaskOn
+		private bool _isSelectMicroTaskOn = true;
+		public bool IsSelectMicroTaskOn
 		{
-			get => _isDeleteMicroTaskOn;
+			get => _isSelectMicroTaskOn;
 			set
 			{
-				_isDeleteMicroTaskOn = value;
+				_isSelectMicroTaskOn = value;
 				OnPropertyChanged();
 			}
 		}

@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Text="-" HorizontalOptions="End" 
-                        BackgroundColor="{Binding MicroTasksCCAdapter.IsDeleteMicroTaskOn, Converter={StaticResource boolToColorConverter}}"
+                        BackgroundColor="{Binding MicroTasksCCAdapter.IsSelectMicroTaskOn, Converter={StaticResource boolToColorConverter}}"
                         CornerRadius="10" Command="{Binding MicroTasksCCAdapter.ToggleDeleteModeCommand}"
                         Margin="0,0,10,0" MinimumWidthRequest="40"/>
             <Border Stroke="{DynamicResource MainTextboxesBackgroundColor}" Grid.Column="1"
@@ -49,12 +49,13 @@
                 Direction="Row" 
                 Wrap="Wrap" 
                 AlignItems="Start"
-                JustifyContent="Start">
+                JustifyContent="Center">
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
                     <Button Text="{Binding MicroTaskTitle}" 
                         BackgroundColor="{Binding IsMicroTaskCompleted, Converter={StaticResource boolToColorConverter}}"
                         Margin="5"
+                            BorderColor="{Binding Path=BindingContext.MicroTasksCCAdapter.IsSelectMicroTaskOn,  Source={x:Reference root}, Converter={StaticResource boolToColorConverter}}"
                         Command="{Binding Path=BindingContext.MicroTasksCCAdapter.CurrentCommand, Source={x:Reference root}}"
                         CommandParameter="{Binding .}">
                     </Button>
