@@ -40,11 +40,11 @@ namespace CalendarT1.Services
 		{
 			return new MeasurementOperationsHelperClass(eventsToCalculateList);
 		}
-		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventTypeModel, QuantityModel quantityAmount = null, List<MicroTaskModel> microTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
+		public static IGeneralEventModel CreatePropperEvent(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventTypeModel, QuantityModel eventQuantity = null, IEnumerable<MicroTaskModel> microTasks = null, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false)
 		{
 			EventModelBuilder builder = new EventModelBuilder(title, description, startTime, endTime, eventTypeModel, isCompleted, postponeTime, wasShown);
-			if (quantityAmount != null)
-				builder.SetQuantityAmount(quantityAmount);
+			if (eventQuantity != null)
+				builder.SetQuantityAmount(eventQuantity);
 			if (microTasks != null)
 				builder.SetMicroTasksList(microTasks);
 			return builder.Build();
@@ -65,9 +65,9 @@ namespace CalendarT1.Services
 			return new FilterDatesCCViewModel();
 		}
 
-		internal static DefaultEventTimespanCCViewModel CreateNewDefaultEventTimespanCCHelperClass()
+		internal static DefaultTimespanCCViewModel CreateNewDefaultEventTimespanCCHelperClass()
 		{
-			return new DefaultEventTimespanCCViewModel();
+			return new DefaultTimespanCCViewModel();
 		}
 
 		internal static IUserTypeExtraOptionsViewModel CreateNewUserTypeExtraOptionsHelperClass(bool isEditMode)
@@ -75,15 +75,15 @@ namespace CalendarT1.Services
 			return new UserTypeExtraOptionsViewModel(isEditMode);
 		}
 
-		internal static MicroTasksListCCViewModel CreateNewMicroTasksListCCHelperClass(IGeneralEventModel eventWithMicroTasks)
+/*		internal static MicroTasksCCAdapter CreateNewMicroTasksListCCHelperClass(IGeneralEventModel eventWithMicroTasks)
 		{
 			
-			return new MicroTasksListCCViewModel(eventWithMicroTasks);
-		}
+			return new MicroTasksCCAdapter(eventWithMicroTasks);
+		}*/
 
-		internal static MicroTasksListCCViewModel CreateNewMicroTasksListCCHelperClass(List<MicroTaskModel> listToAddMiroTasks)
+		internal static MicroTasksCCAdapterVM CreateNewMicroTasksCCAdapter(List<MicroTaskModel> listToAddMiroTasks)
 		{
-			return new MicroTasksListCCViewModel(listToAddMiroTasks);
+			return new MicroTasksCCAdapterVM(listToAddMiroTasks);
 		}
 
 		internal static IMainTypeVisualModel CreateIMainTypeVisualElement(string selectedIconString, Color backgroundColor, Color textColor)
@@ -95,6 +95,7 @@ namespace CalendarT1.Services
 		{
 			return new MainEventType(mainTypeName, iconForMainEventType);
 		}
+
 
 	}
 }

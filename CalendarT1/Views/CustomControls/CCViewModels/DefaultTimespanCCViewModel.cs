@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-	public class DefaultEventTimespanCCViewModel : BaseViewModel
+	public class DefaultTimespanCCViewModel : BaseViewModel
 	{
 
 		private int _selectedUnitIndex;
@@ -37,7 +37,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		{
 			if (timeToAdjust.Days >= 1 && timeToAdjust.Hours == 0 && timeToAdjust.Minutes == 0 && timeToAdjust.Seconds == 0)
 			{
-				SelectedUnitIndex = 0;
+				SelectedUnitIndex = 2;
 				DurationValue = timeToAdjust.Days;
 			}
 			else if (timeToAdjust.TotalHours >= 1 && timeToAdjust.Minutes == 0 && timeToAdjust.Seconds == 0)
@@ -47,7 +47,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			}
 			else if (timeToAdjust.TotalMinutes >= 1 && timeToAdjust.Seconds == 0)
 			{
-				SelectedUnitIndex = 2;
+				SelectedUnitIndex = 0;
 				DurationValue = timeToAdjust.TotalMinutes;
 			}
 			else
@@ -61,12 +61,12 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		{
 			switch (SelectedUnitIndex)
 			{
-				case 0: // Days
-					return TimeSpan.FromDays(DurationValue);
+				case 0: // Minutes
+					return TimeSpan.FromMinutes(DurationValue);
 				case 1: // Hours
 					return TimeSpan.FromHours(DurationValue);
-				case 2: // Minutes
-					return TimeSpan.FromMinutes(DurationValue);
+				case 2: // Days
+					return TimeSpan.FromDays(DurationValue);
 				case 3: // Seconds
 					return TimeSpan.FromSeconds(DurationValue);
 				default:

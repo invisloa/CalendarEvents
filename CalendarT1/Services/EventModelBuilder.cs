@@ -1,5 +1,6 @@
 ﻿using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
+using CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace CalendarT1.Services
 		private TimeSpan? postponeTime = null;
 		private bool wasShown = false;
 		private QuantityModel quantityAmount = null;
-		private List<MicroTaskModel> _microTasksList = null;
+		private IEnumerable<MicroTaskModel> _microTasksList = null;
 
 
 		public EventModelBuilder(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventType, bool isCompleted, TimeSpan? postponeTime, bool wasShown)
@@ -68,7 +69,7 @@ namespace CalendarT1.Services
 			return this;
 		}
 
-		public EventModelBuilder SetMicroTasksList(List<MicroTaskModel> microTasksList)
+		public EventModelBuilder SetMicroTasksList(IEnumerable<MicroTaskModel> microTasksList)
 		{
 			_microTasksList = microTasksList;
 			return this;

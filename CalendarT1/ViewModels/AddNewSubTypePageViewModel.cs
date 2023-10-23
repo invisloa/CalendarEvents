@@ -24,9 +24,9 @@ namespace CalendarT1.ViewModels
 	{
 		// TODO ! CHANGE THE BELOW CLASS TO VIEW MODEL 
 		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC { get => ((IMainEventTypesCCViewModel)_mainEventTypesCCHelper).MainEventTypesVisualsOC; set => ((IMainEventTypesCCViewModel)_mainEventTypesCCHelper).MainEventTypesVisualsOC = value; }
-		public DefaultEventTimespanCCViewModel DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
+		public DefaultTimespanCCViewModel DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
 		public MeasurementSelectorCCViewModel DefaultMeasurementSelectorCCHelper { get; set; } = Factory.CreateNewMeasurementSelectorCCHelperClass();
-		public MicroTasksListCCViewModel MicroTasksListCCHelper { get; set; }
+		public MicroTasksCCAdapterVM MicroTasksCCAdapter { get; set; }
 		public IUserTypeExtraOptionsViewModel UserTypeExtraOptionsHelper { get; set; }
 		#region Fields
 		private IMainEventTypesCCViewModel _mainEventTypesCCHelper;
@@ -37,6 +37,7 @@ namespace CalendarT1.ViewModels
 		private string _typeName;
 		private IEventRepository _eventRepository;
 		List<MicroTaskModel> microTasksList = new List<MicroTaskModel>();
+
 		#endregion
 
 		#region Properties
@@ -122,10 +123,10 @@ namespace CalendarT1.ViewModels
 		{
 			_eventRepository = eventRepository;
 			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(false);
-			DefaultEventTimespanCCHelper.SelectedUnitIndex = 2; // minutes
+			DefaultEventTimespanCCHelper.SelectedUnitIndex = 0; // minutes
 			DefaultEventTimespanCCHelper.DurationValue = 30;
 			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeViewModelClass(_eventRepository.AllMainEventTypesList);
-			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(microTasksList);
+			MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(microTasksList);
 			InitializeCommon();
 		}
 
@@ -133,7 +134,7 @@ namespace CalendarT1.ViewModels
 		public AddNewSubTypePageViewModel(IEventRepository eventRepository, ISubEventTypeModel currentType)
 		{
 			_eventRepository = eventRepository;
-			MicroTasksListCCHelper = Factory.CreateNewMicroTasksListCCHelperClass(currentType.MicroTasksList);
+			MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(currentType.MicroTasksList);
 			MainEventTypesCCHelper.SelectedMainEventType = currentType.MainEventType;
 			CurrentType = currentType;
 			SelectedSubTypeColor = currentType.EventTypeColor;
@@ -221,7 +222,7 @@ namespace CalendarT1.ViewModels
 				// TODO NOW !!!!!
 				var timespan = UserTypeExtraOptionsHelper.IsDefaultEventTimespanSelected ? DefaultEventTimespanCCHelper.GetDefaultDuration() : TimeSpan.Zero;
 				var quantityAmount = UserTypeExtraOptionsHelper.IsValueTypeSelected ? DefaultMeasurementSelectorCCHelper.QuantityAmount : null;
-				var microTasks = UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected ? new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC) : null;
+				var microTasks = UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected ? new List<MicroTaskModel>(MicroTasksCCAdapter.MicroTasksOC) : null;
 				var newUserType = Factory.CreateNewEventType(MainEventTypesCCHelper.SelectedMainEventType, TypeName, _selectedColor, timespan, quantityAmount, microTasks);
 				await _eventRepository.AddSubEventTypeAsync(newUserType);
 				TypeName = string.Empty;
@@ -262,7 +263,7 @@ namespace CalendarT1.ViewModels
 			if (UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected)
 			{
 				_currentType.IsMicroTaskType = true;
-				_currentType.MicroTasksList = new List<MicroTaskModel>(MicroTasksListCCHelper.MicroTasksOC);
+				_currentType.MicroTasksList = new List<MicroTaskModel>(MicroTasksCCAdapter.MicroTasksOC);
 			}
 			else
 			{

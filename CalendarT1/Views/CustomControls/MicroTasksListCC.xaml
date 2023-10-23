@@ -27,7 +27,7 @@
                         Placeholder="...MICRO TASK TO ADD..." 
                         HorizontalOptions="CenterAndExpand"
                         MinimumWidthRequest="200"
-                        Text="{Binding MicroTasksListCCHelper.MicroTaskToAddName, Mode=TwoWay}"
+                        Text="{Binding MicroTasksCCAdapter.MicroTaskToAddName, Mode=TwoWay}"
                         HorizontalTextAlignment="Center"
                         VerticalTextAlignment="Center"
                         TextColor="{DynamicResource MainTextColor}"
@@ -35,13 +35,13 @@
                         Background="{DynamicResource MainTextboxesBackgroundColor}" />
             </Border>
             <Button Grid.Column="2" HorizontalOptions="Start"  Text="+"  
-                        CornerRadius="10" Command="{Binding MicroTasksListCCHelper.AddMicroTaskEventCommand}"
+                        CornerRadius="10" Command="{Binding MicroTasksCCAdapter.AddMicroTaskEventCommand}"
                         Margin="10,0,0,0"
                 />
         </Grid>
 
 
-        <FlexLayout BindableLayout.ItemsSource="{Binding MicroTasksListCCHelper.MicroTasksOC}" 
+        <FlexLayout BindableLayout.ItemsSource="{Binding MicroTasksCCAdapter.MicroTasksOC}" 
                 Direction="Row" 
                 Wrap="Wrap" 
                 AlignItems="Start"

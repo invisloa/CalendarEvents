@@ -10,21 +10,21 @@ using System.Threading.Tasks;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
-    public class MicroTasksListCCViewModel : BaseViewModel, IMicroTasksCC
+    public class MicroTasksCCAdapterVM : BaseViewModel, IMicroTasksCC
 	{
 		List<MicroTaskModel> _listToAddMicroTasks;
-		public MicroTasksListCCViewModel(List<MicroTaskModel> listToAddMicroTasks)
+		public MicroTasksCCAdapterVM(List<MicroTaskModel> listToAddMicroTasks)
 		{
 			InitializeCommon();
 			MicroTasksOC = new ObservableCollection<MicroTaskModel>(listToAddMicroTasks);
 			AddMicroTaskEventCommand = new RelayCommand(AddMicroTaskEvent, CanAddMicroTaskEvent);
 		}
-		public MicroTasksListCCViewModel(IGeneralEventModel taskTypeEvent) //taskTypeEvent contains its own MicroTasksList
+/*		public MicroTasksCCAdapter(IGeneralEventModel taskTypeEvent) //taskTypeEvent contains its own MicroTasksList
 		{
 			InitializeCommon();
 			_taskTypeEvent = taskTypeEvent;
 			MicroTasksOC = new ObservableCollection<MicroTaskModel>(taskTypeEvent.MicroTasksList);
-		}
+		}*/
 		private void InitializeCommon()
 		{
 			SelectMicroTaskCommand = new RelayCommand<MicroTaskModel>(x => x.IsMicroTaskCompleted = !x.IsMicroTaskCompleted);

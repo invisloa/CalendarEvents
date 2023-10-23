@@ -126,12 +126,20 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = _selectedCurrentEvent.IsCompleted;
 
 			FilterAllSubEventTypesOCByMainEventType(SelectedMainEventType);	// CANNOT CHANGE MAIN EVENT TYPE
+			
+			// ADD measurements if IsMeasurementType
 			if (_selectedCurrentEvent.EventType.IsValueType)
 			{
 				_measurementSelectorHelperClass.SelectedMeasurementUnit = _measurementSelectorHelperClass.MeasurementUnitsOC.FirstOrDefault(mu => mu.TypeOfMeasurementUnit == _selectedCurrentEvent.QuantityAmount.Unit);
 				_measurementSelectorHelperClass.QuantityValue = _selectedCurrentEvent.QuantityAmount.Value;
 			}
-			// TODO ADD EVENT TYPE microtask
+
+
+			// ADD EVENT MICROTASKS if IsMicroTaskType
+			if (_selectedCurrentEvent.EventType.IsMicroTaskType)
+			{
+				MicroTasksCCAdapter.MicroTasksOC = new ObservableCollection<MicroTaskModel>(_selectedCurrentEvent.MicroTasksList);
+			}
 			IsCompleteFrameCommand = new RelayCommand(() => IsValueTypeSelected = !IsValueTypeSelected);
 			MainEventTypeSelectedCommand = null;
 		}
@@ -152,8 +160,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 
 			// Create a new Event based on the selected EventType
-			//_measurementSelectorHelperClass.QuantityAmount = new QuantityModel(_measurementSelectorHelperClass.SelectedMeasurementUnit.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue);
-			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, _measurementSelectorHelperClass.QuantityAmount); // TODO !!!!!add microtasks
+			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, _measurementSelectorHelperClass.QuantityAmount, MicroTasksCCAdapter.MicroTasksOC); // TODO !!!!!add microtasks
 			await _eventRepository.AddEventAsync(_selectedCurrentEvent);
 
 			ClearFields();

@@ -24,7 +24,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		protected IMeasurementSelectorCC _measurementSelectorHelperClass { get; set; } = Factory.CreateNewMeasurementSelectorCCHelperClass();
 		public IMeasurementSelectorCC DefaultMeasurementSelectorCCHelper { get => _measurementSelectorHelperClass; }
 
-		public DefaultEventTimespanCCViewModel DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
+		public DefaultTimespanCCViewModel DefaultEventTimespanCCHelper { get; set; } = Factory.CreateNewDefaultEventTimespanCCHelperClass();
 
 		private bool _isValueTypeSelected;
 		public bool IsValueTypeSelected
@@ -38,7 +38,6 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 		}
 		public IUserTypeExtraOptionsViewModel UserTypeExtraOptionsHelper { get; set; }
-		public MicroTasksListCCViewModel MicroTasksListCCHelper { get; set; }
 
 
 		private bool _isMicroTaskTypeSelected;
@@ -66,7 +65,9 @@ namespace CalendarT1.ViewModels.EventOperations
 			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<ISubEventTypeModel>(OnUserEventTypeSelected);
-			
+			MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(microTasksList);
+
+
 		}
 
 		//Fields
@@ -74,6 +75,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		// Language
 		private int _fontSize = 20;
 		protected string _submitButtonText;
+		List<MicroTaskModel> microTasksList = new List<MicroTaskModel>();
 
 
 		// normal fields
@@ -113,6 +115,8 @@ namespace CalendarT1.ViewModels.EventOperations
 				return _goToAddEventPageCommand ?? (_goToAddEventPageCommand = new RelayCommand(GoToAddEventPage));
 			}
 		}
+		public MicroTasksCCAdapterVM MicroTasksCCAdapter { get; set; }
+
 		public IMainEventType SelectedMainEventType
 		{
 			get => _mainEventTypesCCHelper.SelectedMainEventType;
@@ -349,12 +353,10 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			SelectedEventType = selectedEvent;
 			UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected = selectedEvent.IsMicroTaskType ? true : false;
-			// TODO Show Task Options ???
 
 			UserTypeExtraOptionsHelper.IsValueTypeSelected = selectedEvent.IsValueType ? true : false;
 			if (UserTypeExtraOptionsHelper.IsValueTypeSelected)
 			{
-
 				// TODO chcange this so it will look for types in similair families (kg, g, mg, etc...)
 				var allMeasurementsData = Factory.PopulateMeasurementCollection();
 				var measurementUnitsForSelectedType = allMeasurementsData.Where(unit => unit.TypeOfMeasurementUnit == SelectedEventType.DefaultQuantityAmount.Unit);
@@ -362,11 +364,17 @@ namespace CalendarT1.ViewModels.EventOperations
 				DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC = new ObservableCollection<MeasurementUnitItem>(measurementUnitsForSelectedType);
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
 				OnPropertyChanged(nameof(DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC));
-
 			}
+			else
+			{
+				DefaultMeasurementSelectorCCHelper.QuantityAmount = null;
+			}
+			if (UserTypeExtraOptionsHelper.IsValueTypeSelected)
 
 
-			SetEndExactTimeAccordingToEventType();
+
+
+				SetEndExactTimeAccordingToEventType();
 			SetVisualsForSelectedUserType();
 		}
 		protected void SetVisualsForSelectedUserType()

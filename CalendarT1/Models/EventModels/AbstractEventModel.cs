@@ -19,7 +19,7 @@ namespace CalendarT1.Models.EventModels
         public TimeSpan DefaultPostponeTime { get; set; }
         public TimeSpan ReminderTime { get; set; }
         public QuantityModel QuantityAmount { get; set; }
-		public List<MicroTaskModel> MicroTasksList { get; set; }
+		public IEnumerable<MicroTaskModel> MicroTasksList { get; set; }
 
 		[JsonIgnore]
         public Color EventVisibleColor
@@ -38,7 +38,7 @@ namespace CalendarT1.Models.EventModels
         }
 
 		// TO Consider postpone time and maybe some other extra options for advanced event adding mode??
-		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, QuantityModel quantityAmount = null, List<MicroTaskModel> microTasksList = null)
+		public AbstractEventModel(string title, string description, DateTime startTime, DateTime endTime, ISubEventTypeModel eventType, bool isCompleted = false, TimeSpan? postponeTime = null, bool wasShown = false, QuantityModel quantityAmount = null, IEnumerable<MicroTaskModel> microTasksList = null)
 		{
 			//... rest of the code
 
