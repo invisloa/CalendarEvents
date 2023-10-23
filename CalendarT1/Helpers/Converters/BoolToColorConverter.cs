@@ -9,7 +9,7 @@ namespace CalendarT1.Helpers.Converters
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			if (value is bool isCompleted && isCompleted)
+			if (value is bool isTrue && isTrue)
 			{
 				return (Color)Application.Current.Resources["DeselectedBackgroundColor"]; 
 			}

@@ -1,4 +1,4 @@
-﻿using CalendarT1.Models.EventModels;
+﻿/*using CalendarT1.Models.EventModels;
 using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Views.CustomControls.CCViewModels;
 using System.Collections.ObjectModel;
@@ -17,4 +17,4 @@ namespace CalendarT1.Views.CustomControls.CCInterfaces.UserTypeExtraOptions
         bool IsValueTypeSelected { get; set; }
         RelayCommand ValueTypeClickCommand { get; set; }
     }
-}
+}*/

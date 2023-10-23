@@ -4,7 +4,8 @@
 
 // YOU CANT DESELECT EXTRA USER TYPES IN ADD NEW EVENT PAGE IF THE EVENT IS VALUETYPE / MICROTASK because it will change them to null!!!!!!!!!!!!!!!!!!!!!!!
 
-
+// QuantityAmount.Unit = _selectedMeasurementUnit.TypeOfMeasurementUnit;
+// System.NullReferenceException: 'Object reference not set to an instance of an object.'  WHEN SWITCHING EVENT TYPES IN ADD NEW EVENT PAGE!!!!!!!!!!!!!!!!!!
 
 
 

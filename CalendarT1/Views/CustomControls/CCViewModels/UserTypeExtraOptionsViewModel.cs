@@ -43,15 +43,15 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		}
 		public bool IsEditMode { get; set; }
 
-		private bool _isMicroTasksListSelected;
+		private bool _isMicroTasksTypeSelected;
 		public bool IsMicroTaskTypeSelected
 		{
-			get => _isMicroTasksListSelected;
+			get => _isMicroTasksTypeSelected;
 			set
 			{
-				if (_isMicroTasksListSelected != value)
+				if (_isMicroTasksTypeSelected != value)
 				{
-					_isMicroTasksListSelected = value;
+					_isMicroTasksTypeSelected = value;
 					OnPropertyChanged();
 					OnPropertyChanged(nameof(IsMicroTasksListTypeColor));
 				}

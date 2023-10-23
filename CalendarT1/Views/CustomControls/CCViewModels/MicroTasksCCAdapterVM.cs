@@ -7,11 +7,49 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace CalendarT1.Views.CustomControls.CCViewModels
 {
     public class MicroTasksCCAdapterVM : BaseViewModel, IMicroTasksCC
 	{
+		private ICommand _currentCommand;
+		public ICommand CurrentCommand
+		{
+			get => _currentCommand;
+			set
+			{
+				_currentCommand = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private MicroTaskModel _currentMicroTask;
+		public MicroTaskModel CurrentMicroTask
+		{
+			get => _currentMicroTask;
+			set
+			{
+				_currentMicroTask = value;
+				OnPropertyChanged();
+			}
+		}
+
+		private void UpdateCurrentCommand()
+		{
+			if (IsDeleteMicroTaskOn)
+			{
+				CurrentCommand = DeleteMicroTaskCommand;
+			}
+			else
+			{
+				CurrentCommand = SelectMicroTaskCommand;
+			}
+		}
+
+
+
+
 		List<MicroTaskModel> _listToAddMicroTasks;
 		public MicroTasksCCAdapterVM(List<MicroTaskModel> listToAddMicroTasks)
 		{
@@ -19,15 +57,30 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			MicroTasksOC = new ObservableCollection<MicroTaskModel>(listToAddMicroTasks);
 			AddMicroTaskEventCommand = new RelayCommand(AddMicroTaskEvent, CanAddMicroTaskEvent);
 		}
-/*		public MicroTasksCCAdapter(IGeneralEventModel taskTypeEvent) //taskTypeEvent contains its own MicroTasksList
+		public RelayCommand ToggleDeleteModeCommand { get; set; }
+
+		private void OnToggleDeleteMode()
 		{
-			InitializeCommon();
-			_taskTypeEvent = taskTypeEvent;
-			MicroTasksOC = new ObservableCollection<MicroTaskModel>(taskTypeEvent.MicroTasksList);
-		}*/
+			IsDeleteMicroTaskOn = !IsDeleteMicroTaskOn;
+			UpdateCurrentCommand();
+		}
+		private bool _isDeleteMicroTaskOn;
+		public bool IsDeleteMicroTaskOn
+		{
+			get => _isDeleteMicroTaskOn;
+			set
+			{
+				_isDeleteMicroTaskOn = value;
+				OnPropertyChanged();
+			}
+		}
+		public RelayCommand<MicroTaskModel> DeleteMicroTaskCommand { get; set; }
 		private void InitializeCommon()
 		{
-			SelectMicroTaskCommand = new RelayCommand<MicroTaskModel>(x => x.IsMicroTaskCompleted = !x.IsMicroTaskCompleted);
+			SelectMicroTaskCommand = new RelayCommand<MicroTaskModel>(OnMicroTaskSelected);
+			ToggleDeleteModeCommand = new RelayCommand(OnToggleDeleteMode);
+			DeleteMicroTaskCommand = new RelayCommand<MicroTaskModel>(OnDeleteMicroTaskCommand);
+			CurrentCommand = SelectMicroTaskCommand; // Set the default command
 		}
 		private string _microTaskToAddName;
 		public string MicroTaskToAddName
@@ -42,6 +95,11 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			}
 		}
 		public RelayCommand AddMicroTaskEventCommand { get; set; }
+
+		private void OnDeleteMicroTaskCommand(MicroTaskModel microTask)
+		{
+			MicroTasksOC.Remove(microTask);
+		}
 		public void AddMicroTaskEvent()
 		{
 			MicroTasksOC.Add(new MicroTaskModel(MicroTaskToAddName));
@@ -61,34 +119,11 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				_allMicroTasksCompleted = value;
 			}
 		}
-		IGeneralEventModel _taskTypeEvent;
 		public ObservableCollection<MicroTaskModel> MicroTasksOC { get; set; }
 		public RelayCommand<MicroTaskModel> SelectMicroTaskCommand { get; set; }
-
-
-		public void OnMicroTaskSelected(MicroTaskModel microTask)
-        {
-			microTask.IsMicroTaskCompleted = !microTask.IsMicroTaskCompleted;
-			//if MicroTask was changed to not completed then change parenteventtask to not completed
-			if (!microTask.IsMicroTaskCompleted)
-			{
-				_taskTypeEvent.IsCompleted = false;
-				return;
-			}
-			else
-			{
-				//check if all MicroTasks are completed
-				foreach (var microTaskItem in MicroTasksOC)
-				{
-					if (!microTask.IsMicroTaskCompleted)
-					{
-						AllMicroTasksCompleted = false;
-						return;
-					}
-				}
-
-			}
-			AllMicroTasksCompleted = true;
+		private void OnMicroTaskSelected(MicroTaskModel clickedMicrotask)
+		{
+			clickedMicrotask.IsMicroTaskCompleted = !clickedMicrotask.IsMicroTaskCompleted;
 		}
-    }
+	}
 }

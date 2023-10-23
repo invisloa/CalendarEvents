@@ -75,12 +75,6 @@ namespace CalendarT1.Services
 			return new UserTypeExtraOptionsViewModel(isEditMode);
 		}
 
-/*		internal static MicroTasksCCAdapter CreateNewMicroTasksListCCHelperClass(IGeneralEventModel eventWithMicroTasks)
-		{
-			
-			return new MicroTasksCCAdapter(eventWithMicroTasks);
-		}*/
-
 		internal static MicroTasksCCAdapterVM CreateNewMicroTasksCCAdapter(List<MicroTaskModel> listToAddMiroTasks)
 		{
 			return new MicroTasksCCAdapterVM(listToAddMiroTasks);
