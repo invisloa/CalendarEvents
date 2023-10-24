@@ -8,18 +8,19 @@
     <ContentView.Resources>
         <ResourceDictionary>
             <converters:BoolToAlphaConverter x:Key="boolToAlphaConverter" />
+            <converters:BoolToScaleConverter x:Key="boolToScaleConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
-    <StackLayout>
+    <StackLayout Margin="10">
         <FlexLayout BindableLayout.ItemsSource="{Binding AllSubEventTypesOC}" 
             Wrap="Wrap" 
             Direction="Row" 
             AlignItems="Start" 
             JustifyContent="Start"
-            HorizontalOptions="Start">
+            HorizontalOptions="Center">
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="type_models:ISubEventTypeModel">
-                    <Grid>
+                    <Grid Margin="3,0,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <!-- For MainType Frame -->
@@ -30,6 +31,7 @@
                         <!-- Sub Type (Button) -->
                         <Button Grid.Column="1"
                         Text="{Binding EventTypeName}" Margin="-10, 0, 0, 0"
+
                         TextColor="White"
                         BackgroundColor="{Binding BackgroundColor}" 
                         BorderWidth="5"
@@ -51,12 +53,14 @@
                        HeightRequest="40"
                        HorizontalOptions="Start"
                        VerticalOptions="Center"
+
                        >
                             <Label 
                                 Text="{Binding  MainEventType.SelectedVisualElement.ElementName}" 
                                 TextColor="{Binding MainEventType.SelectedVisualElement.TextColor}" 
                                 Style="{StaticResource GoogleFont}" 
                                 Opacity="{Binding IsSelectedToFilter, Converter={StaticResource boolToAlphaConverter}}"
+                                Scale="{Binding IsSelectedToFilter, Converter={StaticResource boolToScaleConverter}}"
                                 HorizontalOptions="Center" 
                                 VerticalOptions="Center"/>
                         </Frame>

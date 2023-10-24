@@ -37,6 +37,8 @@ namespace CalendarT1.ViewModels.EventOperations
 
 			}
 		}
+		ObservableCollection<MeasurementUnitItem> _allMeasurementUnitItems;
+
 		public IUserTypeExtraOptionsViewModel UserTypeExtraOptionsHelper { get; set; }
 
 
@@ -66,6 +68,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<ISubEventTypeModel>(OnUserEventTypeSelected);
 			MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(microTasksList);
+			_allMeasurementUnitItems = Factory.PopulateMeasurementCollection();
 		}
 
 		//Fields
@@ -343,7 +346,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleted = false;
 			if(SelectedEventType.IsValueType)
 			{
-				_measurementSelectorHelperClass.QuantityValue = 0; 
+				DefaultMeasurementSelectorCCHelper.QuantityValue = 0; 
+				OnPropertyChanged(nameof(DefaultMeasurementSelectorCCHelper.QuantityValue));
 			}
 			// TODO Show POPUP ???
 		}
@@ -356,9 +360,8 @@ namespace CalendarT1.ViewModels.EventOperations
 			if (UserTypeExtraOptionsHelper.IsValueTypeSelected)
 			{
 				// TODO chcange this so it will look for types in similair families (kg, g, mg, etc...)
-				var allMeasurementsData = Factory.PopulateMeasurementCollection();
-				var measurementUnitsForSelectedType = allMeasurementsData.Where(unit => unit.TypeOfMeasurementUnit == SelectedEventType.DefaultQuantityAmount.Unit);
-
+				var measurementUnitsForSelectedType = _allMeasurementUnitItems.Where(unit => unit.TypeOfMeasurementUnit == SelectedEventType.DefaultQuantityAmount.Unit);
+				DefaultMeasurementSelectorCCHelper.QuantityAmount = SelectedEventType.DefaultQuantityAmount;
 				DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC = new ObservableCollection<MeasurementUnitItem>(measurementUnitsForSelectedType);
 				_measurementSelectorHelperClass.SelectPropperMeasurementData(SelectedEventType);
 				OnPropertyChanged(nameof(DefaultMeasurementSelectorCCHelper.MeasurementUnitsOC));
@@ -367,12 +370,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			{
 				DefaultMeasurementSelectorCCHelper.QuantityAmount = null;
 			}
-			if (UserTypeExtraOptionsHelper.IsValueTypeSelected)
-
-
-
-
-				SetEndExactTimeAccordingToEventType();
+			SetEndExactTimeAccordingToEventType();
 			SetVisualsForSelectedUserType();
 		}
 		protected void SetVisualsForSelectedUserType()
@@ -382,7 +380,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				eventType.BackgroundColor = Color.FromRgba(255, 255, 255, 1);
 				eventType.IsSelectedToFilter = false;
 			}
-			var SelectedEventType = AllSubEventTypesOC.FirstOrDefault(x => x == _selectedEventType);
+			var SelectedEventType = AllSubEventTypesOC.FirstOrDefault(x => x.Equals(_selectedEventType));
 			SelectedEventType.BackgroundColor = SelectedEventType.EventTypeColor;
 			SelectedEventType.IsSelectedToFilter = true;
 			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(AllSubEventTypesOC); // ??????

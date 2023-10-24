@@ -21,7 +21,7 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		private QuantityModel _eventQuantityAmount;
 		private bool _isValueTypeSelected;
 
-		private decimal _quantityValue = 0;
+		private decimal _quantityValue;
 		private RelayCommand<MeasurementUnitItem> _measurementUnitSelectedCommand;
 		private string _quantityValueText;
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
@@ -82,7 +82,11 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			set
 			{ 
 				_quantityValue = value;
-				QuantityAmount.Value = _quantityValue;
+				if (QuantityAmount != null)
+				{
+					QuantityAmount.Value = _quantityValue;
+				}
+				OnPropertyChanged();
 			}
 		}
 		private void OnMeasurementUnitSelected(MeasurementUnitItem measurementUnitItem)

@@ -168,7 +168,6 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task EditEventAsync()
 		{
-			_measurementSelectorHelperClass.QuantityValueText = "SET VALUE:";
 			_selectedCurrentEvent.Title = Title;
 			_selectedCurrentEvent.Description = Description;
 			_selectedCurrentEvent.EventType = SelectedEventType;

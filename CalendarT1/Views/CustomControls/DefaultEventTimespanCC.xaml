@@ -9,13 +9,15 @@
                     <!-- Picker for selecting time unit -->
                     <Picker  SelectedIndex="{Binding DefaultEventTimespanCCHelper.SelectedUnitIndex, Mode=TwoWay} ">
                         <Picker.Items>
-                            <x:String>Days</x:String>
-                            <x:String>Hours</x:String>
                             <x:String>Minutes</x:String>
-                        </Picker.Items>
+                            <x:String>Hours</x:String>
+                            <x:String>Days</x:String>
+                            <x:String>Seconds</x:String>
+                </Picker.Items>
                     </Picker>
+                    
                     <!-- Entry for numeric input -->
-                    <Entry Placeholder="Duration" Keyboard="Numeric" Text="{Binding DefaultEventTimespanCCHelper.DurationValue, Mode=TwoWay}" />
+                    <Entry Placeholder="Duration"  Keyboard="Numeric" Text="{Binding DefaultEventTimespanCCHelper.DurationValue, Mode=TwoWay}" />
                 </StackLayout>
             </StackLayout>
 </ContentView>

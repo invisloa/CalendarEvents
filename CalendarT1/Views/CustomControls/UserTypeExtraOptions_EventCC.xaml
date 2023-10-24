@@ -6,7 +6,7 @@
              >
 
     <StackLayout>
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="5">
             <Button Text="TIMESPAN"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanColor}" Command="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanSelectedCommand}"/>
             <Button Text="VALUE"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsValueTypeColor}" BorderColor="Red" IsVisible="{Binding SelectedEventType.IsValueType}"/>
             <Button Text="MICRO TASKS" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsMicroTasksListTypeColor}"  BorderColor="Red" IsVisible="{Binding SelectedEventType.IsMicroTaskType}"/>

@@ -157,17 +157,42 @@ namespace CalendarT1.Models.EventTypesModels
 				IsMicroTaskType = true;
 			}
 		}
-
 		public bool Equals(ISubEventTypeModel obj)
 		{
-			if (obj is ISubEventTypeModel other)
+			// Check if the passed object is null
+			if (obj == null)
 			{
-				return MainEventType == other.MainEventType &&
-					   EventTypeColorString == other.EventTypeColorString &&
-					   EventTypeName == other.EventTypeName;
+				return false;
 			}
-			return false;
+
+			// Attempt to cast the passed object to ISubEventTypeModel
+			if (obj is not ISubEventTypeModel other)
+			{
+				return false;
+			}
+
+			// Compare MainEventType
+			if (!MainEventType.Equals(other.MainEventType))
+			{
+				return false;
+			}
+
+			// Compare EventTypeColorString
+			if (EventTypeColorString != other.EventTypeColorString)
+			{
+				return false;
+			}
+
+			// Compare EventTypeName
+			if (EventTypeName != other.EventTypeName)
+			{
+				return false;
+			}
+
+			// If all comparisons passed, the objects are equal
+			return true;
 		}
+
 
 		public override int GetHashCode()
 		{
