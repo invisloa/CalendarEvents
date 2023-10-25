@@ -206,7 +206,7 @@ namespace CalendarT1.ViewModels
 		}
 		private async Task OnDeleteMainTypeCommand()
 		{
-			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x == _currentMainType); // TODO equals !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.Equals(_currentMainType)); // to check
 			if (eventTypesInDb.Any())
 			{
 				var action = await App.Current.MainPage.DisplayActionSheet("This main type is used in some events/sub types.", "Cancel", null, "Delete all associated events and sub types", "Go to All SubTypes Page");
@@ -214,9 +214,9 @@ namespace CalendarT1.ViewModels
 				{
 					case "Delete all associated events and sub types":
 						// Perform the operation to delete all events of the event type.
-						_eventRepository.AllEventsList.RemoveAll(x => x.EventType.MainEventType == _currentMainType);
+						_eventRepository.AllEventsList.RemoveAll(x => x.EventType.MainEventType.Equals(_currentMainType));
 						await _eventRepository.SaveEventsListAsync();
-						_eventRepository.AllUserEventTypesList.RemoveAll(x => x.MainEventType == _currentMainType);
+						_eventRepository.AllUserEventTypesList.RemoveAll(x => x.MainEventType.Equals(_currentMainType));
 						await _eventRepository.SaveSubEventTypesListAsync();
 						// TODO make a confirmation message
 						break;

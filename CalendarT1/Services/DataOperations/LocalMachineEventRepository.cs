@@ -120,7 +120,7 @@ public class LocalMachineEventRepository : IEventRepository
 			switch (action)
 			{
 				case "Overwrite":
-					var eventItem = AllMainEventTypesList.FirstOrDefault(e => e.Title == mainEventTypeToAdd.Title);
+					var eventItem = AllMainEventTypesList.FirstOrDefault(e => e.Equals(mainEventTypeToAdd));			// to check
 					if (eventItem != null)
 					{
 						AllMainEventTypesList.Remove(eventItem);
@@ -340,12 +340,12 @@ public class LocalMachineEventRepository : IEventRepository
 	}
 	public Task<ISubEventTypeModel> GetSubEventTypeAsync(ISubEventTypeModel eventTypeToSelect)
 	{
-		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.EventTypeName == eventTypeToSelect.EventTypeName && e.MainEventType == eventTypeToSelect.MainEventType);      // TO CHANGE ???
+		var selectedEventType = AllUserEventTypesList.FirstOrDefault(e => e.Equals(eventTypeToSelect)); 
 		return Task.FromResult(selectedEventType);
 	}
 	public Task<IMainEventType> GetMainEventTypeAsync(IMainEventType eventTypeToSelect)
 	{
-		var selectedEventType = AllMainEventTypesList.FirstOrDefault(e => e.Title == eventTypeToSelect.Title);      // TO CHANGE ???
+		var selectedEventType = AllMainEventTypesList.FirstOrDefault(e => e.Equals(eventTypeToSelect));
 		return Task.FromResult(selectedEventType);
 	}
 	public List<IGeneralEventModel> DeepCopyAllEventsList()

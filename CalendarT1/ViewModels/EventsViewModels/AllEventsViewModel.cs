@@ -42,7 +42,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		}
 		private List<ISubEventTypeModel> FilterUserTypesForVisuals(IMainEventType value)
 		{
-			return _allUserTypesForVisuals.FindAll(x => x.MainEventType == value);
+			return _allUserTypesForVisuals.FindAll(x => x.MainEventType.Equals(value));
 		}
 		public ObservableCollection<MainEventTypeViewModel> MainEventTypesVisualsOC
 		{
@@ -257,7 +257,7 @@ namespace CalendarT1.ViewModels.EventsViewModels
 			{
 				// TODO Change to also visually select proper event type
 				List<IGeneralEventModel> filteredEvents = AllEventsListOC
-					.Where(x => x.EventType.EventTypeName == _eventType.EventTypeName)
+					.Where(x => x.EventType.Equals(_eventType))
 					.ToList();
 
 				// Clear existing items in the EventsToShowList

@@ -177,7 +177,7 @@ namespace CalendarT1.ViewModels
 		#region Methods
 		private async Task DeleteSelectedEventType()
 		{
-			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x == _currentType); // TODO !!! check if this works (equals)
+			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.Equals(_currentType)); // to check
 			if (eventTypesInDb.Any())
 			{
 				var action = await App.Current.MainPage.DisplayActionSheet("This type is used in some events.", "Cancel", null, "Delete all associated events", "Go to All Events Page");
@@ -185,7 +185,7 @@ namespace CalendarT1.ViewModels
 				{
 					case "Delete all associated events":
 						// Perform the operation to delete all events of the event type.
-						_eventRepository.AllEventsList.RemoveAll(x => x.EventType.EventTypeName == _currentType.EventTypeName);
+						_eventRepository.AllEventsList.RemoveAll(x => x.EventType.Equals(_currentType.EventTypeName));
 						await _eventRepository.SaveEventsListAsync();
 						await _eventRepository.DeleteFromSubEventTypesListAsync(_currentType);
 						// TODO make a confirmation message
