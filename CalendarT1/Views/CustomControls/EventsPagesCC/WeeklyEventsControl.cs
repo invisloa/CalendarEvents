@@ -23,7 +23,6 @@
 
 			for (int day = 0; day < 7; day++)
 			{
-				//	var startOfWeek = _currentSelectedDate.AddDays(-(int)_currentSelectedDate.DayOfWeek);
 				var dayOfWeekLabel = new Label { FontSize = _dayNamesFontSize, FontAttributes = FontAttributes.Bold,
 									Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - dayOfWeekNumber).ToString("dd")}" };
 				Grid.SetRow(dayOfWeekLabel, 1);  // Place the day of the week label in the second row
@@ -60,14 +59,18 @@
 				{
 					// Create a frame for each cell
 					var frame = new Frame { BorderColor = _frameBorderColor, Padding = 5, BackgroundColor = _emptyLabelColor, MinimumWidthRequest = _minimumDayOfWeekWidthRequest, MinimumHeightRequest = _minimumDayOfWeekHeightRequest };
-
+					
+					// Get the events for the current day and hour
 					var dayEvents = EventsToShowList
 						.Where(e => e.StartDateTime.Date == CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek).Date
-									&& e.StartDateTime.Hour == hour)
-						.ToList(); // to Check
+									&& e.StartDateTime.Hour == hour).ToList(); // to Check ??
+
+					// If there are events
 					if (dayEvents != null && dayEvents.Count > 0)
 					{
+						//set the background color of the frame to the color of the first event
 						frame.BackgroundColor = dayEvents[0].EventVisibleColor;
+
 						// Create a StackLayout for the events
 						var stackLayout = new StackLayout();
 
@@ -88,6 +91,10 @@
 							frame.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 							moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 							stackLayout.Children.Add(moreLabel);
+						}
+						else if (dayEvents.Count == 1)
+						{
+
 						}
 						else
 						{
