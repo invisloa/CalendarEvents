@@ -52,4 +52,15 @@ public partial class App : Application
 			_repository.LoadEventsAndTypesFromFile();
 		}
 */	}
+	public static class Styles
+	{
+		public static Style GoogleFontStyle = new Style(typeof(Label))
+		{
+			Setters =
+		{
+			new Setter { Property = Label.FontFamilyProperty, Value = "GoogleMaterialFont" },
+			new Setter { Property = Label.FontSizeProperty, Value = 32 }
+		}
+		};
+	}
 }

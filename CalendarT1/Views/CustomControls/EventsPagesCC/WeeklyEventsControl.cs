@@ -5,7 +5,8 @@
 	using System;
     using System.Collections.ObjectModel;
     using System.Linq;
-    using MauiGrid = Microsoft.Maui.Controls.Grid;
+	using static CalendarT1.App;
+	using MauiGrid = Microsoft.Maui.Controls.Grid;
 
     public class WeeklyEventsControl : BaseEventPageCC
 	{
@@ -68,9 +69,6 @@
 					// If there are events
 					if (dayEvents != null && dayEvents.Count > 0)
 					{
-						//set the background color of the frame to the color of the first event
-						frame.BackgroundColor = dayEvents[0].EventVisibleColor;
-
 						// Create a StackLayout for the events
 						var stackLayout = new StackLayout();
 
@@ -92,34 +90,144 @@
 							moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 							stackLayout.Children.Add(moreLabel);
 						}
+
+						// If there is only one event, add a label with the event title and its icon
 						else if (dayEvents.Count == 1)
 						{
+							var eventItem = dayEvents[0];
 
+							var title = new Label
+							{
+								FontAttributes = FontAttributes.Bold,
+								Text = eventItem.Title,
+							};
+
+							var description = new Label
+							{
+								Text = eventItem.Description,
+							};
+
+							var eventTypeLabel = new Label
+							{
+								Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName,
+								TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor,
+								Style = Styles.GoogleFontStyle,
+								HorizontalOptions = LayoutOptions.Center,
+								VerticalOptions = LayoutOptions.Center
+							};
+
+							var eventTypeFrame = new Frame
+							{
+								BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor,
+								Padding = 0,
+								Content = eventTypeLabel,
+								HorizontalOptions = LayoutOptions.End,
+								VerticalOptions = LayoutOptions.Center
+							};
+
+							var eventStackLayout = new StackLayout
+							{
+								Children = { title, description }
+							};
+							var grid = new Grid
+							{
+								ColumnDefinitions =
+								{
+									new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+									new ColumnDefinition { Width = new GridLength(50) }
+								},
+								Children = { eventStackLayout, eventTypeFrame }
+							};
+
+							Grid.SetColumn(eventTypeFrame, 1);
+
+							var eventFrame = new Frame
+							{
+								BackgroundColor = eventItem.EventVisibleColor,
+								Content = grid
+							};
+
+							var tapGestureRecognizer = new TapGestureRecognizer
+							{
+								Command = EventSelectedCommand,
+								CommandParameter = eventItem
+							};
+
+							eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
+							stackLayout.Children.Add(eventFrame);  
+							frame.Content = stackLayout;
 						}
 						else
 						{
+							var eventItemsStackLayout = new StackLayout
+							{
+								Orientation = StackOrientation.Vertical,  // Changed to Vertical to stack events vertically
+								Spacing = 2, // Minimal spacing between event items
+							};
+
 							for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
 							{
-								var label = new Label
+								var eventItem = dayEvents[i];
+
+								var title = new Label
 								{
-									FontSize = _eventNamesFontSize,
 									FontAttributes = FontAttributes.Bold,
-									Text = dayEvents[i].Title,
-									BackgroundColor = dayEvents[i].EventVisibleColor
+									Text = eventItem.Title,
+									LineBreakMode = LineBreakMode.TailTruncation, // Ensure text doesn't overflow
 								};
-								if (i < _displayEventsLimit - 1 || dayEvents.Count == 1)
+
+								var eventTypeLabel = new Label
 								{
-									var tapGestureRecognizer = new TapGestureRecognizer();
-									tapGestureRecognizer.Command = EventSelectedCommand;
-									tapGestureRecognizer.CommandParameter = dayEvents[i];
-									label.GestureRecognizers.Add(tapGestureRecognizer);
-									stackLayout.Children.Add(label);
-								}
+									Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName,
+									TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor,
+									Style = Styles.GoogleFontStyle,
+									HorizontalOptions = LayoutOptions.End,
+									VerticalOptions = LayoutOptions.Center,
+								};
+
+								var eventTypeFrame = new Frame
+								{
+									BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor,
+									Padding = 0,
+									Content = eventTypeLabel,
+									HorizontalOptions = LayoutOptions.End,
+									VerticalOptions = LayoutOptions.Center,
+									WidthRequest = 50  // Set a fixed width for the event type frame
+								};
+
+								var grid = new Grid
+								{
+									ColumnDefinitions =
+									{
+										new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+										new ColumnDefinition { Width = new GridLength(50) }  // Same width as the eventTypeFrame
+									},
+									Children = { title, eventTypeFrame }
+								};
+								Grid.SetColumn(title, 0);
+								Grid.SetColumn(eventTypeFrame, 1);
+
+								var eventFrame = new Frame
+								{
+									BackgroundColor = eventItem.EventVisibleColor,
+									Content = grid,
+									Padding = 2, // Reduce padding inside the frame
+									HasShadow = false, // Optional: remove shadow for a flatter look
+								};
+
+								var tapGestureRecognizer = new TapGestureRecognizer
+								{
+									Command = EventSelectedCommand,
+									CommandParameter = eventItem
+								};
+
+								eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
+								eventItemsStackLayout.Children.Add(eventFrame);
 							}
+
+							frame.Content = eventItemsStackLayout;
 						}
 
-
-						frame.Content = stackLayout;
 					}
 
 					Grid.SetRow(frame, hour + 2);  // Adjust row index by 2 to make space for the day of the week and date label
@@ -131,3 +239,24 @@
 		}
 	}
 }
+//else
+//{
+//	for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
+//	{
+//		var label = new Label
+//		{
+//			FontSize = _eventNamesFontSize,
+//			FontAttributes = FontAttributes.Bold,
+//			Text = dayEvents[i].Title,
+//			BackgroundColor = dayEvents[i].EventVisibleColor
+//		};
+//		if (i < _displayEventsLimit - 1 || dayEvents.Count == 1)
+//		{
+//			var tapGestureRecognizer = new TapGestureRecognizer();
+//			tapGestureRecognizer.Command = EventSelectedCommand;
+//			tapGestureRecognizer.CommandParameter = dayEvents[i];
+//			label.GestureRecognizers.Add(tapGestureRecognizer);
+//			stackLayout.Children.Add(label);
+//		}
+//	}
+//}

@@ -92,7 +92,7 @@ namespace CalendarT1.ViewModels.EventOperations
 		public RelayCommand IsCompleteFrameCommand { get; set; }
 
 		#region Constructors
-		// ctor for creating evnents create mode
+		// ctor for creating evnents create event mode
 		public EventOperationsViewModel(IEventRepository eventRepository, DateTime selectedDate)
 			: base(eventRepository)
 		{
@@ -102,7 +102,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleteFrameCommand = new RelayCommand(() => IsCompleted = !IsCompleted);
 
 		}
-		// ctor for editing events edit mode
+		// ctor for editing events edit event mode
 		public EventOperationsViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
 		: base(eventRepository)
 		{           
