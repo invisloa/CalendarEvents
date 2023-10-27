@@ -11,7 +11,7 @@
     public class WeeklyEventsControl : BaseEventPageCC
 	{
 		private readonly int _minimumDayOfWeekWidthRequest = 45;
-		private readonly int _minimumDayOfWeekHeightRequest = 55;
+		private readonly int _minimumDayOfWeekHeightRequest = 30;
 		private readonly double _firstColumnForHoursWidth = 35;
 
 		public void GenerateGrid()
@@ -114,7 +114,13 @@
 
 		private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
 		{
-			var title = new Label { FontAttributes = FontAttributes.Bold, Text = eventItem.Title };
+			var title = new Label
+			{
+				FontAttributes = FontAttributes.Bold,
+				Text = eventItem.Title,
+				LineBreakMode = LineBreakMode.TailTruncation,
+			};
+
 			var description = new Label { Text = eventItem.Description };
 			var eventTypeLabel = new Label { Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName, TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor, Style = Styles.GoogleFontStyle, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
 			var eventTypeFrame = new Frame { BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor, Padding = 0, Content = eventTypeLabel, HorizontalOptions = LayoutOptions.End, VerticalOptions = LayoutOptions.Center };
