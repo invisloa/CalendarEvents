@@ -6,7 +6,7 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // YOU CANT DESELECT EXTRA USER TYPES IN ADD NEW EVENT PAGE IF THE EVENT IS VALUETYPE / MICROTASK because it will change them to null!!!!!!!!!!!!!!!!!!!!!!!
 
-// REMOVE TIMESPAN FROM ADD/EDIT EVENT (TIMESPAN IS FOR EVENT TYPE NOT FOR EVENT ITSELF)
+// GenerateMoreEventsLabel to change so it looks better and is more visible and has some more info about the events
 
 // visuals for microtasks (select/deselect "-" color)
 // QuantityAmount.Unit = _selectedMeasurementUnit.TypeOfMeasurementUnit;

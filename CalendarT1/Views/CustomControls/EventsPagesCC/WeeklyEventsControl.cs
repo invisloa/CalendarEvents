@@ -93,7 +93,7 @@
 			var stackLayout = new StackLayout();
 			if (dayEvents.Count > _displayEventsLimit)
 			{
-				var moreLabel = GenerateMoreEventsLabel(dayEvents, dayOfWeek);
+				var moreLabel = GenerateMoreEventsLabel(dayEvents.Count, dayOfWeek);
 				stackLayout.Children.Add(moreLabel);
 			}
 			else if (dayEvents.Count == 1)
@@ -109,13 +109,13 @@
 			return stackLayout;
 		}
 
-		private Label GenerateMoreEventsLabel(List<IGeneralEventModel> dayEvents, int dayOfWeek)
+		private Label GenerateMoreEventsLabel(int dayEventsCount, int dayOfWeek)
 		{
 			var moreLabel = new Label
 			{
 				FontSize = 15,
 				FontAttributes = FontAttributes.Italic,
-				Text = $"... {dayEvents.Count} ...",
+				Text = $"... {dayEventsCount} ...",
 				TextColor = _eventTextColor,
 				BackgroundColor = _moreEventsLabelColor
 			};

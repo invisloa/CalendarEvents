@@ -77,7 +77,7 @@
 			}
 		}
 
-		private Frame CreateDateFrame(int day, int firstDayOfWeek)
+		private Frame CreateDateFrame(int dayNumber, int firstDayOfWeek)
 		{
 			var dateFrame = new Frame
 			{
@@ -93,29 +93,29 @@
 			{
 				FontSize = _dateFontSize,
 				FontAttributes = FontAttributes.Bold,
-				Text = day.ToString(),
+				Text = dayNumber.ToString(),
 				TextColor = _watermarkDateColor,
 				VerticalOptions = LayoutOptions.Start,
 				HorizontalOptions = LayoutOptions.End
 			};
 			stackLayout.Children.Add(dateLabel);
 
-			var dayEvents = EventsToShowList.Where(e => e.StartDateTime.Date == new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, day)).ToList();
+			var dayEvents = EventsToShowList.Where(e => e.StartDateTime.Date == new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, dayNumber)).ToList();
 			if (dayEvents.Count > 0)
 			{
-				var eventStackLayout = GenerateEventStackLayout(dayEvents);
+				var eventStackLayout = GenerateEventStackLayout(dayEvents, dayNumber);
 				stackLayout.Children.Add(eventStackLayout);
 			}
 
 			dateFrame.Content = stackLayout;
 			return dateFrame;
 		}
-		private StackLayout GenerateEventStackLayout(List<IGeneralEventModel> dayEvents)
+		private StackLayout GenerateEventStackLayout(List<IGeneralEventModel> dayEvents, int dayNumber)
 		{
 			var stackLayout = new StackLayout();
 			if (dayEvents.Count > _displayEventsLimit)
 			{
-				var moreLabel = GenerateMoreEventsLabel(dayEvents.Count);
+				var moreLabel = GenerateMoreEventsLabel(dayEvents.Count, dayNumber);
 				stackLayout.Children.Add(moreLabel);
 			}
 			else if (dayEvents.Count == 1)
@@ -255,80 +255,29 @@
 			eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
 			return eventFrame;
 		}
-/*		private Frame GenerateCompactEventFrame(IGeneralEventModel eventItem)
-		{
-			// Adjust the size and layout for the compact form
-			// ...
-
-			var title = new Label
-			{
-				FontAttributes = FontAttributes.Bold,
-				Text = eventItem.Title,
-				LineBreakMode = LineBreakMode.TailTruncation,
-				FontSize = 10 // Set a smaller font size
-			};
-
-
-
-			var eventTypeLabel = new Label
-			{
-				Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName,
-				TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor,
-				Style = Styles.GoogleFontStyle,
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.Center,
-				FontSize = 10 // Set a smaller font size
-			};
-
-			var eventTypeFrame = new Frame
-			{
-				BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor,
-				Padding = 0,
-				Content = eventTypeLabel,
-				HorizontalOptions = LayoutOptions.End,
-				VerticalOptions = LayoutOptions.Center
-			};
-
-			var eventStackLayout = new StackLayout { Children = { title } };
-			var grid = new Grid
-			{
-				ColumnDefinitions = {
-			new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-			new ColumnDefinition { Width = new GridLength(50) }
-		},
-				Children = { eventStackLayout, eventTypeFrame }
-			};
-
-			Grid.SetColumn(eventTypeFrame, 1);
-			var eventFrame = new Frame
-			{
-				BackgroundColor = eventItem.EventVisibleColor,
-				Content = grid
-			};
-
-			var tapGestureRecognizer = new TapGestureRecognizer
-			{
-				Command = EventSelectedCommand,
-				CommandParameter = eventItem
-			};
-
-			eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
-			return eventFrame;
-		}
-*/
-
-
-		private Label GenerateMoreEventsLabel(int eventsCount)
+		private Label GenerateMoreEventsLabel(int dayEventsCount, int dayOfMonth)
 		{
 			var moreLabel = new Label
 			{
-				FontSize = _eventNamesFontSize,
-				Text = $"+{eventsCount - _displayEventsLimit} more",
-				TextColor = (Color)Application.Current.Resources["AccentColor"]
+				FontSize = 15,
+				FontAttributes = FontAttributes.Italic,
+				Text = $"... {dayEventsCount} more",
+				TextColor = _eventTextColor,
+				BackgroundColor = _moreEventsLabelColor,
+				HorizontalOptions = LayoutOptions.Center,
+				VerticalOptions = LayoutOptions.Center
 			};
+
+			var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer
+			{
+				Command = GoToSelectedDateCommand,
+				CommandParameter = new DateTime(CurrentSelectedDate.Year, CurrentSelectedDate.Month, dayOfMonth)
+			};
+
+			moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 			return moreLabel;
 		}
 
-		// Implement any additional methods as needed
+
 	}
 }
