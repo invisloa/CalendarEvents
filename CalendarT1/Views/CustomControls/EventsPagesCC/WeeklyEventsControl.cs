@@ -207,24 +207,3 @@
 
 	}
 }
-//else
-//{
-//	for (int i = 0; i < Math.Min(dayEvents.Count, _displayEventsLimit); i++)
-//	{
-//		var label = new Label
-//		{
-//			FontSize = _eventNamesFontSize,
-//			FontAttributes = FontAttributes.Bold,
-//			Text = dayEvents[i].Title,
-//			BackgroundColor = dayEvents[i].EventVisibleColor
-//		};
-//		if (i < _displayEventsLimit - 1 || dayEvents.Count == 1)
-//		{
-//			var tapGestureRecognizer = new TapGestureRecognizer();
-//			tapGestureRecognizer.Command = EventSelectedCommand;
-//			tapGestureRecognizer.CommandParameter = dayEvents[i];
-//			label.GestureRecognizers.Add(tapGestureRecognizer);
-//			stackLayout.Children.Add(label);
-//		}
-//	}
-//}
