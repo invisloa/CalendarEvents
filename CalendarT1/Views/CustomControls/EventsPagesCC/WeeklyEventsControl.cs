@@ -8,6 +8,12 @@
 	using static CalendarT1.App;
 	using MauiGrid = Microsoft.Maui.Controls.Grid;
 
+
+
+	// TODO IN SOME DAY...
+	// THIS IS LEFT ALMOST SAME AS MONTLHLY BECAUSE IT's Not worth refactroring -> this will have all logic changed
+	// this will use days of week horizontaly and hours vertically so that events could strech to multiple days and hours
+
     public class WeeklyEventsControl : BaseEventPageCC
 	{
 		private readonly int _minimumDayOfWeekWidthRequest = 45;
@@ -82,7 +88,6 @@
 			}
 			return frame;
 		}
-
 		private StackLayout GenerateEventStackLayout(List<IGeneralEventModel> dayEvents, int dayOfWeek)
 		{
 			var stackLayout = new StackLayout();
@@ -106,12 +111,22 @@
 
 		private Label GenerateMoreEventsLabel(List<IGeneralEventModel> dayEvents, int dayOfWeek)
 		{
-			var moreLabel = new Label { FontSize = 15, FontAttributes = FontAttributes.Italic, Text = $"... {dayEvents.Count} ...", TextColor = _eventTextColor, BackgroundColor = _moreEventsLabelColor };
-			var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer { Command = GoToSelectedDateCommand, CommandParameter = CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek) };
+			var moreLabel = new Label
+			{
+				FontSize = 15,
+				FontAttributes = FontAttributes.Italic,
+				Text = $"... {dayEvents.Count} ...",
+				TextColor = _eventTextColor,
+				BackgroundColor = _moreEventsLabelColor
+			};
+			var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer
+			{
+				Command = GoToSelectedDateCommand,
+				CommandParameter = CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek)
+			};
 			moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
 			return moreLabel;
 		}
-
 		private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
 		{
 			var title = new Label
