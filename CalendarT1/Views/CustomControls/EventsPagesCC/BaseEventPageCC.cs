@@ -89,10 +89,10 @@ namespace CalendarT1.Views.CustomControls
 			{
 				_displayEventsLimit = desktopLimit;
 			}
-			else if (deviceInfo == DeviceIdiom.Phone)
-			{
-				_displayEventsLimit = phoneLimit;
-			}
+			//else if (deviceInfo == DeviceIdiom.Phone)
+			//{
+			//	_displayEventsLimit = phoneLimit;
+			//}
 			else
 			{
 				_displayEventsLimit = phoneLimit; // Default value for other idioms

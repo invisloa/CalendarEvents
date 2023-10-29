@@ -33,7 +33,7 @@ namespace CalendarT1.ViewModels
 		
 		private TimeSpan _defaultEventTime;
 		private ISubEventTypeModel _currentType;   // if null => add new type, else => edit type
-		private Color _selectedColor;
+		private Color _selectedColor = Color.FromRgb(255, 0, 0); // initialize with red
 		private string _typeName;
 		private IEventRepository _eventRepository;
 		List<MicroTaskModel> microTasksList = new List<MicroTaskModel>();
@@ -80,7 +80,6 @@ namespace CalendarT1.ViewModels
 				if (value == _selectedColor) return;
 				_selectedColor = value;
 				OnPropertyChanged();
-
 			}
 		}
 		public string TypeName

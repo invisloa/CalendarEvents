@@ -2,13 +2,19 @@
 /*
 Entry background color is not refreshing when changed 				< Entry x: Name = "TypeNameEntry"  Placeholder = "{Binding PlaceholderText}" Text = "{Binding TypeName, Mode=TwoWay}" Margin = "10"  FontAttributes = "Bold" FontSize = "Body"
 																	   HorizontalTextAlignment = "Center" BackgroundColor = "{Binding SelectedSubTypeColor, Mode=TwoWay}" TextColor = "{DynamicResource MainTextColor}" VerticalOptions = "Fill" />
-
-
-
  IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
 */
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+//  monthly view ... GenerateSingleEventLabel
+
+
 // YOU CANT DESELECT EXTRA USER TYPES IN ADD NEW EVENT PAGE IF THE EVENT IS VALUETYPE / MICROTASK because it will change them to null!!!!!!!!!!!!!!!!!!!!!!!
 
 // GenerateMoreEventsLabel to change so it looks better and is more visible and has some more info about the events

@@ -20,12 +20,12 @@
 
 
             <!--Possible Colors of events to choose-->
-            <customControls:ColorButtonsSelectorCC
+            <customControls:ColorButtonsSelectorCC Margin="5"
                 BindingContext="{Binding}"
                 SelectColorCommand="{Binding SelectColorCommand}" />
             <!--UserTypeExtraOptions_TypesCC-->
 
-            <customControls:UserTypeExtraOptions_TypesCC />
+            <customControls:UserTypeExtraOptions_TypesCC Margin="5" />
 
 
             <!--Down of the screen buttons-->

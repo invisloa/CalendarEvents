@@ -4,7 +4,7 @@
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              x:Class="CalendarT1.Views.CustomControls.DefaultEventTimespanCC">
             <StackLayout HorizontalOptions="Center">
-                <Label Text="DEFAULT EVENT DURATION"/>
+                <Label Text="DURATION (D)"/>
                 <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                     <!-- Picker for selecting time unit -->
                     <Picker  SelectedIndex="{Binding DefaultEventTimespanCCHelper.SelectedUnitIndex, Mode=TwoWay} ">

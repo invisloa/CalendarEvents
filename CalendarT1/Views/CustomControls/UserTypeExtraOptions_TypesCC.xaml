@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:customControls="clr-namespace:CalendarT1.Views.CustomControls"
              x:Class="CalendarT1.Views.CustomControls.UserTypeExtraOptions_TypesCC">
-    <StackLayout>
+    <StackLayout Spacing="5">
 
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" >
-            <Button Text="DEFAULT TIMESPAN"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanColor}" Command="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanSelectedCommand}"/>
-            <Button Text="DEFAULT VALUE"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsValueTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.ValueTypeClickCommand}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEditMode}"/>
-            <Button Text="DEFAULT MICRO TASKS" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsMicroTasksListTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsMicroTaskListTypeSelectedCommand}"/>
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="5" >
+            <Button Text="TIMESPAN (D)"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanColor}" Command="{Binding UserTypeExtraOptionsHelper.IsDefaultTimespanSelectedCommand}"/>
+            <Button Text="VALUE (D)"  BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsValueTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.ValueTypeClickCommand}" IsVisible="{Binding UserTypeExtraOptionsHelper.IsNotEditMode}"/>
+            <Button Text="M-TASKS (D)" BackgroundColor="{Binding UserTypeExtraOptionsHelper.IsMicroTasksListTypeColor}" Command="{Binding UserTypeExtraOptionsHelper.IsMicroTaskListTypeSelectedCommand}"/>
         </StackLayout>
         
         <!--Not Visible in Edit Mode-->

@@ -118,11 +118,38 @@
 				var moreLabel = GenerateMoreEventsLabel(dayEvents.Count, dayNumber);
 				stackLayout.Children.Add(moreLabel);
 			}
+
+
+
+
+
+
+
+
+
+
+
+
+
 			else if (dayEvents.Count == 1)
 			{
-				var eventFrame = GenerateSingleEventFrame(dayEvents[0]);
+				//var eventFrame = GenerateSingleEventFrame(dayEvents[0]);
+				var eventFrame = GenerateSingleEventLabel(dayEvents[0]);
 				stackLayout.Children.Add(eventFrame);
 			}
+
+
+
+
+
+
+
+
+
+
+
+
+
 			else
 			{
 				var eventItemsStackLayout = GenerateMultipleEventFrames(dayEvents);
@@ -201,49 +228,64 @@
 			return eventItemsStackLayout;
 		}
 
-		private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		private Label GenerateSingleEventLabel(IGeneralEventModel eventItem)
+		{
+			return new Label
+			{
+				//HeightRequest = 35,
+				FontAttributes = FontAttributes.Bold,
+				Text = eventItem.Title,
+				FontSize = 10,
+				LineBreakMode = LineBreakMode.TailTruncation,
+			};
+		}
+			private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
 		{
 			var title = new Label
 			{
-				HeightRequest = 35,
+				//HeightRequest = 35,
 				FontAttributes = FontAttributes.Bold,
 				Text = eventItem.Title,
 				LineBreakMode = LineBreakMode.TailTruncation,
 			};
 
-			var eventTypeLabel = new Label
-			{
-				Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName,
-				TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor,
-				Style = Styles.GoogleFontStyle,
-				HorizontalOptions = LayoutOptions.Center,
-				VerticalOptions = LayoutOptions.Center
-			};
+			//var eventTypeLabel = new Label
+			//{
+			//	Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName,
+			//	TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor,
+			//	Style = Styles.GoogleFontStyle,
+			//	HorizontalOptions = LayoutOptions.Center,
+			//	VerticalOptions = LayoutOptions.Center
+			//};
 
-			var eventTypeFrame = new Frame
-			{
-				BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor,
-				Padding = 0,
-				Content = eventTypeLabel,
-				HorizontalOptions = LayoutOptions.End,
-				VerticalOptions = LayoutOptions.Center
-			};
+			//var eventTypeFrame = new Frame
+			//{
+			//	BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor,
+			//	Padding = 0,
+			//	Content = eventTypeLabel,
+			//	HorizontalOptions = LayoutOptions.End,
+			//	VerticalOptions = LayoutOptions.Center
+			//};
 
-			var eventStackLayout = new StackLayout { Children = { title } };
-			var grid = new Grid
-			{
-				ColumnDefinitions = {
-			new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
-			new ColumnDefinition { Width = new GridLength(50) }
-		},
-				Children = { eventStackLayout, eventTypeFrame }
-			};
-
-			Grid.SetColumn(eventTypeFrame, 1);
 			var eventFrame = new Frame
 			{
 				BackgroundColor = eventItem.EventVisibleColor,
-				Content = grid
+				Content = title
 			};
 
 			var tapGestureRecognizer = new TapGestureRecognizer
@@ -255,6 +297,96 @@
 			eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
 			return eventFrame;
 		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		/*		private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
+				{
+					var title = new Label
+					{
+						//HeightRequest = 35,
+						FontAttributes = FontAttributes.Bold,
+						Text = eventItem.Title,
+						LineBreakMode = LineBreakMode.TailTruncation,
+					};
+
+					var eventTypeLabel = new Label
+					{
+						Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName,
+						TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor,
+						Style = Styles.GoogleFontStyle,
+						HorizontalOptions = LayoutOptions.Center,
+						VerticalOptions = LayoutOptions.Center
+					};
+
+					var eventTypeFrame = new Frame
+					{
+						BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor,
+						Padding = 0,
+						Content = eventTypeLabel,
+						HorizontalOptions = LayoutOptions.End,
+						VerticalOptions = LayoutOptions.Center
+					};
+
+					var eventStackLayout = new StackLayout { Children = { title } };
+					var grid = new Grid
+					{
+						ColumnDefinitions = {
+					new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+					new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+					//new ColumnDefinition { Width = new GridLength(50) }
+					},
+						Children = { eventStackLayout, eventTypeFrame }
+					};
+
+					Grid.SetColumn(eventTypeFrame, 1);
+					var eventFrame = new Frame
+					{
+						BackgroundColor = eventItem.EventVisibleColor,
+						Content = grid
+					};
+
+					var tapGestureRecognizer = new TapGestureRecognizer
+					{
+						Command = EventSelectedCommand,
+						CommandParameter = eventItem
+					};
+
+					eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
+					return eventFrame;
+				}*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		private Label GenerateMoreEventsLabel(int dayEventsCount, int dayOfMonth)
 		{
 			var moreLabel = new Label
