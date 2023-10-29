@@ -261,7 +261,7 @@
 			{
 				FontSize = 15,
 				FontAttributes = FontAttributes.Italic,
-				Text = $"... {dayEventsCount} more",
+				Text = $"... {dayEventsCount} ...",
 				TextColor = _eventTextColor,
 				BackgroundColor = _moreEventsLabelColor,
 				HorizontalOptions = LayoutOptions.Center,

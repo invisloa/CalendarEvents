@@ -10,9 +10,10 @@ public partial class App : Application
 	public App(IEventRepository repository)
 	{
 		_repository = repository;
-		//_repository.ClearAllMainEventTypesAsync();
 		//_repository.ClearAllEventsListAsync();
 		//_repository.ClearAllSubEventTypesAsync();
+		//_repository.ClearAllMainEventTypesAsync();
+
 
 
 		InitializeComponent();

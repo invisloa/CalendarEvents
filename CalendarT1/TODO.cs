@@ -1,8 +1,13 @@
-﻿
+﻿// ANDROID MAUI BUGS
+/*
+Entry background color is not refreshing when changed 				< Entry x: Name = "TypeNameEntry"  Placeholder = "{Binding PlaceholderText}" Text = "{Binding TypeName, Mode=TwoWay}" Margin = "10"  FontAttributes = "Bold" FontSize = "Body"
+																	   HorizontalTextAlignment = "Center" BackgroundColor = "{Binding SelectedSubTypeColor, Mode=TwoWay}" TextColor = "{DynamicResource MainTextColor}" VerticalOptions = "Fill" />
 
-// ANDROID IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
 
 
+ IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
+
+*/
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // YOU CANT DESELECT EXTRA USER TYPES IN ADD NEW EVENT PAGE IF THE EVENT IS VALUETYPE / MICROTASK because it will change them to null!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -234,15 +239,6 @@ check what happens if removed		// REGISTER ROUTING
 	// change inproperties .wait() to async methods with await()
  */ // quicklist shoppinglist/todo list
 #endregion
-
-
-
-
-
-
-
-
-
 #region High Priority
 //if (!typesToSaveFromSpecifiedEvents.Contains(eventItem.EventType))		// consider passing userEventTypesList as parameter
 
@@ -262,8 +258,6 @@ check what happens if removed		// REGISTER ROUTING
 
 // consider habit
 #endregion
-
-
 #region Low Priority
 // make a buttons to go one day forward and one day back
 // make a button to go to current day (today)

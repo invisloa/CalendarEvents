@@ -25,21 +25,36 @@
                 </Grid.ColumnDefinitions>
 
                 <Border Stroke="{DynamicResource MainTextboxesBackgroundColor}" Grid.Column="1"
-                        StrokeThickness="3">
+                        StrokeThickness="5">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="20" />
+                        <RoundRectangle CornerRadius="100" />
                     </Border.StrokeShape>
-
-                    <Entry 
-                       Placeholder="...EVENT TITLE..." 
-                       HorizontalTextAlignment="Center"
-                       HorizontalOptions="CenterAndExpand"
-                       MinimumWidthRequest="200"
-                       Text="{Binding Title}"
-                       TextColor="{DynamicResource MainTextColor}"
-                       FontSize="{DynamicResource EventTitleFontSize}"
-                       PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
-                       Background="{DynamicResource MainTextboxesBackgroundColor}" />
+                    <!--<Editor 
+                           Placeholder="...EVENT TITLE..." 
+                           HorizontalOptions="FillAndExpand"
+                           Text="{Binding Title}"
+                           WidthRequest="200"
+                           MinimumWidthRequest="200"
+                           TextColor="{DynamicResource MainTextColor}"
+                           FontSize="{DynamicResource EventTitleFontSize}"
+                           PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
+                           Background="{DynamicResource MainTextboxesBackgroundColor}" 
+                           AutoSize="TextChanges"
+                           Margin="0,-6,0,-6" 
+                           VerticalOptions="Start"/>-->
+                    <Editor 
+                        Placeholder="...EVENT TITLE..." 
+                        AutoSize="TextChanges"
+                        HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
+                        Text="{Binding Title, Mode=TwoWay}"
+                        TextColor="{DynamicResource MainTextColor}"
+                        PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
+                        Background="{DynamicResource MainTextboxesBackgroundColor}"
+                        VerticalTextAlignment="Center"
+                        MaximumHeightRequest="100"
+                        MinimumWidthRequest="150"
+                        WidthRequest="150"
+                        Margin="0, 10, 0, 0" />
                 </Border>
 
                 <StackLayout Orientation="Horizontal" Grid.Column="2"
