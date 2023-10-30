@@ -245,14 +245,27 @@
 
 		private Label GenerateSingleEventLabel(IGeneralEventModel eventItem)
 		{
-			return new Label
+			var titleLabel = new Label
 			{
 				//HeightRequest = 35,
 				FontAttributes = FontAttributes.Bold,
 				Text = eventItem.Title,
 				FontSize = 10,
 				LineBreakMode = LineBreakMode.TailTruncation,
+				BackgroundColor = eventItem.EventType.BackgroundColor,
+
 			};
+			var tapGestureRecognizer = new TapGestureRecognizer
+			{
+				Command = EventSelectedCommand,
+				CommandParameter = eventItem
+			};
+
+			titleLabel.GestureRecognizers.Add(tapGestureRecognizer);
+
+
+			return titleLabel;
+
 		}
 			private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
 		{

@@ -20,7 +20,8 @@
             HorizontalOptions="Center">
             <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="type_models:ISubEventTypeModel">
-                    <Grid Margin="3,0,0,0">
+                    <!--<Grid Margin="3,0,0,0">-->
+                    <Grid Margin="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <!-- For MainType Frame -->

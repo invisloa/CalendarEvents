@@ -29,19 +29,6 @@
                     <Border.StrokeShape>
                         <RoundRectangle CornerRadius="100" />
                     </Border.StrokeShape>
-                    <!--<Editor 
-                           Placeholder="...EVENT TITLE..." 
-                           HorizontalOptions="FillAndExpand"
-                           Text="{Binding Title}"
-                           WidthRequest="200"
-                           MinimumWidthRequest="200"
-                           TextColor="{DynamicResource MainTextColor}"
-                           FontSize="{DynamicResource EventTitleFontSize}"
-                           PlaceholderColor="{DynamicResource MainPlaceholderTextColor}"
-                           Background="{DynamicResource MainTextboxesBackgroundColor}" 
-                           AutoSize="TextChanges"
-                           Margin="0,-6,0,-6" 
-                           VerticalOptions="Start"/>-->
                     <Editor 
                         Placeholder="...EVENT TITLE..." 
                         AutoSize="TextChanges"
@@ -54,7 +41,7 @@
                         MaximumHeightRequest="100"
                         MinimumWidthRequest="150"
                         WidthRequest="150"
-                        Margin="0, 10, 0, 0" />
+                         />
                 </Border>
 
                 <StackLayout Orientation="Horizontal" Grid.Column="2"

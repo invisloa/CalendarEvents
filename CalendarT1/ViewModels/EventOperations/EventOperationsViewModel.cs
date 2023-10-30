@@ -111,6 +111,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			DeleteEventCommand = new AsyncRelayCommand(DeleteSelectedEvent);
 			ShareEvents = new ShareEventsJson(eventRepository); // Confirm this line if needed
 			ShareEventCommand = new AsyncRelayCommand(ShareEvent);
+			SelectUserEventTypeCommand = null;
 
 			// Set properties based on eventToEdit
 			_selectedCurrentEvent = eventToEdit;

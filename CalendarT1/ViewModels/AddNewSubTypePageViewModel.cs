@@ -122,33 +122,35 @@ namespace CalendarT1.ViewModels
 		public AddNewSubTypePageViewModel(IEventRepository eventRepository)
 		{
 			_eventRepository = eventRepository;
-			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(false);
+			InitializeCommon(eventRepository);
 			DefaultEventTimespanCCHelper.SelectedUnitIndex = 0; // minutes
 			DefaultEventTimespanCCHelper.DurationValue = 30;
-			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeViewModelClass(_eventRepository.AllMainEventTypesList);
 			MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(microTasksList);
-			InitializeCommon();
 		}
 
 		// constructor for edit mode
 		public AddNewSubTypePageViewModel(IEventRepository eventRepository, ISubEventTypeModel currentType)
 		{
-			_eventRepository = eventRepository;
-			MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(currentType.MicroTasksList);
-			MainEventTypesCCHelper.SelectedMainEventType = currentType.MainEventType;
 			CurrentType = currentType;
+			InitializeCommon(eventRepository);
+			if (currentType.IsMicroTaskType)
+			{
+				MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(currentType.MicroTasksList);
+			}
+			MainEventTypesCCHelper.SelectedMainEventType = currentType.MainEventType;
 			SelectedSubTypeColor = currentType.EventTypeColor;
 			TypeName = currentType.EventTypeName;
 			DefaultEventTimespanCCHelper.SetControlsValues(currentType.DefaultEventTimeSpan);
 			setIsVisibleForExtraControlsInEditMode();
-			InitializeCommon();
-
+			UserTypeExtraOptionsHelper.ValueTypeClickCommand = null;
 			// set proper visuals for an edited event type ??
 		}
 
-		private void InitializeCommon()
+		private void InitializeCommon(IEventRepository eventRepository)
 		{
+			_eventRepository = eventRepository;
 			InitializeColorButtons();
+			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeViewModelClass(_eventRepository.AllMainEventTypesList);
 			bool isEditMode = CurrentType != null;
 			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(isEditMode);
 			SelectColorCommand = new RelayCommand<SelectableButtonViewModel>(OnSelectColorCommand);

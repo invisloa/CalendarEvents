@@ -1,17 +1,9 @@
-﻿// ANDROID MAUI BUGS
-/*
-Entry background color is not refreshing when changed 				< Entry x: Name = "TypeNameEntry"  Placeholder = "{Binding PlaceholderText}" Text = "{Binding TypeName, Mode=TwoWay}" Margin = "10"  FontAttributes = "Bold" FontSize = "Body"
-																	   HorizontalTextAlignment = "Center" BackgroundColor = "{Binding SelectedSubTypeColor, Mode=TwoWay}" TextColor = "{DynamicResource MainTextColor}" VerticalOptions = "Fill" />
- IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
-
-*/
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿
 
 
 
-
-
-
+//add same maintypes and subtypes ???
+// I CAN SELECT OTHER EVENT SUBTYPE IN EDIT EVENT MODE ON ANDROID
 //  monthly view ... GenerateSingleEventLabel
 
 
@@ -271,3 +263,11 @@ check what happens if removed		// REGISTER ROUTING
 #endregion
 
 
+// ANDROID MAUI BUGS
+/*
+Entry background color is not refreshing when changed 				< Entry x: Name = "TypeNameEntry"  Placeholder = "{Binding PlaceholderText}" Text = "{Binding TypeName, Mode=TwoWay}" Margin = "10"  FontAttributes = "Bold" FontSize = "Body"
+																	   HorizontalTextAlignment = "Center" BackgroundColor = "{Binding SelectedSubTypeColor, Mode=TwoWay}" TextColor = "{DynamicResource MainTextColor}" VerticalOptions = "Fill" />
+ IsVisible PROBLEM BUG when something becomes visible layout does not update and has no space to show ui elements
+
+*/
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -12,7 +12,7 @@ namespace CalendarT1.Helpers.Converters
 			{
 				return 1.0; // Normal scale
 			}
-			return 0.8; // Scaled down or any other value you prefer
+			return 0.7; // Scaled down or any other value you prefer
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

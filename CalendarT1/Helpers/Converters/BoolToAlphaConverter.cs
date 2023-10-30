@@ -15,7 +15,7 @@ namespace CalendarT1.Helpers.Converters
 			{
 				return 1.0; // Fully opaque
 			}
-			return 0.5; // Semi-transparent or any other value you prefer
+			return 0.45; // Semi-transparent or any other value you prefer
 		}
 
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
