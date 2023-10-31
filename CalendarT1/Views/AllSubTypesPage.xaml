@@ -53,7 +53,7 @@
                                 Scale="{Binding IsSelectedToFilter, Converter={StaticResource boolToScaleConverter}}"
                                 HorizontalOptions="Center" 
                                 VerticalOptions="Center"/>
-                                <Label Text="XXXXXXXXXXXXXXXXXX"/>
+                                <Label Text="{Binding MainEventType.Title}" HorizontalOptions="Center"/>
                             </StackLayout>
                         </Frame>
                     </Grid>
