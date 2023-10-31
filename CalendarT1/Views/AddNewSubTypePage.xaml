@@ -16,7 +16,7 @@
                            HorizontalTextAlignment="Center" BackgroundColor="{Binding SelectedSubTypeColor, Mode=TwoWay}" TextColor="{DynamicResource MainTextColor}" VerticalOptions="Fill"/>
             </Frame>
             <!--Main Event Types Custom Control-->
-            <customControls:MainEventTypesSelectorCC BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}" IsVisible="{Binding IsNotEdit}"/>
+            <customControls:MainEventTypesSelectorCC BindingContext="{Binding Source={x:Reference AddNewSubTypePageName}, Path=BindingContext}"/>
 
 
             <!--Possible Colors of events to choose-->

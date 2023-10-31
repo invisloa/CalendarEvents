@@ -72,7 +72,6 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 			deselectAllMainEventTypes();
 			viewModel.IsSelected = true;
 			MainEventTypeChanged?.Invoke(SelectedMainEventType);
-
 		}
 
 		private void deselectAllMainEventTypes()

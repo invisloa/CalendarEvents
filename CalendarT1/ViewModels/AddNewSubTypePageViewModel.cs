@@ -137,7 +137,9 @@ namespace CalendarT1.ViewModels
 			{
 				MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(currentType.MicroTasksList);
 			}
-			MainEventTypesCCHelper.SelectedMainEventType = currentType.MainEventType;
+			MainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(new MainEventTypeViewModel(currentType.MainEventType));
+
+			//MainEventTypesCCHelper.SelectedMainEventType = currentType.MainEventType;
 			SelectedSubTypeColor = currentType.EventTypeColor;
 			TypeName = currentType.EventTypeName;
 			DefaultEventTimespanCCHelper.SetControlsValues(currentType.DefaultEventTimeSpan);

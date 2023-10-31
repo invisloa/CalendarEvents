@@ -41,9 +41,7 @@
                        Padding="0"
 
                        HorizontalOptions="Start"
-                       VerticalOptions="Center"
-
-                       >
+                       VerticalOptions="Center">
                             <StackLayout>
                                 <Label 
                                 Text="{Binding  MainEventType.SelectedVisualElement.ElementName}" 
