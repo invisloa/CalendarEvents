@@ -69,17 +69,18 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				throw new ArgumentException($"Invalid TypeOfEvent value: {viewModel.MainEventType}");
 			}
 			SelectedMainEventType = selectedMainEventType;
-			deselectAllMainEventTypes();
-			viewModel.IsSelected = true;
+			VisuallySelectMainEventTypeElement();
 			MainEventTypeChanged?.Invoke(SelectedMainEventType);
 		}
 
-		private void deselectAllMainEventTypes()
+		private void VisuallySelectMainEventTypeElement()
 		{
 			foreach (var eventType in _eventVisualDetails.Values)
 			{
 				eventType.IsSelected = false;
 			}
+			var mainEventToSelect = _eventVisualDetails[SelectedMainEventType];
+			mainEventToSelect.IsSelected = true;
 		}
 
 		private void InitializeMainEventTypesVisuals()

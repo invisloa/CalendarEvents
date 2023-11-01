@@ -137,7 +137,8 @@ namespace CalendarT1.ViewModels
 			{
 				MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(currentType.MicroTasksList);
 			}
-			MainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(new MainEventTypeViewModel(currentType.MainEventType));
+
+			MainEventTypesCCHelper.MainEventTypeSelectedCommand.Execute(new MainEventTypeViewModel(currentType.MainEventType));  // pass some new main event type view model not the one that is on the list!!!
 
 			//MainEventTypesCCHelper.SelectedMainEventType = currentType.MainEventType;
 			SelectedSubTypeColor = currentType.EventTypeColor;
@@ -214,12 +215,12 @@ namespace CalendarT1.ViewModels
 		{
 			if (IsEdit)
 			{
-				// cannot change main event, Quantity type => may lead to some future errors???
+				_currentType.MainEventType = SelectedMainEventType;
 				_currentType.EventTypeName = TypeName;
 				_currentType.EventTypeColor = _selectedColor;
 				SetExtraUserControlsValues(_currentType);
 				await _eventRepository.UpdateSubEventTypeAsync(_currentType);
-				await Shell.Current.GoToAsync("..");								// TODO CHANGE NOT WORKING!!!
+				await Shell.Current.GoToAsync("/AllSubTypesPage"); // Absolute route without "///"
 			}
 			else
 			{

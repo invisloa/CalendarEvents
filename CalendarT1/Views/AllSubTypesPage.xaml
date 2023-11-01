@@ -5,8 +5,13 @@
              x:Class="CalendarT1.Views.AllSubTypesPage"
              Title="AllSubTypesPage">
     <VerticalStackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
-        <CollectionView ItemsSource="{Binding AllSubEventTypesOC}">
-            <CollectionView.ItemTemplate>
+        <FlexLayout BindableLayout.ItemsSource="{Binding AllSubEventTypesOC}"
+                                Wrap="Wrap" 
+            Direction="Row" 
+            AlignItems="Start" 
+            JustifyContent="Start"
+            HorizontalOptions="Center">
+            <BindableLayout.ItemTemplate>
                 <DataTemplate x:DataType="models:ISubEventTypeModel">
                     <!--<Grid Margin="3,0,0,0">-->
                     <Grid Margin="1">
@@ -56,8 +61,8 @@
                         </Frame>
                     </Grid>
                 </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
     </VerticalStackLayout>
 </ContentPage>
     
