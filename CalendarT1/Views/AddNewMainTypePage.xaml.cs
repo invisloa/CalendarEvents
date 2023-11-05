@@ -1,4 +1,5 @@
 using CalendarT1.Helpers;
+using CalendarT1.Models.EventTypesModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels;
 
@@ -6,14 +7,15 @@ namespace CalendarT1.Views;
 
 public partial class AddNewMainTypePage : ContentPage
 {
-	IEventRepository _eventRepository;
-		public AddNewMainTypePage()
-		{
+	public AddNewMainTypePage()
+	{
+		BindingContext = ServiceHelper.GetService<AddNewMainTypePageViewModel>();
 		InitializeComponent();
-		_eventRepository = ServiceHelper.GetService<IEventRepository>();
-		BindingContext = new AddNewMainTypePageViewModel(_eventRepository);
-		//ModifyEntryPadding();
-
+	}
+	public AddNewMainTypePage(IEventRepository eventRepository, IMainEventType mainEventType)
+	{
+		BindingContext = new AddNewMainTypePageViewModel(eventRepository, mainEventType);
+		InitializeComponent();
 	}
 
 

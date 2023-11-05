@@ -1,8 +1,8 @@
-﻿
+﻿// ALL MAIN TYPE PAGES HAS TO ONLY KNOW ALL MAIN TYPES AND ONE COMMAND TO GO TO EDIT PAGE
 
 // MAIN EVENT TYPE IS NOT SELECTING IN EDIT EVENT MODE
 
-//add same maintypes and subtypes ???
+// app is able to add same maintypes and subtypes ???
 // I CAN SELECT OTHER EVENT SUBTYPE IN EDIT EVENT MODE ON ANDROID
 //  monthly view ... GenerateSingleEventLabel
 

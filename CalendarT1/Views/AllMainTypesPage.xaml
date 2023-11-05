@@ -6,7 +6,45 @@
              Title="AllMainTypesPage">
     
     
-    <VerticalStackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}">
+    <VerticalStackLayout  BackgroundColor="{DynamicResource MainBackgroundColor}" >
+        <FlexLayout BindableLayout.ItemsSource="{Binding AllMainEventTypesOC}" 
+            Wrap="Wrap" 
+            Direction="Row" 
+            AlignItems="Start" 
+            JustifyContent="Start"
+            HorizontalOptions="Center">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate x:DataType="models:IMainEventType">
+                    <Frame Margin="5"
+                           MinimumWidthRequest="55"
+                           MinimumHeightRequest="55"
+                           MaximumWidthRequest="200"
+                       BackgroundColor="{Binding SelectedVisualElement.BackgroundColor}" 
+                       Padding="0"
+
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding BindingContext.EditSelectedTypeCommand, Source={RelativeSource AncestorType={x:Type ContentPage}}}"
+                                          CommandParameter="{Binding .}"/>
+                        </Frame.GestureRecognizers>
+                        <StackLayout >
+
+                            <Label 
+                                Text="{Binding  SelectedVisualElement.ElementName}" 
+                                TextColor="{Binding SelectedVisualElement.TextColor}" 
+                                Style="{StaticResource GoogleFont}" 
+                                HorizontalOptions="Center" 
+                                VerticalOptions="Center">
+                            </Label>
+                            <Label Text="{Binding Title}" HorizontalOptions="Center"  TextColor="{Binding SelectedVisualElement.TextColor}" />
+                        </StackLayout>
+                    </Frame>
+
+
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
         <!--<CollectionView ItemsSource="{Binding AllSubEventTypesOC}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:ISubEventTypeModel">

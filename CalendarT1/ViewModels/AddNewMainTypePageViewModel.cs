@@ -90,10 +90,10 @@ namespace CalendarT1.ViewModels
 		public RelayCommand GoToAllMainTypesPageCommand { get; set; }
 		public RelayCommand<string> ExactIconSelectedCommand { get; set; }
 		public AsyncRelayCommand SubmitAsyncMainTypeCommand { get; set; }
-		public AsyncRelayCommand DeleteAsyncSelectedEventTypeCommand { get; set; }
-		public RelayCommand<SelectableButtonViewModel> ActivitiesIconsCommand { get; set; }
+		public AsyncRelayCommand DeleteAsyncSelectedMainEventTypeCommand { get; set; }
+/*		public RelayCommand<SelectableButtonViewModel> ActivitiesIconsCommand { get; set; }
 		public RelayCommand<SelectableButtonViewModel> HomeIconsCommand { get; set; }
-		public RelayCommand<SelectableButtonViewModel> Top3IconsCommand { get; set; }
+		public RelayCommand<SelectableButtonViewModel> Top3IconsCommand { get; set; }*/
 		public RelayCommand<SelectableButtonViewModel> SelectColorCommand { get; private set; }
 		#endregion
 
@@ -102,21 +102,22 @@ namespace CalendarT1.ViewModels
 		//Constructor for create mode
 		public AddNewMainTypePageViewModel(IEventRepository eventRepository)
 		{
+			IsEdit = false;
 			_eventRepository = eventRepository;
 			InitializeCommon();
-			//var firstKeyValuePair = _stringToOCMapper.ElementAt(0);
-			//string firstKey = firstKeyValuePair.Key;
-			//IconsToShowStringsOC = _stringToOCMapper[firstKey];
-
 		}
 		//Constructor for edit mode
 		public AddNewMainTypePageViewModel(IEventRepository eventRepository, IMainEventType currentMainType)
 		{
+			IsEdit = true;
 			_eventRepository = eventRepository;
-			MainTypeName = currentMainType.Title;
-			_currentMainType = currentMainType;
-
 			InitializeCommon();
+			_currentMainType = currentMainType;
+			MainTypeName = currentMainType.Title;
+			SelectedVisualElementString = currentMainType.SelectedVisualElement.ElementName;
+			BackgroundColor = currentMainType.SelectedVisualElement.BackgroundColor;
+			TextColor = currentMainType.SelectedVisualElement.TextColor;
+
 		}
 
 		#endregion
@@ -165,7 +166,7 @@ namespace CalendarT1.ViewModels
 		{
 			GoToAllMainTypesPageCommand = new RelayCommand(OnGoToAllMainTypesPageCommand);
 			SubmitAsyncMainTypeCommand = new AsyncRelayCommand(OnSubmitMainTypeCommand, CanExecuteSubmitMainTypeCommand);
-			DeleteAsyncSelectedEventTypeCommand = new AsyncRelayCommand(OnDeleteMainTypeCommand);
+			DeleteAsyncSelectedMainEventTypeCommand = new AsyncRelayCommand(OnDeleteMainTypeCommand);
 			ExactIconSelectedCommand = new RelayCommand<string>(OnExactIconSelectedCommand);
 		}
 
@@ -206,29 +207,34 @@ namespace CalendarT1.ViewModels
 		}
 		private async Task OnDeleteMainTypeCommand()
 		{
-			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.Equals(_currentMainType)); // to check
+			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.EventType.MainEventType.Equals(_currentMainType)); // to check
 			if (eventTypesInDb.Any())
 			{
-				var action = await App.Current.MainPage.DisplayActionSheet("This main type is used in some events/sub types.", "Cancel", null, "Delete all associated events and sub types", "Go to All SubTypes Page");
+				var action = await App.Current.MainPage.DisplayActionSheet("This main type is used...", "Cancel", null, "Delete all associated data", "\n", "Go to All SubTypes Page");
 				switch (action)
 				{
-					case "Delete all associated events and sub types":
+					case "Delete all associated data":
 						// Perform the operation to delete all events of the event type.
-						_eventRepository.AllEventsList.RemoveAll(x => x.EventType.MainEventType.Equals(_currentMainType));
-						await _eventRepository.SaveEventsListAsync();
-						_eventRepository.AllUserEventTypesList.RemoveAll(x => x.MainEventType.Equals(_currentMainType));
-						await _eventRepository.SaveSubEventTypesListAsync();
+						await DeleteMainEventType();
+						await Shell.Current.GoToAsync("..");
+
 						// TODO make a confirmation message
 						break;
 					case "Go to All SubTypes Page":
 						// Redirect to the All Events Page.
-						await Shell.Current.GoToAsync("AllSubTypesPage");
+						await Shell.Current.GoToAsync("AllSubTypesPage");	// TODO SELECT PROPPER MAINEVENTTYPE FOR THE PAGE
 						break;
 					default:
 						// Cancel was selected or back button was pressed.
 						break;
 				}
 				return;
+			}
+			else
+			{
+				await DeleteMainEventType();
+				await Shell.Current.GoToAsync("..");
+
 			}
 
 
@@ -250,7 +256,16 @@ namespace CalendarT1.ViewModels
 			IconsToShowStringsOC = iconsToShowOC;
 			OnPropertyChanged(nameof(IconsToShowStringsOC));
 		}
-
+		private async Task DeleteMainEventType()
+		{
+			// Perform the operation to delete all events of the event type.
+			_eventRepository.AllEventsList.RemoveAll(x => x.EventType.MainEventType.Equals(_currentMainType));
+			await _eventRepository.SaveEventsListAsync();
+			_eventRepository.AllUserEventTypesList.RemoveAll(x => x.MainEventType.Equals(_currentMainType));
+			await _eventRepository.SaveSubEventTypesListAsync();
+			_eventRepository.AllMainEventTypesList.Remove(_currentMainType);
+			await _eventRepository.SaveMainEventTypesListAsync();
+		}
 
 
 		private void OnExactIconSelectedCommand(string visualStringSource)

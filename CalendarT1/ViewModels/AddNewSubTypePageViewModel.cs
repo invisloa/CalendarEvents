@@ -182,7 +182,7 @@ namespace CalendarT1.ViewModels
 		#region Methods
 		private async Task DeleteSelectedEventType()
 		{
-			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.Equals(_currentType)); // to check
+			var eventTypesInDb = _eventRepository.AllEventsList.Where(x => x.EventType.Equals(_currentType));
 			if (eventTypesInDb.Any())
 			{
 				var action = await App.Current.MainPage.DisplayActionSheet("This type is used in some events.", "Cancel", null, "Delete all associated events", "Go to All Events Page");

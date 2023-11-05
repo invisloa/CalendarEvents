@@ -41,6 +41,7 @@ public static class MauiProgram
 		// AddSingleton - one instance for all timne
 		// AddTransient - new instance every time
 		builder.Services.AddTransient<AddNewSubTypePageViewModel>();
+		builder.Services.AddTransient<AddNewMainTypePageViewModel>();
 		builder.Services.AddTransient<MonthlyEventsViewModel>();
 		builder.Services.AddTransient<WeeklyEventsViewModel>();
 		builder.Services.AddTransient<DailyEventsViewModel>();

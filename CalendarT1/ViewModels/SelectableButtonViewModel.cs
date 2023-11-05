@@ -2,7 +2,10 @@
 using System.Windows.Input;
 
 namespace CalendarT1.ViewModels
-{
+{/// <summary>
+/// Button that can be selected and deselected with a border around it
+/// Also has a command that can be executed when the button is selected
+/// </summary>
 	public class SelectableButtonViewModel : BaseViewModel
 	{
 		private bool _isSelected = false;
