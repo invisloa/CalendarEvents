@@ -21,17 +21,18 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		private QuantityModel _eventQuantityAmount;
 		private bool _isValueTypeSelected;
 
-		private decimal _quantityValue;
 		private RelayCommand<MeasurementUnitItem> _measurementUnitSelectedCommand;
 		private string _quantityValueText;
 		private IMeasurementOperationsHelperClass _measurementOperationsHelperClass;
 		public IMeasurementOperationsHelperClass MeasurementOperationsHelperClass { get => _measurementOperationsHelperClass; set => _measurementOperationsHelperClass = value; }
+		
+		// text in the UI
 		public string QuantityValueText { get => _quantityValueText; set => _quantityValueText = value; }
 		public MeasurementSelectorCCViewModel()
 		{
 			_measurementUnitSelectedCommand = new RelayCommand<MeasurementUnitItem>(OnMeasurementUnitSelected);
 			_selectedMeasurementUnit = MeasurementUnitsOC[0];   //default value- Currency
-			_eventQuantityAmount = new QuantityModel(_selectedMeasurementUnit.TypeOfMeasurementUnit, _quantityValue);
+			_eventQuantityAmount = new QuantityModel(_selectedMeasurementUnit.TypeOfMeasurementUnit, 0);
 		}
 		public ObservableCollection<MeasurementUnitItem> MeasurementUnitsOC		// TO CHECK IF THIS IS NEEDED MAYBE REMOVE !!!
 		{
@@ -72,19 +73,23 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		}
 		public QuantityModel QuantityAmount 
 		{ 
-			get => _eventQuantityAmount; 
-			set => _eventQuantityAmount = value; 
+			get => _eventQuantityAmount;
+			set
+			{
+				_eventQuantityAmount = value;
+				OnPropertyChanged();
+				OnPropertyChanged(nameof(QuantityValue));
+			}
 		}
 		public bool IsValueTypeSelected { get => _isValueTypeSelected; set => _isValueTypeSelected = value; }
 		public decimal QuantityValue
 		{
-			get => _quantityValue;
+			get => QuantityAmount.Value;
 			set
 			{ 
-				_quantityValue = value;
 				if (QuantityAmount != null)
 				{
-					QuantityAmount.Value = _quantityValue;
+					QuantityAmount.Value = value;
 				}
 				OnPropertyChanged();
 			}
