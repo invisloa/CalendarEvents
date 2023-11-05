@@ -206,9 +206,7 @@ namespace CalendarT1.ViewModels
 				return;
 			}
 			await _eventRepository.DeleteFromSubEventTypesListAsync(_currentType);
-			await Shell.Current.Navigation.PopAsync();
-
-			//await Shell.Current.GoToAsync($"{nameof(AllSubTypesPage)}");
+			await Shell.Current.GoToAsync($"{nameof(AllSubTypesPage)}");
 		}
 
 		private async Task SubmitType()
