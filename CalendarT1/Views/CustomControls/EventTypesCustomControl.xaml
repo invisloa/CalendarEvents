@@ -4,6 +4,7 @@
              xmlns:models="clr-namespace:CalendarT1.Models.EventTypesModels;assembly=CalendarT1"
              xmlns:CustomControls="clr-namespace:CalendarT1.Views.CustomControls"
              xmlns:converters="clr-namespace:CalendarT1.Helpers.Converters"
+              x:Name="ThisContentView"
              x:Class="CalendarT1.Views.CustomControls.EventTypesCustomControl">
     <ContentView.Resources>
         <ResourceDictionary>
@@ -54,6 +55,12 @@
                        HeightRequest="40"
                        HorizontalOptions="Start"
                        VerticalOptions="Center">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                    Command="{Binding Path=BindingContext.SelectUserEventTypeCommand, Source={x:Reference ThisContentView}}"
+                                    CommandParameter="{Binding}" 
+                                    NumberOfTapsRequired="1" />
+                            </Frame.GestureRecognizers>
                             <Label 
                                 Text="{Binding  MainEventType.SelectedVisualElement.ElementName}" 
                                 TextColor="{Binding MainEventType.SelectedVisualElement.TextColor}" 
@@ -61,7 +68,9 @@
                                 Opacity="{Binding IsSelectedToFilter, Converter={StaticResource boolToAlphaConverter}}"
                                 Scale="{Binding IsSelectedToFilter, Converter={StaticResource boolToScaleConverter}}"
                                 HorizontalOptions="Center" 
-                                VerticalOptions="Center"/>
+                                VerticalOptions="Center">
+
+                            </Label>
                         </Frame>
                     </Grid>
                 </DataTemplate>
