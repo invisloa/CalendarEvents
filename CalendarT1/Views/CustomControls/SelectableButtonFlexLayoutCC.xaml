@@ -2,6 +2,7 @@
 <FlexLayout xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
             x:Class="CalendarT1.Views.CustomControls.SelectableButtonFlexLayoutCC"
+            xmlns:local="clr-namespace:CalendarT1.Views.CustomControls"
             Direction="Row" 
             Wrap="Wrap"
             AlignItems="Center"
@@ -10,11 +11,12 @@
     <BindableLayout.ItemTemplate>
         <DataTemplate>
             <Button Text="{Binding ButtonText}" 
-                    BackgroundColor="{DynamicResource MainButtonBackgroundColor}"
-                    BorderWidth="{Binding ButtonBorder}"
-                    Command="{Binding ButtonCommand}"
-                    Opacity="{Binding ButtonOpacity}"
-                    CommandParameter="{Binding .}" />
+            BackgroundColor="{Binding Source={RelativeSource AncestorType={x:Type local:SelectableButtonFlexLayoutCC}}, Path=ButtonBackground}"
+            BorderWidth="{Binding ButtonBorder}"
+            Command="{Binding ButtonCommand}"
+            Opacity="{Binding ButtonOpacity}"
+            CommandParameter="{Binding .}" />
         </DataTemplate>
+
     </BindableLayout.ItemTemplate>
 </FlexLayout>

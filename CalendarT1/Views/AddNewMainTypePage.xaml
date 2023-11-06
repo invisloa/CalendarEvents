@@ -47,11 +47,11 @@
 
         
         <!-- TO SHOW ONLY IF ICONS ARE SELECTED !!!-->
-        <StackLayout>
-            <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding IconsTabsOC, Mode=TwoWay}" AlignItems="Start" JustifyContent="Start" />
+        <StackLayout Margin="10">
+            <customControls:SelectableButtonFlexLayoutCC ItemsSource="{Binding IconsTabsOC, Mode=TwoWay}" AlignItems="Start" JustifyContent="Start" ButtonBackground="DarkViolet" />
             <!-- Icon Selection UI -->
             <!-- TO SHOW ONLY IF ICONS ARE SELECTED !!!-->
-            <CollectionView ItemsSource="{Binding IconsToShowStringsOC, Mode=TwoWay}" HorizontalOptions="FillAndExpand">
+            <CollectionView ItemsSource="{Binding IconsToShowStringsOC, Mode=TwoWay}" HorizontalOptions="FillAndExpand" Margin="10">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="3" />
                 </CollectionView.ItemsLayout>
