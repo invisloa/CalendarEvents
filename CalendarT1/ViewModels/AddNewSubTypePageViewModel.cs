@@ -123,6 +123,7 @@ namespace CalendarT1.ViewModels
 		{
 			_eventRepository = eventRepository;
 			InitializeCommon(eventRepository);
+			MainEventTypeSelectedCommand = MainEventTypesCCHelper.MainEventTypeSelectedCommand;
 			DefaultEventTimespanCCHelper.SelectedUnitIndex = 0; // minutes
 			DefaultEventTimespanCCHelper.DurationValue = 30;
 			MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(microTasksList);
@@ -159,7 +160,6 @@ namespace CalendarT1.ViewModels
 			SelectColorCommand = new RelayCommand<SelectableButtonViewModel>(OnSelectColorCommand);
 			GoToAllSubTypesPageCommand = new RelayCommand(GoToAllSubTypesPage);
 			SubmitTypeCommand = new AsyncRelayCommand(SubmitType, CanExecuteSubmitTypeCommand);
-			MainEventTypeSelectedCommand = MainEventTypesCCHelper.MainEventTypeSelectedCommand;
 			DeleteSelectedEventTypeCommand = new AsyncRelayCommand(DeleteSelectedEventType);
 			_mainEventTypesCCHelper.MainEventTypeChanged += OnMainEventTypeChanged;
 

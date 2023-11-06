@@ -27,7 +27,7 @@
                 <Border Stroke="{DynamicResource MainTextboxesBackgroundColor}" Grid.Column="1"
                         StrokeThickness="5">
                     <Border.StrokeShape>
-                        <RoundRectangle CornerRadius="100" />
+                        <RoundRectangle CornerRadius="15" />
                     </Border.StrokeShape>
                     <Editor 
                         Placeholder="...EVENT TITLE..." 
@@ -39,12 +39,11 @@
                         Background="{DynamicResource MainTextboxesBackgroundColor}"
                         VerticalTextAlignment="Center"
                         MaximumHeightRequest="100"
-                        MinimumWidthRequest="150"
                         WidthRequest="150"
                          />
                 </Border>
 
-                <StackLayout Orientation="Horizontal" Grid.Column="2"
+                <StackLayout Orientation="Horizontal" Grid.Column="2" Margin="10"
                              HorizontalOptions="End" 
                              VerticalOptions="Center" >
                     <ImageButton 
@@ -52,7 +51,8 @@
                              Source="share_icon_small.png"
                              WidthRequest="40" 
                              HeightRequest="40"
-                             Margin="10"
+
+                             Margin="10, 0, 0, 0"
                              Background="{DynamicResource MainButtonBackgroundColor}"
                              Command="{Binding ShareEventCommand}" 
                              IsVisible="{Binding EditModeVisibility}" />
@@ -60,8 +60,7 @@
                     Source="remove_icon_small.png"
                         CornerRadius="10"
                         WidthRequest="40" 
-                        HeightRequest="40"
-                        Margin="10"
+                             Margin="10, 0, 0, 0"
                         Background="{DynamicResource MainButtonBackgroundColor}"
                         Command="{Binding DeleteEventCommand}" 
                         IsVisible="{Binding EditModeVisibility}" />

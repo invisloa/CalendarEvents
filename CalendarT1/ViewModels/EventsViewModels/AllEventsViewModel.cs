@@ -111,9 +111,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		#endregion
 
 		#region Properties
-		public AsyncRelayCommand DeleteBelowEventsCommand { get; set; }
-		public AsyncRelayCommand DeleteAllEventsCommand { get; set; }
-		public AsyncRelayCommand DeleteAllUserTypesCommand { get; set; }
+		public AsyncRelayCommand DeleteAboveEventsCommand { get; set; }
+		//public AsyncRelayCommand DeleteAllEventsCommand { get; set; }
+		//public AsyncRelayCommand DeleteAllUserTypesCommand { get; set; }
 		public AsyncRelayCommand SaveBelowEventsToFileCommand { get; set; }
 		public AsyncRelayCommand SaveAllEventsToFileCommand { get; set; }
 		public AsyncRelayCommand LoadEventsFromFileCommand { get; set; }
@@ -159,9 +159,9 @@ namespace CalendarT1.ViewModels.EventsViewModels
 		{
 			_filterDatesCCHelper.FilterDateFromChanged += OnFilterDateFromChanged;
 			_filterDatesCCHelper.FilterDateToChanged += OnFilterDateToChanged;
-			DeleteBelowEventsCommand = new AsyncRelayCommand(DeleteShownEvents);
-			DeleteAllEventsCommand = new AsyncRelayCommand(DeleteShownEvents);
-			DeleteAllUserTypesCommand = new AsyncRelayCommand(DeleteAllUserTypes);
+			DeleteAboveEventsCommand = new AsyncRelayCommand(DeleteShownEvents);
+			//DeleteAllEventsCommand = new AsyncRelayCommand(DeleteShownEvents);
+			//DeleteAllUserTypesCommand = new AsyncRelayCommand(DeleteAllUserTypes);
 			SaveBelowEventsToFileCommand = new AsyncRelayCommand(OnSaveSelectedEventsAndTypesCommand);
 			SaveAllEventsToFileCommand = new AsyncRelayCommand(OnSaveEventsAndTypesCommand);
 			LoadEventsFromFileCommand = new AsyncRelayCommand(OnLoadEventsAndTypesCommand);
