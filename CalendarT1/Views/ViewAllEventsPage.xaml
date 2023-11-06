@@ -33,7 +33,7 @@
         <customControls:DateFilteringCC Grid.Row="2"/>
 
         <!-- Events list layout -->
-        <StackLayout Grid.Row="3" Orientation="Vertical" HorizontalOptions="Center">
+        <StackLayout Grid.Row="3" Orientation="Vertical" HorizontalOptions="Center" Margin="5">
             <StackLayout Orientation="Horizontal" Spacing="15">
                 <Button Text="SAVE BELOW" Command="{Binding SaveBelowEventsToFileCommand}"/>
                 <Button Text="SAVE ALL" Command="{Binding SaveAllEventsToFileCommand}" />
@@ -76,7 +76,7 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-        <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="Center" Margin="10">
+        <StackLayout Grid.Row="5" Orientation="Horizontal" HorizontalOptions="Center" Margin="10" VerticalOptions="End">
             <Button Text="DELETE ABOVE EVENTS" Command="{Binding DeleteBelowEventsCommand}" BackgroundColor="Purple" BorderWidth="1" BorderColor="Black"/>
             <Button Text="DELETE ALL EVENTS" Command="{Binding DeleteAllEventsCommand}" BackgroundColor="Purple" BorderWidth="1" BorderColor="Black"/>
             <Button Text="DELETE ALL TYPES" Command="{Binding DeleteAllUserTypesCommand}" BackgroundColor="Purple" BorderWidth="1" BorderColor="Black"/>
