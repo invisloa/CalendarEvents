@@ -368,6 +368,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			}
 			else
 			{
+
 				DefaultMeasurementSelectorCCHelper.QuantityAmount = null;
 			}
 			SetEndExactTimeAccordingToEventType();

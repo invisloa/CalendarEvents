@@ -84,7 +84,14 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 		public bool IsValueTypeSelected { get => _isValueTypeSelected; set => _isValueTypeSelected = value; }
 		public decimal QuantityValue
 		{
-			get => QuantityAmount.Value;
+			get
+			{
+				if (QuantityAmount == null)
+				{
+					return 0;
+				}
+				return QuantityAmount.Value;
+			}
 			set
 			{ 
 				if (QuantityAmount != null)
