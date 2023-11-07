@@ -5,18 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:CalendarT1.Views">
 
-    <ShellContent
+    <!--<ShellContent
     Title="AllEventsPage"
     ContentTemplate="{DataTemplate local:ViewAllEventsPage}"
     Route="ViewAllEventsPage"
-    IsVisible="False" />
+    IsVisible="True" />-->
     
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <Tab Title="Daily events list">
+        <Tab Title="Calendars">
             <ShellContent
-                Title="Welcome Page"
-                ContentTemplate="{DataTemplate local:WelcomePage}"
-                Route="WelcomePage" />
+                Title="Weekly"
+                ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
+                Route="ViewWeeklyEvents" />
             <ShellContent
                 Title="Monthly"
                 ContentTemplate="{DataTemplate local:ViewMonthlyEvents}"
@@ -25,38 +25,50 @@
                 Title="Daily"
                 ContentTemplate="{DataTemplate local:ViewDailyEvents}"
                 Route="DailyEvents" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Adding Data">
             <ShellContent
-                Title="AddNewMainTypePage"
+                Title="Add New MainTypes"
                 ContentTemplate="{DataTemplate local:AddNewMainTypePage}"
                 Route="AddNewMainTypePage" />
-
-
             <ShellContent
-                Title="AddNewType"
+                Title="Add New SubTypes"
                 ContentTemplate="{DataTemplate local:AddNewSubTypePage}"
                 Route="AddNewSubTypePage" />
-            
+            <ShellContent
+                Title="Add New Events"
+                ContentTemplate="{DataTemplate local:EventPage}"
+                Route="EventPage" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="All Items Lists">
 
             <ShellContent
-                Title="Weekly"
-                ContentTemplate="{DataTemplate local:ViewWeeklyEvents}"
-                Route="ViewWeeklyEvents" />
-
-
-
-
-            <ShellContent
-                Title="AllEventsPage"
+                Title="All Events Page"
                 ContentTemplate="{DataTemplate local:ViewAllEventsPage}"
                 Route="ViewAllEventsPage" />
-
-
+            <ShellContent
+                Title="All Main Types"
+                ContentTemplate="{DataTemplate local:AllMainTypesPage}"
+                Route="AllMainTypesPage" />
+            <ShellContent
+                Title="All Sub Types"
+                ContentTemplate="{DataTemplate local:AllSubTypesPage}"
+                Route="AllSubTypesPage" />
+        </Tab>
+    </FlyoutItem>
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Data Operations">
             <ShellContent
                 Title="ValueTypeCalculationsPage"
                 ContentTemplate="{DataTemplate local:ValueTypeCalculationsPage}"
                 Route="ValueTypeCalculationsPage" />
-
         </Tab>
     </FlyoutItem>
+
+
 
 </Shell>

@@ -32,6 +32,31 @@
                 
             </Style>
 
+            <Style x:Key="DangerButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#E74C3C" />
+                <!-- Red background color -->
+                <Setter Property="TextColor" Value="White" />
+                <!-- White text color -->
+                <Setter Property="CornerRadius" Value="10" />
+                <!-- Rounded corners -->
+                <Setter Property="Padding" Value="10" />
+                <!-- Padding for content -->
+                <Setter Property="HeightRequest" Value="50" />
+                <!-- Button height -->
+                <Setter Property="WidthRequest" Value="200" />
+                <!-- Button width -->
+                <Setter Property="FontAttributes" Value="Bold" />
+                <!-- Bold text -->
+                <Setter Property="FontSize" Value="18" />
+                <!-- Font size -->
+                <Setter Property="BorderWidth" Value="1" />
+                <!-- Border width -->
+                <Setter Property="BorderColor" Value="#C0392B" />
+                <!-- Border color -->
+
+            </Style>
+
+
             <!-- Define the style for buttons -->
             <Style TargetType="Button">
                 <Setter Property="FontFamily" Value="MyNormalFont" />

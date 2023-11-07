@@ -102,6 +102,15 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleteFrameCommand = new RelayCommand(() => IsCompleted = !IsCompleted);
 
 		}
+		public EventOperationsViewModel(IEventRepository eventRepository)
+			: base(eventRepository)
+		{
+			StartDateTime = DateTime.Now;
+			EndDateTime = DateTime.Now;
+			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
+			IsCompleteFrameCommand = new RelayCommand(() => IsCompleted = !IsCompleted);
+
+		}
 		// ctor for editing events edit event mode
 		public EventOperationsViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
 		: base(eventRepository)

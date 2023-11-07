@@ -31,11 +31,11 @@
         <!-- Button layout with modern look -->
         <StackLayout Grid.Row="3" Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
             <Button Text="Save Below" Command="{Binding SaveBelowEventsToFileCommand}"
-                    Style="{StaticResource ModernButtonStyle}"/>
+                    />
             <Button Text="Save All" Command="{Binding SaveAllEventsToFileCommand}"
-                    Style="{StaticResource ModernButtonStyle}"/>
+                    />
             <Button Text="Load Events" Command="{Binding LoadEventsFromFileCommand}"
-                    Style="{StaticResource ModernButtonStyle}"/>
+                    />
         </StackLayout>
 
         <!-- CollectionView with subtle frame borders and shadows for elevation -->

@@ -49,7 +49,7 @@ namespace CalendarT1.Services
 				builder.SetMicroTasksList(microTasks);
 			return builder.Build();
 		}
-		public static ISubEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity, List<MicroTaskModel> microTasksList)
+		public static ISubEventTypeModel CreateNewEventType(IMainEventType mainEventType, string eventTypeName, Color eventTypeColor, TimeSpan defaultEventTime, QuantityModel quantity=null, List<MicroTaskModel> microTasksList=null)
 		{
 			return new SubEventTypeModel(mainEventType, eventTypeName, eventTypeColor, defaultEventTime, quantity, microTasksList);
 		}

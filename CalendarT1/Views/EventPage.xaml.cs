@@ -1,3 +1,4 @@
+using CalendarT1.Helpers;
 using CalendarT1.Models.EventModels;
 using CalendarT1.Services.DataOperations.Interfaces;
 using CalendarT1.ViewModels.EventOperations;
@@ -15,7 +16,12 @@ namespace CalendarT1.Views
 
 			BindingContext = new EventOperationsViewModel(eventRepository, selcetedDate);
 		}
-
+		public EventPage()
+		{
+			var viewModel = ServiceHelper.GetService<EventOperationsViewModel>();
+			BindingContext = viewModel;
+			InitializeComponent();
+		}
 		// For editing events
 		public EventPage(IEventRepository eventRepository, IGeneralEventModel eventModel)
 		{
