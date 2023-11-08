@@ -37,7 +37,7 @@ public static class MauiProgram
 		Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddTransient<AddNewSubTypePageViewModel>(builder.Services);
 
 
-		// Pages 
+		// ViewModels register
 		// AddSingleton - one instance for all timne
 		// AddTransient - new instance every time
 		builder.Services.AddTransient<AddNewSubTypePageViewModel>();

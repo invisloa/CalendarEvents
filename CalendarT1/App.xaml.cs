@@ -93,19 +93,7 @@ public partial class App : Application
 
 		// load repository data OnStart of the app
 		await _repository.InitializeAsync();
-
-
-
-		// TODO !!!!!!!!!!!!!!!!!!!!!!!!  IF THERE ARE NO ITEMS IN THE REPOSITORY, ADD SOME DEFAULT ITEMS
-/*		if (_repository.AllMainEventTypesList.Count == 0)
-		{
-			_repository.AddEventAsync;
-		}
-		if (_repository.AllEventsList.Count == 0)
-		{
-			_repository.LoadEventsAndTypesFromFile();
-		}
-*/	}
+	}
 	public static class Styles
 	{
 		public static Style GoogleFontStyle = new Style(typeof(Label))

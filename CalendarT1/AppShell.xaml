@@ -10,7 +10,16 @@
     ContentTemplate="{DataTemplate local:ViewAllEventsPage}"
     Route="ViewAllEventsPage"
     IsVisible="True" />-->
-    
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Calendars">
+            <ShellContent
+                Title="Preferences"
+                ContentTemplate="{DataTemplate local:PreferencesPage}"
+                Route="PreferencesPage" />
+        </Tab>
+    </FlyoutItem>
+
+
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
         <Tab Title="Calendars">
             <ShellContent
