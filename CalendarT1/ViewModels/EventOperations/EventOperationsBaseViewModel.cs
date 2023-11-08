@@ -355,7 +355,10 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			SelectedEventType = selectedEvent;
 			UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected = selectedEvent.IsMicroTaskType ? true : false;
-
+			if (UserTypeExtraOptionsHelper.IsMicroTaskTypeSelected)
+			{
+				MicroTasksCCAdapter.MicroTasksOC = new ObservableCollection<MicroTaskModel>(selectedEvent.MicroTasksList);
+			}
 			UserTypeExtraOptionsHelper.IsValueTypeSelected = selectedEvent.IsValueType ? true : false;
 			if (UserTypeExtraOptionsHelper.IsValueTypeSelected)
 			{

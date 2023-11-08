@@ -119,7 +119,19 @@ namespace CalendarT1.Views.CustomControls.CCViewModels
 				_allMicroTasksCompleted = value;
 			}
 		}
-		public ObservableCollection<MicroTaskModel> MicroTasksOC { get; set; }
+		private ObservableCollection<MicroTaskModel> _microTasksOC;
+		public ObservableCollection<MicroTaskModel> MicroTasksOC
+		{
+			get => _microTasksOC;
+			set
+			{
+				if (_microTasksOC != value)
+				{
+					_microTasksOC = value;
+					OnPropertyChanged(nameof(MicroTasksOC));
+				}
+			}
+		}
 		public RelayCommand<MicroTaskModel> SelectMicroTaskCommand { get; set; }
 		private void OnMicroTaskSelected(MicroTaskModel clickedMicrotask)
 		{
