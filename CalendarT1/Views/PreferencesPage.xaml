@@ -17,8 +17,15 @@
         <Switch IsToggled="{Binding MainEventTypeTimesDifferent}" />
         
         <!--WEEKLY PREFERED HOURS SPAN-->
-        <Label Text="{Binding WeeklyHoursSpantText}" />
-        <Switch IsToggled="{Binding WeeklyHoursSpant}" />
+        <Label Text="{Binding WeeklyHoursSpanText}" />
+        <Switch IsToggled="{Binding WeeklyHoursSpan}" />
+        <StackLayout Orientation="Horizontal" IsVisible="{Binding WeeklyHoursSpan}">
+            <Label Text="FROM"/>
+            <!-- TODO !!!!!!!!!!!! TO CHANGE FOR A NUMERIC CONTROL !!!!!!!!!!!!!!!!-->
+            <Entry Text="{Binding HoursSpanFrom}"/>
+            <Label Text="TO"/>
+            <Entry Text="{Binding HoursSpanTo}"/>
+        </StackLayout>
 
 
         <Button Text="Save Preferences" Command="{Binding SaveCommand}" />

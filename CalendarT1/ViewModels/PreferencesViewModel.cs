@@ -1,92 +1,107 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CalendarT1.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System.Windows.Input;
 
 namespace CalendarT1.ViewModels
 {
-
 	public class PreferencesViewModel : BaseViewModel
 	{
-		// PropertyChanged event declaration
-
-		// Properties to bind to the UI
-		private bool selectedLanguage;
 		public bool SelectedLanguage
 		{
-			get => selectedLanguage;
+			get => PreferencesManager.GetSelectedLanguage();
 			set
 			{
-				selectedLanguage = value;
-				OnPropertyChanged(nameof(SelectedLanguage));
+				if (PreferencesManager.GetSelectedLanguage() != value)
+				{
+					PreferencesManager.SetSelectedLanguage(value);
+					OnPropertyChanged();
+				}
 			}
 		}
 
-		private bool subEventTypeTimesDifferent;
 		public bool SubEventTypeTimesDifferent
 		{
-			get => subEventTypeTimesDifferent;
+			get => PreferencesManager.GetSubEventTypeTimesDifferent();
 			set
 			{
-				subEventTypeTimesDifferent = value;
-				OnPropertyChanged(nameof(SubEventTypeTimesDifferent));
+				if (PreferencesManager.GetSubEventTypeTimesDifferent() != value)
+				{
+					PreferencesManager.SetSubEventTypeTimesDifferent(value);
+					OnPropertyChanged();
+				}
 			}
 		}
 
-		private bool mainEventTypeTimesDifferent;
 		public bool MainEventTypeTimesDifferent
 		{
-			get => mainEventTypeTimesDifferent;
+			get => PreferencesManager.GetMainEventTypeTimesDifferent();
 			set
 			{
-				mainEventTypeTimesDifferent = value;
-				OnPropertyChanged(nameof(MainEventTypeTimesDifferent));
+				if (PreferencesManager.GetMainEventTypeTimesDifferent() != value)
+				{
+					PreferencesManager.SetMainEventTypeTimesDifferent(value);
+					OnPropertyChanged();
+				}
 			}
 		}
 
-		private bool weeklyHoursSpant;
-		public bool WeeklyHoursSpant
+		public int HoursSpanFrom
 		{
-			get => weeklyHoursSpant;
+			get => PreferencesManager.GetHoursSpanFrom();
 			set
 			{
-				weeklyHoursSpant = value;
-				OnPropertyChanged(nameof(WeeklyHoursSpant));
+				if (PreferencesManager.GetHoursSpanFrom() != value)
+				{
+					PreferencesManager.SetHoursSpanFrom(value);
+					OnPropertyChanged();
+				}
 			}
 		}
 
-		// Text properties for labels (assuming you'll localize or set these texts elsewhere)
+		public int HoursSpanTo
+		{
+			get => PreferencesManager.GetHoursSpanTo();
+			set
+			{
+				if (PreferencesManager.GetHoursSpanTo() != value)
+				{
+					PreferencesManager.SetHoursSpanTo(value);
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		public bool WeeklyHoursSpan
+		{
+			get => PreferencesManager.GetWeeklyHoursSpan();
+			set
+			{
+				if (PreferencesManager.GetWeeklyHoursSpan() != value)
+				{
+					PreferencesManager.SetWeeklyHoursSpan(value);
+					if (!value)
+					{
+						HoursSpanFrom = 0;
+						HoursSpanTo = 24;
+					}
+					OnPropertyChanged();
+				}
+			}
+		}
+
+		// Text properties for labels
 		public string SelectedLanguageText { get; set; } = "Selected Language";
 		public string SubEventTypeTimesDifferentText { get; set; } = "Sub Event Type Times Different";
 		public string MainEventTypeTimesDifferentText { get; set; } = "Main Event Type Times Different";
-		public string WeeklyHoursSpantText { get; set; } = "Weekly Preferred Hours Span";
+		public string WeeklyHoursSpanText { get; set; } = "Weekly Preferred Hours Span";
 
 		// Save command
 		public ICommand SaveCommand { get; }
 
 		public PreferencesViewModel()
 		{
-			// Initialize preferences
-			SelectedLanguage = Preferences.Get(nameof(SelectedLanguage), false);
-			SubEventTypeTimesDifferent = Preferences.Get(nameof(SubEventTypeTimesDifferent), false);
-			MainEventTypeTimesDifferent = Preferences.Get(nameof(MainEventTypeTimesDifferent), false);
-			WeeklyHoursSpant = Preferences.Get(nameof(WeeklyHoursSpant), false);
-
-			// Initialize commands
-			SaveCommand = new Command(SavePreferences);
 		}
 
-		// Method to save preferences
-		private void SavePreferences()
-		{
-			Preferences.Set(nameof(SelectedLanguage), SelectedLanguage);
-			Preferences.Set(nameof(SubEventTypeTimesDifferent), SubEventTypeTimesDifferent);
-			Preferences.Set(nameof(MainEventTypeTimesDifferent), MainEventTypeTimesDifferent);
-			Preferences.Set(nameof(WeeklyHoursSpant), WeeklyHoursSpant);
-		}
 
 	}
 }

@@ -1,6 +1,7 @@
 ﻿namespace CalendarT1.Views.CustomControls
 {
 	using CalendarT1.Models.EventModels;
+	using CalendarT1.Services;
 	using Microsoft.Maui.Controls;
 	using System;
     using System.Collections.ObjectModel;
@@ -19,7 +20,8 @@
 		private readonly int _minimumDayOfWeekWidthRequest = 45;
 		private readonly int _minimumDayOfWeekHeightRequest = 30;
 		private readonly double _firstColumnForHoursWidth = 35;
-
+		private int _hoursSpanFrom = PreferencesManager.GetHoursSpanFrom();
+		private int _hoursSpanTo = PreferencesManager.GetHoursSpanTo();
 		public void GenerateGrid()
 		{
 			ClearGrid();
@@ -34,98 +36,100 @@
 			ColumnDefinitions.Clear();
 			Children.Clear();
 
-			for (int i = 0; i < 24 + 2; i++)
-				RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-
+			// Set up column definitions for hours including before and after spans
+			int totalColumns = _hoursSpanTo - _hoursSpanFrom + 3;
 			ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(_firstColumnForHoursWidth) });
-			for (int i = 1; i < 8; i++)
+			for (int i = 0; i < totalColumns; i++)
 				ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+			// Set up row definitions for days of the week
+			for (int i = 0; i < 8; i++) // 7 days + 1 for the header
+				RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
 		}
 
 		private void GenerateDayLabels()
 		{
-			int dayOfWeekNumber = (int)CurrentSelectedDate.DayOfWeek;
+			// Add day labels as the first column
 			for (int day = 0; day < 7; day++)
 			{
-				var dayOfWeekLabel = new Label { FontSize = _dayNamesFontSize, FontAttributes = FontAttributes.Bold, Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - dayOfWeekNumber).ToString("dd")}" };
-				Grid.SetRow(dayOfWeekLabel, 1);
-				Grid.SetColumn(dayOfWeekLabel, day + 1);
+				var dayOfWeekLabel = new Label
+				{
+					FontSize = _dayNamesFontSize,
+					FontAttributes = FontAttributes.Bold,
+					Text = $"{((DayOfWeek)day).ToString().Substring(0, 3)} {CurrentSelectedDate.AddDays(day - (int)CurrentSelectedDate.DayOfWeek).ToString("dd")}",
+					HorizontalOptions = LayoutOptions.Center
+				};
+				Grid.SetRow(dayOfWeekLabel, day + 1); // Offset by 1 to allow for the header row
+				Grid.SetColumn(dayOfWeekLabel, 0);
 				Children.Add(dayOfWeekLabel);
 			}
 		}
 
 		private void GenerateHourLabels()
 		{
-			for (int hour = 0; hour < 24; hour++)
+			// Add header label for hours
+			var headerLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = "Hour", WidthRequest = _firstColumnForHoursWidth };
+			Grid.SetRow(headerLabel, 0);
+			Grid.SetColumn(headerLabel, 0);
+			Children.Add(headerLabel);
+
+			// Hour labels for the specified time span as columns
+			int currentColumnIndex = 1; // Start from the second column
+
+			// Label for time before _hoursSpanFrom
+			var beforeLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = "<" + _hoursSpanFrom.ToString("D2") };
+			Grid.SetRow(beforeLabel, 0);
+			Grid.SetColumn(beforeLabel, currentColumnIndex++);
+			Children.Add(beforeLabel);
+
+			// Hour labels
+			for (int hour = _hoursSpanFrom; hour <= _hoursSpanTo; hour++)
 			{
-				var hourLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = $"{hour:D2}", WidthRequest = _firstColumnForHoursWidth };
-				Grid.SetRow(hourLabel, hour + 2);
-				Grid.SetColumn(hourLabel, 0);
+				var hourLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = hour.ToString("D2") };
+				Grid.SetRow(hourLabel, 0); // Header row
+				Grid.SetColumn(hourLabel, currentColumnIndex++);
 				Children.Add(hourLabel);
 			}
-		}
-
-		private void GenerateEventFrames()
-		{
-			for (int hour = 0; hour < 24; hour++)
-				for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
-				{
-					var frame = CreateEventFrame(hour, dayOfWeek);
-					Grid.SetRow(frame, hour + 2);
-					Grid.SetColumn(frame, dayOfWeek + 1);
-					Children.Add(frame);
-				}
+			currentColumnIndex++;
+			// Label for time after _hoursSpanTo
+			var afterLabel = new Label { FontSize = 12, FontAttributes = FontAttributes.Bold, Text = ">" + _hoursSpanTo.ToString("D2") };
+			Grid.SetRow(afterLabel, 0); // Header row
+			Grid.SetColumn(afterLabel, currentColumnIndex);
+			Children.Add(afterLabel);
 		}
 
 		private Frame CreateEventFrame(int hour, int dayOfWeek)
 		{
-			var frame = new Frame { BorderColor = _frameBorderColor, Padding = 5, BackgroundColor = _emptyLabelColor, MinimumWidthRequest = _minimumDayOfWeekWidthRequest, MinimumHeightRequest = _minimumDayOfWeekHeightRequest };
-			var dayEvents = EventsToShowList.Where(e => e.StartDateTime.Date == CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek).Date && e.StartDateTime.Hour == hour).ToList();
-			if (dayEvents.Count > 0)
+			// Calculate the date for the current column
+			var date = CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek).Date;
+			IEnumerable<IGeneralEventModel> dayEvents;
+
+			// Special case for hours before _hoursSpanFrom
+			if (hour == -1)
 			{
-				var stackLayout = GenerateEventStackLayout(dayEvents, dayOfWeek);
-				frame.Content = stackLayout;
+				dayEvents = EventsToShowList.Where(e => e.StartDateTime.Date == date && e.StartDateTime.Hour < _hoursSpanFrom);
 			}
-			return frame;
-		}
-		private StackLayout GenerateEventStackLayout(List<IGeneralEventModel> dayEvents, int dayOfWeek)
-		{
-			var stackLayout = new StackLayout();
-			if (dayEvents.Count > _displayEventsLimit)
+			// Special case for hours after _hoursSpanTo
+			else if (hour == -2)
 			{
-				var moreLabel = GenerateMoreEventsLabel(dayEvents.Count, dayOfWeek);
-				stackLayout.Children.Add(moreLabel);
+				dayEvents = EventsToShowList.Where(e => e.StartDateTime.Date == date && e.StartDateTime.Hour >= _hoursSpanTo);
 			}
-			else if (dayEvents.Count == 1)
-			{
-				var eventFrame = GenerateSingleEventFrame(dayEvents[0]);
-				stackLayout.Children.Add(eventFrame);
-			}
+			// Normal case for hours within the _hoursSpanFrom and _hoursSpanTo
 			else
 			{
-				var eventItemsStackLayout = GenerateMultipleEventFrames(dayEvents);
-				stackLayout.Children.Add(eventItemsStackLayout);
+				dayEvents = EventsToShowList.Where(e => e.StartDateTime.Date == date && e.StartDateTime.Hour == hour);
 			}
-			return stackLayout;
-		}
 
-		private Label GenerateMoreEventsLabel(int dayEventsCount, int dayOfWeek)
-		{
-			var moreLabel = new Label
+			var frame = new Frame { BorderColor = _frameBorderColor, Padding = 5, BackgroundColor = _emptyLabelColor, MinimumWidthRequest = _minimumDayOfWeekWidthRequest, MinimumHeightRequest = _minimumDayOfWeekHeightRequest };
+
+			// If there are any events for this hour and dayOfWeek, create a stack layout for them
+			if (dayEvents.Any())
 			{
-				FontSize = 15,
-				FontAttributes = FontAttributes.Italic,
-				Text = $"... {dayEventsCount} ...",
-				TextColor = _eventTextColor,
-				BackgroundColor = _moreEventsLabelColor
-			};
-			var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer
-			{
-				Command = GoToSelectedDateCommand,
-				CommandParameter = CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek)
-			};
-			moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
-			return moreLabel;
+				var stackLayout = GenerateEventStackLayout(dayEvents.ToList(), dayOfWeek);
+				frame.Content = stackLayout;
+			}
+
+			return frame;
 		}
 		private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
 		{
@@ -148,6 +152,59 @@
 			return eventFrame;
 		}
 
+		private StackLayout GenerateEventStackLayout(List<IGeneralEventModel> dayEvents, int dayOfWeek)
+		{
+			var stackLayout = new StackLayout();
+			if (dayEvents.Count > _displayEventsLimit)
+			{
+				var moreLabel = GenerateMoreEventsLabel(dayEvents.Count, dayOfWeek);
+				stackLayout.Children.Add(moreLabel);
+			}
+			else if (dayEvents.Count == 1)
+			{
+				var eventFrame = GenerateSingleEventFrame(dayEvents[0]);
+				stackLayout.Children.Add(eventFrame);
+			}
+			else
+			{
+				var eventItemsStackLayout = GenerateMultipleEventFrames(dayEvents);
+				stackLayout.Children.Add(eventItemsStackLayout);
+			}
+			return stackLayout;
+		}
+		private Label GenerateMoreEventsLabel(int dayEventsCount, int dayOfWeek)
+		{
+			var moreLabel = new Label
+			{
+				FontSize = 15,
+				FontAttributes = FontAttributes.Italic,
+				Text = $"... {dayEventsCount} ...",
+				TextColor = _eventTextColor,
+				BackgroundColor = _moreEventsLabelColor
+			};
+			var tapGestureRecognizerForMoreEvents = new TapGestureRecognizer
+			{
+				Command = GoToSelectedDateCommand,
+				CommandParameter = CurrentSelectedDate.AddDays(dayOfWeek - (int)CurrentSelectedDate.DayOfWeek)
+			};
+			moreLabel.GestureRecognizers.Add(tapGestureRecognizerForMoreEvents);
+			return moreLabel;
+		}
+		private void GenerateEventFrames()
+		{
+			// Create frames for each hour and day
+			for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
+			{
+				for (int hour = -1; hour <= _hoursSpanTo - _hoursSpanFrom + 1; hour++)
+				{
+					// hour == -1 is before _hoursSpanFrom, hour == _hoursSpanTo - _hoursSpanFrom + 1 is after _hoursSpanTo
+					var frame = CreateEventFrame(hour, dayOfWeek); // Adjust hour for CreateEventFrame
+					Grid.SetRow(frame, dayOfWeek + 1); // Offset by 1 to account for the header row
+					Grid.SetColumn(frame, hour + 2); // Offset by 2 to account for the day labels column and "before" column
+					Children.Add(frame);
+				}
+			}
+		}
 
 		private StackLayout GenerateMultipleEventFrames(List<IGeneralEventModel> dayEvents)
 		{
