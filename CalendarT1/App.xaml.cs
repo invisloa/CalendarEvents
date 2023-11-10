@@ -67,7 +67,7 @@ public partial class App : Application
 
 		//ClearData();
 
-		AddDummyData();
+		//AddDummyData();
 
 		InitializeComponent();
 		MainPage = new AppShell();

@@ -22,6 +22,8 @@
 		private readonly double _firstColumnForHoursWidth = 35;
 		private int _hoursSpanFrom = PreferencesManager.GetHoursSpanFrom();
 		private int _hoursSpanTo = PreferencesManager.GetHoursSpanTo();
+		private ScrollView _scrollView;
+		private MauiGrid _grid;
 		public void GenerateGrid()
 		{
 			ClearGrid();
@@ -163,6 +165,11 @@
 			else if (dayEvents.Count == 1)
 			{
 				var eventFrame = GenerateSingleEventFrame(dayEvents[0]);
+				var eventTimeSpan = dayEvents[0].EndDateTime - dayEvents[0].StartDateTime;
+				if(eventTimeSpan.TotalHours > 1)
+				{
+					Grid.SetColumnSpan(eventFrame, (int)eventTimeSpan.TotalHours);
+				}
 				stackLayout.Children.Add(eventFrame);
 			}
 			else
@@ -195,14 +202,25 @@
 			// Create frames for each hour and day
 			for (int dayOfWeek = 0; dayOfWeek < 7; dayOfWeek++)
 			{
-				for (int hour = -1; hour <= _hoursSpanTo - _hoursSpanFrom + 1; hour++)
+				// FOR BEFORE SPAN COLUMN
+				var frame = CreateEventFrame(-1, dayOfWeek); // Adjust hour for CreateEventFrame
+				Grid.SetRow(frame, dayOfWeek + 1); // Offset by 1 to account for the header row
+				Grid.SetColumn(frame, -1 + 2); // Offset by 2 to account for the day labels column and "before" column
+				Children.Add(frame);
+
+				for (int hour = _hoursSpanFrom; hour <= _hoursSpanTo; hour++)
 				{
-					// hour == -1 is before _hoursSpanFrom, hour == _hoursSpanTo - _hoursSpanFrom + 1 is after _hoursSpanTo
-					var frame = CreateEventFrame(hour, dayOfWeek); // Adjust hour for CreateEventFrame
+					frame = CreateEventFrame(hour, dayOfWeek); // Adjust hour for CreateEventFrame
 					Grid.SetRow(frame, dayOfWeek + 1); // Offset by 1 to account for the header row
-					Grid.SetColumn(frame, hour + 2); // Offset by 2 to account for the day labels column and "before" column
+					Grid.SetColumn(frame, hour + 2 - _hoursSpanFrom); // Offset by 2 to account for the day labels column and "before" column
 					Children.Add(frame);
 				}
+
+				// FOR AFTER SPAN COLUMN
+				frame = CreateEventFrame(-2, dayOfWeek); // Adjust hour for CreateEventFrame
+				Grid.SetRow(frame, dayOfWeek + 1); // Offset by 1 to account for the header row
+				Grid.SetColumn(frame, _hoursSpanTo- _hoursSpanFrom +3); // Offset by 2 to account for the day labels column and "before" column
+				Children.Add(frame);
 			}
 		}
 
