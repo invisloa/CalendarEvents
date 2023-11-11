@@ -1,6 +1,10 @@
 ﻿
-
-
+/*   this is not working because of stack layout event tho i set columnspan of frame its inside of stacklayout 
+var eventTimeSpan = dayEvents[0].EndDateTime - dayEvents[0].StartDateTime;
+if (eventTimeSpan.TotalHours > 1)
+{
+	Grid.SetColumnSpan(eventFrame, (int)eventTimeSpan.TotalHours);
+}*/
 
 // ALL MAIN TYPE PAGES HAS TO ONLY KNOW ALL MAIN TYPES AND ONE COMMAND TO GO TO EDIT PAGE
 

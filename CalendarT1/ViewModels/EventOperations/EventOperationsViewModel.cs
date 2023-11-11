@@ -102,15 +102,16 @@ namespace CalendarT1.ViewModels.EventOperations
 			IsCompleteFrameCommand = new RelayCommand(() => IsCompleted = !IsCompleted);
 
 		}
-		public EventOperationsViewModel(IEventRepository eventRepository)
-			: base(eventRepository)
-		{
-			StartDateTime = DateTime.Now;
-			EndDateTime = DateTime.Now;
-			_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
-			IsCompleteFrameCommand = new RelayCommand(() => IsCompleted = !IsCompleted);
+		// ???????????????????????????????????
+		//public EventOperationsViewModel(IEventRepository eventRepository)
+		//	: base(eventRepository)
+		//{
+		//	StartDateTime = DateTime.Now;
+		//	EndDateTime = DateTime.Now;
+		//	_submitEventCommand = new AsyncRelayCommand(AddEventAsync, CanExecuteSubmitCommand);
+		//	IsCompleteFrameCommand = new RelayCommand(() => IsCompleted = !IsCompleted);
 
-		}
+		//}
 		// ctor for editing events edit event mode
 		public EventOperationsViewModel(IEventRepository eventRepository, IGeneralEventModel eventToEdit)
 		: base(eventRepository)
@@ -168,14 +169,34 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task AddEventAsync()
 		{
-
 			// Create a new Event based on the selected EventType
+			CheckEventTypeSameTime();
 			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, _measurementSelectorHelperClass.QuantityAmount, MicroTasksCCAdapter.MicroTasksOC); // TODO !!!!!add microtasks
 			await _eventRepository.AddEventAsync(_selectedCurrentEvent);
 
 			ClearFields();
 		}
+		public bool CheckEventTypeSameTime()
+		{
+			// if both are selected (sub and main) it is enough to check GetSubEventTypeTimesDifferent because subevent == same main event
+			if (PreferencesManager.GetSubEventTypeTimesDifferent())
+			{
+				if (AllEventsListOC.Any(x => x.EventType == SelectedEventType && x.StartDateTime > EndDateTime && x.EndDateTime < StartDateTime))
+				{
+					return true;
+				}
+			}
+			else if(PreferencesManager.GetMainEventTypeTimesDifferent())
+			{
+				if (AllEventsListOC.Any(x => x.EventType.MainEventType == SelectedEventType.MainEventType &&  x.StartDateTime > EndDateTime && x.EndDateTime < StartDateTime))
+				{
+					return true;
+				}
+			}
 
+
+			return false;
+		}
 		private async Task EditEventAsync()
 		{
 			_selectedCurrentEvent.Title = Title;
