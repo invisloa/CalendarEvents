@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
+using CalendarT1.Helpers;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
@@ -61,14 +62,15 @@ namespace CalendarT1.ViewModels.EventOperations
 		{
 			_mainEventTypesCCHelper = Factory.CreateNewIMainEventTypeViewModelClass(eventRepository.AllMainEventTypesList);
 			UserTypeExtraOptionsHelper = Factory.CreateNewUserTypeExtraOptionsHelperClass(false);
-			_eventRepository = eventRepository;
+			EventRepository = eventRepository;
 			_allUserTypesForVisuals = new List<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
 			AllSubEventTypesOC = new ObservableCollection<ISubEventTypeModel>(eventRepository.DeepCopySubEventTypesList());
-			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(_eventRepository.AllEventsList);
+			AllEventsListOC = new ObservableCollection<IGeneralEventModel>(EventRepository.AllEventsList);
 			MainEventTypeSelectedCommand = new RelayCommand<MainEventTypeViewModel>(OnMainEventTypeSelected);
 			SelectUserEventTypeCommand = new RelayCommand<ISubEventTypeModel>(OnUserEventTypeSelected);
 			MicroTasksCCAdapter = Factory.CreateNewMicroTasksCCAdapter(microTasksList);
 			_allMeasurementUnitItems = Factory.PopulateMeasurementCollection();
+			_eventTimeConflictChecker = Factory.CreateNewEventTimeConflictChecker(EventRepository.AllEventsList);
 		}
 
 		//Fields
@@ -77,11 +79,12 @@ namespace CalendarT1.ViewModels.EventOperations
 		private int _fontSize = 20;
 		protected string _submitButtonText;
 		List<MicroTaskModel> microTasksList = new List<MicroTaskModel>();
+		protected IEventTimeConflictChecker _eventTimeConflictChecker;
 
 
 		// normal fields
 		protected IMainEventTypesCCViewModel _mainEventTypesCCHelper;
-		protected IEventRepository _eventRepository;
+		private IEventRepository eventRepository;
 		protected IGeneralEventModel _selectedCurrentEvent;
 		protected bool _isCompleted;
 		protected string _title;
@@ -323,6 +326,11 @@ namespace CalendarT1.ViewModels.EventOperations
 		public RelayCommand<ISubEventTypeModel> SelectUserEventTypeCommand { get; set; }
 		public RelayCommand<MainEventTypeViewModel> MainEventTypeSelectedCommand { get; set; }
 		public RelayCommand GoToAddNewSubTypePageCommand => _goToAddNewSubTypePageCommand ?? (_goToAddNewSubTypePageCommand = new RelayCommand(GoToAddNewSubTypePage));
+
+		protected IEventRepository EventRepository {
+			get => eventRepository; 
+			set => eventRepository = value;
+		}
 		#endregion
 
 
@@ -335,7 +343,7 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private void GoToAddEventPage()
 		{
-			Application.Current.MainPage.Navigation.PushAsync(new EventPage(_eventRepository, DateTime.Today));
+			Application.Current.MainPage.Navigation.PushAsync(new EventPage(EventRepository, DateTime.Today));
 		}
 
 

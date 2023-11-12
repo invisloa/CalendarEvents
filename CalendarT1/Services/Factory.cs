@@ -90,6 +90,9 @@ namespace CalendarT1.Services
 			return new MainEventType(mainTypeName, iconForMainEventType);
 		}
 
-
+		internal static IEventTimeConflictChecker CreateNewEventTimeConflictChecker(List<IGeneralEventModel> allEventsList)
+		{
+			return new EventTimeConflictChecker(allEventsList);
+		}
 	}
 }

@@ -8,6 +8,10 @@ using CalendarT1.Views.CustomControls.CCInterfaces;
 using CommunityToolkit.Mvvm.Input;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
+using System.Diagnostics;
+using CommunityToolkit;
+using CalendarT1.Helpers;
 
 namespace CalendarT1.ViewModels.EventOperations
 {
@@ -169,34 +173,29 @@ namespace CalendarT1.ViewModels.EventOperations
 
 		private async Task AddEventAsync()
 		{
-			// Create a new Event based on the selected EventType
-			CheckEventTypeSameTime();
 			_selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, _measurementSelectorHelperClass.QuantityAmount, MicroTasksCCAdapter.MicroTasksOC); // TODO !!!!!add microtasks
-			await _eventRepository.AddEventAsync(_selectedCurrentEvent);
 
+
+			// TODO In some day check why the lists are becoming different after adding first event
+			bool areSameList = ReferenceEquals(EventRepository.AllEventsList, _eventTimeConflictChecker.allEvents);
+			// create a new confilict checker to stop not same list issues
+			if (!areSameList)
+			{
+				_eventTimeConflictChecker = Factory.CreateNewEventTimeConflictChecker(EventRepository.AllEventsList);
+			}
+			// Create a new Event based on the selected EventType
+			if (!_eventTimeConflictChecker.IsEventConflict(PreferencesManager.GetSubEventTypeTimesDifferent(), PreferencesManager.GetMainEventTypeTimesDifferent(), _selectedCurrentEvent))
+			{
+				await EventRepository.AddEventAsync(_selectedCurrentEvent);
+			}
+			else
+			{
+				await App.Current.MainPage.DisplayActionSheet("ALREADY AN EVENT\nIN THE SPECIFIED TIME.", "OK", null);
+				return;
+			}
 			ClearFields();
 		}
-		public bool CheckEventTypeSameTime()
-		{
-			// if both are selected (sub and main) it is enough to check GetSubEventTypeTimesDifferent because subevent == same main event
-			if (PreferencesManager.GetSubEventTypeTimesDifferent())
-			{
-				if (AllEventsListOC.Any(x => x.EventType == SelectedEventType && x.StartDateTime > EndDateTime && x.EndDateTime < StartDateTime))
-				{
-					return true;
-				}
-			}
-			else if(PreferencesManager.GetMainEventTypeTimesDifferent())
-			{
-				if (AllEventsListOC.Any(x => x.EventType.MainEventType == SelectedEventType.MainEventType &&  x.StartDateTime > EndDateTime && x.EndDateTime < StartDateTime))
-				{
-					return true;
-				}
-			}
 
-
-			return false;
-		}
 		private async Task EditEventAsync()
 		{
 			_selectedCurrentEvent.Title = Title;
@@ -207,7 +206,7 @@ namespace CalendarT1.ViewModels.EventOperations
 			_selectedCurrentEvent.IsCompleted = IsCompleted;
 			_measurementSelectorHelperClass.QuantityAmount = new QuantityModel(_measurementSelectorHelperClass.SelectedMeasurementUnit.TypeOfMeasurementUnit, _measurementSelectorHelperClass.QuantityValue);
 			_selectedCurrentEvent.QuantityAmount = _measurementSelectorHelperClass.QuantityAmount;
-			await _eventRepository.UpdateEventAsync(_selectedCurrentEvent);
+			await EventRepository.UpdateEventAsync(_selectedCurrentEvent);
 			await Shell.Current.GoToAsync("..");
 		}
 		private void FilterAllSubEventTypesOCByMainEventType(IMainEventType value)
@@ -223,7 +222,7 @@ namespace CalendarT1.ViewModels.EventOperations
 				switch (action)
 				{
 					case "Delete":
-						await _eventRepository.DeleteFromEventsListAsync(_selectedCurrentEvent);
+						await EventRepository.DeleteFromEventsListAsync(_selectedCurrentEvent);
 						await Shell.Current.GoToAsync("..");
 					break;
 					default:
@@ -237,8 +236,6 @@ namespace CalendarT1.ViewModels.EventOperations
 		private async Task ShareEvent()
 		{
 			var action = await App.Current.MainPage.DisplayActionSheet("Not working for now!!!", "Cancel", null, "XXXX");
-
-			// await _shareEvents.ShareEventAsync(_selectedCurrentEvent);
 		}
 
 		#endregion

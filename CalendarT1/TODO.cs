@@ -1,4 +1,11 @@
 ﻿
+
+
+
+
+
+
+
 /*   this is not working because of stack layout event tho i set columnspan of frame its inside of stacklayout 
 var eventTimeSpan = dayEvents[0].EndDateTime - dayEvents[0].StartDateTime;
 if (eventTimeSpan.TotalHours > 1)
@@ -30,7 +37,7 @@ if (eventTimeSpan.TotalHours > 1)
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// consider if i need OC instead of list -> creating List from OC and OC from List is O(n) operation 
 
 
 // _selectedCurrentEvent = Factory.CreatePropperEvent(Title, Description, StartDateTime.Date + StartExactTime, EndDateTime.Date + EndExactTime, SelectedEventType, _measurementSelectorHelperClass.QuantityAmount); // TODO !!!!!add microtasks
