@@ -5,6 +5,7 @@
 	using System;
     using System.Linq;
 	using static CalendarT1.App;
+	using Microsoft.Maui.Layouts;
 
 	public class MonthlyEventsControl : BaseEventPageCC
 	{
@@ -12,10 +13,42 @@
 		private readonly int _minimumDayHeightRequest = 30;
 		private readonly int _dateFontSize = 12;
 		private readonly Color _watermarkDateColor = (Color)Application.Current.Resources["MainTextColor"];
+		private readonly int _LimitMoreLabbelText = 8;
+		private readonly int _LimitIconsToShow = 3;
+
+		private readonly int _phoneLimitMoreLabbelText = 6;
+		private readonly int _phoneLimitIconsToShow = 1;
+		private readonly int _pcLimitMoreLabbelText = 8;
+		private readonly int _pcLimitIconsToShow = 3;
+
+
+		private readonly int _phoneTextFontSize = 15;
+		private readonly int _phoneEventIconFrameSize = 15;
+		private readonly int _pcTextFontSize = 30;
+		private readonly int _pcEventIconFrameSize = 35;
+
+		private readonly int _TextFontSize;
+		private readonly int _EventIconFrameSize;
 
 		public MonthlyEventsControl()
 		{
-			// Constructor logic (if any)
+			// Determine the device type and set sizes accordingly
+			if (DeviceInfo.Idiom == DeviceIdiom.Phone)
+			{
+				// Phone specific settings
+				_TextFontSize = _phoneTextFontSize;
+				_EventIconFrameSize = _phoneEventIconFrameSize;
+				_LimitMoreLabbelText = _phoneLimitMoreLabbelText;
+				_LimitIconsToShow = _phoneLimitIconsToShow;
+			}
+			else
+			{
+				// PC or other devices
+				_TextFontSize = _pcTextFontSize;
+				_EventIconFrameSize = _pcEventIconFrameSize;
+				_LimitMoreLabbelText = _pcLimitMoreLabbelText;
+				_LimitIconsToShow = _pcLimitIconsToShow;
+			}
 		}
 
 		public void GenerateGrid()
@@ -122,16 +155,15 @@
 		private StackLayout GenerateEventStackLayout(List<IGeneralEventModel> dayEvents, int dayNumber)
 		{
 			var stackLayout = new StackLayout();
-			if (dayEvents.Count > _displayEventsLimit)
+			if (dayEvents.Count > _LimitMoreLabbelText)
 			{
 				var moreLabel = GenerateMoreEventsLabel(dayEvents.Count, dayNumber);
 				stackLayout.Children.Add(moreLabel);
 			}
-			else if (dayEvents.Count == 1)
+			else if (dayEvents.Count > _LimitIconsToShow)
 			{
-				//var eventFrame = GenerateSingleEventFrame(dayEvents[0]);
-				var eventFrame = GenerateSingleEventLabel(dayEvents[0]);
-				stackLayout.Children.Add(eventFrame);
+				var moreLabel = GenerateMultiIconsEventLabel(dayEvents);
+				stackLayout.Children.Add(moreLabel);
 			}
 			else
 			{
@@ -197,69 +229,76 @@
 					Padding = 2,
 					HasShadow = false,
 				};
-
-				//var tapGestureRecognizer = new TapGestureRecognizer
-				//{
-				//	Command = EventSelectedCommand,
-				//	CommandParameter = eventItem
-				//};
-
-				//eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
 				eventItemsStackLayout.Children.Add(eventFrame);
 			}
 
 			return eventItemsStackLayout;
 		}
-		private Label GenerateSingleEventLabel(IGeneralEventModel eventItem)
+		private FlexLayout GenerateMultiIconsEventLabel(List<IGeneralEventModel> dayEvents)
 		{
-			var titleLabel = new Label
+			var flexItemLayout = new FlexLayout
 			{
-				//HeightRequest = 35,
-				FontAttributes = FontAttributes.Bold,
-				Text = eventItem.Title,
-				FontSize = 10,
-				LineBreakMode = LineBreakMode.TailTruncation,
-				BackgroundColor = eventItem.EventType.BackgroundColor,
-
+				Direction = FlexDirection.Row,
+				JustifyContent = FlexJustify.Start,
+				AlignItems = FlexAlignItems.Center,
+				AlignContent = FlexAlignContent.Center,
+				Wrap = FlexWrap.Wrap,
+				Padding = 0,
+				Margin = 0,
 			};
-			var tapGestureRecognizer = new TapGestureRecognizer
+			for (int i = 0; i < dayEvents.Count; i++)
 			{
-				Command = EventSelectedCommand,
-				CommandParameter = eventItem
-			};
+				var eventItem = dayEvents[i];
+				var eventTypeLabel = new Label
+				{
+					Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName,
+					FontSize = _TextFontSize,
+					TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor,
+					Style = Styles.GoogleFontStyle,
+					HorizontalOptions = LayoutOptions.Center,
+					VerticalOptions = LayoutOptions.Center,
+				};
 
-			titleLabel.GestureRecognizers.Add(tapGestureRecognizer);
-			return titleLabel;
+				var eventTypeFrame = new Frame
+				{
+					BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor,
+					Padding = 0,
+					Content = eventTypeLabel,
+					HorizontalOptions = LayoutOptions.Center,
+					VerticalOptions = LayoutOptions.Center,
+					WidthRequest = _EventIconFrameSize,
+					HeightRequest = _EventIconFrameSize,
+				};
+
+				var grid = new Grid
+				{
+					ColumnDefinitions =
+					{
+						new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) },
+					},
+					Children = { eventTypeFrame }
+				};
+
+				var eventFrame = new Frame
+				{
+					BackgroundColor = eventItem.EventVisibleColor,
+					Content = grid,
+					Padding = 0,
+					HasShadow = false,
+				};
+				flexItemLayout.Children.Add(eventFrame);
+			}
+
+
+
+			return flexItemLayout;
 		}
-			private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
-		{
-			var title = new Label
-			{
-				//HeightRequest = 35,
-				FontAttributes = FontAttributes.Bold,
-				Text = eventItem.Title,
-				LineBreakMode = LineBreakMode.TailTruncation,
-			};
-			var eventFrame = new Frame
-			{
-				BackgroundColor = eventItem.EventVisibleColor,
-				Content = title
-			};
 
-			var tapGestureRecognizer = new TapGestureRecognizer
-			{
-				Command = EventSelectedCommand,
-				CommandParameter = eventItem
-			};
-
-			eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
-			return eventFrame;
-		}
 		private Label GenerateMoreEventsLabel(int dayEventsCount, int dayOfMonth)
 		{
 			var moreLabel = new Label
 			{
-				FontSize = 15,
+				FontSize = _TextFontSize+5,
 				FontAttributes = FontAttributes.Italic,
 				Text = $"... {dayEventsCount} ...",
 				TextColor = _eventTextColor,

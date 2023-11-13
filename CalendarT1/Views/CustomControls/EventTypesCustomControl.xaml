@@ -12,7 +12,7 @@
             <converters:BoolToScaleConverter x:Key="boolToScaleConverter" />
         </ResourceDictionary>
     </ContentView.Resources>
-    <StackLayout Margin="10">
+    <StackLayout Margin="5">
         <FlexLayout BindableLayout.ItemsSource="{Binding AllSubEventTypesOC}" 
             Wrap="Wrap" 
             Direction="Row" 

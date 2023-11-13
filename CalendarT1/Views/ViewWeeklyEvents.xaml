@@ -23,9 +23,9 @@
 
 
         <!--Events list layout-->
-        <customControls:AddNewEventAndTypeBtnsCC Grid.Row="2"/>
+        <!--<customControls:AddNewEventAndTypeBtnsCC Grid.Row="2"/>-->
 
-        <ScrollView Grid.Row="3" Orientation="Horizontal" HorizontalScrollBarVisibility="Always" Padding="10">
+        <ScrollView Grid.Row="2" Orientation="Horizontal" HorizontalScrollBarVisibility="Always" Padding="5">
 
                 <customControls:WeeklyEventsControl 
                 x:Name="weeklyEventsControl"

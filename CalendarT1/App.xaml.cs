@@ -18,10 +18,10 @@ public partial class App : Application
 	}
 	public void AddDummyData()
 	{
-		if(_repository.AllEventsList.Count > 0)
+/*		if(_repository.AllEventsList.Count > 0)
 		{
 			return;
-		}
+		}*/
 		IMainTypeVisualModel mainTypeVisualModel = new IconModel(IconFont.Work, Colors.Aquamarine, Colors.AliceBlue);
 		IMainEventType mainEventType = new MainEventType("Invioces", mainTypeVisualModel);
 		_repository.AddMainEventTypeAsync(mainEventType);
@@ -67,7 +67,7 @@ public partial class App : Application
 
 		//ClearData();
 
-		//AddDummyData();
+		AddDummyData();
 
 		InitializeComponent();
 		MainPage = new AppShell();

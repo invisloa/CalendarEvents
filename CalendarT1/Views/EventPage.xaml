@@ -49,9 +49,8 @@
                     <ImageButton 
                              CornerRadius="10"
                              Source="share_icon_small.png"
-                             WidthRequest="40" 
-                             HeightRequest="40"
-
+                             WidthRequest="30" 
+                             HeightRequest="30"
                              Margin="10, 0, 0, 0"
                              Background="{DynamicResource MainButtonBackgroundColor}"
                              Command="{Binding ShareEventCommand}" 
@@ -59,7 +58,8 @@
                     <ImageButton 
                     Source="remove_icon_small.png"
                         CornerRadius="10"
-                        WidthRequest="40" 
+                        WidthRequest="30" 
+                        HeightRequest="30"
                              Margin="10, 0, 0, 0"
                         Background="{DynamicResource MainButtonBackgroundColor}"
                         Command="{Binding DeleteEventCommand}" 

@@ -23,10 +23,10 @@
         <customControls:EventTypesCustomControl Grid.Row="1"/>
 
         <!--Events list layout-->
-        <customControls:AddNewEventAndTypeBtnsCC Grid.Row="2"/>
+        <!--<customControls:AddNewEventAndTypeBtnsCC Grid.Row="2"/>-->
 
         <!--Events Grid-->
-        <ScrollView Grid.Row="3" Orientation="Vertical" HeightRequest="400">
+        <ScrollView Grid.Row="2" Orientation="Vertical" HeightRequest="400">
                 <customControls:MonthlyEventsControl 
                 x:Name="monthlyEventsControl"
                 AllEventsList="{Binding AllEventsListOC}" 

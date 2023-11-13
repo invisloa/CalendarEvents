@@ -127,26 +127,6 @@
 
 			return frame;
 		}
-		private Frame GenerateSingleEventFrame(IGeneralEventModel eventItem)
-		{
-			var title = new Label
-			{
-				FontAttributes = FontAttributes.Bold,
-				Text = eventItem.Title,
-				LineBreakMode = LineBreakMode.TailTruncation,
-			};
-
-			var eventTypeLabel = new Label { Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName, TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor, Style = Styles.GoogleFontStyle, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
-			var eventTypeFrame = new Frame { BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor, Padding = 0, Content = eventTypeLabel, HorizontalOptions = LayoutOptions.End, VerticalOptions = LayoutOptions.Center };
-			var eventStackLayout = new StackLayout { Children = { title } };
-			var grid = new Grid { ColumnDefinitions = { new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }, new ColumnDefinition { } }, Children = { eventStackLayout, eventTypeFrame } };
-			Grid.SetColumn(eventTypeFrame, 1);
-			var eventFrame = new Frame { BackgroundColor = eventItem.EventVisibleColor, Content = grid };
-			var tapGestureRecognizer = new TapGestureRecognizer { Command = EventSelectedCommand, CommandParameter = eventItem };
-			eventFrame.GestureRecognizers.Add(tapGestureRecognizer);
-			return eventFrame;
-		}
-
 		private StackLayout GenerateEventStackLayout(List<IGeneralEventModel> dayEvents, int dayOfWeek)
 		{
 			var stackLayout = new StackLayout();
