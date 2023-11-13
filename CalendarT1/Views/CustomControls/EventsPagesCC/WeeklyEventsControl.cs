@@ -9,12 +9,6 @@
 	using static CalendarT1.App;
 	using MauiGrid = Microsoft.Maui.Controls.Grid;
 
-
-
-	// TODO IN SOME DAY...
-	// THIS IS LEFT ALMOST SAME AS MONTLHLY BECAUSE IT's Not worth refactroring -> this will have all logic changed
-	// this will use days of week horizontaly and hours vertically so that events could strech to multiple days and hours
-
     public class WeeklyEventsControl : BaseEventPageCC
 	{
 		private readonly int _minimumDayOfWeekWidthRequest = 45;
@@ -142,11 +136,10 @@
 				LineBreakMode = LineBreakMode.TailTruncation,
 			};
 
-			var description = new Label { Text = eventItem.Description };
 			var eventTypeLabel = new Label { Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName, TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor, Style = Styles.GoogleFontStyle, HorizontalOptions = LayoutOptions.Center, VerticalOptions = LayoutOptions.Center };
 			var eventTypeFrame = new Frame { BackgroundColor = eventItem.EventType.MainEventType.SelectedVisualElement.BackgroundColor, Padding = 0, Content = eventTypeLabel, HorizontalOptions = LayoutOptions.End, VerticalOptions = LayoutOptions.Center };
-			var eventStackLayout = new StackLayout { Children = { title, description } };
-			var grid = new Grid { ColumnDefinitions = { new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }, new ColumnDefinition { Width = new GridLength(50) } }, Children = { eventStackLayout, eventTypeFrame } };
+			var eventStackLayout = new StackLayout { Children = { title } };
+			var grid = new Grid { ColumnDefinitions = { new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) }, new ColumnDefinition { } }, Children = { eventStackLayout, eventTypeFrame } };
 			Grid.SetColumn(eventTypeFrame, 1);
 			var eventFrame = new Frame { BackgroundColor = eventItem.EventVisibleColor, Content = grid };
 			var tapGestureRecognizer = new TapGestureRecognizer { Command = EventSelectedCommand, CommandParameter = eventItem };
@@ -161,16 +154,6 @@
 			{
 				var moreLabel = GenerateMoreEventsLabel(dayEvents.Count, dayOfWeek);
 				stackLayout.Children.Add(moreLabel);
-			}
-			else if (dayEvents.Count == 1)
-			{
-				var eventFrame = GenerateSingleEventFrame(dayEvents[0]);
-				var eventTimeSpan = dayEvents[0].EndDateTime - dayEvents[0].StartDateTime;
-				if(eventTimeSpan.TotalHours > 1)
-				{
-					Grid.SetColumnSpan(eventFrame, (int)eventTimeSpan.TotalHours);
-				}
-				stackLayout.Children.Add(eventFrame);
 			}
 			else
 			{
@@ -239,6 +222,7 @@
 				var title = new Label
 				{
 					FontAttributes = FontAttributes.Bold,
+					Margin = new Thickness(5, 0, 0, 0),
 					Text = eventItem.Title,
 					LineBreakMode = LineBreakMode.TailTruncation,
 				};
@@ -246,6 +230,7 @@
 				var eventTypeLabel = new Label
 				{
 					Text = eventItem.EventType.MainEventType.SelectedVisualElement.ElementName,
+					FontSize = 20,
 					TextColor = eventItem.EventType.MainEventType.SelectedVisualElement.TextColor,
 					Style = Styles.GoogleFontStyle,
 					HorizontalOptions = LayoutOptions.Center,
@@ -278,7 +263,7 @@
 				{
 					BackgroundColor = eventItem.EventVisibleColor,
 					Content = grid,
-					Padding = 2,
+					Padding = 0,
 					HasShadow = false,
 				};
 

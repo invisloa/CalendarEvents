@@ -67,7 +67,8 @@ Error	1	EventOperationsViewModel	IsCompleteFrameCommand	TapGestureRecognizer.Com
 // ...Add new event error and main events are not working as should (some null reference exception)
 // daily view shakes as with something before (collectionview or something)
 
-
+// TODO In some day check why the lists are becoming different after adding first event
+// bool areSameList = ReferenceEquals(EventRepository.AllEventsList, _eventTimeConflictChecker.allEvents);
 
 // make class color picker 	->	private void InitializeColorButtons() // also to extract as a separate custom control
 
