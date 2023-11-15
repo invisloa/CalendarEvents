@@ -28,47 +28,6 @@
                               />
         
     </StackLayout>
-    <!--<customControls:UserTypeExtraOptions_TypesCC/>-->
     
 
 </ContentPage>
-
-<!--<VerticalStackLayout>
-    <Label 
-            Text="TODAY"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    <Label 
-            Text="IS"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    <Label 
-            Text="GOING"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    <Label 
-            Text="TO"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    <Label 
-            Text="BE"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    <Label 
-            Text="A"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    <Label 
-            Text="GOOD"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    <Label 
-            Text="DAY"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    <Label 
-            Text="XD"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-
-</VerticalStackLayout>-->

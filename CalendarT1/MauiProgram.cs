@@ -4,6 +4,7 @@ using CalendarT1.ViewModels;
 using CalendarT1.ViewModels.EventsViewModels;
 using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Plugin.LocalNotification;
 
 namespace CalendarT1;
 
@@ -22,8 +23,9 @@ public static class MauiProgram
 		var builder = MauiApp.CreateBuilder();
 		builder
 			.UseMauiApp<App>()
+			.UseLocalNotification()
 			.UseMauiCommunityToolkit()
-			// After initializing the .NET MAUI Community Toolkit, optionally add additional fonts
+			// After initializing the .NET MAUI Community Toolkit, add additional fonts
 			.ConfigureFonts(fonts =>
 			{
 				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
